@@ -1,6 +1,4 @@
 cocoabots
 =========
 
-cocoabots maslab 2015
-
-wOoohoo!!
+tEp + 4E MASLAB 2015
