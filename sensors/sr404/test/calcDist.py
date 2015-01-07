@@ -1,8 +1,10 @@
 import mraa
 import time
 
-echopin = mraa.Gpio(2)
-trigpin = mraa.Gpio(3)
+echopin = mraa.Pwm(2)
+trigpin = mraa.Pwm(3)
+echopin.enable(True)
+trigpin.enable(True)
 
 for i in range(10):
     trigpin.write(0)
@@ -10,11 +12,7 @@ for i in range(10):
     trigpin.write(1)
     time.sleep(.00001)
     trigpin.write(0)
-    while echopin.read() == 0:
-        off = time.time()
-    while echopin.read() == 1:
-        on = time.time()
-    distance = on - off
+    distance = echopin.pulsewidth_us()
     distance = distance/58
     print(distance)
     time.sleep(.00005)
