@@ -13,10 +13,8 @@ void setup() {
 }
 
 // a better fit would be
-// volts = 3.758*exp(-0.04281*dist) + 1.156*exp(-0.006795*dist);
-// where dist is in centimeters
-// find the inverse of this to get distance from volts
-// some logarithm shit i think
+// distcm = 316.4414*exp(-3.4567*volts) + 96.5032*exp(-0.5953*volts);
+// where distcm is distance in centimeters
 
 void loop() {
   readings[index] = analogRead(IRpin);
