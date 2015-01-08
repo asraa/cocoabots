@@ -2,6 +2,7 @@ const int echoPin = 3;
 const int trigPin = 2;
 
 void setup() {
+  Serial.begin(9600);
   pinMode(echoPin, OUTPUT);
   pinMode(trigPin, INPUT); 
 }
