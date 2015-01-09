@@ -2,8 +2,9 @@ const int echoPin = 3;
 const int trigPin = 2;
 
 void setup() {
-  pinMode(echoPin, OUTPUT);
-  pinMode(trigPin, INPUT); 
+  pinMode(echoPin, INPUT);
+  pinMode(trigPin, OUTPUT); 
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -15,6 +16,6 @@ void loop() {
   int distance = pulseIn(echoPin, HIGH);        // Read in times pulse
   distance= distance/58;                        // Calculate distance from time of pulse
   Serial.println(distance);                     
-  delay(50);                                    // Wait 50mS before next ranging
+  delay(100);                                    // Wait 50mS before next ranging
 }
 
