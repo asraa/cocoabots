@@ -24,10 +24,13 @@ void setMotorSpeed(int pwmpin, int dirpin, double speed) {
   else {
     digitalWrite(dirpin,0);
   }
-  analogWrite(pwmpin,fabs(speed));
+  analogWrite(pwmpin,convertSpeed(speed));
 }
-
-
+int convertSpeed(double speedToConvert) {
+  speedToConvert = 255.0*speedToConvert;
+  int trueSpeed = (int) floorf(fabs(speedToConvert));
+  return trueSpeed;
+}
 
 void setup() {
   pinMode(echoPin, INPUT);
@@ -73,7 +76,7 @@ void loop() {
   
   speedProp = map(deltaDist, 2, 50, -1, 1);
   
-  setMotorSpeed(PWMpin, DIRpin, speedProp*dir);
+  setMotorSpeed(PWMpin, DIRpin, convertSpeed(speedProp*dir));
      
   delay(10000);                                    // Wait 50mS before next ranging
 }
