@@ -1,8 +1,8 @@
 #include <math.h>
 #define floorf floor
 
-const int PWMpin = 3;
-const int DIRpin = 2;
+const int PWMpin = 10;
+const int DIRpin = 11;
 
 int running = 1;
 
@@ -32,8 +32,8 @@ void setup() {
 void loop() {
   double speed = -1.0;
   while (running) {
-    Serial.println(String("Speed: "+String(speed)));
-    Serial.println(String("AnalogWrite: "+String(convertSpeed(speed))));
+    //Serial.println(String("Speed: "+String(speed)));
+    //Serial.println(String("AnalogWrite: "+String(convertSpeed(speed))));
     setMotorSpeed(PWMpin,DIRpin,speed);
     speed = speed + 0.1;
     if (speed > 1.0) {
