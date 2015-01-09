@@ -2,9 +2,15 @@ const int echoPin = 3;
 const int trigPin = 2;
 
 void setup() {
+<<<<<<< HEAD
   pinMode(echoPin, INPUT);
   pinMode(trigPin, OUTPUT); 
   Serial.begin(9600);
+=======
+  Serial.begin(9600);
+  pinMode(echoPin, OUTPUT);
+  pinMode(trigPin, INPUT); 
+>>>>>>> c63b18d716993b0cb7edf814b596f361cb4ce4b5
 }
 
 void loop() {
