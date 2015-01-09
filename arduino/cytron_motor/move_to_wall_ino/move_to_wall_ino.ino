@@ -2,10 +2,12 @@
 #include <assert.h>
 #include <math.h>
 
-const int echoPin = 2;
-const int trigPin = 3;
-const int PWMpin = 10;
-const int DIRpin = 11;
+const int trigPin = 2;
+const int echoPin = 3;
+const int PWMpinL = 8;
+const int DIRpinL = 9;
+const int PWMpinR = 10;
+const int DIRpinR = 11;
 
 const int numReadings = 10;
 
@@ -76,7 +78,8 @@ void loop() {
   
   speedProp = map(deltaDist, 2, 50, -1, 1);
   
-  setMotorSpeed(PWMpin, DIRpin, convertSpeed(speedProp*dir));
+  setMotorSpeed(PWMpinL, DIRpinL, convertSpeed(speedProp*dir));
+  setMotorSpeed(PWMpinR, DIRpinR, convertSpeed(speedProp*dir));
      
   delay(10000);                                    // Wait 50mS before next ranging
 }
