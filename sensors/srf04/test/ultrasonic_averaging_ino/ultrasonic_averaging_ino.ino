@@ -31,7 +31,9 @@ void loop() {
      int distance = (average / 74) / 2;
                        // Calculate distance from time of pulse
      Serial.println(distance); 
-     total = 0;    }                
+     total = 0;    }    
+  
+       
   delay(100);                                    // Wait 50mS before next ranging
 }
 
