@@ -1,4 +1,5 @@
 #include <math.h>
+#define floorf floor
 
 const int PWMpin = 3;
 const int DIRpin = 2;
