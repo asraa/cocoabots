@@ -1,9 +1,9 @@
 #include <math.h>
 #define floorf floor
 
-const int RIGHT_PWMpin = 0; // is actually pin 2
+const int RIGHT_PWMpin = 8; // is actually pin 2
 const int RIGHT_DIRpin = 9;
-const int RIGHT_ENCAint = 7;
+const int RIGHT_ENCAint = 0;
 const int LEFT_PWMpin = 10;
 const int LEFT_DIRpin = 11;
 const int LEFT_ENCAint = 1; // is actually pin 3
