@@ -1,15 +1,19 @@
 #include <math.h>
 #define floorf floor
+#define fabsf fabs
 
-const int RIGHT_PWMint = 0; // is actually pin 2
+const int RIGHT_PWMpin = 8;
 const int RIGHT_DIRpin = 9;
-const int RIGHT_ENCApin = 7;
+const int RIGHT_ENCAint = 0;// is actually pin 2
 const int LEFT_PWMpin = 10;
 const int LEFT_DIRpin = 11;
 const int LEFT_ENCAint = 1; // is actually pin 3
 
 volatile int RIGHT_rots = 0; // must be made voltaile to be updated in updateRightRots
 volatile int LEFT_rots = 0; // must be made volatile to be updated in updateLeftRots
+
+const double wheel_circ = 12.174; // inches of the wheel
+const double robot_circ = 28.274; // inches of the circle the wheels rotate around
 
 int running = 1;
 
@@ -38,7 +42,7 @@ void updateLeftRots() {
   }
 }
 
-void updateLeftRots() {
+void updateRightRots() {
   if (digitalRead(RIGHT_DIRpin)) { // should be 1 if speed < 0
     RIGHT_rots = RIGHT_rots - 1; // backwards
   }
@@ -47,26 +51,58 @@ void updateLeftRots() {
   }
 }
 
+void rotateDeg(double deg, double speed) {
+  int dir;
+  if (deg >= 0) {
+    dir = -1; // left
+  }
+  else {
+    dir = 1; // right
+  }
+  deg = fabs(deg);
+  double dist_needed = (deg/360.0)*robot_circ;
+  int rots_needed = (int) round(32*30.0*dist_needed/wheel_circ); // 30 because of gear ratio
+  Serial.println((int)dist_needed);
+  Serial.println(rots_needed);
+  Serial.println(dir);
+  rotateWheels(rots_needed, dir, speed);  
+}
+
+void rotateWheels(int rots_needed, int dir, double speed) {
+  int current_lrots = LEFT_rots;
+  int current_rrots = RIGHT_rots;
+  speed = fabs(speed);
+  
+  setMotorSpeed(LEFT_PWMpin,LEFT_DIRpin,float(dir)*speed);
+  setMotorSpeed(RIGHT_PWMpin,RIGHT_DIRpin,float(dir)*speed);
+  while ((abs(LEFT_rots - current_lrots) <= rots_needed) || (abs(RIGHT_rots - current_rrots) <= rots_needed)) {
+    // do nothing
+  }
+  setMotorSpeed(LEFT_PWMpin,LEFT_DIRpin,0.0);
+  setMotorSpeed(RIGHT_PWMpin,RIGHT_DIRpin,0.0);
+}
+
 void setup() {
   Serial.begin(9600);
   pinMode(RIGHT_DIRpin,OUTPUT);
   pinMode(LEFT_DIRpin,OUTPUT);
   attachInterrupt(RIGHT_ENCAint, updateRightRots, CHANGE);
   attachInterrupt(LEFT_ENCAint, updateLeftRots, CHANGE);
-  analogWrite(LEFT_PWMpin,0);
+  analogWrite(RIGHT_PWMpin,0.0);
+  digitalWrite(RIGHT_DIRpin,0);
+  analogWrite(LEFT_PWMpin,0.0);
   digitalWrite(LEFT_DIRpin,0);
 }
 
 void loop() {
   double speed = 0.1;
-  // aim is to rotate the wheels half a turn, then stop.
-  while (LEFT_rots < 30*16) { // is 30*16 because 30:1 gear, and 16/32 = half turn. (32 changes of voltage per rotation)
-    Serial.println(String(LEFT_rots));
-    setMotorSpeed(LEFT_PWMpin,LEFT_DIRpin,speed);
+  // aim is to rotate the robot 45* left, then 45* right.
+  while (running) {
+    Serial.println("90");
+    rotateDeg(90.0,speed);
+    delay(2000);
+    Serial.println("-90");
+    rotateDeg(-90.0,speed);
+    delay(2000);
   }
-  setMotorSpeed(LEFT_PWMpin,LEFT_DIRpin,0.0);
-  Serial.println(LEFT_rots);
-  Serial.println("Done!");
-  delay(2000);
-  LEFT_rots = 0;
 }
