@@ -27,7 +27,7 @@ long shortIR::ranging(int sys){
 	return 0;
 }
 
-int main(){
+int runShortIR(){
 	usleep(50000.0);
 	shortIR shortIRTest(2);
 	reading = shortIRTest.timing();

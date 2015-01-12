@@ -7,9 +7,15 @@ LIBS = -lmraa
 
 # File names
 EXEC = run
-#SOURCES = $(call rwildcard, ./,*.cpp))
-SOURCES = $(filter-out $(call rwildcard, ./,*test.cpp), $(call rwildcard, ./,*.cpp))
+SOURCES = $(filter-out ./test_main.cpp, $(filter-out $(call rwildcard, ./,*test.cpp), $(call rwildcard, ./,*.cpp)))
 OBJECTS = $(SOURCES:.cpp=.o)
+
+EXEC_TEST = test_run
+SOURCES_TEST = $(filter-out ./main.cpp, $(call rwildcard, ./,*.cpp))
+OBJECTS_TEST = $(SOURCES_TEST:.cpp=.o)
+
+#File names for tests
+
 
 # Main target
 $(EXEC): $(OBJECTS)
@@ -22,3 +28,9 @@ $(EXEC): $(OBJECTS)
 # To remove generated files
 clean:
 	rm -f $(EXEC) $(OBJECTS)
+
+#For tests
+test: $(OBJECTS_TEST)
+	$(CC) $(OBJECTS_TEST) -o $(EXEC_TEST) $(CFLAGS) $(LIBS)
+test_clean:
+	rm -f $(EXEC_TEST) $(OBJECTS_TEST)
