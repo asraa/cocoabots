@@ -1,19 +1,21 @@
 #ifndef SHORTIR_H
 #define SHORTIR_H
+#include "mraa.hpp"
 
 
-#ifndef ULTRASONIC_CM 1
+#define ULTRASONIC_CM 1
 #define ULTRASONIC_INC 0
 
 class shortIR
 {
   public:
+    mraa::Gpio * data_gpio;
     shortIR(int dataPin);
     long timing();
-    int ranging(int sys);
+    long ranging(int sys);
 
     private:
-    int dataPin;
+    int myDataPin;
     long duration, distance_cm, distance_inc;
     
 };
