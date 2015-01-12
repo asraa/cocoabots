@@ -13,7 +13,7 @@ class ultrasonic
     ultrasonic(int TP, int EP);
     long timing();
     long ranging(int sys);
-    void echo_handler();
+    void echo_handler(void* args);
 
   private:
     int Trig_pin, Echo_pin;

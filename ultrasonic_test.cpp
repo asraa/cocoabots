@@ -87,7 +87,7 @@ long ultrasonic::ranging(int sys)
   }
 }
 
-void ultrasonic::echo_handler() {
+void ultrasonic::echo_handler(void* args) {
   gettimeofday(&end, NULL);
 
   mraa::Gpio* echo = new mraa::Gpio(Echo_pin);
