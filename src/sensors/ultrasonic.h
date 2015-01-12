@@ -11,16 +11,12 @@ class ultrasonic
 {
   public:
     ultrasonic(int TP, int EP);
-    long timing();
+    void timing();
     long ranging(int sys);
-    static void echo_handler(int lol);
 
   private:
     int Trig_pin, Echo_pin;
-    // added this structure, I believe it's needed
-    struct timeval end,start;
     long duration,distance_cm,distance_in;
-    
 };
 
 #endif
