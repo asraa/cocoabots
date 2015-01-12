@@ -7,15 +7,15 @@ using namespace std;
 
 int running = 1;
 
-ultrasonic::ultrasonic(int TP, int EP) {
-
+ultrasonic::ultrasonic(int TP, int EP)
+{
   //!
   //! I'm unsure if we need to set owner=False for mraa::Gpio
   //! See: http://iotdk.intel.com/docs/master/mraa/classmraa_1_1_gpio.html#a43a6f9ce400074a7a09a3a3805d738f4
   //!
 
   // Eql to pinMode(TP,OUTPUT)
-  mraa::Gpio* TP_gpio = new mraa::Gpio(TP);
+  //mraa::Gpio* TP_gpio = new mraa::Gpio(TP);
   //if (TP_gpio == NULL) {
   //  return MRAA_ERROR_UNSPECIFIED;
   //}
@@ -26,7 +26,7 @@ ultrasonic::ultrasonic(int TP, int EP) {
  // }
 
   // Eql to pinMode(EP,INPUT)
-  mraa::Gpio* EP_gpio = new mraa::Gpio(EP);
+  //mraa::Gpio* EP_gpio = new mraa::Gpio(EP);
   //if (EP_gpio == NULL) {
   //  return MRAA_ERROR_UNSPECIFIED;
   //}
@@ -42,10 +42,9 @@ ultrasonic::ultrasonic(int TP, int EP) {
 
 long ultrasonic::timing()
 {
-
   //! I believe we need to re-initialize these objects
-  //mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
-  //mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
+  mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
+  mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
 
   TP_gpio->dir(mraa::DIR_OUT);
   EP_gpio->dir(mraa::DIR_IN);
@@ -80,10 +79,10 @@ long ultrasonic::ranging(int sys)
   distance_cm = duration /29 / 2 ;
   distance_in = duration / 74 / 2;
   if (sys) {
-  return distance_cm;
+  	return distance_cm;
   }
   else {
-  return distance_in;
+  	return distance_in;
   }
 }
 
@@ -108,6 +107,6 @@ int main() {
 	ultrasonic us_device(2,3);
 	while (running) {
 		usleep(100000);
-		cout << us_device.ranging(0);
+		std::cout << us_device.ranging(0);
 	}
 }
