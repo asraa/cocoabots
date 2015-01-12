@@ -2,6 +2,7 @@
 #include "src/sensors/ultrasonic.h"
 #include <unistd.h>
 #include <sys/time.h>
+#include <iostream>
 
 using namespace std;
 
