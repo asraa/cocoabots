@@ -41,7 +41,7 @@ ultrasonic::ultrasonic(int TP, int EP)
   Echo_pin = EP;
 }
 
-long ultrasonic::timing()
+void ultrasonic::timing()
 {
   struct timeval start, end;
 
