@@ -44,8 +44,8 @@ ultrasonic::ultrasonic(int TP, int EP)
 long ultrasonic::timing()
 {
   //! I believe we need to re-initialize these objects
-  mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
-  mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
+  mraa::Gpio* TP_gpio = new mraa::Gpio(Trig_pin);
+  mraa::Gpio* EP_gpio = new mraa::Gpio(Echo_pin);
 
   TP_gpio->dir(mraa::DIR_OUT);
   EP_gpio->dir(mraa::DIR_IN);
