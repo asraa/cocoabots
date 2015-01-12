@@ -13,12 +13,10 @@ class ultrasonic
     ultrasonic(int TP, int EP);
     long timing();
     long ranging(int sys);
-    void echo_handler(void* args);
+    static void echo_handler(int lol);
 
   private:
-    mraa::Gpio TP_gpio, EP_gpio;
-    int Trig_pin;
-    int Echo_pin;
+    int Trig_pin, Echo_pin;
     // added this structure, I believe it's needed
     struct timeval end,start;
     long duration,distance_cm,distance_in;

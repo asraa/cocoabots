@@ -6,16 +6,16 @@
 
 shortIR::shortIR(int dataPin){
 	mraa::Gpio* data_gpio = new mraa::Gpio(dataPin);
-	data_gpio->(mraa::DIR_IN);
-	if (data_gpio == NULL){
-		return MRAA_ERROR_UNSPECIFIED;
-	}
+	data_gpio->dir(mraa::DIR_IN);
 
-	mraa_result_t data_response = data_gpio->dir(mraa::DIR_IN);
-	if (data_response != MRAA_SUCCESS){
-		mraa::printError(data_response);
-		return 1;
-	}
+	//mraa_result_t data_response = data_gpio->dir(mraa::DIR_IN);
+	//if (data_response != MRAA_SUCCESS){
+	//	mraa::printError(data_response);
+	//	return 1;
+	//}
+
+	//replace with a check if working
+
 	data_pin = dataPin;
 }
 
