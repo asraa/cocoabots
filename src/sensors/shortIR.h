@@ -1,6 +1,6 @@
 #ifndef SHORTIR_H
 #define SHORTIR_H
-
+#include "mraa.hpp"
 
 #define SHORTIR_CM 1
 #define SHORTIR_INC 0
@@ -8,7 +8,8 @@
 class shortIR
 {
   public:
-    shortIR(int dataPin);
+	mraa:Gpio * data_gpio;    
+	shortIR(int dataPin);
     long timing();
     int ranging(int sys);
 

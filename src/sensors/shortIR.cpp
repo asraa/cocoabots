@@ -5,7 +5,11 @@
 #include "mraa.hpp"
 
 shortIR::shortIR(int dataPin){
-	mraa::Gpio* data_gpio = new mraa::Gpio(dataPin);
+	data_gpio = new mraa::Gpio(dataPin);
+	if (data_gpio == NULL){
+		return;
+	}
+
 	data_gpio->dir(mraa::DIR_IN);
 
 	//mraa_result_t data_response = data_gpio->dir(mraa::DIR_IN);
@@ -16,7 +20,7 @@ shortIR::shortIR(int dataPin){
 
 	//replace with a check if working
 
-	data_pin = dataPin;
+	myDataPin = dataPin;
 }
 
 long shortIR::timing(){
