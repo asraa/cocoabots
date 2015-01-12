@@ -50,7 +50,7 @@ long ultrasonic::timing()
   TP_gpio->dir(mraa::DIR_OUT);
   EP_gpio->dir(mraa::DIR_IN);
 
-  EP_gpio->isr(mraa::EDGE_BOTH, echo_handler, EP_gpio);
+  EP_gpio->isr(mraa::EDGE_BOTH, echo_handler, 0);
   //! isr handles edge detection for computing duration
 
   // Eql to digitalWrite(Trig_pin, LOW)
@@ -87,7 +87,7 @@ long ultrasonic::ranging(int sys)
   }
 }
 
-void ultrasonic::echo_handler(void* args) {
+void ultrasonic::echo_handler(int lol) {
   gettimeofday(&end, NULL);
 
   mraa::Gpio* echo = new mraa::Gpio(Echo_pin);
