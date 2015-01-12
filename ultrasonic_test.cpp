@@ -110,4 +110,5 @@ int main() {
 		usleep(100000);
 		std::cout << us_device.ranging(0);
 	}
+  return 0;
 }
