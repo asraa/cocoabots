@@ -1,7 +1,9 @@
 #include "mraa.hpp"
-#include "ultrasonic.h"
+#include "src/sensors/ultrasonic.h"
 #include <unistd.h>
 #include <sys/time.h>
+
+using namespace std;
 
 int running = 1;
 
@@ -14,25 +16,25 @@ ultrasonic::ultrasonic(int TP, int EP) {
 
   // Eql to pinMode(TP,OUTPUT)
   mraa::Gpio* TP_gpio = new mraa::Gpio(TP);
-  if (TP_gpio == NULL) {
-    return MRAA_ERROR_UNSPECIFIED;
-  }
-  mraa_result_t TP_response = TP_gpio->dir(mraa::DIR_OUT);
-  if (TP_response != MRAA_SUCCESS) {
-    mraa::printError(TP_response);
-    return 1;
-  }
+  //if (TP_gpio == NULL) {
+  //  return MRAA_ERROR_UNSPECIFIED;
+  //}
+  //mraa_result_t TP_response = TP_gpio->dir(mraa::DIR_OUT);
+  //if (TP_response != MRAA_SUCCESS) {
+  //  mraa::printError(TP_response);
+  //  return 1;
+ // }
 
   // Eql to pinMode(EP,INPUT)
   mraa::Gpio* EP_gpio = new mraa::Gpio(EP);
-  if (EP_gpio == NULL) {
-    return MRAA_ERROR_UNSPECIFIED;
-  }
-  mraa_result_t EP_response = EP_gpio->dir(mraa::DIR_IN);
-  if (EP_response != MRAA_SUCCESS) {
-    mraa::printError(EP_response);
-    return 1;
-  }
+  //if (EP_gpio == NULL) {
+  //  return MRAA_ERROR_UNSPECIFIED;
+  //}
+  //mraa_result_t EP_response = EP_gpio->dir(mraa::DIR_IN);
+  //if (EP_response != MRAA_SUCCESS) {
+  //  mraa::printError(EP_response);
+  //  return 1;
+  //}
   
   Trig_pin = TP;
   Echo_pin = EP;
@@ -42,8 +44,8 @@ long ultrasonic::timing()
 {
 
   //! I believe we need to re-initialize these objects
-  mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
-  mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
+  //mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
+  //mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
 
   TP_gpio->dir(mraa::DIR_OUT);
   EP_gpio->dir(mraa::DIR_IN);
