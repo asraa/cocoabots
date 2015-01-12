@@ -2,8 +2,8 @@
 #define SHORTIR_H
 
 
-#ifndef ULTRASONIC_CM 1
-#define ULTRASONIC_INC 0
+#define SHORTIR_CM 1
+#define SHORTIR_INC 0
 
 class shortIR
 {
