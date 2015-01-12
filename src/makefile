@@ -2,7 +2,7 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 # Declaration of variables
 CC = g++
-CFLAGS = -lmraa -I.
+CFLAGS = -lmraa  -I. -std=c++0x
 LIBS = -lmraa
 
 # File names

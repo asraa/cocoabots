@@ -24,8 +24,13 @@ private:
     void setupSensors();
     void setupUtils();
     void processOutputs(outputs instructions);
-    inputState makestate(struct sensors);
+    inputState makestate(struct sensors sensorsStruct);
     utils myutils;
+
+///Tests Section:
+    void wallFollowTest();
+    void rotateTest();
+    void moveToWallTest();
 
 };
 

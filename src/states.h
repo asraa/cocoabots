@@ -15,7 +15,7 @@ enum stateType{
     onStart, onSearchForCubes, onDriveToCube, onCollectCube, onDeployCube
 };
 
-//Abstract class for the states
+//Class for the states
 class state
 {
 public:
@@ -25,19 +25,32 @@ public:
 };
 
 
+//Represents the position of the blocks, position of the robot and maybe the map / maybe in the map
 class inputState
 {
 public:
     inputState();
 };
 
-//Contains the instructions for the actuators, that will be processed by the robot. It is just a STORAGE.
+
+//Contains the high level instructions for the actuators, that will be processed by the robot. It is just a STORAGE.
 //The following is just an example, please change.
+struct instruction{
+    int currentPosition;
+    int currentVelocity;
+    int desiredPosition;
+};
+
 class outputs
 {
 public:
     outputs();
+    instruction robotPosition;
+    instruction robotAngle;
+    instruction liftPosition;
 };
+
+
 
 //Contains the next state for the robot and the outputs (instructions for the actuators). It is just a STORAGE.
 class processState

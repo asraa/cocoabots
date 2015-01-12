@@ -10,30 +10,14 @@ cocoabot::cocoabot()
 }
 
 
-//non default action; useful for tests, etc
-cocoabot::cocoabot(int argc, char **argv)
-{
-    if(strcmp(argv[1],"testUltraSensor")==0){
-        //override sensorDefinition:
-        int trigerPin=1;
-        int echoPin=2;
-        mysensors.fUS= ultrasonic(trigerPin, echoPin);
-        //run Custom test
-
-    }
-    else if (strcmp(argv[1],"testMotors")==0){
-
-    }
-
-}
-
 void cocoabot::setup()
 {
     setupSensors();
     setupUtils(); //time, etc.
 }
 
-void cocoabot::setupSensors(){
+void cocoabot::setupSensors()
+{
     //Nothing to do here at the moment, everything is initialized with the class.
     //Maybe the gyroscope need some special setup.
 }
@@ -44,7 +28,9 @@ void cocoabot::setupUtils(){
 }
 
 
-void cocoabot::run(){
+void cocoabot::run()
+{
+    //Should run in 30ms
     while (myutils.gameTimeRemaining() > 0) {
         inputState input = this->makestate(mysensors);
         processState proc = this->currentState.process(input);
@@ -52,4 +38,59 @@ void cocoabot::run(){
         this->processOutputs(proc.getOutputs());
 
     }
+}
+
+
+inputState cocoabot::makestate(struct sensors sensorsStruct)
+{
+
+}
+
+void cocoabot::processOutputs(outputs instructions)
+{
+
+}
+
+
+///Tests after this point.
+
+//non default action; useful for tests, etc
+cocoabot::cocoabot(int argc, char **argv)
+{
+    if(strcmp(argv[1],"wallFollow")==0){
+        wallFollowTest();
+        //run Custom test
+
+    }
+    else if (strcmp(argv[1],"rotate")==0){
+        rotateTest();
+    }
+
+    else if (strcmp(argv[1],"moveToWall")==0){
+        moveToWallTest();
+    }
+}
+
+
+void cocoabot::wallFollowTest()
+{
+    int trigerPin=1;
+    int echoPin=2;
+    mysensors.fUS= ultrasonic(trigerPin, echoPin);
+    //do things
+
+}
+
+void cocoabot::rotateTest()
+{
+
+}
+
+void cocoabot::moveToWallTest()
+{
+    int trigerPin=1;
+    int echoPin=2;
+    mysensors.fUS= ultrasonic(trigerPin, echoPin);
+    //do things
+
 }
