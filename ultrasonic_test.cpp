@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <sys/time.h>
 
+int running = 1;
+
 ultrasonic::ultrasonic(int TP, int EP) {
 
   //!
@@ -98,4 +100,12 @@ void ultrasonic::echo_handler(void* args) {
 
     duration = (long)diffSec + 0.000001*diffUsec;
   }
+}
+
+int main() {
+	ultrasonic us_device(2,3);
+	while (running) {
+		usleep(100000);
+		cout << us_device.ranging(0);
+	}
 }

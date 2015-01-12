@@ -90,7 +90,7 @@ void setup() {
   attachInterrupt(LEFT_ENCAint, updateLeftRots, CHANGE);
   analogWrite(RIGHT_PWMpin,0.0);
   digitalWrite(RIGHT_DIRpin,0);
-  analogWrite(LEFT_PWMpin,0.0);
+  analogWrite(LEFT_PWMpin,65y0.0);
   digitalWrite(LEFT_DIRpin,0);
 }
 
