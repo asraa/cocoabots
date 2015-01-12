@@ -12,7 +12,7 @@ class processState;
 class inputState;
 
 enum stateType{
-    onStart, onSearchForCubes, onDriveToCube, onCollectCube, onDeployCube
+    onStart, onSearchForCubes, onDriveToCube, onCollectCube, onDeployCube, onWallFollow=30, onGyroscopeTest, onMoveToWallTest
 };
 
 //Class for the states
@@ -26,6 +26,7 @@ public:
 
 
 //Represents the position of the blocks, position of the robot and maybe the map / maybe in the map
+//Probably has also the velocity of each actuator of the robot that has a feedback system
 class inputState
 {
 public:

@@ -61,7 +61,15 @@ processState state::process(inputState input){
         case onDeployCube:
 
             break;
+        case onMoveToWallTest:
+            result.myoutputs.robotPosition.currentPosition = 0; //position from input
+            result.myoutputs.robotPosition.desiredPosition =0 ; //wall position from input
+            result.myoutputs.robotPosition.currentVelocity = 0; //velocity from input
+            result.mynextState = *this;
+            break;
+
     }
+    return result;
 }
 
 
