@@ -1,3 +1,5 @@
+/* Code related to the states of the robot, how to represent inputs and outputs (those two might be moved to another file if convenient later).
+ */
 #ifndef STATES_H
 #define STATES_H
 #include "sensorsdef.h"

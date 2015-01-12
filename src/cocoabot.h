@@ -1,3 +1,6 @@
+/*Our main file, that starts the robot, defines our integration tests and contains the main loop.
+ */
+
 #ifndef COCOABOT_H
 #define COCOABOT_H
 

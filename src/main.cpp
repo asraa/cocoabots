@@ -9,6 +9,7 @@ int main(int argc, char** argv){
      cocoabot mycocoabot(); //returns after the end of the round
   }
   else{
+      //custom execution.
       cocoabot mycocoabot(argc, argv); //returns after the end of the test.
   }
  

@@ -1,3 +1,5 @@
+/* This files defines the pins of the sensors and how to initialize them.
+*/
 #ifndef SENSORSDEF_H
 #define SENSORSDEF_H
 

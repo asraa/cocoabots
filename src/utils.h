@@ -1,3 +1,7 @@
+/* Utils for the main code of the robot, for things such as timer
+ *
+ *
+*/
 #ifndef UTILS_H
 #define UTILS_H
 #define GAME_TIME 180
