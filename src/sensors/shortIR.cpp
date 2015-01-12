@@ -10,7 +10,7 @@ shortIR::shortIR(int dataPin){
 	if (data_gpio == NULL){
 		return MRAA_ERROR_UNSPECIFIED;
 	}
-	
+
 	mraa_result_t data_response = data_gpio->dir(mraa::DIR_IN);
 	if (data_response != MRAA_SUCCESS){
 		mraa::printError(data_response);
@@ -25,13 +25,6 @@ long shortIR::timing(){
 
 long shortIR::ranging(int sys){
 	return 0;
-}
-
-int main(){
-	usleep(50000.0);
-	shortIR shortIRTest(2);
-	reading = shortIRTest.timing();
-	std::cout << reading << std::endl;
 }
 
 
