@@ -41,37 +41,34 @@ ultrasonic::ultrasonic(int TP, int EP)
   Echo_pin = EP;
 }
 
-long ultrasonic::timing()
+void ultrasonic::timing()
 {
-  //! I believe we need to re-initialize these objects
+  struct timeval start, end;
+
   mraa::Gpio* TP_gpio = new mraa::Gpio(Trig_pin);
   mraa::Gpio* EP_gpio = new mraa::Gpio(Echo_pin);
 
   TP_gpio->dir(mraa::DIR_OUT);
   EP_gpio->dir(mraa::DIR_IN);
 
-  EP_gpio->isr(mraa::EDGE_BOTH, echo_handler, 0);
-  //! isr handles edge detection for computing duration
-
-  // Eql to digitalWrite(Trig_pin, LOW)
+  //EP_gpio->isr(mraa::EDGE_BOTH, echo_handler, 0);
   TP_gpio->write(0);
-
-  // Eql to delayMicroseconds(2), uses <unistd.h>
   usleep(2);
-
-  // Eql to digitalWrite(Trig_pin, HIGH)
   TP_gpio->write(1);
-
-  // Eql to delayMicroseconds(10), uses <unistd.h>
   usleep(10);
-
-  // Eql to digitalWrite(Trig_pin, LOW)
   TP_gpio->write(0);
 
-  // Wait for echo_handler to compute duration, sleep 50ms
-  usleep(50000);
+  while (EP_gpio->read() == 0) {
+    gettimeofday(&start, NULL);
+  }
+  while (EP_gpio->read() == 1) {
+    gettimeofday(&end, NULL);
+  }
 
-  return duration;
+  int diffSec = end.tv_sec - start.tv_sec;
+  int diffUsec = end.tv_usec - start.tv_usec;
+
+  duration = (long)diffSec + 0.000001*diffUsec;
 }
 
 long ultrasonic::ranging(int sys)
@@ -87,23 +84,23 @@ long ultrasonic::ranging(int sys)
   }
 }
 
-void ultrasonic::echo_handler(int lol) {
-  gettimeofday(&end, NULL);
+// void ultrasonic::echo_handler(int Echo_pin, ) {
+//   gettimeofday(&end, NULL);
 
-  mraa::Gpio* echo = new mraa::Gpio(Echo_pin);
-  echo->dir(mraa::DIR_IN);
+//   mraa::Gpio* echo = new mraa::Gpio(Echo_pin);
+//   echo->dir(mraa::DIR_IN);
 
-  bool rising = (echo->read() == 1);
-  if (rising) {
-    gettimeofday(&start, NULL);
-  }
-  else {
-    int diffSec = end.tv_sec - start.tv_sec;
-    int diffUsec = end.tv_usec - start.tv_usec;
+//   bool rising = (echo->read() == 1);
+//   if (rising) {
+//     gettimeofday(&start, NULL);
+//   }
+//   else {
+//     int diffSec = end.tv_sec - start.tv_sec;
+//     int diffUsec = end.tv_usec - start.tv_usec;
 
-    duration = (long)diffSec + 0.000001*diffUsec;
-  }
-}
+//     duration = (long)diffSec + 0.000001*diffUsec;
+//   }
+// }
 
 int main() {
 	ultrasonic us_device(2,3);
