@@ -27,7 +27,7 @@ int main(int argc, char** argv){
         //We have a servo in 0
         while(1)
         {
-
+            pwm.setServoPosition(0,testUltrasonic.getDistance(0)/100.0);
         }
     }
 
