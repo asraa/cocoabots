@@ -33,9 +33,7 @@ void gyroscope::run(void* gyroscopeSensorPointer){
 
 	while (gyroscopeSensor->running){
 		chipSelect->write(0);
-		uint8_t* recv = 
-spi->write((void*)(gyroscopeSensor->writeBuf), 
-4);
+		uint8_t* recv = (uint8_t*) spi->write((char*)(gyroscopeSensor->writeBuf), 4);
 		chipSelect->write(1);
 		if (recv != NULL){
 			unsigned int recvVal = ((uint8_t) recv[3] & 0xFF);
