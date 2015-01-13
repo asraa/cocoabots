@@ -2,14 +2,8 @@
 #define SHORTIR_H
 #include "mraa.hpp"
 
-<<<<<<< HEAD
-
-#define ULTRASONIC_CM 1
-#define ULTRASONIC_INC 0
-=======
 #define SHORTIR_CM 1
 #define SHORTIR_INC 0
->>>>>>> 93c4d89de8b710cf3e8f835c28f757003be6b73c
 
 class shortIR
 {

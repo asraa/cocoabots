@@ -1,101 +1,75 @@
-#include "mraa.hpp"
 #include "ultrasonic.h"
 #include <unistd.h>
 #include <sys/time.h>
 
-ultrasonic::ultrasonic(int TP, int EP) {
+ultrasonic::ultrasonic(int TP, int EP): trigGpio(TP), echoGpio(EP){
+    trigGpio.dir(mraa::DIR_OUT);
+    echoGpio.dir(mraa::DIR_IN);
 
-  //!
-  //! I'm unsure if we need to set owner=False for mraa::Gpio
-  //! See: http://iotdk.intel.com/docs/master/mraa/classmraa_1_1_gpio.html#a43a6f9ce400074a7a09a3a3805d738f4
-  //!
+    echoGpio.isr(mraa::EDGE_BOTH, echo_handler, this);
+    running=1;
+    runThread = new std::thread(run,this);
+    //runThread->detach();
 
-  // Eql to pinMode(TP,OUTPUT)
-  mraa::Gpio* TP_gpio = new mraa::Gpio(TP);
-  if (TP_gpio == NULL) {
-    return MRAA_ERROR_UNSPECIFIED;
-  }
-  mraa_result_t TP_response = TP_gpio->dir(mraa::DIR_OUT);
-  if (TP_response != MRAA_SUCCESS) {
-    mraa::printError(TP_response);
-    return 1;
-  }
-
-  // Eql to pinMode(EP,INPUT)
-  mraa::Gpio* EP_gpio = new mraa::Gpio(EP);
-  if (EP_gpio == NULL) {
-    return MRAA_ERROR_UNSPECIFIED;
-  }
-  mraa_result_t EP_response = EP_gpio->dir(mraa::DIR_IN);
-  if (EP_response != MRAA_SUCCESS) {
-    mraa::printError(EP_response);
-    return 1;
-  }
-  
-  Trig_pin = TP;
-  Echo_pin = EP;
 }
 
-long ultrasonic::timing()
-{
-
-  //! I believe we need to re-initialize these objects
-  mraa::Gpio* TP_gpio = mraa::Gpio(Trig_pin);
-  mraa::Gpio* EP_gpio = mraa::Gpio(Echo_pin);
-
-  TP_gpio->dir(mraa::DIR_OUT);
-  EP_gpio->dir(mraa::DIR_IN);
-
-  EP_gpio->isr(mraa::EDGE_BOTH, echo_handler, EP_gpio);
-  //! isr handles edge detection for computing duration
-
-  // Eql to digitalWrite(Trig_pin, LOW)
-  TP_gpio->write(0);
-
-  // Eql to delayMicroseconds(2), uses <unistd.h>
-  usleep(2);
-
-  // Eql to digitalWrite(Trig_pin, HIGH)
-  TP_gpio->write(1);
-
-  // Eql to delayMicroseconds(10), uses <unistd.h>
-  usleep(10);
-
-  // Eql to digitalWrite(Trig_pin, LOW)
-  TP_gpio->write(0);
-
-  // Wait for echo_handler to compute duration, sleep 50ms
-  usleep(50000);
-
-  return duration;
+ultrasonic::~ultrasonic(){
+    running=0;
+    runThread->join();
+    delete runThread;
 }
 
-long ultrasonic::ranging(int sys)
-{
-  timing();
-  distance_cm = duration /29 / 2 ;
-  distance_in = duration / 74 / 2;
-  if (sys) {
-  return distance_cm;
-  }
-  else {
-  return distance_in;
-  }
+void ultrasonic::echo_handler(void* ultrasonicSensorPointer) {
+    // Grab end time first, for accuracy
+    struct timeval end;
+    gettimeofday(&end, NULL);
+
+    ultrasonic *ultSensor = (ultrasonic *) ultrasonicSensorPointer;
+    mraa::Gpio* echo = & (ultSensor->echoGpio) ;
+    static struct timeval start;
+    bool rising = echo->read() == 1;
+    if (rising) {
+        gettimeofday(&start, NULL);
+    }
+    else {
+        int diffSec = end.tv_sec - start.tv_sec;
+        //std::cout << "Diff sec: " << diffSec << std::endl;
+        int diffUSec = end.tv_usec - start.tv_usec;
+        //std::cout << "Diff usec: " << diffUSec << std::endl;
+        double diffTime = (double)diffSec + 0.000001*diffUSec;
+        //std::cout << "Diff time: " << diffTime << std::endl;
+        // Speed of sound conversion: 340m/s * 0.5 (round trip)
+        //std::cout << "Distance: " <<  diffTime * 170.0 << "m" << std::endl;
+        ultSensor->duration=diffTime;
+        ultSensor->distance_m = diffTime * 170.0;
+        ultSensor->distance_in= diffTime * 170.0 *39.37;
+    }
+
 }
 
-void ultrasonic::echo_handler(void* args) {
-  gettimeofday(&end, NULL);
+void ultrasonic::run(void * ultrasonicSensorPointer){
+    ultrasonic * ultSens = (ultrasonic *)ultrasonicSensorPointer;
+    while (ultSens->running){
+        // 20us trigger pulse (must be at least 10us)
+        ultSens->trigGpio.write(1);
+        usleep(20);
+        ultSens->trigGpio.write(0);
 
-  mraa::Gpio* echo = (mraa::Gpio*)args;
+        // Must pause at least 60ms between measurements
+        usleep(ULTRASONIC_UPDATE_TIME);
+    }
+}
 
-  bool rising = (echo->read() == 1);
-  if (rising) {
-    gettimeofday(&start, NULL);
-  }
-  else {
-    int diffSec = end.tv_sec - start.tv_sec;
-    int diffUsec = end.tv_usec - start.tv_usec;
 
-    duration = (long)diffSec + 0.000001*diffUsec;
-  }
+
+double ultrasonic::getDistance(int sys){
+    if (sys==ULTRASONIC_M){
+        return distance_m;
+    }else{
+        return distance_in;
+    }
+}
+
+double ultrasonic::getTiming(){
+    return duration;
 }
