@@ -6,6 +6,7 @@
 
 
 int runShortIR(){
+  int reading;
 	usleep(50000.0);
 	shortIR aShortIR(2);
 	reading = aShortIR.timing();
