@@ -51,8 +51,8 @@ void pwmUtils::initPWM(mraa::I2c * i2c){
 }
 
 void pwmUtils::writePWM(int index, double duty) {
-  //assert(0.0 <= duty && duty <= 1.0);
-  //assert(0 <= index && index < 16);
+  assert(0.0 <= duty && duty <= 1.0);
+  assert(0 <= index && index < 16);
   if (duty>1 || duty<0 || index <0 || index >16){
       return;
   }
