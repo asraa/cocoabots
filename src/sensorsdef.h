@@ -24,7 +24,7 @@
 #define B_US_TR 0
 
 struct sensors{
-  gyroscope mygyroscope;
+  //gyroscope mygyroscope;
 
   ultraShortIR rUIR; //right Ultra Short IR
   ultraShortIR lUIR;
@@ -40,7 +40,7 @@ struct sensors{
   ///Struct initializer
 
   sensors(int rUIRP =R_UIR_P,int lUIRP=L_UIR_P, int fUIRP=F_UIR_P, int bUIRP=B_UIR_P, int rSIRP=R_UIR_P, int lSIRP=L_UIR_P, int fUSTR=F_UIR_P, int fUSEC=F_US_EC, int bUSTR=B_US_TR, int bUSEC=B_US_EC):
-      mygyroscope(),
+      //mygyroscope(),
 
       rUIR(rUIRP),
       lUIR(lUIRP),

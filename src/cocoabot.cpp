@@ -32,10 +32,10 @@ void cocoabot::run()
 {
     //Should run in 30ms
     while (myutils.gameTimeRemaining() > 0) {
-        inputState input = this->makestate(mysensors); //Instead of creating a new inputState everytime, it would be bettter to have only one as a variable and update it.
-        processState proc = this->currentState.process(input);
-        this->currentState = proc.getNextState();
-        this->processOutputs(proc.getOutputs());
+        //inputState input = this->makestate(mysensors); //Instead of creating a new inputState everytime, it would be bettter to have only one as a variable and update it.
+        //processState proc = this->currentState.process(input);
+        //this->currentState = proc.getNextState();
+        //this->processOutputs(proc.getOutputs());
 
     }
 }
