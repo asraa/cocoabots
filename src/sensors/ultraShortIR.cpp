@@ -23,7 +23,7 @@ int ultraShortIR::getData(){
 	return data_gpio->read();
 }
 
-int main(){
+int run(){
 	usleep(50000.0);
 	ultraShortIR anUltraShortIR(2);
 	while (running){
