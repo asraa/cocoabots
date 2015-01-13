@@ -6,7 +6,6 @@
 #include "mraa.hpp"
 #include <unistd.h>
 
-int running = 1;
 
 ultraShortIR::ultraShortIR(int dataPin){
   	data_gpio = new mraa::Gpio(dataPin);
@@ -23,7 +22,8 @@ int ultraShortIR::getData(){
 	return data_gpio->read();
 }
 
-int run(){
+
+int run_ultraShortIRTest(){
 	usleep(50000.0);
 	ultraShortIR anUltraShortIR(2);
 	while (running){

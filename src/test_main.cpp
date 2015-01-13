@@ -2,6 +2,7 @@
 #include "cocoabot.h"
 #include <cstring>
 #include "sensors/ultrasonic.h"
+#include "actuators/pwmutils.h"
 
 int main(int argc, char** argv){
   
@@ -20,8 +21,14 @@ int main(int argc, char** argv){
         }
 
     }
-    else if (strcmp(argv[1],"rotate")==0){
-      //rotateTest();
+    else if (strcmp(argv[1],"ultrasonicpwm")==0){
+        ultrasonic testUltrasonic(2,3);
+        pwmUtils pwm;
+        //We have a servo in 0
+        while(1)
+        {
+
+        }
     }
 
     else if (strcmp(argv[1],"moveToWall")==0){

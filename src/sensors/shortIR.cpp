@@ -6,7 +6,6 @@
 #include "mraa.hpp"
 #include <unistd.h>
 
-int running = 1;
 
 shortIR::shortIR(int dataPin){
 
@@ -30,16 +29,5 @@ float shortIR::timing(){
 float shortIR::ranging(){
 	float rawData = timing();
 	return 12343.85 * pow(rawData,-1.15);	
-}
-
-int main(){
-        usleep(50000.0);
-        shortIR aShortIR(0);
-	std::cout << "made object" << std::endl;	
-        while (running){
-		usleep(500000.0);
-		float reading = aShortIR.ranging();
-        	std::cout << reading << std::endl;
-	}
 }
 
