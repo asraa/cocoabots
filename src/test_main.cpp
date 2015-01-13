@@ -15,7 +15,8 @@ int main(int argc, char** argv){
         ultrasonic testUltrasonic(2,3);
         while(1)
         {
-
+            usleep(200000.0);
+            printf("%d\n", testUltrasonic.getDistance(0));
         }
 
     }
