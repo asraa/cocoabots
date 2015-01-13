@@ -5,8 +5,8 @@
 #define EDGES_PER_ROTATION 32.0
 
 #include "mraa.hpp"
+#include <sys/time.h>
 #include <thread>
-#include <time/sys.h>
 #include <unistd.h>
 
 class encoder

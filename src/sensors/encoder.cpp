@@ -1,8 +1,4 @@
 #include "encoder.h"
-#include "mraa.hpp"
-#include <thread>
-#include <time/sys.h>
-#include <unistd.h>
 
 encoder::encoder(int dirPin, int encPin) dirGpio(dirPin), encGpio(encPin) {
 	edgeCount = 0;
