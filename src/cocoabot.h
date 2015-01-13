@@ -6,14 +6,14 @@
 
 #include "states.h"
 #include "utils.h"
-#include "sensorsdef.h"
+//#include "sensorsdef.h"
 
 
 
 class cocoabot
 {
 public:
-    struct sensors mysensors;
+    //struct sensors mysensors;
     cocoabot();
     cocoabot(int argc, char **argv);
     state currentState;

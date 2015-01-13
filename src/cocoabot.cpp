@@ -76,9 +76,9 @@ cocoabot::cocoabot(int argc, char **argv)
 
 void cocoabot::wallFollowTest()
 {
-    int trigerPin=1;
-    int echoPin=2;
-    mysensors.fUS= ultrasonic(trigerPin, echoPin);
+    //int trigerPin=1;
+    //int echoPin=2;
+    //mysensors.fUS= ultrasonic(trigerPin, echoPin);
     //do things
 
 }
@@ -90,9 +90,9 @@ void cocoabot::rotateTest()
 
 void cocoabot::moveToWallTest()
 {
-    int trigerPin=1;
-    int echoPin=2;
-    mysensors.fUS= ultrasonic(trigerPin, echoPin);
+    //int trigerPin=1;
+    //int echoPin=2;
+    //mysensors.fUS= ultrasonic(trigerPin, echoPin);
     //do things
 
 }
