@@ -21,7 +21,6 @@ ultraShortIR::ultraShortIR(int dataPin){
 
 int ultraShortIR::getData(){
 	return data_gpio->read();
-
 }
 
 int main(){
