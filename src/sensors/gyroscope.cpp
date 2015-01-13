@@ -1,12 +1,13 @@
 #include "gyroscope.h"
 
-gyroscope::gyroscope(int chipSelectPin, int spiPin) chipSelectGpio(chipSelectPin), spiSpi(spiPin){
+gyroscope::gyroscope(int chipSelectPin, int spiPin): 
+chipSelectGpio(chipSelectPin), spiSpi(spiPin){
 	running = 1;
 
 	chipSelectGpio.dir(mraa::DIR_OUT);
-	chipSelectGpio->write(1);
+	chipSelectGpio.write(1);
 
-	spiSpi->bitsPerWord(32);
+	spiSpi.bitPerWord(32);
 	
 	sensorRead = 0x20000000;
 	writeBuf[0] = sensorRead & 0xff;
@@ -22,7 +23,7 @@ gyroscope::gyroscope(int chipSelectPin, int spiPin) chipSelectGpio(chipSelectPin
 gyroscope::~gyroscope() {
 	running = 0;
 	runThread->join();
-	delete runThread();
+	delete runThread;
 }
 
 void gyroscope::run(void* gyroscopeSensorPointer){
@@ -32,7 +33,9 @@ void gyroscope::run(void* gyroscopeSensorPointer){
 
 	while (gyroscopeSensor->running){
 		chipSelect->write(0);
-		uint8_t* recv = spi->write(gyroscopeSensor->writeBuf, 4);
+		uint8_t* recv = 
+spi->write((void*)(gyroscopeSensor->writeBuf), 
+4);
 		chipSelect->write(1);
 		if (recv != NULL){
 			unsigned int recvVal = ((uint8_t) recv[3] & 0xFF);
@@ -41,15 +44,16 @@ void gyroscope::run(void* gyroscopeSensorPointer){
       		recvVal = (recvVal << 8) | ((uint8_t)recv[0] & 0xFF);
       		(gyroscopeSensor->reading) = (recvVal >> 10) & 0xffff;
       		if (gyroscopeSensor->init) {
-      			unsigned long long gyroscopeSensor->ms = (unsigned long long)(gyroscopeSensor->tv.tv_sec)*1000 +
+      			unsigned long long ms = (unsigned long long)(gyroscopeSensor->tv.tv_sec)*1000 +
       			(unsigned long long)(gyroscopeSensor->tv.tv_usec) / 1000;
 				gettimeofday(&gyroscopeSensor->tv, NULL);
-				gyroscopeSensor->ms -= (unsigned long long)(gyroscopeSensor->tv.tv_sec)*1000 +
+				ms -= (unsigned long long)(gyroscopeSensor->tv.tv_sec)*1000 +
 				(unsigned long long)(gyroscopeSensor->tv.tv_usec) / 1000;
-				int msi = (int)gyroscopeSensor->ms;
+				int msi = (int)ms;
 				gyroscopeSensor->msf = (float)msi;
 				float rf = (float)(gyroscopeSensor->reading);
-    		    gyroscopeSensor->total += -0.001 * msf * (rf / 80.0);
+    		    gyroscopeSensor->total += -0.001 * 
+(gyroscopeSensor->msf) * (rf / 80.0);
     		}
      		else {
      			gyroscopeSensor->init = 1;

@@ -1,6 +1,7 @@
 #include "encoder.h"
 
-encoder::encoder(int dirPin, int encPin) dirGpio(dirPin), encGpio(encPin) {
+encoder::encoder(int dirPin, int encPin): dirGpio(dirPin), 
+encGpio(encPin) {
 	edgeCount = 0;
 	rotations = 0.0;
 	running = 1;
@@ -32,7 +33,7 @@ void encoder::edge_handler(void* encoderSensorPointer) {
 		offset = 1;
 	}
 
-	edgeCount = edgeCount + offset;
+	encSensor->edgeCount = encSensor->edgeCount + offset;
 }
 
 void encoder::run(void* encoderSensorPointer) {
