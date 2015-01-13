@@ -1,35 +1,45 @@
 #include "shortIR.h"
 #include <csignal>
 #include <iostream>
+#include <cmath>
 #include <sys/time.h>
 #include "mraa.hpp"
+#include <unistd.h>
+
+int running = 1;
 
 shortIR::shortIR(int dataPin){
 
-	data_gpio = new mraa::Gpio(dataPin);
-	if (data_gpio == NULL){
+	data_aio = new mraa::Aio(dataPin);
+	if (data_aio == NULL){
 		return;
 	}
 
-	data_gpio->dir(mraa::DIR_IN);
-
-	//mraa_result_t data_response = data_gpio->dir(mraa::DIR_IN);
-	//if (data_response != MRAA_SUCCESS){
-	//	mraa::printError(data_response);
-	//	return 1;
-	//}
+	//data_aio->dir(mraa::DIR_IN);
 
 	//replace with a check if working
 
-	myDataPin = dataPin;
 
+	int myDataPin = dataPin;
 }
 
-long shortIR::timing(){
-    return data_gpio->read();
+float shortIR::timing(){
+	return data_aio->read();
 }
 
-long shortIR::ranging(int sys){
-	return 0;
+float shortIR::ranging(){
+	float rawData = timing();
+	return 12343.85 * pow(rawData,-1.15);	
+}
+
+int main(){
+        usleep(50000.0);
+        shortIR aShortIR(0);
+	std::cout << "made object" << std::endl;	
+        while (running){
+		usleep(500000.0);
+		float reading = aShortIR.ranging();
+        	std::cout << reading << std::endl;
+	}
 }
 
