@@ -32,7 +32,7 @@ float shortIR::ranging(){
 	return 12343.85 * pow(rawData,-1.15);	
 }
 
-int main(){
+int run(){
         usleep(50000.0);
         shortIR aShortIR(0);
 	std::cout << "made object" << std::endl;	
