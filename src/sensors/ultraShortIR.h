@@ -5,11 +5,12 @@
 class ultraShortIR
 {
   public:
-    ultraShortIR(int dataPin);
-    int getData();
+    	mraa:Gpio * data_gpio;
+	ultraShortIR(int dataPin);
+    	int present();
 
     private:
-    int dataPin;
+    	int dataPin;
 
     
 };
