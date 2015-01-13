@@ -26,7 +26,7 @@ int ultraShortIR::getData(){
 int run_ultraShortIRTest(){
 	usleep(50000.0);
 	ultraShortIR anUltraShortIR(2);
-	while (running){
+	while (true){
 		usleep(50000.0);
 		int reading = anUltraShortIR.getData();
 		std::cout << reading << std::endl;
