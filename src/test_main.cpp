@@ -28,9 +28,9 @@ int main(int argc, char** argv){
         while(1)
         {
             usleep(200000.0);
-            pwm.setServoPosition(0,testUltrasonic.getDistance(0)/100.0);
+            pwm.setServoPosition(0,testUltrasonic.getDistance(0)/40.0);
             printf("%f\n", testUltrasonic.getDistance(0));
-            printf("%f\n", testUltrasonic.getDistance(0)/100.0);
+            printf("%f\n", testUltrasonic.getDistance(0)/40.0);
 
 
         }
