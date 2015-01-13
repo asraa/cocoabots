@@ -51,10 +51,13 @@ void pwmUtils::initPWM(mraa::I2c * i2c){
 }
 
 void pwmUtils::writePWM(int index, double duty) {
-  assert(0.0 <= duty && duty <= 1.0);
+  //assert(0.0 <= duty && duty <= 1.0);
   assert(0 <= index && index < 16);
-  if (duty>1 || duty<0 || index <0 || index >16){
-      return;
+  if (duty>1){
+      duty=1;
+  }
+  else if (duty<0){
+      duty=0;
   }
   double on = 4095.0 * duty;  // 4096-1
   uint16_t onRounded = (uint16_t) on; //Sketch way to round
