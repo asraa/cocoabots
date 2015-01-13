@@ -106,7 +106,7 @@ int main() {
 	ultrasonic us_device(2,3);
 	while (running) {
 		usleep(100000);
-		std::cout << us_device.ranging(0);
+		std::cout << us_device.ranging(0) << std::endl;
 	}
   return 0;
 }

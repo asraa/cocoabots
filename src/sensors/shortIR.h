@@ -8,10 +8,10 @@
 class shortIR
 {
   public:
-	mraa:Gpio * data_gpio;    
+	mraa::Aio * data_aio;    
 	shortIR(int dataPin);
-    long timing();
-    int ranging(int sys);
+    float timing();
+    float ranging();
 
     private:
     int dataPin;
