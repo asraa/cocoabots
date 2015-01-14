@@ -17,10 +17,12 @@ sensorsModule::sensorsModule():
     rightShortIRData(0),
     leftShortIRData(0),
     backShortIRData(0),
-    ultrasonicAlpha(0.7),
-    ultraShortIRAlpha(0.5),
-    shortIRAlpha(0.7),
-    encoderAlpha(0)
+    ultrasonicAlpha(ULTRASONIC_ALPHA),
+    ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
+    shortIRAlpha(SHORT_IR_ALPHA),
+    encoderAlpha(ENCODER_ALPHA),
+    gyroscopeTotalAlpha(GYROSCOPE_TOTAL_ALPHA),
+    gyroscopeReadingAlpha(GYROSCOPE_READING_ALPHA)
     #if FRONT_ULTRASONIC
     ,frontUltrasonic(FRONT_ULTRASONIC_TR,FRONT_ULTRASONIC_EC)
     #endif
@@ -157,22 +159,29 @@ void sensorsModule::run(sensorsModule * sensors){
         #endif
 
         #if GYROSCOPE
-        //update the gyroscope somehow
+        updateData(&sensors->gyroscopeAngle, mygyroscope.getTotal(), gyroscopeTotalAlpha,started);
+        updateData(&sensors->gyroscopeReading, mygyroscope.getReading(), gyroscopeReadingAlpha,started);
         #endif
 
+
+        updateTime(sensors);
         started=1;
     }
 
 }
 
-void sensorsModule::update(sensorsSuperClass *sensor, double *data, float alpha, int started){
+void sensorsModule::updateSensor(sensorsSuperClass *sensor, double *data, float alpha, int started){
     //We want to have a time out here on the getData
     double newData = sensor->getData();
+    updateData(data,newData,alpha,started);
+}
+
+void sensorsModule::updateData(double *previousData, double newData, float alpha, int started){
     if (started){
-        *data = kalmanFilter(*data,newData, alpha);
+        *previousData = kalmanFilter(*previousData,newData, alpha);
     }
     else{
-        *data=newData;
+        *previousData=newData;
     }
 }
 
@@ -181,3 +190,7 @@ double sensorsModule::kalmanFilter(double previousData, double newData, float al
 }
 
 
+void sensorsModule::updateTime(sensorsModule *sensors){
+    sensors->timeMicrosecondsSinceEpoch = std::chrono::duration_cast<std::chrono::microseconds>
+                (std::chrono::system_clock::now().time_since_epoch()).count(); //magic from Stack Overflow
+}

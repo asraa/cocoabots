@@ -86,6 +86,15 @@ int main(int argc, char** argv){
 
         }
     }
+    else if (strcmp(argv[1],"testtime")==0){
+        sensorsModule mysensors;
+        while(1)
+        {
+            printf("%lld\n", mysensors.timeMicrosecondsSinceEpoch);
+            usleep(200000.0);
+
+        }
+    }
   }
  
   return 0;
