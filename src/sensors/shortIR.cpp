@@ -31,3 +31,6 @@ float shortIR::ranging(){
 	return 12343.85 * pow(rawData,-1.15);	
 }
 
+double shortIR::getData(){
+    return ranging();
+}

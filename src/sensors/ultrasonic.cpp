@@ -73,3 +73,6 @@ double ultrasonic::getDistance(int sys){
 double ultrasonic::getTiming(){
     return duration;
 }
+double ultrasonic::getData(){
+    return getDistance(ULTRASONIC_INC);
+}

@@ -7,11 +7,12 @@
 
 #include <sys/time.h>
 #include "mraa.hpp"
+#include "sensorssuperclass.h"
 #include  <thread>
 
 
 //There is no assignment operator for this class.
-class ultrasonic
+class ultrasonic: public sensorsSuperClass
 {
   public:
     ultrasonic(int TP, int EP);
@@ -20,6 +21,7 @@ class ultrasonic
     double getDistance(int sys);
     static void run(void * ultrasonicSensorPointer);
     static void echo_handler(void* ultrasonicSensorPointer);
+    double getData();
 
     std::thread *runThread;
     mraa::Gpio trigGpio;

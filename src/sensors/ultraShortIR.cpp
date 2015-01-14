@@ -18,10 +18,13 @@ ultraShortIR::ultraShortIR(int dataPin){
 	int myDataPin = dataPin;
 }
 
-int ultraShortIR::getData(){
+int ultraShortIR::readData(){
 	return data_gpio->read();
 }
 
+double ultraShortIR::getData(){
+    return readData();
+}
 
 int run_ultraShortIRTest(){
 	usleep(50000.0);
