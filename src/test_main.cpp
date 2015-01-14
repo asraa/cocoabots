@@ -74,10 +74,13 @@ int main(int argc, char** argv){
                 dirPin1.write(0);
                 dirPin2.write(1);
             }
-            else {dirPin1.write(1);
-                dirPin2.write(0);}
+            else {
+                dirPin1.write(1);
+                dirPin2.write(0);
+            }
 
             //first motor dir pin 8
+            printf("%f\n", update);
             pwm.writePWM(2,std::abs(update)); //second motor PWM pin 2
             //second motor dir pin 9
 
