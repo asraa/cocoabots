@@ -16,10 +16,12 @@
 
 
 #define LEFT_ENCODER 0
-#define LEFT_ENCODER_PIN 0
+#define LEFT_ENCODER_DIR 0
+#define LEFT_ENCODER_ENC 0
 
 #define RIGHT_ENCODER 0
-#define RIGHT_ENCODER_PIN 0
+#define RIGHT_ENCODER_DIR 0
+#define RIGHT_ENCODER_ENC 0
 
 
 
@@ -50,6 +52,8 @@
 #define BACK_SHORTIR_PIN 0
 
 #define GYROSCOPE 0
+#define GYROSCOPE_CHIP_PIN 0
+#define GYROSCOPE_SPI_PIN 0
 
 
 #endif // CONFIGFILE_H
