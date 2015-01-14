@@ -3,6 +3,12 @@
 #include <sys/time.h>
 #include <cmath>
 
+pid::pid(float kp, float ki, float kd){
+    float KP = kp;
+    float KI = ki;
+    float KD = kd;
+}
+
 float pid::calcPID(float desired, float actual){
     //ERROR
     float error = desired - actual;
@@ -16,7 +22,9 @@ float pid::calcPID(float desired, float actual){
     static float previousError = 0;
     float derivative = (error - previousError)/dt;
 
-    float total = kp*error + ki*integral + kd*derivative;
+    float total = KP*error + KI*integral + KD*derivative;
     previousError = error; //set previous error
     return total;
 }
+
+

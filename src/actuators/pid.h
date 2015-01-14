@@ -7,9 +7,10 @@
 
 class pid {
        public:
-            double kp, ki, kd;
+            pid(float kp, float ki,float kd);
             float calcPID(float desired, float actual);
        private:
+            float KP, KI, KD;
 
 };
 

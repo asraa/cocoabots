@@ -15,7 +15,7 @@ public:
     pwmUtils();
     static const uint8_t registers[16];
     void initPWM(mraa::I2c * i2c);
-    void writePWM(int index, double duty);
+    void writePWM(int index, double duty); //index (range: 0-15) of PWM line, duty is % power applied
     void setServoPosition(int index, double duty);
     mraa::I2c i2cPin;
 
