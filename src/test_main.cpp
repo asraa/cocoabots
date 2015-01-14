@@ -3,6 +3,7 @@
 #include <cstring>
 #include "sensors/ultrasonic.h"
 #include "actuators/pwmutils.h"
+#include "actuators/pid.h"
 
 int main(int argc, char** argv){
   
@@ -54,7 +55,22 @@ int main(int argc, char** argv){
 
 
         }
-    }    
+    }
+
+    else if (strcmp(argv[1],"ultrasonicpidmotor")==0){
+        //test out pid control to make motors move to a fixed distance from wall, feedback with ultrasonic
+        ultrasonic testUltrasonic(2,3);
+        pwmUtils pwm;
+        pid testPID(1,0,0);
+
+        while(1){
+            int targetDist = 10; //get 10 cm away
+            pwm.writePWM(1,testPID.calcPID(targetDist,testUltrasonic.getDistance(1))); //first motor
+            pwm.writePWM(2,testPID.calcPID(targetDist,testUltrasonic.getDistance(1))); //second motor
+
+
+        }
+    }
   }
  
   return 0;
