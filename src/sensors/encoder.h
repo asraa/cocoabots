@@ -8,18 +8,20 @@
 #include <sys/time.h>
 #include <thread>
 #include <unistd.h>
+#include"sensorssuperclass.h"
 
-class encoder
+class encoder: public sensorsSuperClass
 {
   public:
     encoder(int dirPin, int encPin);
     ~encoder();
-    long long getData();
+    long long getCounts();
+    double getData();
     double getRotations();
     static void run(void* encoderSensorPointer);
     static void edge_handler(void* encoderSensorPointer);
 
-    std::thread *runThread;
+    //std::thread *runThread;
     mraa::Gpio dirGpio;
     mraa::Gpio encGpio;
 

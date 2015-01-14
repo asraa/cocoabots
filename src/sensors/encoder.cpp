@@ -10,13 +10,13 @@ encGpio(encPin) {
 	encGpio.dir(mraa::DIR_OUT);
 	encGpio.isr(mraa::EDGE_BOTH, edge_handler, this);
 
-	runThread = new std::thread(run,this);
+    //runThread = new std::thread(run,this);
 }
 
 encoder::~encoder() {
 	running = 0;
-	runThread->join();
-	delete runThread;
+    //runThread->join();
+    //delete runThread;
 }
 
 void encoder::edge_handler(void* encoderSensorPointer) {
@@ -44,11 +44,15 @@ void encoder::run(void* encoderSensorPointer) {
 	}
 }
 
-long long encoder::getData() {
+long long encoder::getCounts() {
 	return edgeCount;
 }
 
 double encoder::getRotations() {
 	rotations = (edgeCount / EDGES_PER_ROTATION) / GEAR_RATIO;
 	return rotations;
+}
+
+double encoder::getData(){
+    return getRotations();
 }

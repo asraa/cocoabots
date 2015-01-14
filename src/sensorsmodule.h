@@ -20,8 +20,8 @@ public:
     double rightUltrasonicData;
     double leftUltrasonicData;
 
-    long long int rightEncoderData;
-    long long int leftEncoderData;
+    double rightEncoderRotations;
+    double leftEncoderRotations;
 
     double frontUltraShortIRData;
     double rightUltraShortIRData;
@@ -37,6 +37,8 @@ public:
     double ultrasonicAlpha;
     double ultraShortIRAlpha;
     double shortIRAlpha;
+    double encoderAlpha;
+
 
     int running;
     std::thread *runThread;

@@ -5,8 +5,8 @@ sensorsModule::sensorsModule():
     rightUltrasonicData(0),
     leftUltrasonicData(0),
 
-    rightEncoderData(0),
-    leftEncoderData(0),
+    rightEncoderRotations(0),
+    leftEncoderRotations(0),
 
     frontUltraShortIRData(0),
     rightUltraShortIRData(0),
@@ -19,7 +19,8 @@ sensorsModule::sensorsModule():
     backShortIRData(0),
     ultrasonicAlpha(0.7),
     ultraShortIRAlpha(0.5),
-    shortIRAlpha(0.7)
+    shortIRAlpha(0.7),
+    encoderAlpha(0)
     #if FRONT_ULTRASONIC
     ,frontUltrasonic(FRONT_ULTRASONIC_TR,FRONT_ULTRASONIC_EC)
     #endif
@@ -112,11 +113,11 @@ void sensorsModule::run(sensorsModule * sensors){
 
 
         #if RIGHT_ENCODER
-        //update somehow the encoder
+        update(&sensors->rightEncoder,&sensors->rightEncoderRotations, sensors->encoderAlpha,started);
         #endif
 
         #if LEFT_ENCODER
-        //update somehow the encoder
+        update(&sensors->leftEncoder,&sensors->leftEncoderRotations, sensors->encoderAlpha,started);
         #endif
 
 
