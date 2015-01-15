@@ -13,12 +13,13 @@
 
 
 actuator * actPointer;
-
+int running;
 void stopMotors(int signo)
 {
   if (signo == SIGINT) {
     actPointer->setPowerLeftWheel(0);
     actPointer->setPowerRightWheel(0);
+    running =0;
   }
 }
 
@@ -118,7 +119,7 @@ int main(int argc, char** argv){
         motorsControl control(&mysensors);
         control.desiredNormalizedAngularSpeed=0;
         control.desiredNormalizedSpeed=0;
-        while(1)
+        while(running)
         {
             myactuator.setPowerLeftWheel(control.leftMotorPower);
             myactuator.setPowerRightWheel(control.rightMotorPower);
@@ -128,6 +129,20 @@ int main(int argc, char** argv){
             printf("angle =%f\n", mysensors.gyroscopeAngle);
             printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
             printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+
+            usleep(200000.0);
+
+        }
+    }
+    else if (strcmp(argv[1],"motorcrazy")==0){
+        signal(SIGINT, stopMotors);
+        actuator myactuator;
+
+        while(running)
+        {
+            myactuator.setPowerLeftWheel(1);
+            myactuator.setPowerRightWheel(1);
+
 
             usleep(200000.0);
 

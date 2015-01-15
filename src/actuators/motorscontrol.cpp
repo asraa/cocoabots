@@ -39,6 +39,8 @@ void motorsControl::computeNewMotorPowers(){
 
     float newRightMotorPower = rightMotorPower+ fwdCorrection - angCorrection;
     float newLeftMotorPower = leftMotorPower + fwdCorrection + angCorrection;
+    rightMotorPower =newRightMotorPower;
+    leftMotorPower = newLeftMotorPower;
 }
 
 void motorsControl::updateSpeed(){
