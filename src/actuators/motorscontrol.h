@@ -26,16 +26,21 @@ class motorsControl
 public:
     motorsControl(sensorsModule * sensors);
     ~motorsControl();
-    double desiredNormalizedSpeed;
-    double desiredNormalizedAngularSpeed;
-    double desiredServoAngle;
+
+    double desiredPosition;
+    double desiredAngle;
+
+
+    //double desiredNormalizedSpeed;
+    //double desiredNormalizedAngularSpeed;
+    //double desiredServoAngle;
 
 
     double realSpeed;
     double realAngularSpeed;
 
-    double normalizedSpeed;
-    double normalizedAngularSpeed;
+//    double normalizedSpeed;
+//    double normalizedAngularSpeed;
 
     double previousAngle;
     double previousPosition;

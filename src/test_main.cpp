@@ -117,8 +117,8 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0;
+            control.desiredAngle=0;
+            control.desiredPosition=1;
             RUNNING=1;
             while(RUNNING)
             {
@@ -127,8 +127,8 @@ int main(int argc, char** argv){
                 printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
                 printf("leftPower =%f\n", control.leftMotorPower);
                 printf("rightPower =%f\n", control.rightMotorPower);
-                printf("speed =%f\n", control.normalizedSpeed);
-                printf("angularspeed =%f\n", control.normalizedAngularSpeed);
+                printf("speed =%f\n", control.realSpeed);
+                printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
                 printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
                 printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
@@ -147,8 +147,8 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0.3;
+            control.desiredAngle =90 ;
+            control.desiredPosition=1;
             RUNNING=1;
             while(RUNNING)
             {
@@ -157,8 +157,8 @@ int main(int argc, char** argv){
                 printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
                 printf("leftPower =%f\n", control.leftMotorPower);
                 printf("rightPower =%f\n", control.rightMotorPower);
-                printf("speed =%f\n", control.normalizedSpeed);
-                printf("angularspeed =%f\n", control.normalizedAngularSpeed);
+                printf("speed =%f\n", control.realSpeed);
+                printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
                 printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
                 printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
@@ -234,17 +234,16 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
             RUNNING=1;
             while(RUNNING)
             {
-                control.desiredNormalizedAngularSpeed= mysensors.gyroscopeAngle*-0.008;
                 myactuator.setPowerLeftWheel(control.leftMotorPower);
                 myactuator.setPowerRightWheel(control.rightMotorPower);
 
 
-                usleep(50000.0);
+                usleep(10000.0);
 
             }
         }
