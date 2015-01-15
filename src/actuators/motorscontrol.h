@@ -53,6 +53,8 @@ public:
     void updateTime();
     void updatePosition();
     void updateAngle();
+    double getNewAngle();
+    double getNewPosition();
 
 private:
     sensorsModule * mysensors;

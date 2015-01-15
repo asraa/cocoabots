@@ -1,7 +1,7 @@
 #include "encoder.h"
 
-encoder::encoder(int dirPin, int encPin): dirGpio(dirPin), 
-encGpio(encPin) {
+encoder::encoder(int encPin): encGpio(encPin), dir(0)
+{
 	edgeCount = 0;
 	rotations = 0.0;
 	running = 1;
@@ -21,11 +21,11 @@ encoder::~encoder() {
 
 void encoder::edge_handler(void* encoderSensorPointer) {
 	encoder* encSensor = (encoder*) encoderSensorPointer;
-	mraa::Gpio* dir = & (encSensor->dirGpio);
+
 
 	int offset;
 	// if dir is 1, then wheels are rotating backwards
-	if (dir->read() == 1) {
+    if (encSensor->dir == 1) {
 		offset = -1;
 	}
 	// if dir is 0, then wheels are rotating forwards

@@ -39,11 +39,11 @@ sensorsModule::sensorsModule():
 
 
     #if RIGHT_ENCODER
-    ,rightEncoder(RIGHT_ENCODER_DIR, RIGHT_ENCODER_ENC)
+    ,rightEncoder(RIGHT_ENCODER_ENC)
     #endif
 
     #if LEFT_ENCODER
-    ,leftEncoder(LEFT_ENCODER_DIR, LEFT_ENCODER_ENC)
+    ,leftEncoder(LEFT_ENCODER_ENC)
     #endif
 
 

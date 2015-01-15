@@ -60,6 +60,15 @@ public:
 #if GYROSCOPE
 gyroscope mygyroscope;
 #endif
+
+#if RIGHT_ENCODER
+encoder rightEncoder;
+#endif
+
+#if LEFT_ENCODER
+encoder leftEncoder;
+#endif
+
 private:
 #if FRONT_ULTRASONIC
 ultrasonic frontUltrasonic;
@@ -73,17 +82,6 @@ ultrasonic rightUltrasonic;
 #if LEFT_ULTRASONIC
 ultrasonic leftUltrasonic;
 #endif
-
-
-
-#if RIGHT_ENCODER
-encoder rightEncoder;
-#endif
-
-#if LEFT_ENCODER
-encoder leftEncoder;
-#endif
-
 
 
 #if FRONT_ULTRASHORTIR

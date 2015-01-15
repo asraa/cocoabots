@@ -13,7 +13,7 @@
 class encoder: public sensorsSuperClass
 {
   public:
-    encoder(int dirPin, int encPin);
+    encoder(int encPin);
     ~encoder();
     long long getCounts();
     double getData();
@@ -22,8 +22,10 @@ class encoder: public sensorsSuperClass
     static void edge_handler(void* encoderSensorPointer);
 
     //std::thread *runThread;
-    mraa::Gpio dirGpio;
+//    mraa::Gpio dirGpio;
     mraa::Gpio encGpio;
+
+    volatile int dir; //This will be written by the actuator
 
     int running;
     long long edgeCount;
