@@ -127,6 +127,8 @@ int main(int argc, char** argv){
             printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
             printf("leftPower =%f\n", control.leftMotorPower);
             printf("rightPower =%f\n", control.rightMotorPower);
+            printf("speed =%f\n", control.normalizedSpeed);
+            printf("angularspeed =%f\n", control.normalizedAngularSpeed);
             printf("angle =%f\n", mysensors.gyroscopeAngle);
             printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
             printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
@@ -138,6 +140,7 @@ int main(int argc, char** argv){
     else if (strcmp(argv[1],"motorcrazy")==0){
         signal(SIGINT, stopMotors);
         actuator myactuator;
+        actPointer = &myactuator;
         running=1;
         while(running)
         {
@@ -152,6 +155,7 @@ int main(int argc, char** argv){
     else if (strcmp(argv[1],"motorstop")==0){
         signal(SIGINT, stopMotors);
         actuator myactuator;
+        actPointer = &myactuator;
         running=1;
         while(running)
         {

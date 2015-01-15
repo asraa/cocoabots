@@ -49,7 +49,8 @@ long long encoder::getCounts() {
 }
 
 double encoder::getRotations() {
-	rotations = (edgeCount / EDGES_PER_ROTATION) / GEAR_RATIO;
+    float edgeCountFloat = edgeCount;
+    rotations = (edgeCountFloat / EDGES_PER_ROTATION) / GEAR_RATIO;
 	return rotations;
 }
 
