@@ -52,6 +52,7 @@ public:
     void updateAngularSpeed();
     void updateTime();
     void updatePosition();
+    void updateAngle();
 
 private:
     sensorsModule * mysensors;
