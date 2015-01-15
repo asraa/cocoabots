@@ -5,8 +5,22 @@
 #include "sensors/ultrasonic.h"
 #include "actuators/pwmutils.h"
 #include "actuators/pid.h"
+#include "actuators/actuator.h"
 #include "sensorsmodule.h"
+#include "actuators/motorscontrol.h"
 #include "mraa.hpp"
+#include <signal.h>
+
+
+actuator * actPointer;
+
+void stopMotors(int signo)
+{
+  if (signo == SIGINT) {
+    actPointer->setPowerLeftWheel(0);
+    actPointer->setPowerRightWheel(0);
+  }
+}
 
 int main(int argc, char** argv){
   
@@ -95,7 +109,24 @@ int main(int argc, char** argv){
 
         }
     }
+    else if (strcmp(argv[1],"straightline")==0){
+        signal(SIGINT, stopMotors);
+        actuator myactuator;
+        actPointer= &myactuator;
+        motorsControl control;
+        control.desiredNormalizedAngularSpeed=0;
+        control.desiredNormalizedSpeed=0;
+        while(1)
+        {
+            actuator.setPowerLeftWheel(control.leftMotorPower);
+            actuator.setPowerRightWheel(control.rightMotorPower);
+            usleep(200000.0);
+
+        }
+    }
   }
  
   return 0;
 }
+
+
