@@ -39,10 +39,10 @@ public:
 
     double previousAngle;
     double previousPosition;
-    long long int previousTime;
+    double previousTime;
 
-    double rightMotorPower;
-    double leftMotorPower;
+    volatile double rightMotorPower;
+    volatile double leftMotorPower;
 
     int running;
     std::thread *runThread;
@@ -52,6 +52,9 @@ public:
     void updateAngularSpeed();
     void updateTime();
     void updatePosition();
+    void updateAngle();
+    double getNewAngle();
+    double getNewPosition();
 
 private:
     sensorsModule * mysensors;

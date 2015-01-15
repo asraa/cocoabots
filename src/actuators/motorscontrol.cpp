@@ -11,14 +11,14 @@ motorsControl::motorsControl(sensorsModule *sensors)
     leftMotorPower =0;
 
 
-    running=1;
+    this->running=1;
     runThread = new std::thread(run,this);
 }
 
 
 void motorsControl::run(motorsControl *mycontrol){
     while (mycontrol->running) {
-        usleep(SPEED_CONTROL_UPDATE_RATE_MILISECONDS);
+        usleep(SPEED_CONTROL_UPDATE_RATE_MILISECONDS*1000);
         mycontrol->computeNewMotorPowers();
     }
 }
@@ -27,6 +27,7 @@ void motorsControl::computeNewMotorPowers(){
     updateSpeed();
     updateAngularSpeed();
     updatePosition();
+    updateAngle();
     updateTime();
 
     float fwdSpeed = normalizedSpeed;
@@ -34,7 +35,7 @@ void motorsControl::computeNewMotorPowers(){
     float fwdCorrection = fwdError * FWD_SPEED_GAIN;
 
     float angSpeed = normalizedAngularSpeed;
-    float angError = desiredNormalizedAngularSpeed - normalizedAngularSpeed;
+    float angError = desiredNormalizedAngularSpeed - angSpeed;
     float angCorrection = angError*ANG_SPEED_GAIN * GYROSCOPE_CLOCKWISE_POSITIVE;
 
     float newRightMotorPower = rightMotorPower+ fwdCorrection - angCorrection;
@@ -44,17 +45,19 @@ void motorsControl::computeNewMotorPowers(){
 }
 
 void motorsControl::updateSpeed(){
-    double newPosition =(mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
-    long long int timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
-    double newSpeed = (newPosition -previousPosition)*MICROSECOND/timeMicroSeconds;
+    double newPosition =getNewPosition();
+    double timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
+    double dt = timeMicroSeconds-previousTime;
+    double newSpeed = (newPosition -previousPosition)*MICROSECOND/dt;
     realSpeed=newSpeed;
     normalizedSpeed=realSpeed/MAXIMUM_SPEED;
 }
 
 void motorsControl::updateAngularSpeed(){
-    double newAngle =(mysensors->gyroscopeAngle)/2;
-    long long int timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
-    double newAngularSpeed = (newAngle -previousAngle)*MICROSECOND/timeMicroSeconds;
+    double newAngle =getNewAngle();
+    double timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
+    double dt = timeMicroSeconds-previousTime;
+    double newAngularSpeed = (newAngle -previousAngle)*MICROSECOND/dt;
     realAngularSpeed=newAngularSpeed;
     normalizedAngularSpeed=realAngularSpeed/MAXIMUM_ANGULAR_SPEED;
 }
@@ -64,8 +67,26 @@ void motorsControl::updateTime(){
 }
 
 void motorsControl::updatePosition(){
-    previousPosition= (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    previousPosition= getNewPosition();
 }
+
+void motorsControl::updateAngle(){
+    previousAngle=getNewAngle();
+}
+
+double motorsControl::getNewPosition(){
+    #if MOTORS_OPPOSITE
+    return (-mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    #else
+    return (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    #endif
+}
+
+
+double motorsControl::getNewAngle(){
+    return (mysensors->gyroscopeAngle);
+}
+
 
 motorsControl::~motorsControl(){
     running=0;

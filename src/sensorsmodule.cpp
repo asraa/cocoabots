@@ -17,6 +17,8 @@ sensorsModule::sensorsModule():
     rightShortIRData(0),
     leftShortIRData(0),
     backShortIRData(0),
+    gyroscopeAngle(0),
+    gyroscopeReading(0),
     ultrasonicAlpha(ULTRASONIC_ALPHA),
     ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
     shortIRAlpha(SHORT_IR_ALPHA),
@@ -37,11 +39,11 @@ sensorsModule::sensorsModule():
 
 
     #if RIGHT_ENCODER
-    ,rightEncoder(RIGHT_ENCODER_DIR, RIGHT_ENCODER_ENC)
+    ,rightEncoder(RIGHT_ENCODER_ENC)
     #endif
 
     #if LEFT_ENCODER
-    ,leftEncoder(LEFT_ENCODER_DIR, LEFT_ENCODER_ENC)
+    ,leftEncoder(LEFT_ENCODER_ENC)
     #endif
 
 

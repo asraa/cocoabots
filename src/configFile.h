@@ -2,9 +2,10 @@
 #define CONFIGFILE_H
 
 //Motor definitions
+#define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
 //SWAP THE MOTOR_DIRECTIONS IF THE ROBOT IS GOING BACKWARDS
-#define MOTOR_DIRECTION_RIGHT 1
-#define MOTOR_DIRECTION_LEFT 0
+#define MOTOR_DIRECTION_BACK 1
+#define MOTOR_DIRECTION_FRONT 0
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
@@ -15,8 +16,11 @@
 #define LEFT_WHEEL_DIR 8
 
 
+#define DIAMETER_WHEEL 0
+#define DISTANCE_BETWEEN_WHEELS 0
+
 //Define values for the motors
-#define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.5
+#define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
 #define MAXIMUM_REVOLUTIONS_PER_SECOND 1
 #define MAXIMUM_SPEED MAXIMUM_REVOLUTIONS_PER_SECOND
 #define MAXIMUM_DEGREES_PER_SECOND 360
@@ -79,7 +83,7 @@
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
-#define GYROSCOPE_CLOCKWISE_POSITIVE 1 //Change to -1 if it is negative in the clockwise direction
+#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 
 
@@ -95,8 +99,8 @@
 
 
 //Speed control
-//Define gains for the speed control. 0<GAIN<1
-#define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 100
-#define FWD_SPEED_GAIN 0.1
-#define ANG_SPEED_GAIN 0.1
+//Define gains for the speed control. safe between 0<GAIN<1
+#define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
+#define FWD_SPEED_GAIN 10
+#define ANG_SPEED_GAIN 10
 #endif // CONFIGFILE_H
