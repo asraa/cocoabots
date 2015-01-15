@@ -14,6 +14,7 @@ void actuator::setPowerLeftWheel(double speed){
         dir =MOTOR_DIRECTION_LEFT;
     } else {
         dir =MOTOR_DIRECTION_RIGHT;
+        speed=-speed;
     }
     leftWheel.dirPin.write(dir);
     pwm.writePWM(leftWheel.pwmIndex,speed);
