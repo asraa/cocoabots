@@ -85,6 +85,11 @@
 #define BACK_SHORTIR_PIN 0
 
 //Gyroscope
+//  FOR CHIP_PIN =10 and SPI =0 we have:
+// CS =10
+// MOSI = 11
+// MISO =12
+// SERIAL =13
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
@@ -104,8 +109,10 @@
 
 
 //Speed control
-//Define gains for the speed control. safe between 0<GAIN<1
+//Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
-#define FWD_SPEED_GAIN 10
-#define ANG_SPEED_GAIN 10
+#define FWD_ERROR_GAIN 0    //Should be positive
+#define FWD_SPEED_GAIN 0  //Should be negative
+#define ANG_ERROR_GAIN 1/180
+#define ANG_SPEED_GAIN -0  //Should be negative
 #endif // CONFIGFILE_H
