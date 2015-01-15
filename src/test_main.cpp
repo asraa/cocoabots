@@ -118,6 +118,7 @@ int main(int argc, char** argv){
         motorsControl control(&mysensors);
         control.desiredNormalizedAngularSpeed=0;
         control.desiredNormalizedSpeed=0;
+        running=1;
         while(running)
         {
             myactuator.setPowerLeftWheel(control.leftMotorPower);
@@ -136,7 +137,7 @@ int main(int argc, char** argv){
     else if (strcmp(argv[1],"motorcrazy")==0){
         signal(SIGINT, stopMotors);
         actuator myactuator;
-
+        running=1;
         while(running)
         {
             myactuator.setPowerLeftWheel(1);
