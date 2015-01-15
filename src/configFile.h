@@ -26,6 +26,11 @@
 #define MAXIMUM_DEGREES_PER_SECOND 360
 #define MAXIMUM_ANGULAR_SPEED MAXIMUM_DEGREES_PER_SECOND
 
+//Servo definitions
+#define SORT_SERVO 15
+#define ARM_SERVO 14
+#define HOOK_SERVO 13
+
 
 //SENSORS
 //Ultrasonic
