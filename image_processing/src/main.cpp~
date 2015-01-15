@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/LU>
+#include <iostream>
+
+/********************************
+ // this needs to be cleaned up //
+ ********************************/
+/*
+double CAMERA_HEIGHT = 0; 
+double CAMERA_ANGLE = 0; // 0 is positive, pointing downwards in positive
+double CAMERA_FOCAL_LENGTH = 2.3; //mm NEED TO CHANGE
+// for 640*480 image, NEED TO SCALE ACCORDINGLy
+Eigen::Matrix3d CAM_MAT;
+Eigen::Matrix3d CAM_MAT_INV; 
+double CAM_MAT_INV_22 = 0.0015; // for quicker height computation(necessary?)
+
+double TOP_LINE_WIDTH = 2.0; //inches
+double WALL_HEIGHT = 6.0; //inches, with blue line
+
+double BLOCK_SIZE = 1; //inches
+double BLOCK_HOLE_RADIUS = 0.5; //guess NEED TO CHANGE
+
+int CANNY_LOW_THRESHOLD = 5;
+int CANNY_UP_RATIO = 3;
+int CANNY_KERNEL = 3;
+
+int SMOOTH_KERNEL = 5;
+
+int MORPH_KERNEL = 3;
+
+int BLUE_LINE_TOLERANCE = 15; // random
+
+int HSV_BLUE_H_LOW = 100;
+int HSV_BLUE_H_UP = 130;
+int HSV_BLUE_S_LOW = 100;
+int HSV_BLUE_S_UP = 255;
+int HSV_BLUE_V_LOW = 0;
+int HSV_BLUE_V_UP = 255;
+*/
+namespace Map{
+class Map 
+{
+public:
+  Map(int, int);
+  ~Map();
+
+  int** grid_data;
+  int size_x, size_y;
+
+  void set(int,int,int);
+  int getSizeX();
+  int getSizeY();
+  cv::Mat cvtImage();
+};
+}
+
+Map::Map(int x_dim, int y_dim) {
+  size_x = x_dim;
+  size_y = y_dim;
+}
+
+Map::~Map() {
+
+}
+
+void Map::set(int x, int y, int val) {
+  if(x < size_x && x > -1 && y < size_y && y > -1) {
+    grid_data[x][y] = val;
+  }
+}
+
+int Map::getSizeX() {
+  return size_x;
+}
+
+int Map::getSizeY() {
+  return size_y;
+}
+
+cv::Mat Map::cvtImage() {
+
+}
+
+
+class ImageProcessor 
+{
+public:
+  ImageProcessor();
+  
+  cv::VideoCapture vid_cap;
+  
+  Eigen::Matrix3d CAM_MAT; // recalibrate?
+  Eigen::Matrix3d CAM_MAT_INV;  
+  
+  Map::Map local_map(100, 100); // for now
+  
+  void run(void);
+};
+
+
+// initializer for ImageProcessing class
+ImageProcessor::ImageProcessor() {
+
+  vid_cap = cv::VideoCapture(0); // need to check what 0 is and is not sketchy
+  if(!vid_cap.isOpened()) {
+    // do something
+  }
+  
+  CAM_MAT << 685.3, 0, 295.5, 0, 683.9, 236.4, 0, 0, 1; 
+  CAM_MAT_INV = CAM_MAT.inverse();
+
+ }
+
+void ImageProcessor::run() {
+  cv::namedWindow("test",1); // what's the 1 for?
+  while(1) {
+    cv::Mat frame;
+    vid_cap >> frame; // get a new frame from camera
+
+    cv::imshow("test", frame);
+    cv::waitKey(30); // somehow must need this to work
+
+  }
+}
+
+
+
+int main(int argc, char** argv) {
+  ImageProcessor image_process;
+  image_process.run();
+}
