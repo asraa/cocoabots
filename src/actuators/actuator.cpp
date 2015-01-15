@@ -29,6 +29,7 @@ void actuator::setPowerLeftWheel(double speed){
 #endif
 
     leftWheel.dirPin.write(dir);
+    speed = speed>1? 1: speed; //If speed >1, speed =1.
     speed= speed * MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS;
     pwm.writePWM(leftWheel.pwmIndex,speed);
 }
@@ -57,6 +58,7 @@ void actuator::setPowerRightWheel(double speed){
     }
 #endif
     rightWheel.dirPin.write(dir);
+    speed = speed>1? 1: speed; //If speed >1, speed =1.
     speed= speed * MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS;
     pwm.writePWM(rightWheel.pwmIndex,speed);
 }
