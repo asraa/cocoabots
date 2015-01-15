@@ -39,7 +39,7 @@ public:
 
     double previousAngle;
     double previousPosition;
-    long long int previousTime;
+    double previousTime;
 
     double rightMotorPower;
     double leftMotorPower;

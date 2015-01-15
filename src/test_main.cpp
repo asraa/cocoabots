@@ -131,6 +131,10 @@ int main(int argc, char** argv){
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
                 printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
                 printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+                printf("control Position =%f\n", control.previousPosition );
+                printf("control Angle =%f\n", control.previousAngle);
+                printf("control time =%f\n", control.previousTime);
+
 
                 usleep(200000.0);
 
