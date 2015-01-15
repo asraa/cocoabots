@@ -1,18 +1,57 @@
 #include "actuator.h"
+#include <unistd.h>
 
 actuator::actuator():actuator(NULL){
 
 }
 
+//The actuator should receive an instance of sensors, so it can update the dir pin
+// of the encoder.
 actuator::actuator(sensorsModule * sensors):
     rightWheel(RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM),
     leftWheel(LEFT_WHEEL_DIR, LEFT_WHEEL_PWM),
     pwm(),
     sensorsPointer(sensors),
-    sortServo(SORT_SERVO),
-    armServo(ARM_SERVO),
-    hookServo(HOOK_SERVO)
+    sortServo(SORT_SERVO_PWM),
+    armServo(ARM_SERVO_PWM),
+    hookServo(HOOK_SERVO_PWM),
+    rightWheelPower(NULL),
+    leftWheelPower(NULL),
+    armServoAngle(NULL),
+    hookServoAngle(NULL),
+    sortServoAngle(NULL)
+
+
 {
+    //It starts its own thread responsible for writting to the motors and servos.
+    running=1;
+    runThread = new std::thread(run,this);
+}
+actuator::~actuator(){
+    running=0;
+    runThread->join();
+    delete runThread;
+}
+
+void actuator::run(actuator * myactuator){
+
+    //Here we see for each of the powers/angles if they have been defined
+    //i.e. they point to a value
+    // if they do, we update the things.
+    while (myactuator->running){
+        if (myactuator->rightWheelPower)
+            myactuator->setPowerRightWheel(*(myactuator->rightWheelPower));
+        if (myactuator->leftWheelPower)
+            myactuator->setPowerLeftWheel(*(myactuator->leftWheelPower));
+        if (myactuator->armServoAngle)
+            myactuator->setArmServo(*(myactuator->armServoAngle));
+        if (myactuator->hookServoAngle)
+            myactuator->setHookServo(*(myactuator->hookServoAngle));
+        if (myactuator->sortServoAngle)
+            myactuator->setSortServo(*(myactuator->sortServoAngle));
+        usleep(UPDATE_RATE_ACTUATORS_MILISECONDS * 1000);
+    }
+
 }
 
 

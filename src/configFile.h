@@ -27,9 +27,9 @@
 #define MAXIMUM_ANGULAR_SPEED MAXIMUM_DEGREES_PER_SECOND
 
 //Servo definitions
-#define SORT_SERVO 15
-#define ARM_SERVO 14
-#define HOOK_SERVO 13
+#define SORT_SERVO_PWM 15
+#define ARM_SERVO_PWM 14
+#define HOOK_SERVO_PWM 13
 
 
 //SENSORS
@@ -115,4 +115,7 @@
 #define FWD_SPEED_GAIN 0.0  //Should be negative
 #define ANG_ERROR_GAIN 0.008
 #define ANG_SPEED_GAIN 0.002  //Should be negative
+
+
+#define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H

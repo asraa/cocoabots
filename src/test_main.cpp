@@ -10,6 +10,8 @@
 #include "actuators/motorscontrol.h"
 #include "mraa.hpp"
 #include <signal.h>
+#include  <thread>
+
 
 
 actuator * actPointer;
@@ -18,6 +20,9 @@ void stopMotors(int signo)
 {
     if (signo == SIGINT) {
         RUNNING =0;
+        double a =0;
+        actPointer->leftWheelPower = &a;
+        actPointer->rightWheelPower =&a;
         actPointer->setPowerLeftWheel(0);
         actPointer->setPowerRightWheel(0);
         RUNNING =0;
@@ -244,6 +249,37 @@ int main(int argc, char** argv){
 
 
                 usleep(10000.0);
+
+            }
+        }
+        else if (strcmp(argv[1],"findProportionalGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double proportionalGain =0.001;
+            control.angSpeedGain=0;
+            control.angErrorGain = proportionalGain;
+            control.fwdErrorGain =0;
+            control.fwdSpeedGain =0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            while(RUNNING)
+            {
+                control.angErrorGain = proportionalGain;
+                printf("proportionalGain =%f\n", proportionalGain);
+                control.desiredAngle=90;
+                usleep(3000000.0);
+                control.desiredAngle=0;
+                proportionalGain +=0.001;
+                printf("proportionalGain =%f\n", proportionalGain);
+                control.angErrorGain = proportionalGain;
+                usleep(3000000.0);
+                proportionalGain +=0.001;
+
 
             }
         }

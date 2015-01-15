@@ -30,6 +30,10 @@ public:
     double desiredPosition;
     double desiredAngle;
 
+    double fwdSpeedGain;
+    double fwdErrorGain;
+    double angSpeedGain;
+    double angErrorGain;
 
     //double desiredNormalizedSpeed;
     //double desiredNormalizedAngularSpeed;
@@ -46,8 +50,8 @@ public:
     double previousPosition;
     double previousTime;
 
-    volatile double rightMotorPower;
-    volatile double leftMotorPower;
+    double rightMotorPower;
+    double leftMotorPower;
 
     int running;
     std::thread *runThread;

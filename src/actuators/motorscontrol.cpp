@@ -3,6 +3,10 @@
 
 motorsControl::motorsControl(sensorsModule *sensors)
 {
+    fwdSpeedGain =FWD_SPEED_GAIN;
+    fwdErrorGain =FWD_ERROR_GAIN;
+    angSpeedGain = ANG_SPEED_GAIN;
+    angErrorGain = ANG_ERROR_GAIN;
     mysensors=sensors;
     previousAngle = mysensors->gyroscopeAngle;
     previousPosition = (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
@@ -32,11 +36,15 @@ void motorsControl::computeNewMotorPowers(){
 
     double fwdSpeed = realSpeed;
     double fwdError = desiredPosition-getNewPosition();
-    double fwdCorrection = (fwdError * FWD_ERROR_GAIN+ fwdSpeed*FWD_SPEED_GAIN);
+    double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
 
     double angSpeed = realAngularSpeed;
-    double angError = desiredAngle - getNewAngle(); //desiredNormalizedAngularSpeed - angSpeed;
-    double angCorrection = (angError*ANG_ERROR_GAIN + angSpeed*ANG_SPEED_GAIN) * GYROSCOPE_CLOCKWISE_POSITIVE;
+    int angError = desiredAngle - getNewAngle(); //desiredNormalizedAngularSpeed - angSpeed;
+    angError %=360;
+    if (angError > 180){
+        angError-=360;
+    }
+    double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * GYROSCOPE_CLOCKWISE_POSITIVE;
 
     double newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
     double newLeftMotorPower = fwdCorrection + angCorrection; // + leftMotorPower
