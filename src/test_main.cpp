@@ -148,6 +148,20 @@ int main(int argc, char** argv){
 
         }
     }
+    else if (strcmp(argv[1],"motorstop")==0){
+        signal(SIGINT, stopMotors);
+        actuator myactuator;
+        running=1;
+        while(running)
+        {
+            myactuator.setPowerLeftWheel(0);
+            myactuator.setPowerRightWheel(0);
+
+
+            usleep(200000.0);
+
+        }
+    }
   }
  
   return 0;
