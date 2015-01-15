@@ -8,7 +8,7 @@ actuator::actuator():
 }
 
 
-void actuator::setSpeedLeftWheel(double speed){
+void actuator::setPowerLeftWheel(double speed){
     int dir;
     if (speed >=0){
         dir =MOTOR_DIRECTION_LEFT;
@@ -19,7 +19,7 @@ void actuator::setSpeedLeftWheel(double speed){
     pwm.writePWM(leftWheel.pwmIndex,speed);
 }
 
-void actuator::setSpeedRightWheel(double speed){
+void actuator::setPowerRightWheel(double speed){
     int dir;
     if (speed >=0){
         dir =MOTOR_DIRECTION_RIGHT;

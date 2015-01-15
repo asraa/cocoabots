@@ -6,7 +6,7 @@ encGpio(encPin) {
 	rotations = 0.0;
 	running = 1;
 
-	dirGpio.dir(mraa::DIR_OUT);
+//	dirGpio.dir(mraa::DIR_OUT);
 	encGpio.dir(mraa::DIR_OUT);
 	encGpio.isr(mraa::EDGE_BOTH, edge_handler, this);
 

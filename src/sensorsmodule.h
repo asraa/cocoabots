@@ -38,15 +38,28 @@ public:
     double ultraShortIRAlpha;
     double shortIRAlpha;
     double encoderAlpha;
+    double gyroscopeTotalAlpha;
+    double gyroscopeReadingAlpha;
+
+    double gyroscopeAngle;
+    double gyroscopeReading;
+
+    long long int timeMicrosecondsSinceEpoch;
 
 
     int running;
     std::thread *runThread;
 
     static void run(sensorsModule * sensors);
-    static void update(sensorsSuperClass *sensor, double * data, float alpha, int started);
+    static void updateSensor(sensorsSuperClass *sensor, double * data, float alpha, int started);
+    static void updateData(double* previousData, double newData, float alpha, int started);
+    static void updateTime(sensorsModule * sensors);
+
     static double kalmanFilter(double previousData, double newData, float alpha);
 
+#if GYROSCOPE
+gyroscope mygyroscope;
+#endif
 private:
 #if FRONT_ULTRASONIC
 ultrasonic frontUltrasonic;
@@ -107,9 +120,7 @@ shortIR rightShortIR;
 shortIR leftShortIR;
 #endif
 
-#if GYROSCOPE
-gyroscope mygyroscope;
-#endif
+
 
 };
 

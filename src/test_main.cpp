@@ -5,8 +5,22 @@
 #include "sensors/ultrasonic.h"
 #include "actuators/pwmutils.h"
 #include "actuators/pid.h"
+#include "actuators/actuator.h"
 #include "sensorsmodule.h"
+#include "actuators/motorscontrol.h"
 #include "mraa.hpp"
+#include <signal.h>
+
+
+actuator * actPointer;
+
+void stopMotors(int signo)
+{
+  if (signo == SIGINT) {
+    actPointer->setPowerLeftWheel(0);
+    actPointer->setPowerRightWheel(0);
+  }
+}
 
 int main(int argc, char** argv){
   
@@ -87,7 +101,41 @@ int main(int argc, char** argv){
 
         }
     }
+    else if (strcmp(argv[1],"testtime")==0){
+        sensorsModule mysensors;
+        while(1)
+        {
+            printf("%lld\n", mysensors.timeMicrosecondsSinceEpoch);
+            usleep(200000.0);
+
+        }
+    }
+    else if (strcmp(argv[1],"straightline")==0){
+        signal(SIGINT, stopMotors);
+        actuator myactuator;
+        actPointer= &myactuator;
+        sensorsModule mysensors;
+        motorsControl control(&mysensors);
+        control.desiredNormalizedAngularSpeed=0;
+        control.desiredNormalizedSpeed=0;
+        while(1)
+        {
+            myactuator.setPowerLeftWheel(control.leftMotorPower);
+            myactuator.setPowerRightWheel(control.rightMotorPower);
+            printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
+            printf("leftPower =%f\n", control.leftMotorPower);
+            printf("rightPower =%f\n", control.rightMotorPower);
+            printf("angle =%f\n", mysensors.gyroscopeAngle);
+            printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
+            printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+
+            usleep(200000.0);
+
+        }
+    }
   }
  
   return 0;
 }
+
+
