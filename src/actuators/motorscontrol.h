@@ -41,8 +41,8 @@ public:
     double previousPosition;
     double previousTime;
 
-    double rightMotorPower;
-    double leftMotorPower;
+    volatile double rightMotorPower;
+    volatile double leftMotorPower;
 
     int running;
     std::thread *runThread;

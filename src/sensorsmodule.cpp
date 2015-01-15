@@ -17,6 +17,8 @@ sensorsModule::sensorsModule():
     rightShortIRData(0),
     leftShortIRData(0),
     backShortIRData(0),
+    gyroscopeAngle(0),
+    gyroscopeReading(0),
     ultrasonicAlpha(ULTRASONIC_ALPHA),
     ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
     shortIRAlpha(SHORT_IR_ALPHA),

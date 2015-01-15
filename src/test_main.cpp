@@ -17,6 +17,7 @@ int RUNNING;
 void stopMotors(int signo)
 {
     if (signo == SIGINT) {
+        RUNNING =0;
         actPointer->setPowerLeftWheel(0);
         actPointer->setPowerRightWheel(0);
         RUNNING =0;

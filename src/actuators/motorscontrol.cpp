@@ -11,7 +11,7 @@ motorsControl::motorsControl(sensorsModule *sensors)
     leftMotorPower =0;
 
 
-    running=1;
+    this->running=1;
     runThread = new std::thread(run,this);
 }
 
@@ -27,6 +27,7 @@ void motorsControl::computeNewMotorPowers(){
     updateSpeed();
     updateAngularSpeed();
     updatePosition();
+    updateAngle();
     updateTime();
 
     float fwdSpeed = normalizedSpeed;
