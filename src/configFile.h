@@ -80,6 +80,11 @@
 #define BACK_SHORTIR_PIN 0
 
 //Gyroscope
+//  FOR CHIP_PIN =10 and SPI =0 we have:
+// CS =10
+// MOSI = 11
+// MISO =12
+// SERIAL =13
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
