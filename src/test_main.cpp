@@ -148,7 +148,7 @@ int main(int argc, char** argv){
             actPointer= &myactuator;
             motorsControl control(&mysensors);
             control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0.5;
+            control.desiredNormalizedSpeed=0.3;
             RUNNING=1;
             while(RUNNING)
             {
