@@ -228,7 +228,26 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"stayStraight")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredNormalizedAngularSpeed=0;
+            control.desiredNormalizedSpeed=0;
+            RUNNING=1;
+            while(RUNNING)
+            {
+                control.desiredNormalizedAngularSpeed= mysensors.gyroscopeAngle*0.2;
+                myactuator.setPowerLeftWheel(control.leftMotorPower);
+                myactuator.setPowerRightWheel(control.rightMotorPower);
 
+
+                usleep(50000.0);
+
+            }
+        }
         return 0;
     }
 }
