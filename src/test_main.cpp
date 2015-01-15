@@ -155,6 +155,21 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"motorcrazy2")==0){
+            signal(SIGINT, stopMotors);
+            actuator myactuator;
+            actPointer = &myactuator;
+            RUNNING=1;
+            while(RUNNING)
+            {
+                myactuator.setPowerLeftWheel(-1);
+                myactuator.setPowerRightWheel(-1);
+
+
+                usleep(200000.0);
+
+            }
+        }
         else if (strcmp(argv[1],"motorstop")==0){
             signal(SIGINT, stopMotors);
             actuator myactuator;
