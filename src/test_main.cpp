@@ -113,13 +113,21 @@ int main(int argc, char** argv){
         signal(SIGINT, stopMotors);
         actuator myactuator;
         actPointer= &myactuator;
-        motorsControl control;
+        sensorsModule mysensors;
+        motorsControl control(&mysensors);
         control.desiredNormalizedAngularSpeed=0;
         control.desiredNormalizedSpeed=0;
         while(1)
         {
-            actuator.setPowerLeftWheel(control.leftMotorPower);
-            actuator.setPowerRightWheel(control.rightMotorPower);
+            myactuator.setPowerLeftWheel(control.leftMotorPower);
+            myactuator.setPowerRightWheel(control.rightMotorPower);
+            printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
+            printf("leftPower =%f\n", control.leftMotorPower);
+            printf("rightPower =%f\n", control.rightMotorPower);
+            printf("angle =%f\n", mysensors.gyroscopeAngle);
+            printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
+            printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+
             usleep(200000.0);
 
         }

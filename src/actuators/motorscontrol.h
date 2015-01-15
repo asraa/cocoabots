@@ -11,6 +11,10 @@
  *
  * This might be a bad idea. I don't know other way to do this
  */
+
+
+///TODO:
+/// ADD MAXIMUM SAFE SPEED
 #ifndef MOTORSCONTROL_H
 #define MOTORSCONTROL_H
 #include "../sensorsmodule.h"

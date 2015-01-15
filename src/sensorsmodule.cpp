@@ -102,65 +102,65 @@ void sensorsModule::run(sensorsModule * sensors){
 
     while (sensors->running){
         #if FRONT_ULTRASONIC
-        update(&sensors->frontUltrasonic,&sensors->frontUltrasonicData, sensors->ultrasonicAlpha,started);
+        updateSensor(&sensors->frontUltrasonic,&sensors->frontUltrasonicData, sensors->ultrasonicAlpha,started);
         #endif
 
         #if RIGHT_ULTRASONIC
-        update(&sensors->rightUltrasonic,&sensors->rightUltrasonicData, sensors->ultrasonicAlpha,started);
+        updateSensor(&sensors->rightUltrasonic,&sensors->rightUltrasonicData, sensors->ultrasonicAlpha,started);
         #endif
 
         #if LEFT_ULTRASONIC
-        update(&sensors->leftUltrasonic,&sensors->leftUltrasonicData, sensors->ultrasonicAlpha,started);
+        updateSensor(&sensors->leftUltrasonic,&sensors->leftUltrasonicData, sensors->ultrasonicAlpha,started);
         #endif
 
 
         #if RIGHT_ENCODER
-        update(&sensors->rightEncoder,&sensors->rightEncoderRotations, sensors->encoderAlpha,started);
+        updateSensor(&sensors->rightEncoder,&sensors->rightEncoderRotations, sensors->encoderAlpha,started);
         #endif
 
         #if LEFT_ENCODER
-        update(&sensors->leftEncoder,&sensors->leftEncoderRotations, sensors->encoderAlpha,started);
+        updateSensor(&sensors->leftEncoder,&sensors->leftEncoderRotations, sensors->encoderAlpha,started);
         #endif
 
 
 
         #if FRONT_ULTRASHORTIR
-        update(&sensors->frontUltraShortIR,&sensors->frontUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->frontUltraShortIR,&sensors->frontUltraShortIR, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if BACK_ULTRASHORTIR
-        update(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if RIGHT_ULTRASHORTIR
-        update(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if LEFT_ULTRASHORTIR
-        update(&sensors->leftUltraShortIR,&sensors->leftUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->leftUltraShortIR,&sensors->leftUltraShortIR, sensors->ultraShortIRAlpha,started);
         #endif
 
 
 
         #if FRONT_SHORTIR
-        update(&sensors->frontShortIR,&sensors->frontShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->frontShortIR,&sensors->frontShortIR, sensors->shortIRAlpha,started);
         #endif
 
         #if BACK_SHORTIR
-        update(&sensors->backShortIR,&sensors->backShortIR, sensors->backIRAlpha,started);
+        updateSensor(&sensors->backShortIR,&sensors->backShortIR, sensors->backIRAlpha,started);
         #endif
 
         #if RIGHT_SHORTIR
-        update(&sensors->rightShortIR,&sensors->rightShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->rightShortIR,&sensors->rightShortIR, sensors->shortIRAlpha,started);
         #endif
 
         #if LEFT_SHORTIR
-        update(&sensors->leftShortIR,&sensors->leftShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->leftShortIR,&sensors->leftShortIR, sensors->shortIRAlpha,started);
         #endif
 
         #if GYROSCOPE
-        updateData(&sensors->gyroscopeAngle, mygyroscope.getTotal(), gyroscopeTotalAlpha,started);
-        updateData(&sensors->gyroscopeReading, mygyroscope.getReading(), gyroscopeReadingAlpha,started);
+        updateData(&sensors->gyroscopeAngle, sensors->mygyroscope.getTotal(), sensors->gyroscopeTotalAlpha,started);
+        updateData(&sensors->gyroscopeReading, sensors->mygyroscope.getReading(), sensors->gyroscopeReadingAlpha,started);
         #endif
 
 
