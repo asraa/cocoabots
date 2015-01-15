@@ -13,13 +13,13 @@
 
 
 actuator * actPointer;
-int running;
+int RUNNING;
 void stopMotors(int signo)
 {
     if (signo == SIGINT) {
         actPointer->setPowerLeftWheel(0);
         actPointer->setPowerRightWheel(0);
-        running =0;
+        RUNNING =0;
     }
 }
 
@@ -118,8 +118,8 @@ int main(int argc, char** argv){
             motorsControl control(&mysensors);
             control.desiredNormalizedAngularSpeed=0;
             control.desiredNormalizedSpeed=0;
-            running=1;
-            while(running)
+            RUNNING=1;
+            while(RUNNING)
             {
                 myactuator.setPowerLeftWheel(control.leftMotorPower);
                 myactuator.setPowerRightWheel(control.rightMotorPower);
@@ -140,8 +140,8 @@ int main(int argc, char** argv){
             signal(SIGINT, stopMotors);
             actuator myactuator;
             actPointer = &myactuator;
-            running=1;
-            while(running)
+            RUNNING=1;
+            while(RUNNING)
             {
                 myactuator.setPowerLeftWheel(1);
                 myactuator.setPowerRightWheel(1);
@@ -155,8 +155,8 @@ int main(int argc, char** argv){
             signal(SIGINT, stopMotors);
             actuator myactuator;
             actPointer = &myactuator;
-            running=1;
-            while(running)
+            RUNNING=1;
+            while(RUNNING)
             {
                 myactuator.setPowerLeftWheel(0);
                 myactuator.setPowerRightWheel(0);

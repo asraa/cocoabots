@@ -18,7 +18,7 @@ motorsControl::motorsControl(sensorsModule *sensors)
 
 void motorsControl::run(motorsControl *mycontrol){
     while (mycontrol->running) {
-        usleep(SPEED_CONTROL_UPDATE_RATE_MILISECONDS);
+        usleep(SPEED_CONTROL_UPDATE_RATE_MILISECONDS*1000);
         mycontrol->computeNewMotorPowers();
     }
 }
