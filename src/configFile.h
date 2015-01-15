@@ -108,6 +108,6 @@
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN 0    //Should be positive
 #define FWD_SPEED_GAIN 0  //Should be negative
-#define ANG_ERROR_GAIN 1
+#define ANG_ERROR_GAIN 1/180
 #define ANG_SPEED_GAIN -0  //Should be negative
 #endif // CONFIGFILE_H
