@@ -60,15 +60,16 @@ int main(int argc, char** argv){
 
     else if (strcmp(argv[1],"ultrasonicpidmotor")==0){
         //test out pid control to make motors move to a fixed distance from wall, feedback with ultrasonic
-        ultrasonic testUltrasonic(2,3);
+        //ultrasonic testUltrasonic(2,3);
         pwmUtils pwm;
-        pid testPID(1,0,0);
+        //pid testPID(0.001,0,0);
         mraa::Gpio dirPin1(8);
         mraa::Gpio dirPin2(9);
 
         while(1){
             int targetDist = 10; //get 10 cm away
-            float update = testPID.calcPID(targetDist,testUltrasonic.getDistance(1));
+            //float update = testPID.calcPID(targetDist,testUltrasonic.getDistance(1));
+	    float update = 0;
             pwm.writePWM(1,std::abs(update)); //first motor PWM pin 1
             if (update < 0){
                 dirPin1.write(0);
