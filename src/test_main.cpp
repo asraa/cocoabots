@@ -239,7 +239,7 @@ int main(int argc, char** argv){
             RUNNING=1;
             while(RUNNING)
             {
-                control.desiredNormalizedAngularSpeed= mysensors.gyroscopeAngle*0.2;
+                control.desiredNormalizedAngularSpeed= mysensors.gyroscopeAngle*-0.2;
                 myactuator.setPowerLeftWheel(control.leftMotorPower);
                 myactuator.setPowerRightWheel(control.rightMotorPower);
 
