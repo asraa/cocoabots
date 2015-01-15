@@ -30,16 +30,16 @@ void motorsControl::computeNewMotorPowers(){
     updateAngle();
     updateTime();
 
-    float fwdSpeed = realSpeed;
-    float fwdError = desiredPosition-getNewPosition();
-    float fwdCorrection = (fwdError * FWD_ERROR_GAIN+ fwdSpeed*FWD_SPEED_GAIN);
+    double fwdSpeed = realSpeed;
+    double fwdError = desiredPosition-getNewPosition();
+    double fwdCorrection = (fwdError * FWD_ERROR_GAIN+ fwdSpeed*FWD_SPEED_GAIN);
 
-    float angSpeed = realAngularSpeed;
-    float angError = desiredAngle - getNewAngle(); //desiredNormalizedAngularSpeed - angSpeed;
-    float angCorrection = (angError*ANG_ERROR_GAIN + angSpeed*ANG_SPEED_GAIN) * GYROSCOPE_CLOCKWISE_POSITIVE;
+    double angSpeed = realAngularSpeed;
+    double angError = desiredAngle - getNewAngle(); //desiredNormalizedAngularSpeed - angSpeed;
+    double angCorrection = (angError*ANG_ERROR_GAIN + angSpeed*ANG_SPEED_GAIN) * GYROSCOPE_CLOCKWISE_POSITIVE;
 
-    float newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
-    float newLeftMotorPower = fwdCorrection + angCorrection; // + leftMotorPower
+    double newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
+    double newLeftMotorPower = fwdCorrection + angCorrection; // + leftMotorPower
     rightMotorPower =newRightMotorPower;
     leftMotorPower = newLeftMotorPower;
 }
