@@ -168,7 +168,9 @@ int main(int argc, char** argv){
 
 
                 usleep(200000.0);
-
+                myactuator.setPowerLeftWheel(1);
+                myactuator.setPowerRightWheel(1);
+                usleep(200000.0);
             }
         }
         else if (strcmp(argv[1],"motorstop")==0){
