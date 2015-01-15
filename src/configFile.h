@@ -101,6 +101,6 @@
 //Speed control
 //Define gains for the speed control. 0<GAIN<1
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 100
-#define FWD_SPEED_GAIN 0.1
-#define ANG_SPEED_GAIN 0.02
+#define FWD_SPEED_GAIN 0.3
+#define ANG_SPEED_GAIN 0.08
 #endif // CONFIGFILE_H
