@@ -70,7 +70,7 @@ void motorsControl::updatePosition(){
 }
 
 void motorsControl::updateAngle(){
-    previousAngle=(mysensors->gyroscopeAngle)
+    previousAngle=(mysensors->gyroscopeAngle);
 }
 
 motorsControl::~motorsControl(){
