@@ -71,7 +71,7 @@ void motorsControl::updatePosition(){
 }
 
 void motorsControl::updateAngle(){
-    previousAngle=-getNewAngle();
+    previousAngle=getNewAngle();
 }
 
 double motorsControl::getNewPosition(){
