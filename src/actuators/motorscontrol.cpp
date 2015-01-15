@@ -76,7 +76,7 @@ void motorsControl::updateAngle(){
 
 double motorsControl::getNewPosition(){
     #if MOTORS_OPPOSITE
-    return (mysensors->rightEncoderRotations-mysensors->leftEncoderRotations)/2;
+    return (-mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
     #else
     return (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
     #endif
