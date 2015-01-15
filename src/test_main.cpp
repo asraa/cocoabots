@@ -167,7 +167,7 @@ int main(int argc, char** argv){
 
         }
     }
-  }
+
   else if (strcmp(argv[1],"encoder")==0){
     encoder myenc(RIGHT_ENCODER_DIR,RIGHT_ENCODER_ENC);
     while (1){
