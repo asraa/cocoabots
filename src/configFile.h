@@ -83,7 +83,7 @@
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
-#define GYROSCOPE_CLOCKWISE_POSITIVE 1 //Change to -1 if it is negative in the clockwise direction
+#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 
 

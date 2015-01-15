@@ -35,7 +35,7 @@ void motorsControl::computeNewMotorPowers(){
     float fwdCorrection = fwdError * FWD_SPEED_GAIN;
 
     float angSpeed = normalizedAngularSpeed;
-    float angError = desiredNormalizedAngularSpeed - normalizedAngularSpeed;
+    float angError = desiredNormalizedAngularSpeed - angSpeed;
     float angCorrection = angError*ANG_SPEED_GAIN * GYROSCOPE_CLOCKWISE_POSITIVE;
 
     float newRightMotorPower = rightMotorPower+ fwdCorrection - angCorrection;
