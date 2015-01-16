@@ -80,13 +80,16 @@ double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
 int motorsControl::getAngleError(double desiredAngle, double realAngle){
     printf("desired angle =%f, real angle = %f", desiredAngle, realAngle);
     int angError = (int)(desiredAngle - realAngle);
+    printf("error angle1 =%d", angError);
     angError %=360;
-
+    printf("error angle2 =%d", angError);
     if (angError <-180){
         angError+=360;
+        printf("error angle3 =%d", angError);
         return angError;
     }
     if (angError > 180){
+        printf("error angle3 =%d", angError);
         angError-=360;
        return angError;
     }
