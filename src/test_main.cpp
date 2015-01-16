@@ -11,6 +11,8 @@
 #include "mraa.hpp"
 #include <signal.h>
 #include  <thread>
+#include <stdlib.h>     /* atoi */
+
 
 
 
@@ -445,6 +447,27 @@ int main(int argc, char** argv){
                     }
                 }
                 usleep(20000.0);
+
+
+            }
+        }
+        else if (strcmp(argv[1],"moveStraight")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            double desiredPosition;
+            while(RUNNING)
+            {
+
+                scanf("%f", &desiredPosition);
+                control.desiredPosition+=desiredPosition;
 
 
             }
