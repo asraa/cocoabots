@@ -58,15 +58,17 @@ void actuator::run(actuator * myactuator){
 void actuator::setPowerLeftWheel(double speed){
     int dir;
     if (speed >=0){
+        encoderDir=0;
         dir =MOTOR_DIRECTION_FRONT;
     } else {
+        encoderDir=1;
         dir =MOTOR_DIRECTION_BACK;
         speed=-speed;
     }
 
 #if LEFT_ENCODER
     if(sensorsPointer){
-        sensorsPointer->leftEncoder.dir =dir;
+        sensorsPointer->leftEncoder.dir =encoderDir;
     }
 #endif
 
@@ -78,17 +80,22 @@ void actuator::setPowerLeftWheel(double speed){
 
 void actuator::setPowerRightWheel(double speed){
     int dir;
+    int encoderDir;
 #if MOTORS_OPPOSITE
     if (speed >=0){
         dir =MOTOR_DIRECTION_BACK;
+        encoderDir=0;
     } else {
+        encoderDir=1;
         dir =MOTOR_DIRECTION_FRONT;
         speed=-speed;
     }
 #else
     if (speed >=0){
+        encoderDir=0;
         dir =MOTOR_DIRECTION_FRONT;
     } else {
+        encoderDir=1;
         dir =MOTOR_DIRECTION_BACK;
         speed=-speed;
     }
@@ -96,7 +103,7 @@ void actuator::setPowerRightWheel(double speed){
 
 #if RIGHT_ENCODER
     if(sensorsPointer){
-        sensorsPointer->rightEncoder.dir =dir;
+        sensorsPointer->rightEncoder.dir =encoderDir;
     }
 #endif
     rightWheel.dirPin.write(dir);

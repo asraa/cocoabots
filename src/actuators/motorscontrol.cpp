@@ -134,11 +134,7 @@ void motorsControl::updateWheelsPositions(){
 }
 
 double motorsControl::getNewPosition(){
-    #if MOTORS_OPPOSITE
-    return (-mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
-    #else
     return (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
-    #endif
 }
 
 
@@ -152,11 +148,8 @@ double motorsControl::getNewLeftWheelPosition(){
 }
 
 double motorsControl::getNewRightWheelPosition(){
-#if MOTORS_OPPOSITE
-    return -mysensors->rightEncoderRotations;
-#else
     return mysensors->rightEncoderRotations;
-#endif
+
 
 }
 
