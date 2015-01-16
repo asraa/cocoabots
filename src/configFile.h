@@ -25,7 +25,7 @@
 #define DISTANCE_BETWEEN_WHEELS 0
 
 //Define values for the motors
-#define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
+#define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.5
 #define MAXIMUM_REVOLUTIONS_PER_SECOND 3 //Useful to control the torque limiter
 #define MAXIMUM_SPEED MAXIMUM_REVOLUTIONS_PER_SECOND
 #define MAXIMUM_DEGREES_PER_SECOND 360
@@ -120,8 +120,11 @@
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
 
-#define CURRENT_LIMIT 0.3
 
+//Maximum acceleration
+#define CURRENT_LIMIT 0.25
+//Maximum breaking
+#define BACKWARDS_CURRENT_LIMIT 0.10
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H

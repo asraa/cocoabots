@@ -65,10 +65,10 @@ double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
         return normalizedWheelSpeed-CURRENT_LIMIT;
     }
     else if ((power<0 && normalizedWheelSpeed >=0)&&( power < -CURRENT_LIMIT)){
-        return -CURRENT_LIMIT;
+        return -BACKWARDS_CURRENT_LIMIT;
     }
     else if ((power>0 && normalizedWheelSpeed <=0)&&( power > CURRENT_LIMIT)){
-        return CURRENT_LIMIT;
+        return BACKWARDS_CURRENT_LIMIT;
     }
     else {
         return power;
