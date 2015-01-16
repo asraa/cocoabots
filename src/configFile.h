@@ -122,12 +122,12 @@
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
 #define ANG_TOLERANCE 2
 #define POSITION_TOLERANCE 0.05
-#define MINIMUM_THRESHOLD_PWM 0.11 //Minimum pwm to move the motor at 0.5 safe factor
+#define MINIMUM_THRESHOLD_PWM 0.03 //Minimum pwm to move the motor at 0.5 safe factor
 
 
-//Maximum acceleration
+//Maximum acceleration. Decrease if it is slipping
 #define CURRENT_LIMIT 0.25
-//Maximum breaking
+//Maximum breaking. Decrease if it is slipping.
 #define BACKWARDS_CURRENT_LIMIT 0.10
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
