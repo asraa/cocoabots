@@ -8,12 +8,12 @@
 #define MOTOR_DIRECTION_FRONT 0
 
 #define RIGHT_WHEEL 1
-#define RIGHT_WHEEL_PWM 1
-#define RIGHT_WHEEL_DIR 9
+#define RIGHT_WHEEL_PWM 0
+#define RIGHT_WHEEL_DIR 6
 
 #define LEFT_WHEEL 1
-#define LEFT_WHEEL_PWM 0
-#define LEFT_WHEEL_DIR 6
+#define LEFT_WHEEL_PWM 1
+#define LEFT_WHEEL_DIR 9
 
 
 #define DIAMETER_WHEEL 0

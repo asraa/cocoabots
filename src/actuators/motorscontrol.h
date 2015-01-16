@@ -27,30 +27,26 @@ public:
     motorsControl(sensorsModule * sensors);
     ~motorsControl();
 
+    //Set the desired Position and the desired angle. The run thread will automatically update
+    //rightMotorPower and  leftMotorPower, that can be plugged into a actuator class
+
     double desiredPosition;
     double desiredAngle;
 
+    //Those are the gains. They can be updated on the run, if necessary
     double fwdSpeedGain;
     double fwdErrorGain;
     double angSpeedGain;
     double angErrorGain;
 
-    //double desiredNormalizedSpeed;
-    //double desiredNormalizedAngularSpeed;
-    //double desiredServoAngle;
-
-
+    //This is the real Speed of the robot as seen by the encoders
     double realSpeed;
+    //This is the real angular speed of the robot.
     double realAngularSpeed;
 
+    //This is the normalized speed of the wheels. It is their speed divided by their maximum speed.
     double normalizedLeftWheelSpeed;
     double normalizedRightWheelSpeed;
-
-    double previousAngle;
-    double previousPosition;
-    double previousTime;
-    double previousRightWheelPosition;
-    double previousLeftWheelPosition;
 
 
     double rightMotorPower;
@@ -75,6 +71,12 @@ public:
     double getNewRightWheelPosition();
     double getNewLeftWheelPosition();
 private:
+
+    double previousAngle;
+    double previousPosition;
+    double previousTime;
+    double previousRightWheelPosition;
+    double previousLeftWheelPosition;
     sensorsModule * mysensors;
 };
 

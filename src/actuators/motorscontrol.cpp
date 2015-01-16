@@ -48,8 +48,8 @@ void motorsControl::computeNewMotorPowers(){
     int angError = getAngleError(desiredAngle,realAngle);
     double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * GYROSCOPE_CLOCKWISE_POSITIVE;
 
-    double newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
-    double newLeftMotorPower = fwdCorrection + angCorrection; // + leftMotorPower
+    double newRightMotorPower = fwdCorrection - angCorrection;
+    double newLeftMotorPower = fwdCorrection + angCorrection;
     newRightMotorPower = currentLimiter(normalizedRightWheelSpeed,newRightMotorPower);
     newLeftMotorPower = currentLimiter(normalizedLeftWheelSpeed,newLeftMotorPower);
     rightMotorPower =newRightMotorPower;
@@ -76,14 +76,12 @@ double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
 }
 
 int motorsControl::getAngleError(double desiredAngle, double realAngle){
-    printf("desired angle =%f, real angle = %f", desiredAngle, realAngle);
     int angError = (int)(desiredAngle - realAngle);
     angError %=360;
     if (angError <-180){
         angError+=360;
     }
     if (angError > 180){
-        printf("error angle3 =%d", angError);
         angError-=360;
     }
     return angError;
