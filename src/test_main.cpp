@@ -468,6 +468,7 @@ int main(int argc, char** argv){
 
                 scanf("%lf", &desiredPosition);
                 control.desiredPosition+=desiredPosition;
+                usleep(20000.0);
 
 
             }
