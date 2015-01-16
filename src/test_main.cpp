@@ -343,6 +343,30 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"square")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            double desiredPos;
+            desiredPos =0;
+            double desiredAngle =90;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.desiredPosition+=1.5;
+                control.desiredAngle+=90;
+                usleep(3000000.0);
+
+
+            }
+        }
+
         return 0;
     }
 }
