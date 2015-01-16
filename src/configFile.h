@@ -117,8 +117,8 @@
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
-#define ANG_ERROR_GAIN (0.009/CIRCUMFERENCE_WHEEL)
-#define ANG_SPEED_GAIN (-0.0004/CIRCUMFERENCE_WHEEL)  //Should be negative
+#define ANG_ERROR_GAIN (0.009)
+#define ANG_SPEED_GAIN (-0.0004)  //Should be negative
 #define ANG_TOLERANCE 0.5
 #define POSITION_TOLERANCE (0.005 /CIRCUMFERENCE_WHEEL)
 #define ANG_SPEED_TOLERANCE 2  //angles per second
