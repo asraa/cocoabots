@@ -84,7 +84,7 @@ double motorsControl::getAngleError(double desiredAngle, double realAngle){
         return angError+360;
     }
     if (angError > 180){
-       return angError-=360;
+       return angError-360;
     }
 }
 
