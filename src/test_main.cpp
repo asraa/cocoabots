@@ -466,7 +466,7 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
 
-                scanf("%f", &desiredPosition);
+                scanf("%lf", &desiredPosition);
                 control.desiredPosition+=desiredPosition;
 
 
