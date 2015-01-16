@@ -68,6 +68,8 @@ public:
     void updateWheelsSpeed();
     void updateWheelsPositions();
     double currentLimiter(double normalizedWheelSpeed, double power);
+
+    double getAngleError(double desiredAngle, double realAngle);
     double getNewAngle();
     double getNewPosition();
     double getNewRightWheelPosition();
