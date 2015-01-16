@@ -267,6 +267,7 @@ int main(int argc, char** argv){
             control.fwdSpeedGain =0;
             myactuator.leftWheelPower = &control.leftMotorPower;
             myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
             while(RUNNING)
             {
                 control.angErrorGain = proportionalGain;

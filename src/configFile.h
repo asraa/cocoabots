@@ -13,7 +13,7 @@
 
 #define LEFT_WHEEL 1
 #define LEFT_WHEEL_PWM 0
-#define LEFT_WHEEL_DIR 8
+#define LEFT_WHEEL_DIR 6
 
 
 #define DIAMETER_WHEEL 0
