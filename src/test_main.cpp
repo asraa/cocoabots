@@ -284,6 +284,37 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"findDerivativeGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double derivativeGain =0.0001;
+            control.angSpeedGain=derivativeGain;
+            control.fwdErrorGain =0;
+            control.fwdSpeedGain =0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.angErrorGain = derivativeGain;
+                printf("derivativeGain =%f\n", derivativeGain);
+                control.desiredAngle=90;
+                usleep(3000000.0);
+                control.desiredAngle=0;
+                derivativeGain +=0.0001;
+                printf("derivativeGain =%f\n", derivativeGain);
+                control.angErrorGain = derivativeGain;
+                usleep(3000000.0);
+                derivativeGain +=0.0001;
+
+
+            }
+        }
         return 0;
     }
 }
