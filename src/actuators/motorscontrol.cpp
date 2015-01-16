@@ -60,10 +60,10 @@ void motorsControl::computeNewMotorPowers(){
 }
 
 double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
-    if ((power - normalizedWheelSpeed)>CURRENT_LIMIT){
+    if ((power>0)&&(power - normalizedWheelSpeed)>CURRENT_LIMIT){
         return normalizedWheelSpeed+CURRENT_LIMIT;
     }
-    else if ((normalizedWheelSpeed - power)>CURRENT_LIMIT){
+    else if ((power<0)&&(normalizedWheelSpeed - power)>CURRENT_LIMIT){
         return normalizedWheelSpeed-CURRENT_LIMIT;
     }
     else {
