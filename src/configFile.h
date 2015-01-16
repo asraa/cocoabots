@@ -115,12 +115,12 @@
 //Speed control
 //Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
-#define FWD_ERROR_GAIN 0.30    //Should be positive
-#define FWD_SPEED_GAIN -0.0  //Should be negative
-#define ANG_ERROR_GAIN 0.009
-#define ANG_SPEED_GAIN -0.0004  //Should be negative
+#define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
+#define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
+#define ANG_ERROR_GAIN (0.009/CIRCUMFERENCE_WHEEL)
+#define ANG_SPEED_GAIN (-0.0004/CIRCUMFERENCE_WHEEL)  //Should be negative
 #define ANG_TOLERANCE 0.5
-#define POSITION_TOLERANCE 0.005
+#define POSITION_TOLERANCE (0.005 /CIRCUMFERENCE_WHEEL)
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
 #define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
