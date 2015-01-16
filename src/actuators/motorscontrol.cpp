@@ -7,7 +7,7 @@ motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
     angSpeedGain = ANG_SPEED_GAIN;
     angErrorGain = ANG_ERROR_GAIN;
     previousAngle = mysensors->gyroscopeAngle;
-    previousPosition = (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    previousPosition = (mysensors->rightEncoderMovement+mysensors->leftEncoderMovement)/2;
     previousTime = (mysensors->timeMicrosecondsSinceEpoch);
     rightMotorPower = 0;
     leftMotorPower =0;
@@ -164,7 +164,7 @@ void motorsControl::updateWheelsPositions(){
 }
 
 double motorsControl::getNewPosition(){
-    return (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    return (mysensors->rightEncoderMovement+mysensors->leftEncoderMovement)/2;
 }
 
 
@@ -174,11 +174,11 @@ double motorsControl::getNewAngle(){
 
 
 double motorsControl::getNewLeftWheelPosition(){
-    return mysensors->leftEncoderRotations;
+    return mysensors->leftEncoderMovement;
 }
 
 double motorsControl::getNewRightWheelPosition(){
-    return mysensors->rightEncoderRotations;
+    return mysensors->rightEncoderMovement;
 
 
 }

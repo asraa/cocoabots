@@ -21,8 +21,7 @@
 #define LEFT_WHEEL_DIR 6
 
 
-#define CIRCUMFERENCE_WHEEL 1 //Not in use at the moment. Useful to convert revolutions to real distance
-//and use it in a map, etc.
+#define CIRCUMFERENCE_WHEEL 12.1738 // inches
 #define DISTANCE_BETWEEN_WHEELS 0
 
 //Define values for the motors

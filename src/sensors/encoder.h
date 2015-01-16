@@ -9,7 +9,7 @@
 #include <thread>
 #include <unistd.h>
 #include "../configFile.h"
-#include"sensorssuperclass.h"
+#include "sensorssuperclass.h"
 
 class encoder: public sensorsSuperClass
 {
