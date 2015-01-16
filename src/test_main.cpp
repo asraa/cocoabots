@@ -263,14 +263,14 @@ int main(int argc, char** argv){
             RUNNING=1;
             while(RUNNING)
             {
-                printf("leftWheelSpeed =%d and power =%d", control.normalizedLeftWheelSpeed ,control.leftMotorPower );
-                printf("rightWheelSpeed =%d and power =%d", control.normalizedRightWheelSpeed ,control.rightMotorPower );
+                printf("leftWheelSpeed =%d and power =%d\n", control.normalizedLeftWheelSpeed ,control.leftMotorPower );
+                printf("rightWheelSpeed =%d and power =%d\n", control.normalizedRightWheelSpeed ,control.rightMotorPower );
 
                 myactuator.setPowerLeftWheel(control.leftMotorPower);
                 myactuator.setPowerRightWheel(control.rightMotorPower);
 
 
-                usleep(10000.0);
+                usleep(100000.0);
 
             }
         }
