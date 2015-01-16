@@ -1,7 +1,7 @@
 #include "motorscontrol.h"
 #include <unistd.h>
 #include <cstdio>
-motorsControl::motorsControl(sensorsModule *sensors)
+motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
 {
     printf("1\n");
     fwdSpeedGain =FWD_SPEED_GAIN;
