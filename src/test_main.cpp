@@ -301,14 +301,14 @@ int main(int argc, char** argv){
             RUNNING =1;
             while(RUNNING)
             {
-                control.angErrorGain = derivativeGain;
+                control.angSpeedGain = derivativeGain;
                 printf("derivativeGain =%f\n", derivativeGain);
                 control.desiredAngle=90;
                 usleep(3000000.0);
                 control.desiredAngle=0;
                 derivativeGain +=0.0001;
                 printf("derivativeGain =%f\n", derivativeGain);
-                control.angErrorGain = derivativeGain;
+                control.angSpeedGain = derivativeGain;
                 usleep(3000000.0);
                 derivativeGain +=0.0001;
 
