@@ -315,6 +315,34 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"fwdGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double fwdGain =0.001;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.fwdErrorGain = fwdGain;
+                printf("derivativeGain =%f\n", fwdGain);
+                control.desiredPosition=1;
+                usleep(3000000.0);
+                control.desiredPosition=0;
+                fwdGain +=0.001;
+                printf("derivativeGain =%f\n", fwdGain);
+                control.fwdErrorGain = fwdGain;
+                usleep(3000000.0);
+                fwdGain +=0.001;
+
+
+            }
+        }
         return 0;
     }
 }
