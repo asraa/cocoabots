@@ -359,6 +359,7 @@ int main(int argc, char** argv){
             RUNNING =1;
             while(RUNNING)
             {
+
                 control.desiredPosition+=1.5;
                 control.desiredAngle+=90;
                 usleep(3000000.0);

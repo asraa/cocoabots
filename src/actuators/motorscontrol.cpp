@@ -137,7 +137,7 @@ double motorsControl::getNewLeftWheelPosition(){
 
 double motorsControl::getNewRightWheelPosition(){
 #if MOTORS_OPPOSITE
-    return -mysensors->rightEncoderRotations;
+    return mysensors->rightEncoderRotations;
 #else
     return mysensors->rightEncoderRotations;
 #endif
