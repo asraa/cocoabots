@@ -252,6 +252,28 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"stayStraightDebug")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            RUNNING=1;
+            while(RUNNING)
+            {
+                printf("leftWheelSpeed =%d and power =%d", control.normalizedLeftWheelSpeed ,control.leftMotorPower );
+                printf("rightWheelSpeed =%d and power =%d", control.normalizedRightWheelSpeed ,control.rightMotorPower );
+
+                myactuator.setPowerLeftWheel(control.leftMotorPower);
+                myactuator.setPowerRightWheel(control.rightMotorPower);
+
+
+                usleep(10000.0);
+
+            }
+        }
         else if (strcmp(argv[1],"findProportionalGain")==0){
             signal(SIGINT, stopMotors);
             sensorsModule mysensors;

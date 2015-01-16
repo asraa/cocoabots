@@ -53,8 +53,8 @@ void motorsControl::computeNewMotorPowers(){
 
     double newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
     double newLeftMotorPower = fwdCorrection + angCorrection; // + leftMotorPower
-    //newRightMotorPower = currentLimiter(normalizedRightWheelSpeed,newRightMotorPower);
-    //newLeftMotorPower = currentLimiter(normalizedLeftWheelSpeed,newRightMotorPower);
+    newRightMotorPower = currentLimiter(normalizedRightWheelSpeed,newRightMotorPower);
+    newLeftMotorPower = currentLimiter(normalizedLeftWheelSpeed,newLeftMotorPower);
     rightMotorPower =newRightMotorPower;
     leftMotorPower = newLeftMotorPower;
 }
