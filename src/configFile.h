@@ -3,9 +3,12 @@
 
 //Motor definitions
 #define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
+
 //SWAP THE MOTOR_DIRECTIONS IF THE ROBOT IS GOING BACKWARDS
+// If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+1
 #define MOTOR_DIRECTION_BACK 0
 #define MOTOR_DIRECTION_FRONT 1
+#define GYROSCOPE_CLOCKWISE_POSITIVE 1 //Change to -1 if it is negative in the clockwise direction
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
@@ -93,7 +96,6 @@
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
-#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 
 
