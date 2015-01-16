@@ -70,13 +70,15 @@ public:
     double getNewPosition();
     double getNewRightWheelPosition();
     double getNewLeftWheelPosition();
-private:
 
     double previousAngle;
     double previousPosition;
     double previousTime;
     double previousRightWheelPosition;
     double previousLeftWheelPosition;
+private:
+
+
     sensorsModule * mysensors;
 };
 
