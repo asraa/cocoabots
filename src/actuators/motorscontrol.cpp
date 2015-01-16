@@ -1,5 +1,6 @@
 #include "motorscontrol.h"
 #include <unistd.h>
+#include <cstdio>
 motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
 {
     fwdSpeedGain =FWD_SPEED_GAIN;
@@ -46,7 +47,7 @@ void motorsControl::computeNewMotorPowers(){
     double angSpeed = realAngularSpeed;
     double realAngle = getNewAngle();
     int angError = getAngleError(desiredAngle,realAngle);
-
+    printf("angle Error =%d", angError);
     double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * GYROSCOPE_CLOCKWISE_POSITIVE;
 
     double newRightMotorPower = fwdCorrection - angCorrection; // + rightMotorPower
@@ -77,6 +78,7 @@ double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
 }
 
 int motorsControl::getAngleError(double desiredAngle, double realAngle){
+    printf("desired angle =%f, real angle = %f", desiredAngle, realAngle);
     int angError = (int)(desiredAngle - realAngle);
     angError %=360;
 
