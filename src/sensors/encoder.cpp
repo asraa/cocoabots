@@ -25,7 +25,7 @@ void encoder::edge_handler(void* encoderSensorPointer) {
 
 	int offset;
 	// if dir is 1, then wheels are rotating backwards
-    if (encSensor->dir == 1) {
+    if (encSensor->dir == MOTOR_DIRECTION_BACK) {
 		offset = -1;
 	}
 	// if dir is 0, then wheels are rotating forwards

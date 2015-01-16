@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <thread>
 #include <unistd.h>
+#include "../configFile.h"
 #include"sensorssuperclass.h"
 
 class encoder: public sensorsSuperClass
