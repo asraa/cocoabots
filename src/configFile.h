@@ -116,6 +116,8 @@
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
 
+#define CURRENT_LIMIT 0.2
+
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H

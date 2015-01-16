@@ -43,12 +43,15 @@ public:
     double realSpeed;
     double realAngularSpeed;
 
-//    double normalizedSpeed;
-//    double normalizedAngularSpeed;
+    double normalizedLeftWheelSpeed;
+    double normalizedRightWheelSpeed;
 
     double previousAngle;
     double previousPosition;
     double previousTime;
+    double previousRightWheelPosition;
+    double previousLeftWheelPosition;
+
 
     double rightMotorPower;
     double leftMotorPower;
@@ -62,9 +65,13 @@ public:
     void updateTime();
     void updatePosition();
     void updateAngle();
+    void updateWheelsSpeed();
+    void updateWheelsPositions();
+    double currentLimiter(double normalizedWheelSpeed, double power);
     double getNewAngle();
     double getNewPosition();
-
+    double getNewRightWheelPosition();
+    double getNewLeftWheelPosition();
 private:
     sensorsModule * mysensors;
 };
