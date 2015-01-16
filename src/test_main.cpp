@@ -292,7 +292,7 @@ int main(int argc, char** argv){
             motorsControl control(&mysensors);
             control.desiredAngle=0;
             control.desiredPosition=0;
-            double derivativeGain =0.0001;
+            double derivativeGain =-0.0001;
             control.angSpeedGain=derivativeGain;
             control.fwdErrorGain =0;
             control.fwdSpeedGain =0;
@@ -306,11 +306,11 @@ int main(int argc, char** argv){
                 control.desiredAngle=90;
                 usleep(3000000.0);
                 control.desiredAngle=0;
-                derivativeGain +=0.0001;
+                derivativeGain +=-0.0001;
                 printf("derivativeGain =%f\n", derivativeGain);
                 control.angSpeedGain = derivativeGain;
                 usleep(3000000.0);
-                derivativeGain +=0.0001;
+                derivativeGain +=-0.0001;
 
 
             }
