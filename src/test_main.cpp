@@ -135,8 +135,8 @@ int main(int argc, char** argv){
                 printf("speed =%f\n", control.realSpeed);
                 printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
-                printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
-                printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+                printf("rightRotation =%f\n", mysensors.rightEncoderMovement );
+                printf("leftRotation =%f\n", mysensors.leftEncoderMovement );
                 printf("control Position =%f\n", control.previousPosition );
                 printf("control Angle =%f\n", control.previousAngle);
                 printf("control time =%f\n", control.previousTime);
@@ -165,8 +165,8 @@ int main(int argc, char** argv){
                 printf("speed =%f\n", control.realSpeed);
                 printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
-                printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
-                printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+                printf("rightRotation =%f\n", mysensors.rightEncoderMovement );
+                printf("leftRotation =%f\n", mysensors.leftEncoderMovement );
                 printf("control Position =%f\n", control.previousPosition );
                 printf("control Angle =%f\n", control.previousAngle);
                 printf("control time =%f\n", control.previousTime);
