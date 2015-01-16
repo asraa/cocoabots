@@ -1,25 +1,42 @@
 #include "motorscontrol.h"
 #include <unistd.h>
-
+#include <cstdio>
 motorsControl::motorsControl(sensorsModule *sensors)
 {
+    printf("1\n");
     fwdSpeedGain =FWD_SPEED_GAIN;
+    printf("2\n");
     fwdErrorGain =FWD_ERROR_GAIN;
+    printf("3\n");
     angSpeedGain = ANG_SPEED_GAIN;
+    printf("4\n");
     angErrorGain = ANG_ERROR_GAIN;
+    printf("5\n");
     mysensors=sensors;
+    printf("6\n");
     previousAngle = mysensors->gyroscopeAngle;
+    printf("7\n");
     previousPosition = (mysensors->rightEncoderRotations+mysensors->leftEncoderRotations)/2;
+    printf("8\n");
     previousTime = (mysensors->timeMicrosecondsSinceEpoch);
+    printf("9\n");
     rightMotorPower = 0;
+    printf("1\n");
     leftMotorPower =0;
+    printf("2\n");
     previousLeftWheelPosition=0;
+    printf("3\n");
     previousRightWheelPosition=0;
+    printf("4\n");
     normalizedLeftWheelSpeed=0;
+    printf("5\n");
     normalizedRightWheelSpeed=0;
 
+    printf("6\n");
     this->running=1;
+    printf("7\n");
     runThread = new std::thread(run,this);
+    printf("8\n");
 }
 
 
