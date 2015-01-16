@@ -428,7 +428,7 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
                 if (state){
-                    if(control.previousPosition-control.desiredPosition<0.5){
+                    if(control.previousPosition-control.desiredPosition<0.5||-control.previousPosition+control.desiredPosition<0.5){
                         control.desiredPosition+=1;
                     }
                     if (mysensors.frontUltrasonicData < 30){
