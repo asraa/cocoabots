@@ -167,6 +167,7 @@ void sensorsModule::run(sensorsModule * sensors){
 
 
         updateTime(sensors);
+        usleep(SENSORS_UPDATE_RATE_MILISECONDS);
         started=1;
     }
 

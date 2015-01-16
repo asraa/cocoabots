@@ -21,12 +21,12 @@
 #define LEFT_WHEEL_DIR 6
 
 
-#define DIAMETER_WHEEL 0
+#define CIRCUMFERENCE_WHEEL 1 //Not in use at the moment
 #define DISTANCE_BETWEEN_WHEELS 0
 
 //Define values for the motors
 #define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
-#define MAXIMUM_REVOLUTIONS_PER_SECOND 3
+#define MAXIMUM_REVOLUTIONS_PER_SECOND 3 //Useful to control the torque limiter
 #define MAXIMUM_SPEED MAXIMUM_REVOLUTIONS_PER_SECOND
 #define MAXIMUM_DEGREES_PER_SECOND 360
 #define MAXIMUM_ANGULAR_SPEED MAXIMUM_DEGREES_PER_SECOND
@@ -109,13 +109,13 @@
 #define GYROSCOPE_TOTAL_ALPHA 0.7
 #define GYROSCOPE_READING_ALPHA 0.7
 
-
-
+//Sensors update Rate
+#define SENSORS_UPDATE_RATE_MILISECONDS 0 //UPDATE AS OFTEN AS POSSIBLE
 
 //Speed control
 //Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
-#define FWD_ERROR_GAIN 0.25    //Should be positive
+#define FWD_ERROR_GAIN 0.30    //Should be positive
 #define FWD_SPEED_GAIN 0.0  //Should be negative
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative

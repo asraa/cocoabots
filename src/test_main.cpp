@@ -413,7 +413,44 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"ultrasonicPingState")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            int state=1;
+            while(RUNNING)
+            {
+                if (state){
+                    if(control.previousPosition-control.desiredPosition<0.5){
+                        control.desiredPosition+=1;
+                    }
+                    if (mysensors.frontUltrasonicData < 30){
+                        control.desiredAngle+=90;
+                        control.desiredPosition=0;
+                        state=0;
+                    }
+                }
+                else{
+                    double angleError = control.getAngleError(control.previousAngle,control.desiredAngle);
+                    if (angleError<0){
+                        angleError*=-1;
+                    }
+                    if ( angleError <7) {
+                        state=1;
+                    }
+                }
+                usleep(20000.0);
 
+
+            }
+        }
         return 0;
     }
 }
