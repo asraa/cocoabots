@@ -433,7 +433,7 @@ int main(int argc, char** argv){
                     }
                     if (mysensors.frontUltrasonicData < 30){
                         control.desiredAngle+=90;
-                        control.desiredPosition=0;
+                        control.desiredPosition=control.previousPosition;
                         state=0;
                     }
                 }
