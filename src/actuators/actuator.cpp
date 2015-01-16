@@ -57,6 +57,7 @@ void actuator::run(actuator * myactuator){
 
 void actuator::setPowerLeftWheel(double speed){
     int dir;
+    int encoderDir;
     if (speed >=0){
         encoderDir=0;
         dir =MOTOR_DIRECTION_FRONT;
