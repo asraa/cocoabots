@@ -124,7 +124,7 @@
 #define POSITION_TOLERANCE 0.005
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
-#define MINIMUM_THRESHOLD_PWM 0.04 //Minimum pwm to move the motor at 0.5 safe factor
+#define MINIMUM_THRESHOLD_PWM 0.06 //Minimum pwm to move the motor at 0.5 safe factor
 
 
 //Maximum acceleration. Decrease if it is slipping
