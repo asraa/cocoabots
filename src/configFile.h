@@ -122,7 +122,7 @@
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
 #define ANG_TOLERANCE 2
 #define POSITION_TOLERANCE 0.05
-#define MINIMUM_THRESHOLD_PWM 0.03 //Minimum pwm to move the motor
+#define MINIMUM_THRESHOLD_PWM 0.05 //Minimum pwm to move the motor
 
 
 //Maximum acceleration
