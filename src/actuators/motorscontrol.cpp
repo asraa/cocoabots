@@ -44,8 +44,8 @@ void motorsControl::computeNewMotorPowers(){
     double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
 
     double angSpeed = realAngularSpeed;
-
-    double angError = getAngleError(desiredAngle,getNewAngle());
+    double realAngle = getNewAngle();
+    double angError = getAngleError(desiredAngle,realAngle);
 
     double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * GYROSCOPE_CLOCKWISE_POSITIVE;
 
