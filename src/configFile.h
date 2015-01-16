@@ -8,8 +8,8 @@
 // If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+1
 //IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
 //METAL WHELL IS ON THE FRONT.
-#define MOTOR_DIRECTION_BACK 1
-#define MOTOR_DIRECTION_FRONT 0
+#define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back
+#define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front
 #define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 #define RIGHT_WHEEL 1
@@ -21,7 +21,8 @@
 #define LEFT_WHEEL_DIR 6
 
 
-#define CIRCUMFERENCE_WHEEL 1 //Not in use at the moment
+#define CIRCUMFERENCE_WHEEL 1 //Not in use at the moment. Useful to convert revolutions to real distance
+//and use it in a map, etc.
 #define DISTANCE_BETWEEN_WHEELS 0
 
 //Define values for the motors
@@ -116,9 +117,12 @@
 //Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN 0.30    //Should be positive
-#define FWD_SPEED_GAIN 0.0  //Should be negative
+#define FWD_SPEED_GAIN -0.0  //Should be negative
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
+#define ANG_TOLERANCE 2
+#define POSITION_TOLERANCE 0.05
+#define MINIMUM_THRESHOLD_PWM 0.03 //Minimum pwm to move the motor
 
 
 //Maximum acceleration

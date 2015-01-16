@@ -40,7 +40,7 @@ void motorsControl::computeNewMotorPowers(){
     updateTime();
 
     double fwdSpeed = realSpeed;
-    double fwdError = desiredPosition-getNewPosition();
+    double fwdError = getPositionError(desiredPosition,getNewPosition());
     double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
 
     double angSpeed = realAngularSpeed;
@@ -84,7 +84,29 @@ int motorsControl::getAngleError(double desiredAngle, double realAngle){
     if (angError > 180){
         angError-=360;
     }
+
+    if ((angError<ANG_TOLERANCE)&&(-angError<ANG_TOLERANCE)){
+        angError=0;
+    }
     return angError;
+}
+
+int motorsControl::getPositionError(double desiredPosition, double realPosition){
+    double fwdError = desiredPosition-realPosition;
+    if ((fwdError< POSITION_TOLERANCE) && (-fwdError< POSITION_TOLERANCE)){
+        fwdError=0;
+    }
+    return fwdError;
+}
+
+double motorsControl::powerMinimumThreshold(double power){
+    if (power>0 && power<MINIMUM_THRESHOLD_PWM){
+        power = MINIMUM_THRESHOLD_PWM;
+    }
+    else if (power<0 && -power<MINIMUM_THRESHOLD_PWM){
+        power = -MINIMUM_THRESHOLD_PWM;
+    }
+    return power;
 }
 
 void motorsControl::updateSpeed(){
