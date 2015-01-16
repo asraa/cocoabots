@@ -120,9 +120,11 @@
 #define FWD_SPEED_GAIN -0.0  //Should be negative
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative
-#define ANG_TOLERANCE 2
+#define ANG_TOLERANCE 1
 #define POSITION_TOLERANCE 0.05
-#define MINIMUM_THRESHOLD_PWM 0.03 //Minimum pwm to move the motor at 0.5 safe factor
+#define ANG_SPEED_TOLERANCE 2  //angles per second
+#define POSITION_SPEED_TOLERANCE 0.001
+#define MINIMUM_THRESHOLD_PWM 0.04 //Minimum pwm to move the motor at 0.5 safe factor
 
 
 //Maximum acceleration. Decrease if it is slipping
