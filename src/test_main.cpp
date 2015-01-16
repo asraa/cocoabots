@@ -323,22 +323,22 @@ int main(int argc, char** argv){
             motorsControl control(&mysensors);
             control.desiredAngle=0;
             control.desiredPosition=0;
-            double fwdGain =0.001;
+            double fwdGain =0.01;
             myactuator.leftWheelPower = &control.leftMotorPower;
             myactuator.rightWheelPower= &control.rightMotorPower;
             RUNNING =1;
             while(RUNNING)
             {
                 control.fwdErrorGain = fwdGain;
-                printf("derivativeGain =%f\n", fwdGain);
-                control.desiredPosition=1;
+                printf("fwdGain =%f\n", fwdGain);
+                control.desiredPosition=2.5;
                 usleep(3000000.0);
                 control.desiredPosition=0;
-                fwdGain +=0.001;
-                printf("derivativeGain =%f\n", fwdGain);
+                fwdGain +=0.01;
+                printf("fwdGain =%f\n", fwdGain);
                 control.fwdErrorGain = fwdGain;
                 usleep(3000000.0);
-                fwdGain +=0.001;
+                fwdGain +=0.01;
 
 
             }
