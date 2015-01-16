@@ -115,7 +115,7 @@
 //Speed control
 //Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
-#define FWD_ERROR_GAIN 0.40    //Should be positive
+#define FWD_ERROR_GAIN 0.30    //Should be positive
 #define FWD_SPEED_GAIN 0.0  //Should be negative
 #define ANG_ERROR_GAIN 0.009
 #define ANG_SPEED_GAIN -0.0004  //Should be negative

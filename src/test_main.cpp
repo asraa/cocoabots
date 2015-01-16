@@ -405,8 +405,8 @@ int main(int argc, char** argv){
             RUNNING =1;
             while(RUNNING)
             {
-                if(control.previousPosition-control.desiredPosition<2){
-                    control.desiredPosition+=2;
+                if(control.previousPosition-control.desiredPosition<0.5){
+                    control.desiredPosition+=1;
                 }
                 if (mysensors.frontUltrasonicData < 30){
                     control.desiredAngle+=90;
