@@ -395,9 +395,6 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            double desiredPos;
-            desiredPos =0;
-            double desiredAngle =90;
             control.desiredAngle=0;
             control.desiredPosition=0;
             myactuator.leftWheelPower = &control.leftMotorPower;
@@ -411,7 +408,7 @@ int main(int argc, char** argv){
                 if (mysensors.frontUltrasonicData < 30){
                     control.desiredAngle+=90;
                 }
-                usleep(50000.0);
+                usleep(2000000.0);
 
 
             }
