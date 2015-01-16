@@ -439,10 +439,8 @@ int main(int argc, char** argv){
                 }
                 else{
                     double angleError = control.getAngleError(control.previousAngle,control.desiredAngle);
-                    if (angleError<0){
-                        angleError*=-1;
-                    }
-                    if ( angleError <7) {
+
+                    if ( (angleError <7) && (-angleError <7)) {
                         state=1;
                     }
                 }

@@ -128,9 +128,9 @@
 
 
 //Maximum acceleration. Decrease if it is slipping
-#define CURRENT_LIMIT 0.25
+#define CURRENT_LIMIT (0.12 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 //Maximum breaking. Decrease if it is slipping.
-#define BACKWARDS_CURRENT_LIMIT 0.10
+#define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H
