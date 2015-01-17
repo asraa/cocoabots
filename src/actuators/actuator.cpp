@@ -1,17 +1,10 @@
 #include "actuator.h"
 #include <unistd.h>
 
-actuator::actuator():actuator(NULL){
-
-}
-
-//The actuator should receive an instance of sensors, so it can update the dir pin
-// of the encoder.
-actuator::actuator(sensorsModule * sensors):
+actuator::actuator():
     rightWheel(RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM),
     leftWheel(LEFT_WHEEL_DIR, LEFT_WHEEL_PWM),
     pwm(),
-    sensorsPointer(sensors),
     sortServo(SORT_SERVO_PWM),
     armServo(ARM_SERVO_PWM),
     hookServo(HOOK_SERVO_PWM),
@@ -19,10 +12,24 @@ actuator::actuator(sensorsModule * sensors):
     leftWheelPower(NULL),
     armServoAngle(NULL),
     hookServoAngle(NULL),
-    sortServoAngle(NULL)
+    sortServoAngle(NULL){
+
+}
+
+actuator::actuator(motorsControl &mymotorsControl):actuator()
+    {
+    rightWheelPower = &mymotorsControl.rightMotorPower;
+    leftWheelPower = &mymotorsControl.leftMotorPower;
+
+}
+//The actuator should receive an instance of sensors, so it can update the dir pin
+// of the encoder. //OBSOLETE
+actuator::actuator(sensorsModule * sensors):actuator()
+
 
 
 {
+    sensorsPointer= sensors;
     //It starts its own thread responsible for writting to the motors and servos.
     running=1;
     runThread = new std::thread(run,this);

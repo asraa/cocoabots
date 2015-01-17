@@ -4,17 +4,17 @@
 #include "pwmutils.h"
 #include "../configFile.h"
 #include "../sensorsmodule.h"
+#include "motorscontrol.h"
 #include "servo.h"
 
 class actuator
 {
 public:
     //The actuator should receive an instance of sensors, so it can update the dir pin
-    // of the encoder.
+    // of the encoder. //OBSOLETE
     actuator(sensorsModule * sensors);
-
-    //This is just for tests where we don't use the encoder
     actuator();
+    actuator(motorsControl &mymotorsControl);
     ~actuator();
     motorWheel rightWheel;
     motorWheel leftWheel;
