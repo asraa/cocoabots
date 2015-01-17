@@ -58,7 +58,7 @@
 #define GEAR_RATIO 30.0
 #define EDGES_PER_ROTATION 32.0
 
-#define ENC_2_WIRES 0 //If we are using two wires per encoder, and using quadrature to tell the direction
+#define ENC_2_WIRES 1 //If we are using two wires per encoder, and using quadrature to tell the direction
 #define LEFT_ENCODER 1
 #define RIGHT_ENCODER 1
 
