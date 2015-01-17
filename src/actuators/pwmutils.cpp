@@ -76,5 +76,5 @@ void pwmUtils::writePWM(int index, double duty) {
 
 //Why not? It is in the staff code anyway
 void pwmUtils::setServoPosition(int index, double duty) {
-  writePWM(index, .04 * duty + .04);
+  writePWM(index, .04 * duty); //between .04 and .08
 }
