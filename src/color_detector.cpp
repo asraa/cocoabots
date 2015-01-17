@@ -51,6 +51,7 @@ color_detector::color_detector():i2cPin(6){
     write8(ATIME, INTEGRATIONTIME_154MS);
     write8(CONTROL, GAIN_4x);
     enable(& i2cPin);
+    std::cout << std::hex << (int)ColorDetector.read8(ID) << std::endl;
 }
 
 uint8_t color_detector::getRedData() {
@@ -70,7 +71,7 @@ uint8_t color_detector::getBlueData() {
 
 int main(){
     color_detector ColorDetector;
-    std::cout << std::hex << (int)ColorDetector.read8(ID) << std::endl;
+
     while (running){
         std::cout << std::hex << (int)ColorDetector.getRedData() << std::endl;
         sleep(2.0);
