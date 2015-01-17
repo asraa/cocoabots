@@ -491,7 +491,7 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
 
-                printf("define the distance and angle to move\n", control.getNewPosition());
+                printf("define the distance and angle to move\n My position=%lf \n", control.getNewPosition());
                 scanf("%lf %lf", &desiredPosition, &desiredAngle);
                 printf("my position =%lf\n", control.getNewPosition());
                 control.desiredPosition+=desiredPosition;

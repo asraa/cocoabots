@@ -11,7 +11,7 @@
 //METAL WHELL IS ON THE FRONT.
 #define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back
 #define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front
-#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change from +1 to -1 if it is negative in the clockwise direction
+#define CLOCKWISE_POSITIVE -1 //Change from +1 to -1 if it is negative in the clockwise direction
 #define ENCODER_OPPOSITE_MOTOR 1 // +1 or -1 If the encoders are defined to be going opposite to the motor direction
 
 #define RIGHT_WHEEL 1
@@ -24,7 +24,7 @@
 
 
 #define CIRCUMFERENCE_WHEEL 12.1738 // inches
-#define DISTANCE_BETWEEN_WHEELS 0
+#define DISTANCE_DIFFERENCE_FOR_360_DEGREES 60
 
 //Define values for the motors
 #define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
@@ -55,7 +55,7 @@
 
 
 //Encoder
-#define GEAR_RATIO 30.0
+#define GEAR_RATIO 29.92//30.0
 #define EDGES_PER_ROTATION 32.0
 
 #define ENC_2_WIRES 1 //If we are using two wires per encoder, and using quadrature to tell the direction
@@ -132,10 +132,10 @@
 #define ANG_ERROR_GAIN (0.009)
 #define ANG_SPEED_GAIN (-0.0004)  //Should be negative
 #define ANG_TOLERANCE 0.5
-#define POSITION_TOLERANCE 0.5
+#define POSITION_TOLERANCE 0.1
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
-#define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
+#define MINIMUM_THRESHOLD_PWM (0.025 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 
 
 //Maximum acceleration. Decrease if it is slipping
