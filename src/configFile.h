@@ -9,8 +9,8 @@
 // And also change ENCODER_OPPOSITE_MOTOR from 0 to 1;
 //IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
 //METAL WHELL IS ON THE FRONT.
-#define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back
-#define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front
+#define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back 1/0
+#define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front 0/1
 #define CLOCKWISE_POSITIVE -1 //Change from +1 to -1 if it is negative in the clockwise direction
 #define ENCODER_OPPOSITE_MOTOR 1 // +1 or -1 If the encoders are defined to be going opposite to the motor direction
 

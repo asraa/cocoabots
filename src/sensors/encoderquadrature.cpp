@@ -28,7 +28,8 @@ long long encoderQuadrature::getCounts(){
 }
 
 double encoderQuadrature::getRotations(){
-    return (getCounts()/ (EDGES_PER_ROTATION*2) / GEAR_RATIO);
+    double counts = getCounts();
+    return ((counts/ (EDGES_PER_ROTATION*2)) / GEAR_RATIO);
 }
 
 double encoderQuadrature::getData(){
