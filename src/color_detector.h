@@ -18,6 +18,7 @@
 #define ATIME 0x01 //integration time
 #define CONTROL 0x0F //gain
 #define COMMAND_BIT 0x80 //command bit
+#define ID 0x12 //ID
 
 #define CDATAL 0x14 /* Clear channel data */
 #define RDATAL 0x16 /* Red channel data */

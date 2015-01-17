@@ -70,6 +70,7 @@ uint8_t color_detector::getBlueData() {
 
 int main(){
     color_detector ColorDetector;
+    std::cout << std::hex << (int)ColorDetector.read8(ID) << std:endl;
     while (running){
         std::cout << std::hex << (int)ColorDetector.getRedData() << std::endl;
         sleep(2.0);
