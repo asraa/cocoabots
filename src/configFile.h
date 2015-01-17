@@ -135,13 +135,13 @@
 #define POSITION_TOLERANCE 0.5
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
-#define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
+#define MINIMUM_THRESHOLD_PWM (0.04 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 
 
 //Maximum acceleration. Decrease if it is slipping
 #define CURRENT_LIMIT (0.15 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 //Maximum breaking. Decrease if it is slipping.
-#define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
+#define BACKWARDS_CURRENT_LIMIT  (0.06 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H
