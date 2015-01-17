@@ -1,4 +1,5 @@
 #include "map.h"
+#include <typeinfo>
 
 map::map(std::string filename) {
 	maxX = 0;
@@ -28,42 +29,40 @@ void map::buildMap(std::string filename) {
 		}
 
 		std::string id = tempVector[0];
-		//tempVector.erase(tempVector.begin()); // remove 1st elt
+		tempVector.erase(tempVector.begin()); // remove 1st elt
 
-		std::cout << id << std::endl;
-
-//		if (id.compare('W') == 0) { 		// WALL
-//			updateWalls(tempVector);
-//		}
-//		else if (id.compare('P') == 0) {	// PLATFORM
-//			updatePlatforms(tempVector);
-//		}
-//		else if (id.compare('S') == 0) {	// STACK
-//			updateStacks(tempVector);
-//		}
-//		else if (id.compare('H') == 0) {	// HOMEBASE
-//			updateHomeBases(tempVector);
-//		}
-//		else if (id.compare('L') == 0) {	// STARTLOC
-//			updateStartLoc(tempVector);
-//		}
+		if (id.compare("W") == 0) { 		// WALL
+			updateWalls(tempVector);
+		}
+		else if (id.compare("P") == 0) {	// PLATFORM
+			updatePlatforms(tempVector);
+		}
+		else if (id.compare("S") == 0) {	// STACK
+			updateStacks(tempVector);
+		}
+		else if (id.compare("H") == 0) {	// HOMEBASE
+			updateHomeBases(tempVector);
+		}
+		else if (id.compare("L") == 0) {	// STARTLOC
+			updateStartLoc(tempVector);
+		}
 	}
-//	mapFile.close();
+	mapFile.close();
 
-//	mapVector = createZeroMap(maxX, maxY);
+	mapVector = createZeroMap(maxX, maxY);
 
-//	addWalls();
-//	addPlatforms();
-//	addStacks();
-//	addHomeBases();
-//	addStartLoc();
+	addWalls();
+	addPlatforms();
+	addStacks();
+	addHomeBases();
+	addStartLoc();
 
-//	for (int i = 0; i <= maxX; ++i) {
-//		for (int j = 0; j <= maxY; ++j) {
-//			std::cout << mapVector[x][y];
-//		}
-//		std::cout << std::endl;
-	// write all shit to mapVector
+	for (int x = 0; x <= maxX; ++x) {
+		for (int y = 0; y <= maxY; ++y) {
+			std::cout << mapVector[x][y];
+		}
+		std::cout << std::endl;
+	}
 }
 
 // typedef std::vector<std::tuple<int,int,int,int>> wallItems
@@ -212,27 +211,29 @@ void map::updateStacks(std::vector<std::string> tempVector) {
 	// C1->C2->C3
 	// BOTTOM->MIDDLE->TOP
 
-//	if (tempVector[2].compare('R') == 0) {
-//		int c1 = 0;
-//	}
-//	else {
-//		int c1 = 1;
-//	}
-//	if (tempVector[3].compare('R') == 0) {
-//		int c2 = 0;
-//	}
-//	else {
-//		int c2 = 1;
-//	}
-//	if (tempVector[4].compare('R') == 0) {
-//		int c3 = 0;
-//	}
-//	else {
-//		int c3 = 1;
-//	}
-//
-//	std::tuple<int,int,int,int,int> xyccc = std::make_tuple(x1,y1,c1,c2,c3);
-//	stacks.push_back(xyccc);
+	int c1, c2, c3;
+
+	if (tempVector[2].compare("R") == 0) {
+		c1 = 0;
+	}
+	else {
+		c1 = 1;
+	}
+	if (tempVector[3].compare("R") == 0) {
+		c2 = 0;
+	}
+	else {
+		c2 = 1;
+	}
+	if (tempVector[4].compare("R") == 0) {
+		c3 = 0;
+	}
+	else {
+		c3 = 1;
+	}
+
+	std::tuple<int,int,int,int,int> xyccc = std::make_tuple(x1,y1,c1,c2,c3);
+	stacks.push_back(xyccc);
 }
 
 
