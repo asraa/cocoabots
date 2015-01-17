@@ -139,7 +139,7 @@
 
 
 //Maximum acceleration. Decrease if it is slipping
-#define CURRENT_LIMIT (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
+#define CURRENT_LIMIT (0.15 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 //Maximum breaking. Decrease if it is slipping.
 #define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 
