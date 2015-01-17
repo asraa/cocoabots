@@ -6,7 +6,7 @@
 
 //SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
 // If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+
-// And also change ENCODER_OPPOSITE_MOTOR from 0 to 1;
+// And also change ENCODER_OPPOSITE_MOTOR from -1 to 1;
 //IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
 //METAL WHELL IS ON THE FRONT.
 #define MOTOR_DIRECTION_BACK 0  //Defines the value of the Dir pin when going back 1/0
