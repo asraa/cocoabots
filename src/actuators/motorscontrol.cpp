@@ -52,9 +52,10 @@ void motorsControl::computeNewMotorPowers(){
     if (angCorrection >MAXIMUM_DYNAMIC_TURN_ANGLE){
         if (isTurning==0){
             positionStartTurning=getNewPosition();
+            nextPosition=positionStartTurning;
             isTurning=1;
         }else{
-            positionStartTurning=getNewPosition();
+            nextPosition=positionStartTurning;
         }
     }
     else{
