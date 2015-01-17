@@ -475,6 +475,32 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"remoteControl")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            double desiredPosition;
+            double desiredAngle;
+            while(RUNNING)
+            {
+
+                printf("define the distance and angle to move\n", control.getNewPosition());
+                scanf("%lf %lf", &desiredPosition, &desiredAngle);
+                printf("my position =%lf\n", control.getNewPosition());
+                control.desiredPosition+=desiredPosition;
+                control.desiredAngle+=desiredAngle;
+                usleep(20000.0);
+
+
+            }
+        }
         else if (strcmp(argv[1],"encoderQuadrature")==0){
             encoderQuadrature leftEncoder(LEFT_ENCODER_ENC_A,LEFT_ENCODER_ENC_B,1);
             encoderQuadrature rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,0);
