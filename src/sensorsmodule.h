@@ -23,6 +23,7 @@ public:
 
     double rightEncoderMovement;
     double leftEncoderMovement;
+    double encoderAngle;
 
     double frontUltraShortIRData;
     double rightUltraShortIRData;
@@ -39,6 +40,7 @@ public:
     double ultraShortIRAlpha;
     double shortIRAlpha;
     double encoderAlpha;
+    double encoderAngleAlpha;
     double gyroscopeTotalAlpha;
     double gyroscopeReadingAlpha;
 
