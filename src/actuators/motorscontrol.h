@@ -19,30 +19,38 @@
 #define MOTORSCONTROL_H
 #include "../sensorsmodule.h"
 #include "actuator.h"
-#include"../configFile.h"
+#include "../configFile.h"
 #define MICROSECOND 1000000
 class motorsControl
 {
 public:
     motorsControl(sensorsModule * sensors);
     ~motorsControl();
-    double desiredNormalizedSpeed;
-    double desiredNormalizedAngularSpeed;
-    double desiredServoAngle;
 
+    //Set the desired Position and the desired angle. The run thread will automatically update
+    //rightMotorPower and  leftMotorPower, that can be plugged into a actuator class
 
+    double desiredPosition;
+    double desiredAngle;
+
+    //Those are the gains. They can be updated on the run, if necessary
+    double fwdSpeedGain;
+    double fwdErrorGain;
+    double angSpeedGain;
+    double angErrorGain;
+
+    //This is the real Speed of the robot as seen by the encoders
     double realSpeed;
+    //This is the real angular speed of the robot.
     double realAngularSpeed;
 
-    double normalizedSpeed;
-    double normalizedAngularSpeed;
+    //This is the normalized speed of the wheels. It is their speed divided by their maximum speed.
+    double normalizedLeftWheelSpeed;
+    double normalizedRightWheelSpeed;
 
-    double previousAngle;
-    double previousPosition;
-    double previousTime;
 
-    volatile double rightMotorPower;
-    volatile double leftMotorPower;
+    double rightMotorPower;
+    double leftMotorPower;
 
     int running;
     std::thread *runThread;
@@ -53,10 +61,26 @@ public:
     void updateTime();
     void updatePosition();
     void updateAngle();
+    void updateWheelsSpeed();
+    void updateWheelsPositions();
+    double currentLimiter(double normalizedWheelSpeed, double power);
+    double powerMinimumThreshold(double power);
+
+    int getAngleError(double desiredAngle, double realAngle);
+    int getPositionError(double desiredPosition, double realPosition);
     double getNewAngle();
     double getNewPosition();
+    double getNewRightWheelPosition();
+    double getNewLeftWheelPosition();
 
+    double previousAngle;
+    double previousPosition;
+    double previousTime;
+    double previousRightWheelPosition;
+    double previousLeftWheelPosition;
 private:
+
+
     sensorsModule * mysensors;
 };
 

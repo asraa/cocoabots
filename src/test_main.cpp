@@ -10,6 +10,10 @@
 #include "actuators/motorscontrol.h"
 #include "mraa.hpp"
 #include <signal.h>
+#include  <thread>
+#include <stdlib.h>     /* atoi */
+
+
 
 
 actuator * actPointer;
@@ -18,6 +22,9 @@ void stopMotors(int signo)
 {
     if (signo == SIGINT) {
         RUNNING =0;
+        double a =0;
+        actPointer->leftWheelPower = &a;
+        actPointer->rightWheelPower =&a;
         actPointer->setPowerLeftWheel(0);
         actPointer->setPowerRightWheel(0);
         RUNNING =0;
@@ -117,8 +124,8 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0;
+            control.desiredAngle=0;
+            control.desiredPosition=1;
             RUNNING=1;
             while(RUNNING)
             {
@@ -127,11 +134,11 @@ int main(int argc, char** argv){
                 printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
                 printf("leftPower =%f\n", control.leftMotorPower);
                 printf("rightPower =%f\n", control.rightMotorPower);
-                printf("speed =%f\n", control.normalizedSpeed);
-                printf("angularspeed =%f\n", control.normalizedAngularSpeed);
+                printf("speed =%f\n", control.realSpeed);
+                printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
-                printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
-                printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+                printf("rightRotation =%f\n", mysensors.rightEncoderMovement );
+                printf("leftRotation =%f\n", mysensors.leftEncoderMovement );
                 printf("control Position =%f\n", control.previousPosition );
                 printf("control Angle =%f\n", control.previousAngle);
                 printf("control time =%f\n", control.previousTime);
@@ -147,8 +154,8 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0.3;
+            control.desiredAngle =90 ;
+            control.desiredPosition=1;
             RUNNING=1;
             while(RUNNING)
             {
@@ -157,11 +164,11 @@ int main(int argc, char** argv){
                 printf("time =%lld\n", mysensors.timeMicrosecondsSinceEpoch);
                 printf("leftPower =%f\n", control.leftMotorPower);
                 printf("rightPower =%f\n", control.rightMotorPower);
-                printf("speed =%f\n", control.normalizedSpeed);
-                printf("angularspeed =%f\n", control.normalizedAngularSpeed);
+                printf("speed =%f\n", control.realSpeed);
+                printf("angularspeed =%f\n", control.realAngularSpeed);
                 printf("angle =%f\n", mysensors.gyroscopeAngle);
-                printf("rightRotation =%f\n", mysensors.rightEncoderRotations );
-                printf("leftRotation =%f\n", mysensors.leftEncoderRotations );
+                printf("rightRotation =%f\n", mysensors.rightEncoderMovement );
+                printf("leftRotation =%f\n", mysensors.leftEncoderMovement );
                 printf("control Position =%f\n", control.previousPosition );
                 printf("control Angle =%f\n", control.previousAngle);
                 printf("control time =%f\n", control.previousTime);
@@ -234,17 +241,236 @@ int main(int argc, char** argv){
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
             motorsControl control(&mysensors);
-            control.desiredNormalizedAngularSpeed=0;
-            control.desiredNormalizedSpeed=0;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
             RUNNING=1;
             while(RUNNING)
             {
-                control.desiredNormalizedAngularSpeed= mysensors.gyroscopeAngle*-0.008;
                 myactuator.setPowerLeftWheel(control.leftMotorPower);
                 myactuator.setPowerRightWheel(control.rightMotorPower);
 
 
-                usleep(50000.0);
+                usleep(10000.0);
+
+            }
+        }
+        else if (strcmp(argv[1],"stayStraightDebug")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            RUNNING=1;
+            while(RUNNING)
+            {
+                printf("leftWheelSpeed =%f and power =%f\n", control.normalizedLeftWheelSpeed ,control.leftMotorPower );
+                printf("rightWheelSpeed =%f and power =%f\n", control.normalizedRightWheelSpeed ,control.rightMotorPower );
+
+                myactuator.setPowerLeftWheel(control.leftMotorPower);
+                myactuator.setPowerRightWheel(control.rightMotorPower);
+
+
+                usleep(100000.0);
+
+            }
+        }
+        else if (strcmp(argv[1],"findProportionalGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double proportionalGain =0.001;
+            control.angSpeedGain=0;
+            control.angErrorGain = proportionalGain;
+            control.fwdErrorGain =0;
+            control.fwdSpeedGain =0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.angErrorGain = proportionalGain;
+                printf("proportionalGain =%f\n", proportionalGain);
+                control.desiredAngle=90;
+                usleep(3000000.0);
+                control.desiredAngle=0;
+                proportionalGain +=0.001;
+                printf("proportionalGain =%f\n", proportionalGain);
+                control.angErrorGain = proportionalGain;
+                usleep(3000000.0);
+                proportionalGain +=0.001;
+
+
+            }
+        }
+        else if (strcmp(argv[1],"findDerivativeGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double derivativeGain =-0.0001;
+            control.angSpeedGain=derivativeGain;
+            control.fwdErrorGain =0;
+            control.fwdSpeedGain =0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.angSpeedGain = derivativeGain;
+                printf("derivativeGain =%f\n", derivativeGain);
+                control.desiredAngle=90;
+                usleep(3000000.0);
+                control.desiredAngle=0;
+                derivativeGain +=-0.0001;
+                printf("derivativeGain =%f\n", derivativeGain);
+                control.angSpeedGain = derivativeGain;
+                usleep(3000000.0);
+                derivativeGain +=-0.0001;
+
+
+            }
+        }
+        else if (strcmp(argv[1],"fwdGain")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            double fwdGain =0.01;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                control.fwdErrorGain = fwdGain;
+                printf("fwdGain =%f\n", fwdGain);
+                control.desiredPosition=2.5;
+                usleep(3000000.0);
+                control.desiredPosition=0;
+                fwdGain +=0.01;
+                printf("fwdGain =%f\n", fwdGain);
+                control.fwdErrorGain = fwdGain;
+                usleep(3000000.0);
+                fwdGain +=0.01;
+
+
+            }
+        }
+        else if (strcmp(argv[1],"square")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            double desiredPos;
+            desiredPos =0;
+            double desiredAngle =90;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+
+                control.desiredPosition+=1.5;
+                control.desiredAngle+=90;
+                usleep(3000000.0);
+
+
+            }
+        }
+        else if (strcmp(argv[1],"ultrasonicPing")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                if(control.previousPosition-control.desiredPosition<5){
+                    control.desiredPosition+=12;
+                }
+                if (mysensors.frontUltrasonicData < 30){
+                    control.desiredAngle+=90;
+                }
+                usleep(2000000.0);
+
+
+            }
+        }
+        else if (strcmp(argv[1],"ultrasonicPingState")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            int state=1;
+            while(RUNNING)
+            {
+                if (state){
+                    if(control.previousPosition-control.desiredPosition<5&&-control.previousPosition+control.desiredPosition<05){
+                        control.desiredPosition+=12;
+                    }
+                    if (mysensors.frontUltrasonicData < 30){
+                        control.desiredAngle+=90;
+                        control.desiredPosition=control.previousPosition;
+                        state=0;
+                    }
+                }
+                else{
+                    double angleError = control.getAngleError(control.previousAngle,control.desiredAngle);
+
+                    if ( (angleError <7) && (-angleError <7)) {
+                        state=1;
+                    }
+                }
+                usleep(20000.0);
+
+
+            }
+        }
+        else if (strcmp(argv[1],"moveStraight")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            double desiredPosition;
+            while(RUNNING)
+            {
+
+                scanf("%lf", &desiredPosition);
+                printf("my position =%lf\n", control.getNewPosition());
+                control.desiredPosition+=desiredPosition;
+                usleep(20000.0);
+
 
             }
         }

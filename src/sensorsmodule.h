@@ -20,8 +20,8 @@ public:
     double rightUltrasonicData;
     double leftUltrasonicData;
 
-    double rightEncoderRotations;
-    double leftEncoderRotations;
+    double rightEncoderMovement;
+    double leftEncoderMovement;
 
     double frontUltraShortIRData;
     double rightUltraShortIRData;

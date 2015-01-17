@@ -3,9 +3,14 @@
 
 //Motor definitions
 #define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
-//SWAP THE MOTOR_DIRECTIONS IF THE ROBOT IS GOING BACKWARDS
-#define MOTOR_DIRECTION_BACK 1
-#define MOTOR_DIRECTION_FRONT 0
+
+//SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
+// If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+1
+//IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
+//METAL WHELL IS ON THE FRONT.
+#define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back
+#define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front
+#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
@@ -13,25 +18,30 @@
 
 #define LEFT_WHEEL 1
 #define LEFT_WHEEL_PWM 0
-#define LEFT_WHEEL_DIR 8
+#define LEFT_WHEEL_DIR 6
 
 
-#define DIAMETER_WHEEL 0
+#define CIRCUMFERENCE_WHEEL 12.1738 // inches
 #define DISTANCE_BETWEEN_WHEELS 0
 
 //Define values for the motors
 #define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
-#define MAXIMUM_REVOLUTIONS_PER_SECOND 1
+#define MAXIMUM_REVOLUTIONS_PER_SECOND 3 //Useful to control the torque limiter
 #define MAXIMUM_SPEED MAXIMUM_REVOLUTIONS_PER_SECOND
 #define MAXIMUM_DEGREES_PER_SECOND 360
 #define MAXIMUM_ANGULAR_SPEED MAXIMUM_DEGREES_PER_SECOND
 
+//Servo definitions
+#define SORT_SERVO_PWM 15
+#define ARM_SERVO_PWM 14
+#define HOOK_SERVO_PWM 13
+
 
 //SENSORS
 //Ultrasonic
-#define FRONT_ULTRASONIC 0
-#define FRONT_ULTRASONIC_TR 2
-#define FRONT_ULTRASONIC_EC 3
+#define FRONT_ULTRASONIC 1
+#define FRONT_ULTRASONIC_TR 0
+#define FRONT_ULTRASONIC_EC 1
 
 #define RIGHT_ULTRASONIC 0
 #define RIGHT_ULTRASONIC_TR 0
@@ -43,6 +53,9 @@
 
 
 //Encoder
+#define GEAR_RATIO 30.0
+#define EDGES_PER_ROTATION 32.0
+
 #define LEFT_ENCODER 1
 #define LEFT_ENCODER_DIR LEFT_WHEEL_DIR
 #define LEFT_ENCODER_ENC 4
@@ -80,10 +93,14 @@
 #define BACK_SHORTIR_PIN 0
 
 //Gyroscope
+//  FOR CHIP_PIN =10 and SPI =0 we have:
+// CS =10
+// MOSI = 11
+// MISO =12
+// SERIAL =13
 #define GYROSCOPE 1
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
-#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
 
 
 
@@ -95,12 +112,28 @@
 #define GYROSCOPE_TOTAL_ALPHA 0.7
 #define GYROSCOPE_READING_ALPHA 0.7
 
-
-
+//Sensors update Rate
+#define SENSORS_UPDATE_RATE_MILISECONDS 0 //UPDATE AS OFTEN AS POSSIBLE
 
 //Speed control
-//Define gains for the speed control. safe between 0<GAIN<1
+//Define gains for the angle and position control.
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
-#define FWD_SPEED_GAIN 10
-#define ANG_SPEED_GAIN 10
+#define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
+#define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
+#define ANG_ERROR_GAIN (0.009)
+#define ANG_SPEED_GAIN (-0.0004)  //Should be negative
+#define ANG_TOLERANCE 0.5
+#define POSITION_TOLERANCE 0.5
+#define ANG_SPEED_TOLERANCE 2  //angles per second
+#define POSITION_SPEED_TOLERANCE 0.001
+#define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
+
+
+//Maximum acceleration. Decrease if it is slipping
+#define CURRENT_LIMIT (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
+//Maximum breaking. Decrease if it is slipping.
+#define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
+
+#define UPDATE_RATE_ACTUATORS_MILISECONDS 10
 #endif // CONFIGFILE_H
+

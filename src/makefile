@@ -14,6 +14,12 @@ EXEC_TEST = test_run
 SOURCES_TEST = $(filter-out ./main.cpp, $(call rwildcard, ./,*.cpp))
 OBJECTS_TEST = $(SOURCES_TEST:.cpp=.o)
 
+ACTUATORS_SOURCES = $(call rwildcard, ./actuators/,*.cpp)
+ACTUATORS_OBJECTS = $(ACTUATORS_SOURCES:.cpp=.o)
+
+SENSORS_SOURCES = $(call rwildcard, ./sensors/,*.cpp)
+SNESORS_OBJECTS = $(SENSORS_SOURCES:.cpp=.o)
+
 #File names for tests
 
 
@@ -34,3 +40,9 @@ test: $(OBJECTS_TEST)
 	$(CC) $(OBJECTS_TEST) -o $(EXEC_TEST) $(CFLAGS) $(LIBS)
 test_clean:
 	rm -f $(EXEC_TEST) $(OBJECTS_TEST)
+
+clean_actuators:
+	rm -f $(EXEC_TEST) $(EXEC) $(ACTUATORS_OBJECTS)
+
+clean_sensors:
+	rm -f $(EXEC_TEST) $(EXEC) $(SENSORS_OBJECTS)

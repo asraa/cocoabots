@@ -1,14 +1,12 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
-#define GEAR_RATIO 30.0
-#define EDGES_PER_ROTATION 32.0
-
 #include "mraa.hpp"
 #include <sys/time.h>
 #include <thread>
 #include <unistd.h>
-#include"sensorssuperclass.h"
+#include "../configFile.h"
+#include "sensorssuperclass.h"
 
 class encoder: public sensorsSuperClass
 {

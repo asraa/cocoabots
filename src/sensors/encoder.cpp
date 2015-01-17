@@ -55,5 +55,5 @@ double encoder::getRotations() {
 }
 
 double encoder::getData(){
-    return getRotations();
+    return CIRCUMFERENCE_WHEEL*getRotations();
 }
