@@ -324,6 +324,6 @@ bool map::isPassable(intTuple pos) {
 	// return True || False
 }
 
-int main() {
+int main_test() {
 	map myMap("red_map.txt");
 }

@@ -51,6 +51,7 @@ public:
     double rightMotorPower;
     double leftMotorPower;
 
+
     int running;
     std::thread *runThread;
     static void run(motorsControl * mycontrol);
