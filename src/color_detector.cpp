@@ -33,17 +33,16 @@ uint16_t color_detector::read16(uint8_t reg)
 
 void color_detector::enable(mraa::I2c * i2c){
     //enables power on and RGBC color function
-    i2c->address(COLOR_I2C_ADDR);
-    i2c->writeReg(ENABLE,ENABLE_PON);
+
+    write8(ENABLE,ENABLE_PON);
     usleep(3000); //delay 3 msec
-    i2c->writeReg(ENABLE, ENABLE_PON | ENABLE_AEN);
+    write8(ENABLE, ENABLE_PON | ENABLE_AEN);
 }
 
 void color_detector::disable(mraa::I2c *i2c){
-    i2c->address(COLOR_I2C_ADDR);
     //disable: write 0's in enable register
     uint8_t reg = i2c->readReg(ENABLE);
-    i2c->writeReg(ENABLE, reg & ~(ENABLE_PON | ENABLE_AEN));
+    write8(ENABLE, reg & ~(ENABLE_PON | ENABLE_AEN));
 }
 
 color_detector::color_detector():i2cPin(6){
