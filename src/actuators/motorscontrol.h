@@ -18,7 +18,6 @@
 #ifndef MOTORSCONTROL_H
 #define MOTORSCONTROL_H
 #include "../sensorsmodule.h"
-#include "actuator.h"
 #include "../configFile.h"
 #define MICROSECOND 1000000
 class motorsControl
@@ -52,23 +51,17 @@ public:
     double rightMotorPower;
     double leftMotorPower;
 
+
     int running;
     std::thread *runThread;
     static void run(motorsControl * mycontrol);
     void computeNewMotorPowers();
-    void updateSpeed();
-    void updateAngularSpeed();
-    void updateTime();
-    void updatePosition();
-    void updateAngle();
-    void updateWheelsSpeed();
-    void updateWheelsPositions();
-    double currentLimiter(double normalizedWheelSpeed, double power);
-    double powerMinimumThreshold(double power);
 
     int getAngleError(double desiredAngle, double realAngle);
-    int getPositionError(double desiredPosition, double realPosition);
+    double getPositionError(double desiredPosition, double realPosition);
     double getNewAngle();
+    double getNewAngleFromGyroscope();
+    double getNewAngleFromEncoders();
     double getNewPosition();
     double getNewRightWheelPosition();
     double getNewLeftWheelPosition();
@@ -79,6 +72,17 @@ public:
     double previousRightWheelPosition;
     double previousLeftWheelPosition;
 private:
+    int isTurning;
+    double positionStartTurning;
+    void updateSpeed();
+    void updateAngularSpeed();
+    void updateTime();
+    void updatePosition();
+    void updateAngle();
+    void updateWheelsSpeed();
+    void updateWheelsPositions();
+    double currentLimiter(double normalizedWheelSpeed, double power);
+    double powerMinimumThreshold(double power);
 
 
     sensorsModule * mysensors;

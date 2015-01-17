@@ -7,6 +7,7 @@
 #include "actuators/pid.h"
 #include "actuators/actuator.h"
 #include "sensorsmodule.h"
+#include "sensors/encoderquadrature.h"
 #include "actuators/motorscontrol.h"
 #include "mraa.hpp"
 #include <signal.h>
@@ -384,7 +385,7 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
 
-                control.desiredPosition+=1.5;
+                control.desiredPosition+=24;
                 control.desiredAngle+=90;
                 usleep(3000000.0);
 
@@ -474,6 +475,74 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"remoteControl")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            RUNNING =1;
+            double desiredPosition;
+            double desiredAngle;
+            while(RUNNING)
+            {
+
+                printf("define the distance and angle to move\n My position=%lf \n", control.getNewPosition());
+                scanf("%lf %lf", &desiredPosition, &desiredAngle);
+                printf("my position =%lf\n", control.getNewPosition());
+                printf("Distance left wheel measured by the encoders =%lf\n", mysensors.leftEncoderMovement);
+                printf("Distance right wheel  measured by the encoders =%lf\n", mysensors.rightEncoderMovement);
+                printf("Angle measured by the encoders =%lf\n", control.getNewAngleFromEncoders());
+                printf("Angle measured by the gyroscope =%lf\n", control.getNewAngleFromGyroscope());
+                control.desiredPosition+=desiredPosition;
+                control.desiredAngle+=desiredAngle;
+                usleep(20000.0);
+
+
+            }
+        }
+        else if (strcmp(argv[1],"encoderQuadrature")==0){
+            encoderQuadrature leftEncoder(LEFT_ENCODER_ENC_A,LEFT_ENCODER_ENC_B,1);
+            encoderQuadrature rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,0);
+            RUNNING =1;
+            while(RUNNING)
+            {
+
+                printf("left encoder distance =%lf, right encoder distance = %lf\n", leftEncoder.getData(), rightEncoder.getData());
+                usleep(200000.0);
+
+
+            }
+        }
+
+        else if (strcmp(argv[1],"remoteControlServo")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            double hook;
+            double arm;
+            double sort;
+            myactuator.armServoAngle=&arm;
+            myactuator.hookServoAngle=&hook;
+            myactuator.sortServoAngle=&sort;
+            RUNNING =1;
+
+            while(RUNNING)
+            {
+                printf("define angle for the servos\n Hook=%lf, Arm=%lf, Sort=%lf \n", myactuator.getHookServo(), myactuator.getArmServo(), myactuator.getSortServo());
+                scanf("%lf %lf %lf", &hook, &arm, &sort);
+
+                usleep(20000.0);
+
+
+            }
+        }
+
         return 0;
     }
 }

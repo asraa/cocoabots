@@ -7,6 +7,7 @@ sensorsModule::sensorsModule():
 
     rightEncoderMovement(0),
     leftEncoderMovement(0),
+    encoderAngle(0),
 
     frontUltraShortIRData(0),
     rightUltraShortIRData(0),
@@ -23,8 +24,10 @@ sensorsModule::sensorsModule():
     ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
     shortIRAlpha(SHORT_IR_ALPHA),
     encoderAlpha(ENCODER_ALPHA),
+    encoderAngleAlpha(ENCODER_ANGLE_ALPHA),
     gyroscopeTotalAlpha(GYROSCOPE_TOTAL_ALPHA),
     gyroscopeReadingAlpha(GYROSCOPE_READING_ALPHA)
+
     #if FRONT_ULTRASONIC
     ,frontUltrasonic(FRONT_ULTRASONIC_TR,FRONT_ULTRASONIC_EC)
     #endif
@@ -37,7 +40,15 @@ sensorsModule::sensorsModule():
     ,leftUltrasonic(LEFT_ULTRASONIC_TR,LEFT_ULTRASONIC_EC)
     #endif
 
+    #if ENC_2_WIRES
+    #if RIGHT_ENCODER
+    ,rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,0)
+    #endif
 
+    #if LEFT_ENCODER
+    ,leftEncoder(LEFT_ENCODER_ENC_A,LEFT_ENCODER_ENC_B,1)
+    #endif
+    #else //ENC_2_WIRES
     #if RIGHT_ENCODER
     ,rightEncoder(RIGHT_ENCODER_ENC)
     #endif
@@ -45,7 +56,7 @@ sensorsModule::sensorsModule():
     #if LEFT_ENCODER
     ,leftEncoder(LEFT_ENCODER_ENC)
     #endif
-
+    #endif//ENC_2_WIRES
 
 
     #if FRONT_ULTRASHORTIR
@@ -122,6 +133,10 @@ void sensorsModule::run(sensorsModule * sensors){
 
         #if LEFT_ENCODER
         updateSensor(&sensors->leftEncoder,&sensors->leftEncoderMovement, sensors->encoderAlpha,started);
+        #endif
+        #if RIGHT_ENCODER*LEFT_ENCODER
+        double newEncoderAngle= (-sensors->rightEncoderMovement+sensors->leftEncoderMovement)/DISTANCE_DIFFERENCE_FOR_360_DEGREES*360;
+        updateData(&sensors->encoderAngle,newEncoderAngle, sensors->encoderAngleAlpha,started);
         #endif
 
 

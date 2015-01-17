@@ -1,17 +1,10 @@
 #include "actuator.h"
 #include <unistd.h>
 
-actuator::actuator():actuator(NULL){
-
-}
-
-//The actuator should receive an instance of sensors, so it can update the dir pin
-// of the encoder.
-actuator::actuator(sensorsModule * sensors):
+actuator::actuator():
     rightWheel(RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM),
     leftWheel(LEFT_WHEEL_DIR, LEFT_WHEEL_PWM),
     pwm(),
-    sensorsPointer(sensors),
     sortServo(SORT_SERVO_PWM),
     armServo(ARM_SERVO_PWM),
     hookServo(HOOK_SERVO_PWM),
@@ -19,10 +12,24 @@ actuator::actuator(sensorsModule * sensors):
     leftWheelPower(NULL),
     armServoAngle(NULL),
     hookServoAngle(NULL),
-    sortServoAngle(NULL)
+    sortServoAngle(NULL){
+
+}
+
+actuator::actuator(motorsControl &mymotorsControl):actuator()
+    {
+    rightWheelPower = &mymotorsControl.rightMotorPower;
+    leftWheelPower = &mymotorsControl.leftMotorPower;
+
+}
+//The actuator should receive an instance of sensors, so it can update the dir pin
+// of the encoder. //OBSOLETE
+actuator::actuator(sensorsModule * sensors):actuator()
+
 
 
 {
+    sensorsPointer= sensors;
     //It starts its own thread responsible for writting to the motors and servos.
     running=1;
     runThread = new std::thread(run,this);
@@ -44,7 +51,7 @@ void actuator::run(actuator * myactuator){
         if (myactuator->leftWheelPower)
             myactuator->setPowerLeftWheel(*(myactuator->leftWheelPower));
         if (myactuator->armServoAngle)
-            myactuator->setArmServo(*(myactuator->armServoAngle));
+           myactuator->setArmServo(*(myactuator->armServoAngle));
         if (myactuator->hookServoAngle)
             myactuator->setHookServo(*(myactuator->hookServoAngle));
         if (myactuator->sortServoAngle)
@@ -116,13 +123,36 @@ void actuator::setPowerRightWheel(double speed){
 void actuator::setSortServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(sortServo.servoIndex,duty);
+
 }
+
+double actuator::getSortServo(){
+    if (sortServoAngle){
+    return *sortServoAngle;}
+    return -1;
+}
+
 void actuator::setArmServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(armServo.servoIndex,duty);
+
 }
+
+double actuator::getArmServo(){
+    if (armServoAngle){
+    return *armServoAngle;}
+    return -1;
+}
+
 void actuator::setHookServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(hookServo.servoIndex,duty);
+
+}
+
+double actuator::getHookServo(){
+    if (hookServoAngle){
+    return *hookServoAngle;}
+    return -1;
 }
 
