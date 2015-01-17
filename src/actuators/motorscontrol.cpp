@@ -1,5 +1,4 @@
 #include "motorscontrol.h"
-#include <cstdio>
 #include <unistd.h>
 motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
 {
@@ -106,14 +105,12 @@ int motorsControl::getAngleError(double desiredAngle, double realAngle){
     return angError;
 }
 
-int motorsControl::getPositionError(double desiredPosition, double realPosition){
+double motorsControl::getPositionError(double desiredPosition, double realPosition){
     double fwdError = desiredPosition-realPosition;
-    printf("desired position %lf, realPosition %lf, position Tolerance %lf, initial error %lf\n", desiredPosition,realPosition,POSITION_TOLERANCE,fwdError);
 
     if ((fwdError< POSITION_TOLERANCE) && (-fwdError< POSITION_TOLERANCE)){
         fwdError=0;
     }
-    printf("final error %lf\n", fwdError);
     return fwdError;
 }
 
