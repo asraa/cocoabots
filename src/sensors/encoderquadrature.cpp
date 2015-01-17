@@ -27,6 +27,13 @@ long long encoderQuadrature::getCounts(){
     return count;
 }
 
+double encoderQuadrature::getRotations(){
+    return (getCounts()/ (EDGES_PER_ROTATION*2) / GEAR_RATIO);
+}
+
+double encoderQuadrature::getData(){
+    return CIRCUMFERENCE_WHEEL*getRotations();
+}
 
 int encoderQuadrature::getPhase(int a, int b) {
   if (a == 0 && b == 0) {

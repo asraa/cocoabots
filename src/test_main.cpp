@@ -458,9 +458,8 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
 
-                printf("left encoder distance =%lf, right encoder distance = %lf\n", control.getNewPosition());
-                control.desiredPosition+=desiredPosition;
-                usleep(20000.0);
+                printf("left encoder distance =%lf, right encoder distance = %lf\n", leftEncoder.getData(), rightEncoder.getData());
+                usleep(200000.0);
 
 
             }

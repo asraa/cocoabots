@@ -65,8 +65,8 @@
 #define LEFT_ENCODER_ENC_A 4 //Yellow wire or Blue
 #define LEFT_ENCODER_ENC_B 5 //White wire
 
-#define RIGHT_ENCODER_ENC_A 10 //Yellow wire or Blue
-#define RIGHT_ENCODER_ENC_B 11 //White wire
+#define RIGHT_ENCODER_ENC_A 2 //Yellow wire or Blue
+#define RIGHT_ENCODER_ENC_B 3 //White wire
 
 #define LEFT_ENCODER_DIR LEFT_WHEEL_DIR
 #define LEFT_ENCODER_ENC 4
