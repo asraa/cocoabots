@@ -53,6 +53,9 @@
 
 
 //Encoder
+#define GEAR_RATIO 30.0
+#define EDGES_PER_ROTATION 32.0
+
 #define LEFT_ENCODER 1
 #define LEFT_ENCODER_DIR LEFT_WHEEL_DIR
 #define LEFT_ENCODER_ENC 4
@@ -127,7 +130,7 @@
 
 
 //Maximum acceleration. Decrease if it is slipping
-#define CURRENT_LIMIT (0.12 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
+#define CURRENT_LIMIT (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 //Maximum breaking. Decrease if it is slipping.
 #define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 

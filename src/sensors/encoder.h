@@ -1,9 +1,6 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
-#define GEAR_RATIO 30.0
-#define EDGES_PER_ROTATION 32.0
-
 #include "mraa.hpp"
 #include <sys/time.h>
 #include <thread>
