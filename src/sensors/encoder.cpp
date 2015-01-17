@@ -36,13 +36,6 @@ void encoder::edge_handler(void* encoderSensorPointer) {
 	encSensor->edgeCount = encSensor->edgeCount + offset;
 }
 
-void encoder::run(void* encoderSensorPointer) {
-	encoder* encSensor = (encoder*) encoderSensorPointer;
-	while (encSensor->running) {
-		// do nothing lol
-		// we're just waiting for interrupts on the encoder pin
-	}
-}
 
 long long encoder::getCounts() {
 	return edgeCount;

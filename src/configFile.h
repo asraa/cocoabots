@@ -5,12 +5,14 @@
 #define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
 
 //SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
-// If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+1
+// If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+
+// And also change ENCODER_OPPOSITE_MOTOR from 0 to 1;
 //IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
 //METAL WHELL IS ON THE FRONT.
 #define MOTOR_DIRECTION_BACK 1  //Defines the value of the Dir pin when going back
 #define MOTOR_DIRECTION_FRONT 0  //Defines the value of the Dir pin when going front
-#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change to -1 if it is negative in the clockwise direction
+#define GYROSCOPE_CLOCKWISE_POSITIVE -1 //Change from +1 to -1 if it is negative in the clockwise direction
+#define ENCODER_OPPOSITE_MOTOR 1 // +1 or -1 If the encoders are defined to be going opposite to the motor direction
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
@@ -56,14 +58,21 @@
 #define GEAR_RATIO 30.0
 #define EDGES_PER_ROTATION 32.0
 
+#define ENC_2_WIRES 0 //If we are using two wires per encoder, and using quadrature to tell the direction
 #define LEFT_ENCODER 1
+#define RIGHT_ENCODER 1
+
+#define LEFT_ENCODER_ENC_A 4 //Yellow wire or Blue
+#define LEFT_ENCODER_ENC_B 5 //White wire
+
+#define RIGHT_ENCODER_ENC_A 10 //Yellow wire or Blue
+#define RIGHT_ENCODER_ENC_B 11 //White wire
+
 #define LEFT_ENCODER_DIR LEFT_WHEEL_DIR
 #define LEFT_ENCODER_ENC 4
 
-#define RIGHT_ENCODER 1
 #define RIGHT_ENCODER_DIR RIGHT_WHEEL_DIR
 #define RIGHT_ENCODER_ENC 5
-
 
 //UltrashortIR
 #define FRONT_ULTRASHORTIR 0
