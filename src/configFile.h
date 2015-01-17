@@ -4,11 +4,13 @@
 //Motor definitions
 #define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
 
-//SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
-// If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+
-// And also change ENCODER_OPPOSITE_MOTOR from -1 to 1;
-//IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
-//METAL WHELL IS ON THE FRONT.
+/*SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
+* If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+
+* And also change ENCODER_OPPOSITE_MOTOR from -1 to 1;
+* You have to
+*IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
+*/
+//METAL WHELL IS ON THE FRONT = 1 0 -1 1
 #define MOTOR_DIRECTION_BACK 0  //Defines the value of the Dir pin when going back 1/0
 #define MOTOR_DIRECTION_FRONT 1  //Defines the value of the Dir pin when going front 0/1
 #define CLOCKWISE_POSITIVE 1 //Change from +1 to -1 if it is negative in the clockwise direction

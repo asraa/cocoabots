@@ -58,7 +58,7 @@ public:
     void computeNewMotorPowers();
 
     int getAngleError(double desiredAngle, double realAngle);
-    int getPositionError(double desiredPosition, double realPosition);
+    double getPositionError(double desiredPosition, double realPosition);
     double getNewAngle();
     double getNewAngleFromGyroscope();
     double getNewAngleFromEncoders();
