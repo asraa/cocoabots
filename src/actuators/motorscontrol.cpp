@@ -47,6 +47,8 @@ void motorsControl::computeNewMotorPowers(){
     double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
     if (fwdCorrection>1){
         fwdCorrection=1;
+    }else if (fwdCorrection<-1){
+        fwdCorrection=-1;
     }
 
     double angSpeed = realAngularSpeed;
