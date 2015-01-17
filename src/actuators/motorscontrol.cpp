@@ -176,7 +176,11 @@ double motorsControl::getNewPosition(){
 
 
 double motorsControl::getNewAngle(){
-    return (mysensors->gyroscopeAngle);
+#if USE_GIROSCOPE_FOR_ANGLE
+    return getNewAngleFromGyroscope();
+#else
+    return getNewAngleFromEncoders();
+#endif
 }
 
 double motorsControl::getNewAngleFromGyroscope(){
@@ -184,7 +188,7 @@ double motorsControl::getNewAngleFromGyroscope(){
 }
 
 double motorsControl::getNewAngleFromEncoders(){
-    return (-mysensors->rightEncoderMovement+mysensors->leftEncoderMovement)/DISTANCE_DIFFERENCE_FOR_360_DEGREES*360;
+    return (mysensors->encoderAngle);
 }
 
 double motorsControl::getNewLeftWheelPosition(){

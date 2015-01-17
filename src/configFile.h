@@ -120,6 +120,7 @@
 #define ULTRASHORT_IR_ALPHA 0.5
 #define ULTRASONIC_ALPHA 0.7
 #define ENCODER_ALPHA 0
+#define ENCODER_ANGLE_ALPHA 0
 #define GYROSCOPE_TOTAL_ALPHA 0.7
 #define GYROSCOPE_READING_ALPHA 0.7
 
@@ -128,6 +129,7 @@
 
 //Speed control
 //Define gains for the angle and position control.
+#define USE_GIROSCOPE_FOR_ANGLE 1
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
