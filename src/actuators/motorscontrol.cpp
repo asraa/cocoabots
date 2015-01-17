@@ -45,6 +45,9 @@ void motorsControl::computeNewMotorPowers(){
     }
     double fwdError = getPositionError(desiredPosition,getNewPosition());
     double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
+    if (fwdCorrection>1){
+        fwdCorrection=1;
+    }
 
     double angSpeed = realAngularSpeed;
     if ((angSpeed < ANG_SPEED_TOLERANCE) &&(-angSpeed<ANG_SPEED_TOLERANCE)){
@@ -52,7 +55,7 @@ void motorsControl::computeNewMotorPowers(){
     }
     double realAngle = getNewAngle();
     int angError = getAngleError(desiredAngle,realAngle);
-    double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * GYROSCOPE_CLOCKWISE_POSITIVE;
+    double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * CLOCKWISE_POSITIVE;
 
     double newRightMotorPower = fwdCorrection - angCorrection;
     double newLeftMotorPower = fwdCorrection + angCorrection;
@@ -172,6 +175,13 @@ double motorsControl::getNewAngle(){
     return (mysensors->gyroscopeAngle);
 }
 
+double motorsControl::getNewAngleFromGyroscope(){
+    return (mysensors->gyroscopeAngle);
+}
+
+double motorsControl::getNewAngleFromEncoders(){
+    return (mysensors->rightEncoderMovement-mysensors->leftEncoderMovement)/DISTANCE_DIFFERENCE_FOR_360_DEGREES;
+}
 
 double motorsControl::getNewLeftWheelPosition(){
     return mysensors->leftEncoderMovement;
