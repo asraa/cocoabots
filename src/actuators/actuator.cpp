@@ -121,7 +121,7 @@ void actuator::setPowerRightWheel(double speed){
 }
 
 void actuator::setSortServo(double angle){
-    double duty = angle/180.0;
+    double duty = angle/90.0;
     pwm.setServoPosition(sortServo.servoIndex,duty);
 
 }
@@ -133,7 +133,7 @@ double actuator::getSortServo(){
 }
 
 void actuator::setArmServo(double angle){
-    double duty = angle/180.0;
+    double duty = angle/90.0;
     pwm.setServoPosition(armServo.servoIndex,duty);
 
 }
@@ -145,7 +145,7 @@ double actuator::getArmServo(){
 }
 
 void actuator::setHookServo(double angle){
-    double duty = angle/180.0;
+    double duty = angle/90.0;
     pwm.setServoPosition(hookServo.servoIndex,duty);
 
 }
