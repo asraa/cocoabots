@@ -455,6 +455,7 @@ int main(int argc, char** argv){
         else if (strcmp(argv[1],"encoderQuadrature")==0){
             encoderQuadrature leftEncoder(LEFT_ENCODER_ENC_A,LEFT_ENCODER_ENC_B,1);
             encoderQuadrature rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,1);
+            RUNNING =1;
             while(RUNNING)
             {
 
