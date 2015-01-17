@@ -71,6 +71,8 @@ public:
     double previousRightWheelPosition;
     double previousLeftWheelPosition;
 private:
+    int isTurning;
+    double positionStartTurning;
     void updateSpeed();
     void updateAngularSpeed();
     void updateTime();
