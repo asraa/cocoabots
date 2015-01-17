@@ -495,7 +495,7 @@ int main(int argc, char** argv){
                 scanf("%lf %lf", &desiredPosition, &desiredAngle);
                 printf("my position =%lf\n", control.getNewPosition());
                 printf("Distance left wheel measured by the encoders =%lf\n", mysensors.leftEncoderMovement);
-                printf("Distance right wheel  measured by the encoders =%lf\n", mysensors.leftEncoderMovement);
+                printf("Distance right wheel  measured by the encoders =%lf\n", mysensors.rightEncoderMovement);
                 printf("Angle measured by the encoders =%lf\n", control.getNewAngleFromEncoders());
                 printf("Angle measured by the gyroscope =%lf\n", control.getNewAngleFromGyroscope());
                 control.desiredPosition+=desiredPosition;
