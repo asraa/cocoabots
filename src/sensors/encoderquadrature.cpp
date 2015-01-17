@@ -24,7 +24,7 @@ encoderQuadrature::encoderQuadrature(int encA, int encB, int isLeft):
 
 
 long long encoderQuadrature::getCounts(){
-    return count;
+    return count*reversed;
 }
 
 double encoderQuadrature::getRotations(){
