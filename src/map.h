@@ -13,7 +13,7 @@
 #define STARTLOC 5
 
 
-#include "../configFile.h"
+#include "configFile.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -35,7 +35,7 @@ typedef std::vector<std::tuple<int,int,int,int,int>> stackItems;
 typedef std::vector<std::tuple<int,int>> homeBaseItems;
 typedef std::tuple<int,int> startLocItem;
 
-class map:
+class map
 {
 	public:
 		map(std::string filename);

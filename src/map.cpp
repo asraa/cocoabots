@@ -28,45 +28,41 @@ void map::buildMap(std::string filename) {
 		}
 
 		std::string id = tempVector[0];
-		tempVector.erase(tempVector.begin()); // remove 1st elt
+		//tempVector.erase(tempVector.begin()); // remove 1st elt
 
 		std::cout << id << std::endl;
 
-		if (id.compare('W') == 0) { 		// WALL
-			updateWalls(tempVector);
-		}
-		else if (id.compare('P') == 0) {	// PLATFORM
-			updatePlatforms(tempVector);
-		}
-		else if (id.compare('S') == 0) {	// STACK
-			updateStacks(tempVector);
-		}
-		else if (id.compare('H') == 0) {	// HOMEBASE
-			updateHomeBases(tempVector);
-		}
-		else if (id.compare('L') == 0) {	// STARTLOC
-			updateStartLoc(tempVector);
-		}
-
-	mapFile.close();
-
-	mapVector = createZeroMap(maxX, maxY);
-
-	addWalls();
-	addPlatforms();
-	addStacks();
-	addHomeBases();
-	addStartLoc();
-
-	for (int i = 0; i <= maxX; ++i) {
-		for (int j = 0; j <= maxY; ++j) {
-			std::cout << mapVector[x][y];
-		}
-		std::cout << std::endl;
+//		if (id.compare('W') == 0) { 		// WALL
+//			updateWalls(tempVector);
+//		}
+//		else if (id.compare('P') == 0) {	// PLATFORM
+//			updatePlatforms(tempVector);
+//		}
+//		else if (id.compare('S') == 0) {	// STACK
+//			updateStacks(tempVector);
+//		}
+//		else if (id.compare('H') == 0) {	// HOMEBASE
+//			updateHomeBases(tempVector);
+//		}
+//		else if (id.compare('L') == 0) {	// STARTLOC
+//			updateStartLoc(tempVector);
+//		}
 	}
+//	mapFile.close();
 
-	}
+//	mapVector = createZeroMap(maxX, maxY);
 
+//	addWalls();
+//	addPlatforms();
+//	addStacks();
+//	addHomeBases();
+//	addStartLoc();
+
+//	for (int i = 0; i <= maxX; ++i) {
+//		for (int j = 0; j <= maxY; ++j) {
+//			std::cout << mapVector[x][y];
+//		}
+//		std::cout << std::endl;
 	// write all shit to mapVector
 }
 
@@ -77,7 +73,7 @@ void map::buildMap(std::string filename) {
 // typedef std::tuple<int,int> startLocItem
 
 void map::addWalls() {
-	for (int std::vector::size_type item = 0; item < walls.size(); ++item) {
+	for (int item = 0; item < walls.size(); ++item) {
 		int x1 = std::get<0>(walls[item]);
 		int y1 = std::get<1>(walls[item]);
 		int x2 = std::get<2>(walls[item]);
@@ -93,7 +89,7 @@ void map::addWalls() {
 }
 
 void map::addPlatforms() {
-	for (int std::vector::size_type item = 0; item < platforms.size(); ++item) {
+	for (int item = 0; item < platforms.size(); ++item) {
 		int x1 = std::get<0>(platforms[item]);
 		int y1 = std::get<1>(platforms[item]);
 		int x2 = std::get<2>(platforms[item]);
@@ -109,7 +105,7 @@ void map::addPlatforms() {
 }
 
 void map::addStacks() {
-	for (int std::vector::size_type item = 0; item < stacks.size(); ++item) {
+	for (int item = 0; item < stacks.size(); ++item) {
 		int x1 = std::get<0>(stacks[item]);
 		int y1 = std::get<1>(stacks[item]);
 		int xCoord = ceil(x1 + ceil(convFactor/2));
@@ -119,7 +115,7 @@ void map::addStacks() {
 }
 
 void map::addHomeBases() {
-	for (int std::vector::size_type item = 0; item < homeBases.size(); ++item) {
+	for (int item = 0; item < homeBases.size(); ++item) {
 		int x1 = std::get<0>(homeBases[item]);
 		int y1 = std::get<1>(homeBases[item]);
 		for (int i = 0; i < convFactor; ++i) {
@@ -144,7 +140,7 @@ void map::updateWalls(std::vector<std::string> tempVector) {
 	std::vector<int> tempInts;
 
 
-	for (std::vector::size_type i = 0; i < tempVector.size(); ++i) {
+	for (int i = 0; i < tempVector.size(); ++i) {
 		tempString = tempVector[i];
 		tempChar = tempString.c_str();
 		tempInts.push_back(convFactor*std::stoi(tempChar));
@@ -172,7 +168,7 @@ void map::updatePlatforms(std::vector<std::string> tempVector) {
 	std::vector<int> tempInts;
 
 
-	for (std::vector::size_type i = 0; i < tempVector.size(); ++i) {
+	for (int i = 0; i < tempVector.size(); ++i) {
 		tempString = tempVector[i];
 		tempChar = tempString.c_str();
 		tempInts.push_back(convFactor*std::stoi(tempChar));
@@ -198,7 +194,7 @@ void map::updateStacks(std::vector<std::string> tempVector) {
 	const char* tempChar;
 	std::vector<int> tempInts;
 
-	for (std::vector::size_type i = 0; i < 2; ++i) {
+	for (int i = 0; i < 2; ++i) {
 		tempString = tempVector[i];
 		tempChar = tempString.c_str();
 		tempInts.push_back(convFactor*std::stoi(tempChar));
@@ -216,27 +212,27 @@ void map::updateStacks(std::vector<std::string> tempVector) {
 	// C1->C2->C3
 	// BOTTOM->MIDDLE->TOP
 
-	if (tempVector[2].compare('R') == 0) {
-		int c1 = 0;
-	}
-	else {
-		int c1 = 1;
-	}
-	if (tempVector[3].compare('R') == 0) {
-		int c2 = 0;
-	}
-	else {
-		int c2 = 1;
-	}
-	if (tempVector[4].compare('R') == 0) {
-		int c3 = 0;
-	}
-	else {
-		int c3 = 1;
-	}
-
-	std::tuple<int,int,int,int,int> xyccc = std::make_tuple(x1,y1,c1,c2,c3);
-	stacks.push_back(xyccc);
+//	if (tempVector[2].compare('R') == 0) {
+//		int c1 = 0;
+//	}
+//	else {
+//		int c1 = 1;
+//	}
+//	if (tempVector[3].compare('R') == 0) {
+//		int c2 = 0;
+//	}
+//	else {
+//		int c2 = 1;
+//	}
+//	if (tempVector[4].compare('R') == 0) {
+//		int c3 = 0;
+//	}
+//	else {
+//		int c3 = 1;
+//	}
+//
+//	std::tuple<int,int,int,int,int> xyccc = std::make_tuple(x1,y1,c1,c2,c3);
+//	stacks.push_back(xyccc);
 }
 
 
@@ -246,7 +242,7 @@ void map::updateHomeBases(std::vector<std::string> tempVector) {
 	std::vector<int> tempInts;
 
 
-	for (std::vector::size_type i = 0; i < tempVector.size(); ++i) {
+	for (int i = 0; i < tempVector.size(); ++i) {
 		tempString = tempVector[i];
 		tempChar = tempString.c_str();
 		tempInts.push_back(std::stoi(tempChar));
@@ -272,7 +268,7 @@ void map::updateStartLoc(std::vector<std::string> tempVector) {
 	std::vector<int> tempInts;
 
 
-	for (std::vector::size_type i = 0; i < 2; ++i) {
+	for (int i = 0; i < 2; ++i) {
 		tempString = tempVector[i];
 		tempChar = tempString.c_str();
 		tempInts.push_back(convFactor*std::stoi(tempChar));
@@ -284,7 +280,7 @@ void map::updateStartLoc(std::vector<std::string> tempVector) {
 	updateMaxY(y);
 
 	std::tuple<int,int> loc = std::make_tuple(x,y);
-	startLoc.push_back(loc);
+	startLoc = loc;
 }
 
 
