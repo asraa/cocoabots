@@ -37,7 +37,15 @@ sensorsModule::sensorsModule():
     ,leftUltrasonic(LEFT_ULTRASONIC_TR,LEFT_ULTRASONIC_EC)
     #endif
 
+    #if ENC_2_WIRES
+    #if RIGHT_ENCODER
+    ,rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,0)
+    #endif
 
+    #if LEFT_ENCODER
+    ,leftEncoder(LEFT_ENCODER_ENC_A,LEFT_ENCODER_ENC_B,1)
+    #endif
+    #else //ENC_2_WIRES
     #if RIGHT_ENCODER
     ,rightEncoder(RIGHT_ENCODER_ENC)
     #endif
@@ -45,7 +53,7 @@ sensorsModule::sensorsModule():
     #if LEFT_ENCODER
     ,leftEncoder(LEFT_ENCODER_ENC)
     #endif
-
+    #endif//ENC_2_WIRES
 
 
     #if FRONT_ULTRASHORTIR

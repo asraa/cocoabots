@@ -16,7 +16,6 @@ class encoder: public sensorsSuperClass
     long long getCounts();
     double getData();
     double getRotations();
-    static void run(void* encoderSensorPointer);
     static void edge_handler(void* encoderSensorPointer);
 
     //std::thread *runThread;

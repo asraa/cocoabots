@@ -3,6 +3,7 @@
 
 #include "sensors/camera.h"
 #include "sensors/encoder.h"
+#include "sensors/encoderquadrature.h"
 #include "sensors/gyroscope.h"
 #include "sensors/shortIR.h"
 #include "sensors/ultraShortIR.h"
@@ -61,6 +62,19 @@ public:
 gyroscope mygyroscope;
 #endif
 
+
+#if ENC_2_WIRES
+
+#if RIGHT_ENCODER
+encoderQuadrature rightEncoder;
+#endif
+
+#if LEFT_ENCODER
+encoderQuadrature leftEncoder;
+#endif
+
+#else//ENC_2_WIRES
+
 #if RIGHT_ENCODER
 encoder rightEncoder;
 #endif
@@ -68,7 +82,7 @@ encoder rightEncoder;
 #if LEFT_ENCODER
 encoder leftEncoder;
 #endif
-
+#endif//ENC_2_WIRES
 private:
 #if FRONT_ULTRASONIC
 ultrasonic frontUltrasonic;
