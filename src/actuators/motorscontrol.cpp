@@ -2,6 +2,7 @@
 #include <unistd.h>
 motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
 {
+    isTurning=0;
     fwdSpeedGain =FWD_SPEED_GAIN;
     fwdErrorGain =FWD_ERROR_GAIN;
     angSpeedGain = ANG_SPEED_GAIN;
@@ -38,19 +39,7 @@ void motorsControl::computeNewMotorPowers(){
     updateWheelsPositions();
 
     updateTime();
-
-    double fwdSpeed = realSpeed;
-    if ((fwdSpeed < POSITION_SPEED_TOLERANCE) &&(-fwdSpeed<POSITION_SPEED_TOLERANCE)){
-        fwdSpeed=0;
-    }
-
-    double fwdError = getPositionError(desiredPosition,getNewPosition());
-    double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
-    if (fwdCorrection>1){
-        fwdCorrection=1;
-    }else if (fwdCorrection<-1){
-        fwdCorrection=-1;
-    }
+    double nextPosition= desiredPosition;
 
     double angSpeed = realAngularSpeed;
     if ((angSpeed < ANG_SPEED_TOLERANCE) &&(-angSpeed<ANG_SPEED_TOLERANCE)){
@@ -59,6 +48,33 @@ void motorsControl::computeNewMotorPowers(){
     double realAngle = getNewAngle();
     int angError = getAngleError(desiredAngle,realAngle);
     double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * CLOCKWISE_POSITIVE;
+
+    if (angCorrection >MAXIMUM_DYNAMIC_TURN_ANGLE){
+        if (isTurning==0){
+            positionStartTurning=getNewPosition();
+            isTurning=1;
+        }else{
+            positionStartTurning=getNewPosition();
+        }
+    }
+    else{
+        isTurning=0;
+    }
+
+    double fwdSpeed = realSpeed;
+    if ((fwdSpeed < POSITION_SPEED_TOLERANCE) &&(-fwdSpeed<POSITION_SPEED_TOLERANCE)){
+        fwdSpeed=0;
+    }
+
+    double fwdError = getPositionError(nextPosition,getNewPosition());
+    double fwdCorrection = (fwdError * fwdErrorGain+ fwdSpeed*fwdSpeedGain);
+    if (fwdCorrection>1){
+        fwdCorrection=1;
+    }else if (fwdCorrection<-1){
+        fwdCorrection=-1;
+    }
+
+
 
     double newRightMotorPower = fwdCorrection - angCorrection;
     double newLeftMotorPower = fwdCorrection + angCorrection;
