@@ -519,6 +519,32 @@ int main(int argc, char** argv){
             }
         }
 
+        else if (strcmp(argv[1],"remoteControlServo")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            double hook;
+            double arm;
+            double sort;
+
+            RUNNING =1;
+
+            while(RUNNING)
+            {
+
+                printf("define angle for the servos\n Hook=%d, Arm=%d, Sort=%d \n", myactuator.getHookServo(), myactuator.getArmServo(), myactuator.getSortServo());
+                scanf("%d %d %d", &hook, &arm, &sort);
+                myactuator.setHookServo(hook);
+                myactuator.setArmServo(arm);
+                myactuator.setSortServo(sort);
+
+                usleep(20000.0);
+
+
+            }
+        }
+
         return 0;
     }
 }

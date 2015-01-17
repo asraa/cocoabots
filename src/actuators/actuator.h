@@ -30,9 +30,9 @@ public:
     int running;
     double * rightWheelPower;
     double * leftWheelPower;
-    double * sortServoAngle;
-    double * armServoAngle;
-    double * hookServoAngle;
+    double sortServoAngle;
+    double armServoAngle;
+    double hookServoAngle;
 
 
     std::thread *runThread;
@@ -42,8 +42,11 @@ public:
 
     //Angle = number from 0 to 180 (preferrably not boundries? not sure.)
     void setSortServo(double angle);
+    double getSortServo();
     void setArmServo(double angle);
+    double getArmServo();
     void setHookServo(double angle);
+    double getHookServo();
 };
 
 #endif // ACTUATOR_H

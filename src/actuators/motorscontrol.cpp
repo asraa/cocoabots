@@ -215,7 +215,6 @@ double motorsControl::getNewLeftWheelPosition(){
 double motorsControl::getNewRightWheelPosition(){
     return mysensors->rightEncoderMovement;
 
-
 }
 
 motorsControl::~motorsControl(){

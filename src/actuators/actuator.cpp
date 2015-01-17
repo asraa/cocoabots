@@ -10,9 +10,9 @@ actuator::actuator():
     hookServo(HOOK_SERVO_PWM),
     rightWheelPower(NULL),
     leftWheelPower(NULL),
-    armServoAngle(NULL),
-    hookServoAngle(NULL),
-    sortServoAngle(NULL){
+    armServoAngle(-1),
+    hookServoAngle(-1),
+    sortServoAngle(-1){
 
 }
 
@@ -50,12 +50,12 @@ void actuator::run(actuator * myactuator){
             myactuator->setPowerRightWheel(*(myactuator->rightWheelPower));
         if (myactuator->leftWheelPower)
             myactuator->setPowerLeftWheel(*(myactuator->leftWheelPower));
-        if (myactuator->armServoAngle)
-            myactuator->setArmServo(*(myactuator->armServoAngle));
+        /*if (myactuator->armServoAngle)
+           myactuator->setArmServo(*(myactuator->armServoAngle));
         if (myactuator->hookServoAngle)
             myactuator->setHookServo(*(myactuator->hookServoAngle));
         if (myactuator->sortServoAngle)
-            myactuator->setSortServo(*(myactuator->sortServoAngle));
+            myactuator->setSortServo(*(myactuator->sortServoAngle));*/
         usleep(UPDATE_RATE_ACTUATORS_MILISECONDS * 1000);
     }
 
@@ -123,13 +123,36 @@ void actuator::setPowerRightWheel(double speed){
 void actuator::setSortServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(sortServo.servoIndex,duty);
+    sortServoAngle = angle;
 }
+
+double actuator::getSortServo(){
+    if (sortServoAngle){
+    return sortServoAngle;}
+    return -1;
+}
+
 void actuator::setArmServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(armServo.servoIndex,duty);
+    armServoAngle = angle;
 }
+
+double actuator::getArmServo(){
+    if (armServoAngle){
+    return armServoAngle;}
+    return -1;
+}
+
 void actuator::setHookServo(double angle){
     double duty = angle/180.0;
     pwm.setServoPosition(hookServo.servoIndex,duty);
+    hookServoAngle = angle;
+}
+
+double actuator::getHookServo(){
+    if (hookServoAngle){
+    return hookServoAngle;}
+    return -1;
 }
 
