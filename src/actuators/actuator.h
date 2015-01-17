@@ -30,9 +30,9 @@ public:
     int running;
     double * rightWheelPower;
     double * leftWheelPower;
-    double sortServoAngle;
-    double armServoAngle;
-    double hookServoAngle;
+    double * sortServoAngle;
+    double * armServoAngle;
+    double * hookServoAngle;
 
 
     std::thread *runThread;

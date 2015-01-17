@@ -527,17 +527,15 @@ int main(int argc, char** argv){
             double hook;
             double arm;
             double sort;
-
+            myactuator.armServoAngle=&arm;
+            myactuator.hookServoAngle=&hook;
+            myactuator.sortServoAngle=&sort;
             RUNNING =1;
 
             while(RUNNING)
             {
-
-                printf("define angle for the servos\n Hook=%d, Arm=%d, Sort=%d \n", myactuator.getHookServo(), myactuator.getArmServo(), myactuator.getSortServo());
-                scanf("%d %d %d", &hook, &arm, &sort);
-                myactuator.setHookServo(hook);
-                myactuator.setArmServo(arm);
-                myactuator.setSortServo(sort);
+                printf("define angle for the servos\n Hook=%lf, Arm=%lf, Sort=%lf \n", myactuator.getHookServo(), myactuator.getArmServo(), myactuator.getSortServo());
+                scanf("%lf %lf %lf", &hook, &arm, &sort);
 
                 usleep(20000.0);
 
