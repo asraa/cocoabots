@@ -6,7 +6,6 @@
 
 #include "states.h"
 #include "utils.h"
-//#include "sensorsdef.h"
 
 
 
@@ -24,7 +23,6 @@ private:
     void setupSensors();
     void setupUtils();
     void processOutputs(outputs instructions);
-    inputState makestate(struct sensors sensorsStruct);
     utils myutils;
 
 ///Tests Section:

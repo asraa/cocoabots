@@ -36,6 +36,8 @@
 #define MAXIMUM_ANGULAR_SPEED MAXIMUM_DEGREES_PER_SECOND
 
 //Servo definitions
+
+#define UPDATE_RATE_SERVOS_MILISECONDS 10
 #define SORT_SERVO_PWM 15
 #define ARM_SERVO_PWM 14
 #define HOOK_SERVO_PWM 13
@@ -141,6 +143,7 @@
 #define POSITION_SPEED_TOLERANCE 0.001
 #define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 #define MAXIMUM_DYNAMIC_TURN_ANGLE 15 //The maximum angle in which the robot can turn and move forward or back at the same time
+#define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 15
 
 //Maximum acceleration. Decrease if it is slipping
 #define CURRENT_LIMIT (0.1 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)

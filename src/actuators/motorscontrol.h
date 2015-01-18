@@ -51,6 +51,7 @@ public:
     double rightMotorPower;
     double leftMotorPower;
 
+    void setNewDesiredRelativePositionInRadialCordinates(double radiusInInches, double angle);
 
     int running;
     std::thread *runThread;
@@ -74,6 +75,8 @@ public:
 private:
     int isTurning;
     double positionStartTurning;
+    void updateTurningState(double angleError, double angleSpeed); //It disallows unsafeDynamicTurning;
+    double ifTurningGetTurningAxisPosition(double nextPosition); //Assures that we turn in place
     void updateSpeed();
     void updateAngularSpeed();
     void updateTime();
