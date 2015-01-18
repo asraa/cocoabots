@@ -1,6 +1,5 @@
 #include "ultrasonic.h"
 #include <unistd.h>
-#include <sys/time.h>
 
 ultrasonic::ultrasonic(int TP, int EP): trigGpio(TP), echoGpio(EP){
     trigGpio.dir(mraa::DIR_OUT);

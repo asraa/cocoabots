@@ -1,5 +1,4 @@
 #include <cstdio>
-#include "cocoabot.h"
 #include <cstring>
 #include <cmath>
 #include "sensors/ultrasonic.h"
@@ -13,6 +12,7 @@
 #include <signal.h>
 #include  <thread>
 #include <stdlib.h>     /* atoi */
+
 
 
 
@@ -534,7 +534,7 @@ int main(int argc, char** argv){
 
             while(RUNNING)
             {
-                printf("define angle for the servos\n Hook=%lf, Arm=%lf, Sort=%lf \n", myactuator.getHookServo(), myactuator.getArmServo(), myactuator.getSortServo());
+                printf("define angle for the servos\n Hook=%lf, Arm=%lf, Sort=%lf \n", myactuator.getHookServoAngle(), myactuator.getArmServoAngle(), myactuator.getSortServoAngle());
                 scanf("%lf %lf %lf", &hook, &arm, &sort);
 
                 usleep(20000.0);

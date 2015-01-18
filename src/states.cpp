@@ -1,75 +1,32 @@
 #include "states.h"
 
-
-inputState::inputState()
+states::states(motorsControl * motorControlPointer,
+               servosControl * servoControlPointer,
+               sensorsModule * sensorsPointer,
+               utils *utilsPointer):
+    myMotorControl(motorControlPointer),
+    myServosControl(servoControlPointer),
+    mySensors(sensorsPointer),
+    myUtils(utilsPointer),
+    nextState(this)
 {
+    startTimeStateMicroseconds = mySensors->timeMicrosecondsSinceEpoch;
+}
+
+int states::getTimeRemainingGameSeconds(){
+    return myUtils->gameTimeRemaining();
 }
 
 
-
-
-outputs::outputs()
-{
-};
-
-
-processState::processState()
-{
-
+template <class newState>
+states * states::transitionToState(){
+    return new newState(myMotorControl,myServosControl, mySensors, myUtils);
 }
 
-state processState::getNextState()
-{
-    return mynextState;
-
+states * states::getNextState(){
+    return nextState;
 }
 
-outputs processState::getOutputs()
-{
-    return myoutputs;
+long long int states::getRunningTimeMicroSeconds(){
+    return mySensors->timeMicrosecondsSinceEpoch-startTimeStateMicroseconds;
 }
-
-
-
-
-//Start of the states
-
-state::state(enum stateType myStateType){
-    myState = myStateType;
-}
-
-processState state::process(inputState input){
-    processState result;
-    switch (myState){
-
-        case onStart:
-
-            break;
-
-        case onSearchForCubes:
-
-            break;
-
-        case onDriveToCube:
-
-            break;
-
-        case onCollectCube:
-
-            break;
-
-        case onDeployCube:
-
-            break;
-        case onMoveToWallTest:
-            result.myoutputs.robotPosition.currentPosition = 0; //position from input
-            result.myoutputs.robotPosition.desiredPosition =0 ; //wall position from input
-            result.myoutputs.robotPosition.currentVelocity = 0; //velocity from input
-            result.mynextState = *this;
-            break;
-
-    }
-    return result;
-}
-
-
