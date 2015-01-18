@@ -41,10 +41,6 @@ void cocoabot::run()
 }
 
 
-inputState cocoabot::makestate(struct sensors sensorsStruct)
-{
-
-}
 
 void cocoabot::processOutputs(outputs instructions)
 {

@@ -2,7 +2,7 @@
  */
 #ifndef STATES_H
 #define STATES_H
-#include "sensorsdef.h"
+
 
 //Contains data from the sensors, position of the robot, data from the image processing; all datas. It will NOT ask each one of the things for its data, it is just a STORAGE.
 //Is populated by the robot, and contains the data in a nice way, e.g.: "touching wall", etc.
