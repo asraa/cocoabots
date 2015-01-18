@@ -69,7 +69,7 @@ uint8_t color_detector::getBlueData() {
     return read16(BDATAL);
 }
 
-int main_test(){
+int main_testColorDetecto(){
     color_detector ColorDetector;
 
     while (running){
