@@ -16,18 +16,18 @@ actuator::actuator():
 
 }
 
-actuator::actuator(motorsControl &mymotorsControl):actuator()
+actuator::actuator(motorsControl &mymotorsControl, servosControl &myservosControl):actuator()
     {
     rightWheelPower = &mymotorsControl.rightMotorPower;
     leftWheelPower = &mymotorsControl.leftMotorPower;
+    armServoAngle = &myservosControl.armAngle;
+    hookServoAngle = &myservosControl.hookAngle;
+    sortServoAngle = &myservosControl.sortAngle;
 
 }
 //The actuator should receive an instance of sensors, so it can update the dir pin
 // of the encoder. //OBSOLETE
 actuator::actuator(sensorsModule * sensors):actuator()
-
-
-
 {
     sensorsPointer= sensors;
     //It starts its own thread responsible for writting to the motors and servos.

@@ -6,6 +6,7 @@
 #include "../sensorsmodule.h"
 #include "motorscontrol.h"
 #include "servo.h"
+#include "servoscontrol.h"
 
 class actuator
 {
@@ -14,7 +15,7 @@ public:
     // of the encoder. //OBSOLETE
     actuator(sensorsModule * sensors);
     actuator();
-    actuator(motorsControl &mymotorsControl);
+    actuator(motorsControl &mymotorsControl, servosControl &myservosControl);
     ~actuator();
     motorWheel rightWheel;
     motorWheel leftWheel;
