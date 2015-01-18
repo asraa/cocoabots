@@ -19,6 +19,7 @@
 #define MOTORSCONTROL_H
 #include "../sensorsmodule.h"
 #include "../configFile.h"
+#include  <thread>
 #define MICROSECOND 1000000
 class motorsControl
 {

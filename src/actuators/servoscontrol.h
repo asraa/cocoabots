@@ -2,16 +2,20 @@
 #define SERVOSCONTROL_H
 
 #include "../configFile.h"
-
+#include  <thread>
 class servosControl
 {
 public:
-    servosControl();
-
     double armAngle;
     double hookAngle;
     double sortAngle;
+    int running;
 
+    std::thread * runThread;
+    servosControl();
+    ~servosControl();
+    static void run(servosControl *myservo);
+    void computeNewServosAngles();
     void hookBlock();
     void raiseBlock();
     void sortRed();

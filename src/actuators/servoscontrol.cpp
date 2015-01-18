@@ -1,7 +1,7 @@
 #include "servoscontrol.h"
 #include <unistd.h>
 
-servosControl::servoscontrol()
+servosControl::servosControl()
 {
     armAngle = 0;
     hookAngle = 0;
@@ -14,7 +14,7 @@ servosControl::servoscontrol()
 void servosControl::run(servosControl *myservo){
     while(myservo->running){
         usleep(UPDATE_RATE_SERVOS_MILISECONDS*1000);
-        myservo->computeNewServoAngles();
+        myservo->computeNewServosAngles();
     }
 }
 
@@ -40,4 +40,7 @@ servosControl::~servosControl(){
     running=0;
     runThread->join();
     delete runThread;
+}
+void servosControl::computeNewServosAngles(){
+
 }
