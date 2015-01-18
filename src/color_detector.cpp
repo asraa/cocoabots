@@ -33,10 +33,11 @@ uint16_t color_detector::read16(uint8_t reg)
 
 void color_detector::enable(mraa::I2c * i2c){
     //enables power on and RGBC color function
-
+	for (int i = 0; i < 100; i++){
     write8(ENABLE,ENABLE_PON);
     usleep(3000); //delay 3 msec
-    write8(ENABLE, ENABLE_PON | ENABLE_AEN);
+    write8(ENABLE, ENABLE_PON | ENABLE_AEN);}
+	std::cout << std::hex << (int)read8(ID) <<std::endl;
 }
 
 void color_detector::disable(mraa::I2c *i2c){
@@ -68,7 +69,7 @@ uint8_t color_detector::getBlueData() {
     return read16(BDATAL);
 }
 
-int main_color(){
+int main_test(){
     color_detector ColorDetector;
 
     while (running){
