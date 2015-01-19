@@ -15,6 +15,10 @@ actuator::actuator():
     sortServoAngle(NULL),
     sensorsPointer(NULL){
 
+    running=1;
+    runThread = new std::thread(run,this);
+
+
 }
 
 actuator::actuator(motorsControl &mymotorsControl, servosControl &myservosControl):actuator()
@@ -32,8 +36,7 @@ actuator::actuator(sensorsModule * sensors):actuator()
 {
     sensorsPointer= sensors;
     //It starts its own thread responsible for writting to the motors and servos.
-    running=1;
-    runThread = new std::thread(run,this);
+
 }
 actuator::~actuator(){
     running=0;
