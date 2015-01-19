@@ -31,6 +31,7 @@ void states::wallFollow(){
     static int foundWall=0; //If not, keep going forward until finding a wall
     static int turnedToWall=0; //If found wall, turn 90 degrees to the wall
     static int turning =0;
+    static int wallInFrontOfRobot=0;
     static double initialTurningAngle =0; //Used to keep track if turned to the wall
 
     //Restart State Machine if we've just started wall following
@@ -39,7 +40,24 @@ void states::wallFollow(){
         foundWall=0;
         turnedToWall =0;
         initialTurningAngle = 0;
+        wallInFrontOfRobot=0;
     }
+
+    //If there is a wall in front of the robot, restart Turning
+     if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+         if(!wallInFrontOfRobot){
+             wallInFrontOfRobot=1;
+             turning=0;
+             turnedToWall=0;
+             foundWall=1;
+         }
+         else{
+
+         }
+     }
+     else{
+         wallInFrontOfRobot=0;
+     }
     //If already turned to the wall, follow the wall
     if (turnedToWall){
         double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
@@ -66,7 +84,7 @@ void states::wallFollow(){
         turning=1;
     }
     //If the wall is near, you found the wall
-    else if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+    else if (wallInFrontOfRobot){
         foundWall=1;
     }
     //Else, keep looking for a wall
