@@ -14,6 +14,7 @@
 #include "WallDetection.h"
 #include "CameraMath.h"
 #include "ImageUtils.h"
+#include "BlockDetection.h"
 
 /***********************************************
  ***********IMAGE PROCESSING CLASS**************
@@ -32,12 +33,6 @@ public:
   };
 
   cv::VideoCapture vid_cap;
-  
-  int FEATURE_AREA_THRESH;
-
-  double WALL_LINE_WIDTH;
-
-  int BLUE_LINE_TOLERANCE;
 
   GridMap local_map; // for now
 
