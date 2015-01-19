@@ -17,13 +17,13 @@ actuator::actuator():
 
 }
 
-actuator::actuator(motorsControl &mymotorsControl, servosControl &myservosControl):actuator(),
-    rightWheelPower(&mymotorsControl.rightMotorPower),
-    leftWheelPower(&mymotorsControl.leftMotorPower),
-    armServoAngle(&myservosControl.armAngle),
-    hookServoAngle(&myservosControl.hookAngle),
-    sortServoAngle(&myservosControl.sortAngle)
+actuator::actuator(motorsControl &mymotorsControl, servosControl &myservosControl):actuator()
     {
+    rightWheelPower = &mymotorsControl.rightMotorPower;
+    leftWheelPower = &mymotorsControl.leftMotorPower;
+    armServoAngle = &myservosControl.armAngle;
+    hookServoAngle = &myservosControl.hookAngle;
+    sortServoAngle = &myservosControl.sortAngle;
 
 }
 //The actuator should receive an instance of sensors, so it can update the dir pin
