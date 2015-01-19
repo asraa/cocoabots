@@ -10,7 +10,7 @@ cocoabot::cocoabot(): //Initializes all the modules
 
 {
     //Starts the state machine
-    myState=new startState(&myMotorControl,
+    myState=new stateStart(&myMotorControl,
                            &myServosControl,
                            &mySensors,
                            &myUtils);

@@ -2,8 +2,9 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 # Declaration of variables
 CC = g++
-CFLAGS = -lmraa  -I. -std=c++11
+CFLAGS = -I. -std=c++11
 LIBS = -lmraa
+CDEBUGFLAGS = -g
 
 # File names
 EXEC = run
@@ -18,7 +19,11 @@ ACTUATORS_SOURCES = $(call rwildcard, ./actuators/,*.cpp)
 ACTUATORS_OBJECTS = $(ACTUATORS_SOURCES:.cpp=.o)
 
 SENSORS_SOURCES = $(call rwildcard, ./sensors/,*.cpp)
-SNESORS_OBJECTS = $(SENSORS_SOURCES:.cpp=.o)
+SENSORS_OBJECTS = $(SENSORS_SOURCES:.cpp=.o)
+
+STATES_SOURCES = $(call rwildcard, ./, states*.cpp)
+STATES_OBJECTS = $(STATES_SOURCES:.cpp=.o)
+
 
 #File names for tests
 
@@ -46,3 +51,14 @@ clean_actuators:
 
 clean_sensors:
 	rm -f $(EXEC_TEST) $(EXEC) $(SENSORS_OBJECTS)
+
+clean_states:
+	rm -f $(EXEC_TEST) $(EXEC) $(STATES_OBJECTS)
+
+debug: CFLAGS+= -g
+debug: $(EXEC)
+
+debug_test: CFLAGS+= -g
+debug_test: test
+
+

@@ -1,14 +1,15 @@
-#ifndef STARTSTATE_H
-#define STARTSTATE_H
+#ifndef STATESTART_H
+#define STATESTART_H
 #include "states.h"
 
-class startState : public states
+class stateStart : public states
 {
 public:
-    startState(motorsControl * motorControlPointer,
+    stateStart(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
                utils * utilsPointer);
+    stateStart(states * previouState);
      void processData();
 };
 

@@ -1,7 +1,7 @@
 #ifndef COCOABOT_H
 #define COCOABOT_H
 #include "states.h"
-#include "startstate.h"
+#include "statestart.h"
 #include "sensorsmodule.h"
 #include "actuators/motorscontrol.h"
 #include "actuators/servoscontrol.h"
