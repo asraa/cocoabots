@@ -1,10 +1,10 @@
 #include "cocoabot.h"
 int main(int argc, char** argv){
-  cocoabot mycocoabot();
+  cocoabot mycocoabot;
   //if no parameter was passed
   if (argc==1){
-      cocoabot.running=1;
-      cocoabot.run();
+      mycocoabot.running=1;
+      mycocoabot.run();
 
   }
   else{
