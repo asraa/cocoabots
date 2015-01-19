@@ -1,11 +1,11 @@
 #include "servoscontrol.h"
 #include <unistd.h>
 
-servosControl::servoscontrol()
+servosControl::servosControl()
 {
-    armAngle = 0;
-    hookAngle = 0;
-    sortAngle = 90; //initialize this in the center
+    armAngle = ARM_START;
+    hookAngle = HOOK_START;
+    sortAngle = SORT_START; //initialize this in the center
 
     this->running=1;
     runThread = new std::thread(run,this);
@@ -14,26 +14,32 @@ servosControl::servoscontrol()
 void servosControl::run(servosControl *myservo){
     while(myservo->running){
         usleep(UPDATE_RATE_SERVOS_MILISECONDS*1000);
-        myservo->computeNewServoAngles();
+        //myservo->computeNewServoAngles();
     }
 }
 
-
-
 void servosControl::hookBlock(){
-
+    hookAngle = HOOK_START + 80;
 }
 
 void servosControl::raiseBlock(){
-
+    armAngle = ARM_START + 135;
 }
 
 void servosControl::sortRed(){
-
+    hookAngle = HOOK_START;
+    sortAngle = 135;
 }
 
 void servosControl::sortGreen(){
+    hookAngle = HOOK_START;
+    sortAngle = 45;
+}
 
+void servosControl::reset(){
+    hookAngle = HOOK_START;
+    armAngle = ARM_START;
+    sortAngle = SORT_START;
 }
 
 servosControl::~servosControl(){
