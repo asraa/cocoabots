@@ -14,7 +14,7 @@ namespace ImageUtils {
 static const int SMOOTH_KERNEL = 3;
 static const int MORPH_KERNEL = 3;
 
-void binaryImagePreProcess(cv::Mat&);
+void binaryImagePreProcess(cv::Mat&, int);
 
 static const int CANNY_THRESH_LOW = 5;
 static const int CANNY_THRESH_UP = 15;

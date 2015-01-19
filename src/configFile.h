@@ -40,6 +40,9 @@
 #define SORT_SERVO_PWM 15
 #define ARM_SERVO_PWM 14
 #define HOOK_SERVO_PWM 13
+#define HOOK_START 100
+#define ARM_START 7
+#define SORT_START 90
 
 
 //SENSORS

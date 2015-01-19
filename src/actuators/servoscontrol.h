@@ -2,7 +2,8 @@
 #define SERVOSCONTROL_H
 
 #include "../configFile.h"
-#include  <thread>
+#include <thread>
+
 class servosControl
 {
 public:
@@ -11,15 +12,17 @@ public:
     double sortAngle;
     int running;
 
-    std::thread * runThread;
+    std::thread *runThread;
+    static void run(servosControl * myservos);
+
     servosControl();
     ~servosControl();
-    static void run(servosControl *myservo);
     void computeNewServosAngles();
     void hookBlock();
     void raiseBlock();
     void sortRed();
     void sortGreen();
+    void reset();
 };
 
 #endif // SERVOSCONTROL_H
