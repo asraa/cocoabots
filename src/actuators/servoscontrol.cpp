@@ -14,10 +14,13 @@ servosControl::servosControl()
 void servosControl::run(servosControl *myservo){
     while(myservo->running){
         usleep(UPDATE_RATE_SERVOS_MILISECONDS*1000);
+        if (startCollect){
+            static void timeStart = 0;
+
+        }
         myservo->computeNewServosAngles();
     }
 }
-
 
 void servosControl::hookBlock(){
     hookAngle = HOOK_START + 80;
@@ -33,7 +36,7 @@ void servosControl::sortRed(){
 }
 
 void servosControl::sortGreen(){
-    hookAngle = HOOK_START;
+    hookAngle = HOOK_START;,,,,,,,,,,,,,,,,,,,,,,
     sortAngle = 45;
 }
 
@@ -49,5 +52,12 @@ servosControl::~servosControl(){
     delete runThread;
 }
 void servosControl::computeNewServosAngles(){
+    /*if (startCollect){
+                                                                 hookBlock();
+        }
+        if (time > TIME_FOR_HOOK )
+    }
+    else {
 
+    }*/
 }

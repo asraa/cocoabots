@@ -1,4 +1,4 @@
-#ifndef SERVOSCONTROL_H
+﻿#ifndef SERVOSCONTROL_H
 #define SERVOSCONTROL_H
 
 #include "../configFile.h"
@@ -11,6 +11,8 @@ public:
     double hookAngle;
     double sortAngle;
     int running;
+    int startCollect;
+    int timeStart;
 
     std::thread *runThread;
     static void run(servosControl * myservos);
