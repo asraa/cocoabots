@@ -10,6 +10,10 @@ public:
     servosControl();
     ~servosControl();
 
+#include  <thread>
+class servosControl
+{
+public:
     double armAngle;
     double hookAngle;
     double sortAngle;
@@ -19,6 +23,11 @@ public:
     static void run(servosControl * myservos);
     //void computeNewServoAngles();
 
+    std::thread * runThread;
+    servosControl();
+    ~servosControl();
+    static void run(servosControl *myservo);
+    //void computeNewServosAngles();
     void hookBlock();
     void raiseBlock();
     void sortRed();

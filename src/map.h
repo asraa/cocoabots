@@ -68,6 +68,9 @@ class map
 		stackItems stacks;
 		homeBaseItems homeBases;
 		startLocItem startLoc;
+
+        std::vector<int>& operator[] (const int nIndex);
 };
+
 
 #endif

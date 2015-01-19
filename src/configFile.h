@@ -5,10 +5,9 @@
 #define MOTORS_OPPOSITE 1 //IF THE MOTORS ARE WIRED OPPOSITELY
 
 /*SWAP THE MOTOR_DIRECTIONS BACK AND FORTH IF THE ROBOT IS GOING BACKWARDS
-* If you swap, you also need to modify the GYROSCOPE_CLOCKWISE_POSITIVE from +-1 to -+
+* If you swap, you also need to modify the CLOCKWISE_POSITIVE from +-1 to -+
 * And also change ENCODER_OPPOSITE_MOTOR from -1 to 1;
-* You have to
-*IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
+* IF YOU MODIFY THEM, REMEMBER TO RETUNE THE MOTORCONTROL GAINS. THEY ARE SMALLER IF THE
 */
 //METAL WHELL IS ON THE FRONT = 1 0 -1 1
 #define MOTOR_DIRECTION_BACK 0  //Defines the value of the Dir pin when going back 1/0
@@ -75,11 +74,16 @@
 #define RIGHT_ENCODER_ENC_A 2 //Yellow wire or Blue
 #define RIGHT_ENCODER_ENC_B 3 //White wire
 
+
+//Those should be defined only if we are using only one wire per encoder
+///////////////////////////////////////////
 #define LEFT_ENCODER_DIR LEFT_WHEEL_DIR
 #define LEFT_ENCODER_ENC 4
 
 #define RIGHT_ENCODER_DIR RIGHT_WHEEL_DIR
 #define RIGHT_ENCODER_ENC 5
+///////////////////////////////////////////////////
+
 
 //UltrashortIR
 #define FRONT_ULTRASHORTIR 0
@@ -121,6 +125,8 @@
 
 
 //Define values for the alpha parameter of the filter of the sensors
+//They should be increased if there is too much noise
+/////////////////////////////////////
 #define SHORT_IR_ALPHA 0.7
 #define ULTRASHORT_IR_ALPHA 0.5
 #define ULTRASONIC_ALPHA 0.7
@@ -128,6 +134,7 @@
 #define ENCODER_ANGLE_ALPHA 0
 #define GYROSCOPE_TOTAL_ALPHA 0.7
 #define GYROSCOPE_READING_ALPHA 0.7
+//////////////////////////////////////
 
 //Sensors update Rate
 #define SENSORS_UPDATE_RATE_MILISECONDS 0 //UPDATE AS OFTEN AS POSSIBLE
@@ -146,6 +153,7 @@
 #define POSITION_SPEED_TOLERANCE 0.001
 #define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 #define MAXIMUM_DYNAMIC_TURN_ANGLE 15 //The maximum angle in which the robot can turn and move forward or back at the same time
+#define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 45
 
 //Maximum acceleration. Decrease if it is slipping
 #define CURRENT_LIMIT (0.1 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
@@ -153,5 +161,16 @@
 #define BACKWARDS_CURRENT_LIMIT  (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 10
+#define UPDATE_RATE_STATE_MACHINE_MICROSECONDS 0
+
+/////////////////////////////////////////////////////////////
+//Here starts definitions related to the states of the robot.
+#define WALL_FOLLOW_CARROT_DISTANCE_INCHES 30
+#define WALL_FOLLOW_WALL_DISTANCE_INCHES 20
+
+
+////
+
+#define PI 3.14159
 #endif // CONFIGFILE_H
 

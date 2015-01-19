@@ -47,3 +47,6 @@ servosControl::~servosControl(){
     runThread->join();
     delete runThread;
 }
+void servosControl::computeNewServosAngles(){
+
+}

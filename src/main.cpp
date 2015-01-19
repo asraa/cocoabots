@@ -1,16 +1,14 @@
 #include "cocoabot.h"
-
-
-
 int main(int argc, char** argv){
-  
+  cocoabot mycocoabot;
   //if no parameter was passed
   if (argc==1){
-     cocoabot mycocoabot(); //returns after the end of the round
+      mycocoabot.running=1;
+      mycocoabot.run();
+
   }
   else{
-      //custom execution.
-      cocoabot mycocoabot(argc, argv); //returns after the end of the test.
+      //cocoabot mycocoabot(argc, argv); //returns after the end of the test.
   }
  
   return 0;
