@@ -543,6 +543,35 @@ int main(int argc, char** argv){
             }
         }
 
+        else if (strcmp(argv[1],"actuatorInitializer")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            servosControl myservos;
+            motorsControl control(&mysensors);
+            actuator myactuator(control,myservos);
+            actPointer= &myactuator;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            RUNNING =1;
+            double desiredPosition;
+            double desiredAngle;
+            while(RUNNING)
+            {
+
+                printf("define the distance and angle to move\n My position=%lf \n", control.getNewPosition());
+                scanf("%lf %lf", &desiredPosition, &desiredAngle);
+                printf("my position =%lf\n", control.getNewPosition());
+                printf("Distance left wheel measured by the encoders =%lf\n", mysensors.leftEncoderMovement);
+                printf("Distance right wheel  measured by the encoders =%lf\n", mysensors.rightEncoderMovement);
+                printf("Angle measured by the encoders =%lf\n", control.getNewAngleFromEncoders());
+                printf("Angle measured by the gyroscope =%lf\n", control.getNewAngleFromGyroscope());
+                control.setNewDesiredRelativePositionInRadialCordinates(desiredPosition,desiredAngle);
+                usleep(20000.0);
+
+
+            }
+        }
+
         return 0;
     }
 }

@@ -16,6 +16,8 @@ motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
     previousRightWheelPosition=0;
     normalizedLeftWheelSpeed=0;
     normalizedRightWheelSpeed=0;
+    desiredPosition=0;
+    desiredAngle=0;
 
     this->running=1;
     runThread = new std::thread(run,this);

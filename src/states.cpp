@@ -100,7 +100,7 @@ double states::getAngle(){
 
 
 double states::cartesianCoordinatesToAngle(double frontDistance, double sideDistance){
-    return atan2(-sideDistance,frontDistance);
+    return atan2(-sideDistance,frontDistance) / PI *180;
 }
 
 
