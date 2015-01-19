@@ -44,6 +44,8 @@ protected:
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine
     int wallFollowing; //Variable that says if we have been wall following between iterations of the state machine
 
+
+
     //Here are defined all the data that the states have acess to.
     long long startTimeStateMicroseconds;
     states * nextState;

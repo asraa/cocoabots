@@ -43,7 +43,10 @@
 #define HOOK_START 100
 #define ARM_START 7
 #define SORT_START 90
-
+//defining times for servo control in microseconds
+#define TIME_FOR_HOOK 500000
+#define TIME_FOR_RAISE 100000
+#define TIME_FOR_SORT 100000
 
 //SENSORS
 //Ultrasonic

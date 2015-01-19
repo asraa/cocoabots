@@ -34,7 +34,6 @@ int * scanLine(cv::Mat&, cv::Mat&);
 void updateMapPts(GridMap&, int *, int);
 void updateMapPts(GridMap&, int, double [], int); // from scanline to update map
 
-
 }
 
 
