@@ -14,9 +14,10 @@ servosControl::servosControl()
 void servosControl::run(servosControl *myservo){
     while(myservo->running){
         usleep(UPDATE_RATE_SERVOS_MILISECONDS*1000);
-        //myservo->computeNewServoAngles();
+        myservo->computeNewServosAngles();
     }
 }
+
 
 void servosControl::hookBlock(){
     hookAngle = HOOK_START + 80;
