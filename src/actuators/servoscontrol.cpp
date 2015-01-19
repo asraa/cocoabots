@@ -14,10 +14,6 @@ servosControl::servosControl()
 void servosControl::run(servosControl *myservo){
     while(myservo->running){
         usleep(UPDATE_RATE_SERVOS_MILISECONDS*1000);
-        if (startCollect){
-            static void timeStart = 0;
-
-        }
         myservo->computeNewServosAngles();
     }
 }
