@@ -36,7 +36,7 @@ void servosControl::sortRed(){
 }
 
 void servosControl::sortGreen(){
-    hookAngle = HOOK_START;,,,,,,,,,,,,,,,,,,,,,,
+    hookAngle = HOOK_START;
     sortAngle = 45;
 }
 
