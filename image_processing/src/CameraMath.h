@@ -35,8 +35,8 @@ static const double CAM_HEIGHT = 5; // don't know yet
 //double determineDepth(double, double);
 //Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d&, double, Eigen::Matrix3d&);
 //Eigen::Vector2d reconstructPoint2D(int, double);
-Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d&, double);
-Eigen::Vector2d reconstructPoint2D(cv::Point, double);
+Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual);
+Eigen::Vector2d reconstructPoint2D(cv::Point& pt_im, double y_actual);
 
 
 }

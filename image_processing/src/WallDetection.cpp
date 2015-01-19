@@ -45,7 +45,7 @@ int * scanLine(cv::Mat& im_src, cv::Mat& im_line_edges) {
         }
     }
 
-    int result [2*num_cols];
+    int *result = new int[2*num_cols];
     for(int i=0; i<num_cols; i++) {
         result[2*i] = line_bottom[i];
         result[2*i+1] = line_top[i];
@@ -116,7 +116,7 @@ void detectWall(cv::Mat& frame, GridMap& local_map, int color) {
     cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
     int *line_pts = WallDetection::scanLine(frame, color_edges);
     WallDetection::updateMapPts(local_map, line_pts, frame.cols);
-
+    delete line_pts;
 }
 
 
