@@ -16,9 +16,17 @@ motorsControl::motorsControl(sensorsModule *sensors): mysensors(sensors)
     previousRightWheelPosition=0;
     normalizedLeftWheelSpeed=0;
     normalizedRightWheelSpeed=0;
+    desiredPosition=0;
+    desiredAngle=0;
 
     this->running=1;
     runThread = new std::thread(run,this);
+}
+
+
+void motorsControl::setNewDesiredRelativePositionInRadialCordinates(double radiusInInches, double angle){
+    desiredAngle= getNewAngle() + angle;
+    desiredPosition = getNewPosition() +radiusInInches;
 }
 
 
@@ -48,19 +56,8 @@ void motorsControl::computeNewMotorPowers(){
     double realAngle = getNewAngle();
     int angError = getAngleError(desiredAngle,realAngle);
     double angCorrection = (angError*angErrorGain + angSpeed*angSpeedGain) * CLOCKWISE_POSITIVE;
-
-    if (angCorrection >MAXIMUM_DYNAMIC_TURN_ANGLE){
-        if (isTurning==0){
-            positionStartTurning=getNewPosition();
-            nextPosition=positionStartTurning;
-            isTurning=1;
-        }else{
-            nextPosition=positionStartTurning;
-        }
-    }
-    else{
-        isTurning=0;
-    }
+    updateTurningState(angError,angSpeed);
+    nextPosition = ifTurningGetTurningAxisPosition(nextPosition);
 
     double fwdSpeed = realSpeed;
     if ((fwdSpeed < POSITION_SPEED_TOLERANCE) &&(-fwdSpeed<POSITION_SPEED_TOLERANCE)){
@@ -87,6 +84,30 @@ void motorsControl::computeNewMotorPowers(){
     leftMotorPower = newLeftMotorPower;
 }
 
+void motorsControl::updateTurningState(double angleError, double angleSpeed){
+    if ((angleError >MAXIMUM_DYNAMIC_TURN_ANGLE || -angleError >MAXIMUM_DYNAMIC_TURN_ANGLE)
+            || (angleSpeed >MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED || -angleSpeed >MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED)){
+        if (isTurning==0){
+            positionStartTurning=getNewPosition();
+            isTurning=1;
+        }else{
+            //Just keep Turning;
+        }
+    }
+    else{
+        isTurning=0;
+    }
+}
+
+double motorsControl::ifTurningGetTurningAxisPosition(double nextPosition){
+    if (isTurning){
+        return positionStartTurning;
+    }
+    else{
+        return nextPosition;
+    }
+
+}
 
 double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
     if ((power>0 && normalizedWheelSpeed >=0)&&((power - normalizedWheelSpeed)>CURRENT_LIMIT)){

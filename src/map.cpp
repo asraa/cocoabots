@@ -327,3 +327,10 @@ bool map::isPassable(intTuple pos) {
 int main_test() {
 	map myMap("red_map.txt");
 }
+
+
+
+std::vector<int>& map::operator[] (const int nIndex)
+{
+    return mapVector[nIndex];
+}

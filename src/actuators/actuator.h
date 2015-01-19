@@ -6,6 +6,7 @@
 #include "../sensorsmodule.h"
 #include "motorscontrol.h"
 #include "servo.h"
+#include "servoscontrol.h"
 
 class actuator
 {
@@ -14,7 +15,7 @@ public:
     // of the encoder. //OBSOLETE
     actuator(sensorsModule * sensors);
     actuator();
-    actuator(motorsControl &mymotorsControl);
+    actuator(motorsControl &mymotorsControl, servosControl &myservosControl);
     ~actuator();
     motorWheel rightWheel;
     motorWheel leftWheel;
@@ -41,12 +42,12 @@ public:
     void setPowerLeftWheel(double speed);
 
     //Angle = number from 0 to 180 (preferrably not boundries? not sure.)
-    void setSortServo(double angle);
-    double getSortServo();
-    void setArmServo(double angle);
-    double getArmServo();
-    void setHookServo(double angle);
-    double getHookServo();
+    void setSortServoAngle(double angle);
+    double getSortServoAngle();
+    void setArmServoAngle(double angle);
+    double getArmServoAngle();
+    void setHookServoAngle(double angle);
+    double getHookServoAngle();
 };
 
 #endif // ACTUATOR_H

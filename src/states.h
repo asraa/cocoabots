@@ -1,68 +1,59 @@
-/* Code related to the states of the robot, how to represent inputs and outputs (those two might be moved to another file if convenient later).
- */
 #ifndef STATES_H
 #define STATES_H
-#include "sensorsdef.h"
-
-//Contains data from the sensors, position of the robot, data from the image processing; all datas. It will NOT ask each one of the things for its data, it is just a STORAGE.
-//Is populated by the robot, and contains the data in a nice way, e.g.: "touching wall", etc.
-//The following is just an example, please change.
-
-class processState;
-class inputState;
-
-enum stateType{
-    onStart, onSearchForCubes, onDriveToCube, onCollectCube, onDeployCube, onWallFollow=30, onGyroscopeTest, onMoveToWallTest
-};
-
-//Class for the states
-class state
+#include "actuators/motorscontrol.h"
+#include "actuators/servoscontrol.h"
+#include "sensorsmodule.h"
+#include "configFile.h"
+#include "utils.h"
+class states
 {
 public:
-    state(enum stateType=onStart);
-    processState process(inputState input);
-    enum stateType myState;
+    states(motorsControl * motorControlPointer,
+           servosControl * servoControlPointer,
+           sensorsModule * sensorsPointer,
+           utils * utilsPointer);
+    states(states * previouStatePointer);
+    states * getNextState(); //Can return this, or a new state
+    virtual void processData() = 0; //This is the brain of the robot
+protected:
+    //Functions that should always be called.
+    void startProcessData(); //Should be called in the beginning of process data.
+                            //Takes care of procedures that have state machines inside them.
+    void finishProcesData(); // Should be called in the end of process data.
+                            //Takes care of procedures that have state machines inside them.
+
+    //Here are the helper functions for the states
+    int getTimeRemainingGameSeconds();
+    long long int getRunningTimeMicroSeconds();
+    double getAngle();
+
+    //Positive is defined to be to the right
+    double cartesianCoordinatesToAngle(double frontDistance, double sideDistance);
+    double getDistanceRightWall();
+    double getDistanceFrontWall();
+    double getAngleDifference(double angle1, double angle2);
+    void setCarrotPosition(double distance, double angle);
+
+    //Here are the procedures that can be used in all states.
+    //Many of them are implmented as state machines, so they should have two variables associated
+    //So that they could be cleaned. Take as an example the wall follow procedure and startProcessData
+    // and finish Process Data.
+
+    //wallFollow(); Follow a wall on the right
+    void wallFollow(); //procedure to wall follow
+    int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine
+    int wallFollowing; //Variable that says if we have been wall following between iterations of the state machine
+
+    //Here are defined all the data that the states have acess to.
+    long long startTimeStateMicroseconds;
+    states * nextState;
+    sensorsModule * mySensors;
+    motorsControl * myMotorControl;
+    servosControl * myServosControl;
+    utils * myUtils;
+
 };
 
 
-//Represents the position of the blocks, position of the robot and maybe the map / maybe in the map
-//Probably has also the velocity of each actuator of the robot that has a feedback system
-class inputState
-{
-public:
-    inputState();
-};
 
-
-//Contains the high level instructions for the actuators, that will be processed by the robot. It is just a STORAGE.
-//The following is just an example, please change.
-struct instruction{
-    int currentPosition;
-    int currentVelocity;
-    int desiredPosition;
-};
-
-class outputs
-{
-public:
-    outputs();
-    instruction robotPosition;
-    instruction robotAngle;
-    instruction liftPosition;
-};
-
-
-
-//Contains the next state for the robot and the outputs (instructions for the actuators). It is just a STORAGE.
-class processState
-{
-public:
-    processState();
-    state getNextState();
-    outputs getOutputs();
-    state mynextState;
-    outputs myoutputs;
-};
-
-
-#endif // STATE_H
+#endif // STATES_H
