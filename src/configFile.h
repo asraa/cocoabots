@@ -97,14 +97,14 @@
 
 
 //ShortIR
-#define FRONT_SHORTIR 0
+#define FRONT_SHORTIR 1
 #define FRONT_SHORTIR_PIN 0
 
 #define LEFT_SHORTIR 0
 #define LEFT_SHORTIR_PIN 0
 
-#define RIGHT_SHORTIR 0
-#define RIGHT_SHORTIR_PIN 0
+#define RIGHT_SHORTIR 1
+#define RIGHT_SHORTIR_PIN 1
 
 #define BACK_SHORTIR 0
 #define BACK_SHORTIR_PIN 0

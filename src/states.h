@@ -27,7 +27,7 @@ protected:
     long long int getRunningTimeMicroSeconds();
     double getAngle();
 
-    //Positive is defined to be to the right
+    //Positive is defined to be to the right, i.e. a negative side distance will make it turn to the left
     double cartesianCoordinatesToAngle(double frontDistance, double sideDistance);
     double getDistanceRightWall();
     double getDistanceFrontWall();

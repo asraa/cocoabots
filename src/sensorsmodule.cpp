@@ -142,37 +142,37 @@ void sensorsModule::run(sensorsModule * sensors){
 
 
         #if FRONT_ULTRASHORTIR
-        updateSensor(&sensors->frontUltraShortIR,&sensors->frontUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->frontUltraShortIR,&sensors->frontUltraShortIRData, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if BACK_ULTRASHORTIR
-        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIRData, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if RIGHT_ULTRASHORTIR
-        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->backUltraShortIR,&sensors->backUltraShortIRData, sensors->ultraShortIRAlpha,started);
         #endif
 
         #if LEFT_ULTRASHORTIR
-        updateSensor(&sensors->leftUltraShortIR,&sensors->leftUltraShortIR, sensors->ultraShortIRAlpha,started);
+        updateSensor(&sensors->leftUltraShortIR,&sensors->leftUltraShortIRData, sensors->ultraShortIRAlpha,started);
         #endif
 
 
 
         #if FRONT_SHORTIR
-        updateSensor(&sensors->frontShortIR,&sensors->frontShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->frontShortIR,&sensors->frontShortIRData, sensors->shortIRAlpha,started);
         #endif
 
         #if BACK_SHORTIR
-        updateSensor(&sensors->backShortIR,&sensors->backShortIR, sensors->backIRAlpha,started);
+        updateSensor(&sensors->backShortIR,&sensors->backShortIRData, sensors->backIRAlpha,started);
         #endif
 
         #if RIGHT_SHORTIR
-        updateSensor(&sensors->rightShortIR,&sensors->rightShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->rightShortIR,&sensors->rightShortIRData, sensors->shortIRAlpha,started);
         #endif
 
         #if LEFT_SHORTIR
-        updateSensor(&sensors->leftShortIR,&sensors->leftShortIR, sensors->shortIRAlpha,started);
+        updateSensor(&sensors->leftShortIR,&sensors->leftShortIRData, sensors->shortIRAlpha,started);
         #endif
 
         #if GYROSCOPE
