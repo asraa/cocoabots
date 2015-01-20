@@ -1,4 +1,5 @@
-
+#ifndef CAMERACONFIG_H
+#define CAMERACONFIG_H
 static const int DEBUG = 1;
 
 // translation vector of camera w.r.t to robot center
@@ -31,3 +32,5 @@ static const double CAM_MAT_INV_22 = 0.00146412;
 static const double CAM_MAT_INV_23 = -0.34553440;
 
 
+static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 100000;
+#endif
