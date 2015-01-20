@@ -9,6 +9,7 @@
 #include "sensors/ultraShortIR.h"
 #include "sensors/ultrasonic.h"
 #include "sensors/sensorssuperclass.h"
+#include "cmath"
 #include "configFile.h"
 
 class sensorsModule

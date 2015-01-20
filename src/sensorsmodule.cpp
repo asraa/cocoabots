@@ -196,7 +196,12 @@ void sensorsModule::updateSensor(sensorsSuperClass *sensor, volatile double *dat
 
 void sensorsModule::updateData(volatile double *previousData, double newData, float alpha, int started){
     if (started){
+        if (isinf(*previousData)){
+            *previousData=newData;
+        }
+        else{
         *previousData = kalmanFilter(*previousData,newData, alpha);
+        }
     }
     else{
         *previousData=newData;
