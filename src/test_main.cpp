@@ -546,7 +546,7 @@ int main(int argc, char** argv){
             ImageProcessor myImageProcessor;
             RUNNING=1;
             while(RUNNING){
-                printf("found cube =%d, cubePosition= %lf, cubeAngle=%lf, cubeColor=%d", myImageProcessor.getFoundCube(), myImageProcessor.getNearestCubeDist(), myImageProcessor.getNearestCubeAngle(), myImageProcessor.getNearestCubeColor());
+                printf("found cube =%d, cubePosition= %lf, cubeAngle=%lf, cubeColor=%d\n", myImageProcessor.getFoundCube(), myImageProcessor.getNearestCubeDist(), myImageProcessor.getNearestCubeAngle(), myImageProcessor.getNearestCubeColor());
                 usleep(2000000);
             }
         }
