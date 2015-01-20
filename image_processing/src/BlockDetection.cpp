@@ -32,7 +32,7 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
     // estimate number of blocks in stack
     int num_of_blocks = numOfBlocksEst(contours_poly);
 
-/*
+    /*
     // find top most point
     int top_ind= 0;
     double top_y = contours_poly.at(0).y;
@@ -164,9 +164,21 @@ void detectBlock(cv::Mat& frame, int& found_cube, double& nearest_cube_angle, do
 }
 
 void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist) {
+
     found_cube = 1;
-    nearest_cube_angle = block_coord_cam[0];
-    nearest_cube_dist = block_coord_cam[1];
+
+    double x_cam = block_coord_cam[0];
+    double y_cam = block_coord_cam[1];
+    double x_cam_rot = x_cam * cos(CAM_ANGLE_HOR) - y_cam * sin(CAM_ANGLE_HOR);
+    double y_cam_rot = x_cam * sin(CAM_ANGLE_HOR) + y_cam * cos(CAM_ANGLE_HOR);
+
+    double x_robot = x_cam_rot + CAM_ROBOT_X;
+    double y_robot = y_cam_rot + CAM_ROBOT_Y;
+
+    double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
+    nearest_cube_dist = dist;
+    double sin_phi = x_robot / dist; // need to check
+    nearest_cube_angle = asin(sin_phi);
 }
 
 void updateBlockNotFound(int& found_cube) {

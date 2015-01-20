@@ -55,6 +55,7 @@ public:
     int getFoundCube();
     double getNearestCubeDist();
     double getNearestCubeAngle();
+    int getNearestCubeColor();
 
     void run();
 };
