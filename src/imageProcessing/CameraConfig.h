@@ -32,5 +32,5 @@ static const double CAM_MAT_INV_22 = 0.00146412;
 static const double CAM_MAT_INV_23 = -0.34553440;
 
 
-static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 40000;
+static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 100000;
 #endif
