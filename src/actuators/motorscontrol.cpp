@@ -152,6 +152,10 @@ double motorsControl::getPositionError(double desiredPosition, double realPositi
     return fwdError;
 }
 
+double motorsControl::getPositionError(){
+    return getPositionError(desiredPosition, getNewPosition());
+}
+
 double motorsControl::powerMinimumThreshold(double power){
     if (power>0 && power<MINIMUM_THRESHOLD_PWM){
         power = MINIMUM_THRESHOLD_PWM;

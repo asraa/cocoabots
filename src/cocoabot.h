@@ -6,6 +6,7 @@
 #include "actuators/motorscontrol.h"
 #include "actuators/servoscontrol.h"
 #include "actuators/actuator.h"
+#include "imageProcessing/ImageProcessor.h"
 #include "utils.h"
 
 class cocoabot
@@ -21,6 +22,7 @@ private:
     actuator myActuator;
     utils myUtils;
     states * myState;
+    ImageProcessor myImageProcessor;
 };
 
 #endif // COCOABOT_H

@@ -6,13 +6,15 @@ cocoabot::cocoabot(): //Initializes all the modules
     myMotorControl(&mySensors),
     myServosControl(),
     myActuator(myMotorControl,myServosControl),
-    myUtils()
+    myUtils(),
+    myImageProcessor()
 
 {
     //Starts the state machine
     myState=new stateStart(&myMotorControl,
                            &myServosControl,
                            &mySensors,
+                           &myImageProcessor,
                            &myUtils);
 }
 

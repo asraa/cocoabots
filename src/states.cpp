@@ -4,22 +4,31 @@
 states::states(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
+               ImageProcessor *imageProcessorPointer,
                utils *utilsPointer):
     myMotorControl(motorControlPointer),
     myServosControl(servoControlPointer),
     mySensors(sensorsPointer),
     myUtils(utilsPointer),
+    myImageProcessor(imageProcessorPointer),
     nextState(this)
 {
-    startTimeStateMicroseconds = mySensors->timeMicrosecondsSinceEpoch;
+    startTimeStateMicroseconds = getTimeMicroseconds();
     wallFollowed=0;
     wallFollowing=0;
+    finishedCollectingBlock=0;
+    collectedBlocks=0;
+    collectingBlocks=0;
+    wentToPoint=0;
+    goingToPoint=0;
+    finishedGoingToPoint=0;
 }
 
 states::states(states *previouStatePointer):states(
                                                 previouStatePointer->myMotorControl,
                                                 previouStatePointer->myServosControl,
                                                 previouStatePointer->mySensors,
+                                                previouStatePointer->myImageProcessor,
                                                 previouStatePointer->myUtils){
 
 }
@@ -92,76 +101,85 @@ void states::wallFollow(){
 
 }
 
+void states::collectBlock(int color){
+    static long long int startTimeState;
+    enum collectBlockState{resettingStart, moving, grabing,lifting, sorting,releasing, swipping, resettingFinish};
+    static collectBlockState myState=resettingStart;
+    collectedBlocks=1;
 
-/*void states::wallFollow(){
-    wallFollowed=1; //Tells the state machine that we have wallFollowed
-
-    //Those are state variables that keeps track of where we are in the procedure. They must be static
-    static int foundWall=0; //If not, keep going forward until finding a wall
-    static int turnedToWall=0; //If found wall, turn 90 degrees to the wall
-    static int turning =0;
-    static int wallInFrontOfRobot=0;
-    static double initialTurningAngle =0; //Used to keep track if turned to the wall
-
-    //Restart State Machine if we've just started wall following
-    if (!wallFollowing){
-        turning =0;
-        foundWall=0;
-        turnedToWall =0;
-        initialTurningAngle = 0;
-        wallInFrontOfRobot=0;
+    if(!collectingBlocks){
+        startTimeState = getTimeMicroseconds();
+        myState=resettingStart;
     }
 
-    //If there is a wall in front of the robot, restart Turning
-     if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-         foundWall=1;
-         if((!wallInFrontOfRobot)&&turnedToWall){
-             wallInFrontOfRobot=1;
-             turning=0;
-             turnedToWall=0;
-         }
-         else{
-
-         }
-     }
-     else{
-         wallInFrontOfRobot=0;
-     }
-    //If already turned to the wall, follow the wall
-    if (turnedToWall){
-        double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
-        double carrotAngle;
-        double wallDistance = getDistanceRightWall();
-        double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
-        carrotAngle = cartesianCoordinatesToAngle(carrotDistance, distanceToMoveToWall);
-        setCarrotPosition(carrotDistance,carrotAngle);
-    }
-    //If wall is on the right, start following it
-    else if ((!wallInFrontOfRobot)&&getDistanceRightWall() < WALL_FOLLOW_WALL_DISTANCE_INCHES){
-        turnedToWall=1;
-    }
-    //If turned 80 degrees to the right, follow the wall
-    else if(turning){
-        if (getAngleDifference(initialTurningAngle,getAngle()) >80){
-            turnedToWall=1;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    switch(myState){
+    case (resettingStart):
+        if(difTime>BLOCK_COLLECT_RESET_TIME_MS){
+            myState=moving;
+            setCarrotPosition(BLOCK_COLLECT_DISTANCE_MOVE,0);
+            startTimeState = getTimeMicroseconds();
         }
-    }
-    //If found wall, turn your right to it
-    else if (foundWall){
-        initialTurningAngle=getAngle();
-        setCarrotPosition(0,-90);
-        turning=1;
-    }
-    //If the wall is near, you found the wall
-    else if (wallInFrontOfRobot){
-        foundWall=1;
-    }
-    //Else, keep looking for a wall
-    else{
-        setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+        else{
+            myServosControl->reset();
+        }
+    case(moving):
+        if(difTime>BLOCK_COLLECT_MAX_TIME_MOVING){
+            myState=grabing;
+            myServosControl->hookBlock();
+            startTimeState = getTimeMicroseconds();
+        }
+    case(grabing):
+        if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
+            myState=lifting;
+            myServosControl->raiseBlock();
+            startTimeState = getTimeMicroseconds();
+        }
+    case(lifting):
+        if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
+            myState=sorting;
+            if (color == ImageProcessor::CUBE_COLOR_GREEN)
+                myServosControl->sortGreen();
+            else{
+                myServosControl->sortRed();
+            }
+            startTimeState = getTimeMicroseconds();
+        }
+    case(sorting):
+        if(difTime>BLOCK_COLLECT_SORT_TIME_MS){
+            myState=releasing;
+            myServosControl->unHookBlock();
+            startTimeState = getTimeMicroseconds();
+        }
+
+    case(releasing):
+        if(difTime>BLOCK_COLLECT_RELEASE_TIME_MS){
+            myState=swipping;
+            myServosControl->swipe();
+            startTimeState = getTimeMicroseconds();
+        }
+    case(swipping):
+        if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){
+            myState=resettingFinish;
+            myServosControl->reset();
+            startTimeState = getTimeMicroseconds();
+        }
+    case(resettingFinish):
+        if(difTime>BLOCK_COLLECT_RESET_TIME_MS){
+            myState=resettingFinish;
+            myServosControl->reset();
+            startTimeState = getTimeMicroseconds();
+            finishedCollectingBlock=1;
+            myState=resettingStart;
+            collectingBlocks=0;
+        }
+
     }
 
-}*/
+
+
+}
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
@@ -173,7 +191,7 @@ states * states::getNextState(){
 }
 
 long long int states::getRunningTimeMicroSeconds(){
-    return mySensors->timeMicrosecondsSinceEpoch-startTimeStateMicroseconds;
+    return getTimeMicroseconds()-startTimeStateMicroseconds;
 }
 
 
@@ -199,6 +217,19 @@ volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
 
+
+void states::goToPoint(double distance, double angle){
+    wentToPoint=1;
+    if(!goingToPoint){
+        setCarrotPosition(distance,angle);
+    }
+    else{
+        if(getDistanceToCarrot()==0){
+            finishedGoingToPoint=1;
+        }
+    }
+}
+
 void states::setCarrotPosition(double distance, double angle){
     myMotorControl->setNewDesiredRelativePositionInRadialCordinates(distance, angle);
 }
@@ -207,10 +238,24 @@ double states::getAngleDifference(double angle1, double angle2){
     return myMotorControl->getAngleError(angle1,angle2);
 }
 
-void states::startProcessData(){
-    wallFollowed=0;
+double states::getDistanceToCarrot(){
+    return myMotorControl->getPositionError();
 }
 
+long long int states::getTimeMicroseconds(){
+    return mySensors->timeMicrosecondsSinceEpoch;
+}
+
+
+void states::startProcessData(){
+    wallFollowed=0;
+    collectedBlocks=0;
+    wentToPoint=0;
+}
+
+int states::foundCube(){
+    myImageProcessor->foundCube;
+}
 
 void states::finishProcesData(){
     if (wallFollowed){
@@ -218,6 +263,19 @@ void states::finishProcesData(){
     }
     else{
         wallFollowing=0;
+    }
+
+    if (collectedBlocks){
+        collectingBlocks=1;
+    }
+    else{
+        collectingBlocks=0;
+    }
+
+    if(wentToPoint){
+        goingToPoint=1;
+    }else{
+        goingToPoint=0;
     }
 }
 

@@ -6,7 +6,7 @@ servosControl::servosControl()
     armAngle = ARM_START;
     hookAngle = HOOK_START;
     sortAngle = SORT_START; //initialize this in the center
-
+    previousSwipe=0;
     this->running=1;
     runThread = new std::thread(run,this);
 }
@@ -20,6 +20,10 @@ void servosControl::run(servosControl *myservo){
 
 void servosControl::hookBlock(){
     hookAngle = HOOK_START + 80;
+}
+
+void servosControl::unHookBlock(){
+    hookAngle = HOOK_START;
 }
 
 void servosControl::raiseBlock(){
@@ -40,6 +44,11 @@ void servosControl::reset(){
     hookAngle = HOOK_START;
     armAngle = ARM_START;
     sortAngle = SORT_START;
+    swipping=0;
+}
+
+void servosControl::swipe(){
+    swipping=1;
 }
 
 servosControl::~servosControl(){
@@ -48,6 +57,18 @@ servosControl::~servosControl(){
     delete runThread;
 }
 void servosControl::computeNewServosAngles(){
+    if (swipping){
+        if (previousSwipe){
+            sortGreen();
+            previousSwipe=1;
+        }
+        else{
+            sortRed();
+            previousSwipe=0;
+        }
+        usleep(SWIPE_TIME_MS*1000);
+    }
+
     /*if (startCollect){
                                                                  hookBlock();
         }

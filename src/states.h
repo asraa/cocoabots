@@ -3,6 +3,7 @@
 #include "actuators/motorscontrol.h"
 #include "actuators/servoscontrol.h"
 #include "sensorsmodule.h"
+#include "imageProcessing/ImageProcessor.h"
 #include "configFile.h"
 #include "utils.h"
 class states
@@ -11,6 +12,7 @@ public:
     states(motorsControl * motorControlPointer,
            servosControl * servoControlPointer,
            sensorsModule * sensorsPointer,
+           ImageProcessor * imageProcessorPointer,
            utils * utilsPointer);
     states(states * previouStatePointer);
     states * getNextState(); //Can return this, or a new state
@@ -25,6 +27,7 @@ protected:
     //Here are the helper functions for the states
     int getTimeRemainingGameSeconds();
     long long int getRunningTimeMicroSeconds();
+    long long int getTimeMicroseconds();
     double getAngle();
 
     //Positive is defined to be to the right, i.e. a negative side distance will make it turn to the left
@@ -33,6 +36,8 @@ protected:
     volatile double getDistanceFrontWall();
     double getAngleDifference(double angle1, double angle2);
     void setCarrotPosition(double distance, double angle);
+    double getDistanceToCarrot();
+    int foundCube();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated
@@ -44,7 +49,15 @@ protected:
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine
     int wallFollowing; //Variable that says if we have been wall following between iterations of the state machine
 
+    void collectBlock(int color);
+    int collectedBlocks;
+    int collectingBlocks;
+    int finishedCollectingBlock; //I assume that we always finish collecting it.
 
+    void goToPoint(double distance, double angle);
+    int wentToPoint;
+    int goingToPoint;
+    int finishedGoingToPoint;
 
     //Here are defined all the data that the states have acess to.
     long long startTimeStateMicroseconds;
@@ -52,6 +65,7 @@ protected:
     sensorsModule * mySensors;
     motorsControl * myMotorControl;
     servosControl * myServosControl;
+    ImageProcessor * myImageProcessor;
     utils * myUtils;
 
 };

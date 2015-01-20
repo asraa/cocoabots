@@ -14,6 +14,9 @@ public:
     int startCollect;
     int timeStart;
 
+    int swipping;
+    int previousSwipe;
+
     std::thread *runThread;
     static void run(servosControl * myservos);
 
@@ -21,10 +24,12 @@ public:
     ~servosControl();
     void computeNewServosAngles();
     void hookBlock();
+    void unHookBlock();
     void raiseBlock();
     void sortRed();
     void sortGreen();
     void reset();
+    void swipe();
 };
 
 #endif // SERVOSCONTROL_H

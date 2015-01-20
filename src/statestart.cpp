@@ -1,11 +1,13 @@
 #include "statestart.h"
 #include "statewallfollow.h"
+#include "statelookingforblocks.h"
 stateStart::stateStart(motorsControl * motorControlPointer,
                        servosControl * servoControlPointer,
-                       sensorsModule * sensorsPointer,
+                       sensorsModule * sensorsPointer, ImageProcessor *imageProcessorPointer,
                        utils * utilsPointer):states(motorControlPointer,
                                                     servoControlPointer,
                                                     sensorsPointer,
+                                                    imageProcessorPointer,
                                                     utilsPointer)
 {
 }
@@ -18,7 +20,8 @@ void stateStart::processData(){
     startProcessData();
     //do stuff
 
-    nextState = new stateWallFollow(this);
+    //nextState = new stateWallFollow(this);
+    nextState = new stateLookingForBlocks(this);
     //finish doing stuff
     finishProcesData();
 }

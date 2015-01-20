@@ -61,6 +61,7 @@ public:
 
     int getAngleError(double myDesiredAngle, double realAngle);
     double getPositionError(double desiredPosition, double realPosition);
+    double getPositionError();
     double getNewAngle();
     double getNewAngleFromGyroscope();
     double getNewAngleFromEncoders();
