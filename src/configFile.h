@@ -155,8 +155,8 @@
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
 #define MINIMUM_THRESHOLD_PWM (0.03 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
-#define MAXIMUM_DYNAMIC_TURN_ANGLE 15 //The maximum angle in which the robot can turn and move forward or back at the same time
-#define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 45
+#define MAXIMUM_DYNAMIC_TURN_ANGLE 90 //The maximum angle in which the robot can turn and move forward or back at the same time
+#define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 90
 
 //Maximum acceleration. Decrease if it is slipping
 #define CURRENT_LIMIT (0.1 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
@@ -169,7 +169,9 @@
 /////////////////////////////////////////////////////////////
 //Here starts definitions related to the states of the robot.
 #define WALL_FOLLOW_CARROT_DISTANCE_INCHES 15
-#define WALL_FOLLOW_WALL_DISTANCE_INCHES 10
+#define WALL_FOLLOW_WALL_DISTANCE_INCHES 15
+#define WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES 35
+
 
 
 ////

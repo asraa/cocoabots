@@ -25,6 +25,63 @@ states::states(states *previouStatePointer):states(
 
 
 void states::wallFollow(){
+    enum wallFollowState{lookingForWall, rotating, followingWall};
+    static double initialTurningAngle =0;
+    static wallFollowState myState;
+
+    wallFollowed=1;
+    if(!wallFollowing){
+        myState = lookingForWall;
+    }
+
+    switch (myState) {
+    case lookingForWall:
+
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            myState = rotating;
+            initialTurningAngle=getAngle();
+            setCarrotPosition(0,-90);
+        }
+        else if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+            myState=followingWall;
+        } else{
+            setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+        }
+        break;
+
+    case rotating:
+        if (getAngleDifference(getAngle(),initialTurningAngle <-80)){
+            myState=followingWall;
+        }
+        break;
+
+    case followingWall:
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            myState = rotating;
+            initialTurningAngle=getAngle();
+            setCarrotPosition(0,-90);
+        }
+        else if (getDistanceRightWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+            myState=lookingForWall;
+
+        }
+        else{
+            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
+            double carrotAngle;
+            double wallDistance = getDistanceRightWall();
+            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
+            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, distanceToMoveToWall);
+            setCarrotPosition(carrotDistance,carrotAngle);
+
+        }
+
+        break;
+    }
+
+}
+
+
+/*void states::wallFollow(){
     wallFollowed=1; //Tells the state machine that we have wallFollowed
 
     //Those are state variables that keeps track of where we are in the procedure. They must be static
@@ -92,7 +149,7 @@ void states::wallFollow(){
         setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
     }
 
-}
+}*/
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
