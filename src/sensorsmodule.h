@@ -9,6 +9,7 @@
 #include "sensors/ultraShortIR.h"
 #include "sensors/ultrasonic.h"
 #include "sensors/sensorssuperclass.h"
+#include "cmath"
 #include "configFile.h"
 
 class sensorsModule
@@ -17,35 +18,35 @@ public:
     sensorsModule();
     ~sensorsModule();
 
-    double frontUltrasonicData;
-    double rightUltrasonicData;
-    double leftUltrasonicData;
+    volatile double frontUltrasonicData;
+    volatile double rightUltrasonicData;
+    volatile double leftUltrasonicData;
 
-    double rightEncoderMovement;
-    double leftEncoderMovement;
-    double encoderAngle;
+    volatile double rightEncoderMovement;
+    volatile double leftEncoderMovement;
+    volatile double encoderAngle;
 
-    double frontUltraShortIRData;
-    double rightUltraShortIRData;
-    double leftUltraShortIRData;
-    double backUltraShortIRData;
+    volatile double frontUltraShortIRData;
+    volatile double rightUltraShortIRData;
+    volatile double leftUltraShortIRData;
+    volatile double backUltraShortIRData;
 
-    double frontShortIRData;
-    double rightShortIRData;
-    double leftShortIRData;
-    double backShortIRData;
+    volatile double frontShortIRData;
+    volatile double rightShortIRData;
+    volatile double leftShortIRData;
+    volatile double backShortIRData;
 
 
-    double ultrasonicAlpha;
-    double ultraShortIRAlpha;
-    double shortIRAlpha;
-    double encoderAlpha;
-    double encoderAngleAlpha;
-    double gyroscopeTotalAlpha;
-    double gyroscopeReadingAlpha;
+    volatile double ultrasonicAlpha;
+    volatile double ultraShortIRAlpha;
+    volatile double shortIRAlpha;
+    volatile double encoderAlpha;
+    volatile double encoderAngleAlpha;
+    volatile double gyroscopeTotalAlpha;
+    volatile double gyroscopeReadingAlpha;
 
-    double gyroscopeAngle;
-    double gyroscopeReading;
+    volatile double gyroscopeAngle;
+    volatile double gyroscopeReading;
 
     long long int timeMicrosecondsSinceEpoch;
 
@@ -54,8 +55,8 @@ public:
     std::thread *runThread;
 
     static void run(sensorsModule * sensors);
-    static void updateSensor(sensorsSuperClass *sensor, double * data, float alpha, int started);
-    static void updateData(double* previousData, double newData, float alpha, int started);
+    static void updateSensor(sensorsSuperClass *sensor, volatile double * data, float alpha, int started);
+    static void updateData(volatile double* previousData, double newData, float alpha, int started);
     static void updateTime(sensorsModule * sensors);
 
     static double kalmanFilter(double previousData, double newData, float alpha);

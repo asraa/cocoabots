@@ -3,7 +3,7 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 # Declaration of variables
 CC = g++
 CFLAGS = -I. -std=c++11
-LIBS = -lmraa
+LIBS = -lmraa -I /usr/local/include/eigen3 -I/usr/local/include/opencv -I/usr/local/include/opencv2 -std=c++11 -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_video -lopencv_features2d 
 CDEBUGFLAGS = -g
 
 # File names

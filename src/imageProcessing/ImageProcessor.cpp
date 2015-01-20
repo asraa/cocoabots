@@ -1,5 +1,6 @@
 
 #include "ImageProcessor.h"
+#include <unistd.h>
 
 
 // initializer for ImageProcessing class
@@ -9,7 +10,15 @@ ImageProcessor::ImageProcessor(): local_map(70,70) {
     if(!vid_cap.isOpened()) {
         // do something ??
     }
+    running=1;
+    runThread = new std::thread(run,this);
 
+}
+
+ImageProcessor::~ImageProcessor(){
+    running=0;
+    runThread->join();
+    delete runThread;
 }
 
 void ImageProcessor::detectWall(cv::Mat& frame) {
@@ -55,17 +64,17 @@ void ImageProcessor::local_map_refresh() {
     local_map.setVal(30,30,180);
 }
 
-void ImageProcessor::run() {
-    while(1) {
+void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
+    while(ImageProcessorPointer->running) {
 
         cv::Mat frame;
-        vid_cap >> frame; // get a new frame from camera
+        ImageProcessorPointer->vid_cap >> frame; // get a new frame from camera
 
         //frame = cv::imread( "images/calibration_19.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
         // test
-        detectWall(frame);
-        detectBlocks(frame);
+        ImageProcessorPointer->detectWall(frame);
+        ImageProcessorPointer->detectBlocks(frame);
 
         if(DEBUG == 1) {
             //  cv::Mat local_map_im = local_map.cvtImage();
@@ -75,6 +84,7 @@ void ImageProcessor::run() {
         }
 
         // some sort of usleep...
+        usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }
 
 }

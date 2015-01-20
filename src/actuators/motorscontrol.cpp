@@ -127,8 +127,8 @@ double motorsControl::currentLimiter(double normalizedWheelSpeed, double power){
     }
 }
 
-int motorsControl::getAngleError(double desiredAngle, double realAngle){
-    int angError = (int)(desiredAngle - realAngle);
+int motorsControl::getAngleError(double myDesiredAngle, double realAngle){
+    int angError = (int)(myDesiredAngle - realAngle);
     angError %=360;
     if (angError <-180){
         angError+=360;

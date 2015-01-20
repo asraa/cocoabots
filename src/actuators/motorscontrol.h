@@ -59,7 +59,7 @@ public:
     static void run(motorsControl * mycontrol);
     void computeNewMotorPowers();
 
-    int getAngleError(double desiredAngle, double realAngle);
+    int getAngleError(double myDesiredAngle, double realAngle);
     double getPositionError(double desiredPosition, double realPosition);
     double getNewAngle();
     double getNewAngleFromGyroscope();
