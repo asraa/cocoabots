@@ -49,6 +49,8 @@ void states::wallFollow(){
             myState=followingWall;
         } else{
             setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+
         }
         break;
 
