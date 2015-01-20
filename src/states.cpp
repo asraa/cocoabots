@@ -189,11 +189,11 @@ double states::cartesianCoordinatesToAngle(double frontDistance, double sideDist
 }
 
 
-double states::getDistanceRightWall(){
+volatile double states::getDistanceRightWall(){
     return mySensors->rightShortIRData;
 }
 
-double states::getDistanceFrontWall(){
+volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
 

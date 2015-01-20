@@ -29,8 +29,8 @@ protected:
 
     //Positive is defined to be to the right, i.e. a negative side distance will make it turn to the left
     double cartesianCoordinatesToAngle(double frontDistance, double sideDistance);
-    double getDistanceRightWall();
-    double getDistanceFrontWall();
+    volatile double getDistanceRightWall();
+    volatile double getDistanceFrontWall();
     double getAngleDifference(double angle1, double angle2);
     void setCarrotPosition(double distance, double angle);
 
