@@ -29,82 +29,43 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 
     // get red + green
 
-    // do i need contour class??
-    BlockDetection::detectBlock(frame);
-
-
-    // get contour
-    std::cout<<"hello";
-    // for each contour:
-    // determine distance
-    //
+    // very crude stuff right now
+    BlockDetection::detectBlock(frame, foundCube, nearestCubeAngle, nearestCubeDist);
 
 }
 
+int ImageProcessor::getFoundCube() {
+    return foundCube;
+}
 
+int ImageProcessor::getNearestCubeColor() {
+    return nearestCubeColor;
+}
+
+double ImageProcessor::getNearestCubeAngle() {
+    return nearestCubeAngle;
+}
+
+double ImageProcessor::getNearestCubeDist() {
+    return nearestCubeDist;
+}
 
 void ImageProcessor::run() {
-    cv::namedWindow("video",1); // what's the 1 for?
-    cv::namedWindow("local map",cv::WINDOW_NORMAL);
-    cv::namedWindow("raw", 1);
-  //  while(1) {
+ while(1) {
         local_map.setZeros();
         local_map.setVal(30,30,180);
         cv::Mat frame;
-        //vid_cap >> frame; // get a new frame from camera
-        //cv::imshow("raw",frame);
+        vid_cap >> frame; // get a new frame from camera
 
-        frame = cv::imread( "images/calibration_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+        //frame = cv::imread( "images/calibration_19.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
         // test
         detectWall(frame);
-        //detectBlocks(frame);
+        detectBlocks(frame);
 
-        cv::Mat local_map_im = local_map.cvtImage();
-
-        cv::imshow("video", frame);
-        cv::imshow("local map", local_map_im);
-         cv::waitKey(0); // somehow must need this to work
-   //}
+      //  cv::Mat local_map_im = local_map.cvtImage();
+        //cv::namedWindow("www",1);
+       // cv::imshow("www",local_map_im);
+        cv::waitKey(100);
+ }
 }
-
-/*
- Ideally what i want for these functions:
-
- detectwall(){
-    what's involved in here?
-    - get blue color -- ColorDetection
-    - canny edges/contour
-    - check if is wall (if using contour)
-    - search line by line -- function that does this?? sure.
-    - remove pixels above -- in the function above
-    - determine x,y coords in camera coord
-    -- do the same for yellow
-
-
-    -- do the same for red (<-- could be problematic???)
-
-    - get blue & yellow & white -- colordetection
-    - hough lines
-    - determine x,y coords using line info -- function
- }
-
- detectblocks(){
-
- }
-
- run() {
-
- while(1) {
- detectwall();
- detectblocks();
- update();
- }
-
- }
-
-
-
-
- * */
-

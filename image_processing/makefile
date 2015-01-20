@@ -34,3 +34,6 @@ test: $(OBJECTS_TEST)
 	$(CC) $(OBJECTS_TEST) -o $(EXEC_TEST) $(CFLAGS) $(LIBS)
 test_clean:
 	rm -f $(EXEC_TEST) $(OBJECTS_TEST)
+
+debug: CFLAGS+= -g
+debug: $(EXEC)

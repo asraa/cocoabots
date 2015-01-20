@@ -26,10 +26,13 @@ static const double POLY_NEIGHBORHOOD = 7;
 
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point>&);
 
-void detectBlock(cv::Mat&);
+void detectBlock(cv::Mat&, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist);
 
 int numOfBlocksEst(std::vector<cv::Point> &);
 
+void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist);
+
+void updateBlockNotFound(int& found_cube);
 
 }
 
