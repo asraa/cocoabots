@@ -1,5 +1,6 @@
 #include "states.h"
 #include <cmath>
+#include <cstdio>
 states::states(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
@@ -41,8 +42,10 @@ void states::wallFollow(){
             myState = rotating;
             initialTurningAngle=getAngle();
             setCarrotPosition(0,-90);
+            printf("transitioning from looking for a wall to rotating\n");
         }
         else if (getDistanceRightWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
             setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
@@ -52,6 +55,7 @@ void states::wallFollow(){
     case rotating:
         if (getAngleDifference(getAngle(),initialTurningAngle <-80)){
             myState=followingWall;
+            printf("transitioning from rotating to following\n");
         }
         break;
 
@@ -60,9 +64,13 @@ void states::wallFollow(){
             myState = rotating;
             initialTurningAngle=getAngle();
             setCarrotPosition(0,-90);
+            printf("transitioning from following for a wall to rotating\n");
+
         }
         else if (getDistanceRightWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
             myState=lookingForWall;
+            printf("transitioning from following to  looking \n");
+
 
         }
         else{
