@@ -42,7 +42,7 @@ void states::wallFollow(){
             initialTurningAngle=getAngle();
             setCarrotPosition(0,-90);
         }
-        else if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+        else if (getDistanceRightWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             myState=followingWall;
         } else{
             setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
