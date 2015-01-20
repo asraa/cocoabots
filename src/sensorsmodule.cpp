@@ -188,13 +188,13 @@ void sensorsModule::run(sensorsModule * sensors){
 
 }
 
-void sensorsModule::updateSensor(sensorsSuperClass *sensor, double *data, float alpha, int started){
+void sensorsModule::updateSensor(sensorsSuperClass *sensor, volatile double *data, float alpha, int started){
     //We want to have a time out here on the getData
     double newData = sensor->getData();
     updateData(data,newData,alpha,started);
 }
 
-void sensorsModule::updateData(double *previousData, double newData, float alpha, int started){
+void sensorsModule::updateData(volatile double *previousData, double newData, float alpha, int started){
     if (started){
         *previousData = kalmanFilter(*previousData,newData, alpha);
     }
