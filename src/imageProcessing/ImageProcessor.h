@@ -31,14 +31,15 @@ public:
 
     GridMap local_map; // for now
 
-    static const int CUBE_COLOR_GREEN = 0;
-    static const int CUBE_COLOR_RED = 1;
-
     // update for other threads to get
     int foundCube;
     double nearestCubeAngle;
     double nearestCubeDist;
     int nearestCubeColor;
+
+    static const int CUBE_COLOR_GREEN = 0;
+    static const int CUBE_COLOR_RED = 1;
+
     int running;
     std::thread *runThread;
 

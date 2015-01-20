@@ -44,7 +44,7 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
     // get red + green
 
     // very crude stuff right now
-    BlockDetection::detectBlock(frame, foundCube, nearestCubeAngle, nearestCubeDist);
+    BlockDetection::detectBlock(frame, foundCube, nearestCubeAngle, nearestCubeDist, nearestCubeColor);
 
 }
 
@@ -72,9 +72,12 @@ void ImageProcessor::local_map_refresh() {
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
     while(ImageProcessorPointer->running) {
 
-        cv::Mat frame;
-        ImageProcessorPointer->vid_cap >> frame; // get a new frame from camera
+        cv::Mat frame_raw;
+        ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
 
+        cv::Mat frame;
+        // hard-coding resize_ratio for now
+        cv::resize(frame_raw, frame, cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
         //frame = cv::imread( "images/calibration_19.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
         // test

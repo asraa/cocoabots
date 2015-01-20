@@ -1,7 +1,0 @@
-
-
-* ColorDetector
-
-* WallDetector
-
-* BlockDetector

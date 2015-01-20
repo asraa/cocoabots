@@ -5,8 +5,7 @@ namespace CameraMath {
 
 
 double determineDepth(double delta_y_im, double real_delta_height) {
-    double s = real_delta_height * cos(CAM_ANGLE/180*M_PI) / (CAM_MAT_INV_22 * delta_y_im);
-    std::cout<<CAM_MAT;
+    double s = real_delta_height * cos(CAM_ANGLE_VERT/180*M_PI) / (CAM_MAT_INV_22 * delta_y_im);
     return s;
 }
 
@@ -48,5 +47,22 @@ Eigen::Vector2d reconstructPoint2D(cv::Point pt_im, double y_actual) {
     result << temp(0)*s, temp(2)*s;
     return result;
 }
+
+Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam) {
+    double x_cam_rot = x_cam * cos(CAM_ANGLE_HOR) - y_cam * sin(CAM_ANGLE_HOR);
+    double y_cam_rot = x_cam * sin(CAM_ANGLE_HOR) + y_cam * cos(CAM_ANGLE_HOR);
+
+    double x_robot = x_cam_rot + CAM_ROBOT_X;
+    double y_robot = y_cam_rot + CAM_ROBOT_Y;
+
+    double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
+    double sin_phi = x_robot / dist; // need to check
+    double phi = asin(sin_phi);
+
+    Eigen::Vector2d result;
+    result << dist, phi;
+    return result;
+}
+
 
 }
