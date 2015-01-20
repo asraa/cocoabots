@@ -68,7 +68,7 @@ void states::wallFollow(){
         setCarrotPosition(carrotDistance,carrotAngle);
     }
     //If wall is on the right, start following it
-    else if (getDistanceRightWall() < WALL_FOLLOW_WALL_DISTANCE_INCHES){
+    else if ((!wallInFrontOfRobot)&&getDistanceRightWall() < WALL_FOLLOW_WALL_DISTANCE_INCHES){
         turnedToWall=1;
     }
     //If turned 80 degrees to the right, follow the wall
