@@ -25,7 +25,6 @@ int numOfBlocksEst(std::vector<cv::Point> & contours_poly){
 // does not consider occlusion
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 
-
     std::vector<cv::Point> contours_poly;
     cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
 
@@ -135,31 +134,39 @@ void detectBlock(cv::Mat& frame, int& found_cube, double& nearest_cube_angle, do
 
     cv::Mat im_red = ColorDetection::detectColor(frame, ColorDetection::COLOR_BLOCK_RED);
 
-    cv::namedWindow("ae",1);
-    cv::imshow("ae",im_red);
+    if(DEBUG == 1){
+        cv::namedWindow("ae",1);
+        cv::imshow("ae",im_red);
+    }
 
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
 
     ContourUtils::ContourData contour_data = ContourUtils::getContours(im_red);
 
-    cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
-    cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
-    cv::namedWindow("qq",1);
-    cv::imshow("qq",drawing);
+    if(DEBUG==1){
+        cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
+        cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
+        cv::namedWindow("qq",1);
+        cv::imshow("qq",drawing);
+    }
 
     ContourUtils::cleanContour(contour_data); // remove small features
 
-    cv::Mat drawing2 = cv::Mat::zeros(frame.size(), CV_8UC3);
-    cv::drawContours(drawing2, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
-    cv::namedWindow("dd",1);
-    cv::imshow("dd",drawing2);
+    if(DEBUG==1) {
+        cv::Mat drawing2 = cv::Mat::zeros(frame.size(), CV_8UC3);
+        cv::drawContours(drawing2, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
+        cv::namedWindow("dd",1);
+        cv::imshow("dd",drawing2);
+    }
 
     if(contour_data.contours.size() < 1) {
         updateBlockNotFound(found_cube);
     } else { // need to change later
         Eigen::Vector2d result = crudeEstimate(contour_data.contours.at(0)); // hacked for now
         updateBlockFoundInfo(result, found_cube, nearest_cube_angle, nearest_cube_dist);
-        std::cout<<"cube found: "<<result<<std::endl;
+        if(DEBUG==1) {
+            std::cout<<"cube found: "<<result<<std::endl;
+        }
     }
 }
 
@@ -169,16 +176,11 @@ void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int& found_cube, doub
 
     double x_cam = block_coord_cam[0];
     double y_cam = block_coord_cam[1];
-    double x_cam_rot = x_cam * cos(CAM_ANGLE_HOR) - y_cam * sin(CAM_ANGLE_HOR);
-    double y_cam_rot = x_cam * sin(CAM_ANGLE_HOR) + y_cam * cos(CAM_ANGLE_HOR);
 
-    double x_robot = x_cam_rot + CAM_ROBOT_X;
-    double y_robot = y_cam_rot + CAM_ROBOT_Y;
+    Eigen::Vector2d block_coord_rob_radial = CameraMath::cvtCamXY2RobotRadial(x_cam, y_cam);
+    nearest_cube_dist = block_coord_rob_radial[0];
+    nearest_cube_angle = block_coord_rob_radial[1];
 
-    double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
-    nearest_cube_dist = dist;
-    double sin_phi = x_robot / dist; // need to check
-    nearest_cube_angle = asin(sin_phi);
 }
 
 void updateBlockNotFound(int& found_cube) {

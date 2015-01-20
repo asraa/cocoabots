@@ -25,7 +25,6 @@ int numOfBlocksEst(std::vector<cv::Point> & contours_poly){
 // does not consider occlusion
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 
-
     std::vector<cv::Point> contours_poly;
     cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
 

@@ -37,14 +37,11 @@ public:
     int foundCube;
     double nearestCubeAngle;
     double nearestCubeDist;
+
     int nearestCubeColor;
 
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
-
-    ContourData getContours(cv::Mat&);
-    bool contour2small(std::vector<cv::Point>&);
-    void cleanContour(ContourData&);
 
     void local_map_refresh();
 

@@ -26,12 +26,6 @@ class ImageProcessor
 public:
     ImageProcessor();
 
-    struct ContourData {
-        cv::Mat drawing;
-        std::vector<std::vector<cv::Point> > contours;
-        std::vector<cv::Vec4i> hierarchy;
-    };
-
     cv::VideoCapture vid_cap;
 
     GridMap local_map; // for now
@@ -43,14 +37,13 @@ public:
     int foundCube;
     double nearestCubeAngle;
     double nearestCubeDist;
+
     int nearestCubeColor;
 
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
 
-    ContourData getContours(cv::Mat&);
-    bool contour2small(std::vector<cv::Point>&);
-    void cleanContour(ContourData&);
+    void local_map_refresh();
 
     int getFoundCube();
     double getNearestCubeDist();

@@ -50,10 +50,14 @@ double ImageProcessor::getNearestCubeDist() {
     return nearestCubeDist;
 }
 
+void ImageProcessor::local_map_refresh() {
+    local_map.setZeros();
+    local_map.setVal(30,30,180);
+}
+
 void ImageProcessor::run() {
- while(1) {
-        local_map.setZeros();
-        local_map.setVal(30,30,180);
+    while(1) {
+
         cv::Mat frame;
         vid_cap >> frame; // get a new frame from camera
 
@@ -63,9 +67,14 @@ void ImageProcessor::run() {
         detectWall(frame);
         detectBlocks(frame);
 
-      //  cv::Mat local_map_im = local_map.cvtImage();
-        //cv::namedWindow("www",1);
-       // cv::imshow("www",local_map_im);
-        cv::waitKey(100);
- }
+        if(DEBUG == 1) {
+            //  cv::Mat local_map_im = local_map.cvtImage();
+            //cv::namedWindow("www",1);
+            // cv::imshow("www",local_map_im);
+            cv::waitKey(100);
+        }
+
+        // some sort of usleep...
+    }
+
 }
