@@ -45,11 +45,11 @@ void states::wallFollow(){
 
     //If there is a wall in front of the robot, restart Turning
      if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-         if(!wallInFrontOfRobot){
+         foundWall=1;
+         if((!wallInFrontOfRobot)&&turnedToWall){
              wallInFrontOfRobot=1;
              turning=0;
              turnedToWall=0;
-             foundWall=1;
          }
          else{
 
