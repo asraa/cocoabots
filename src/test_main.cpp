@@ -3,7 +3,6 @@
 #include <cmath>
 #include "sensors/ultrasonic.h"
 #include "actuators/pwmutils.h"
-#include "actuators/pid.h"
 #include "actuators/actuator.h"
 #include "sensorsmodule.h"
 #include "sensors/encoderquadrature.h"
@@ -12,7 +11,7 @@
 #include <signal.h>
 #include  <thread>
 #include <stdlib.h>     /* atoi */
-
+#include "imageProcessing/ImageProcessor.h"
 
 
 
@@ -82,34 +81,6 @@ int main(int argc, char** argv){
             }
         }
 
-        else if (strcmp(argv[1],"ultrasonicpidmotor")==0){
-            //test out pid control to make motors move to a fixed distance from wall, feedback with ultrasonic
-            ultrasonic testUltrasonic(2,3);
-            pwmUtils pwm;
-            pid testPID(1,0,0);
-            mraa::Gpio dirPin1(8);
-            mraa::Gpio dirPin2(9);
-
-            while(1){
-                int targetDist = 10; //get 10 cm away
-                float update = testPID.calcPID(targetDist,testUltrasonic.getDistance(1));
-                pwm.writePWM(1,std::abs(update)); //first motor PWM pin 1
-                if (update < 0){
-                    dirPin1.write(0);
-                    dirPin2.write(1);
-                }
-                else {
-                    dirPin1.write(1);
-                    dirPin2.write(0);
-                }
-
-                //first motor dir pin 8
-                printf("%f\n", update);
-                pwm.writePWM(2,std::abs(update)); //second motor PWM pin 2
-                //second motor dir pin 9
-
-            }
-        }
         else if (strcmp(argv[1],"testtime")==0){
             sensorsModule mysensors;
             while(1)
@@ -569,6 +540,14 @@ int main(int argc, char** argv){
                 usleep(20000.0);
 
 
+            }
+        }
+        else if (strcmp(argv[1],"imageProcessorTest")==0){
+            ImageProcessor myImageProcessor;
+            RUNNING=1;
+            while(RUNNING){
+                printf("found cube =%d, cubePosition= %lf, cubeAngle=%lf, cubeColor=%d", myImageProcessor.getFoundCube(), myImageProcessor.getNearestCubeDist(), myImageProcessor.getNearestCubeAngle(), myImageProcessor.getNearestCubeColor());
+                usleep(2000000);
             }
         }
 

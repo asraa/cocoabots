@@ -8,6 +8,7 @@
 #include <eigen3/Eigen/LU>
 #include <iostream>
 #include <math.h>
+#include <thread>
 
 #include "GridMap.h"
 #include "ColorDetection.h"
@@ -15,7 +16,7 @@
 #include "CameraMath.h"
 #include "ImageUtils.h"
 #include "BlockDetection.h"
-
+#include "CameraConfig.h"
 /***********************************************
  ***********IMAGE PROCESSING CLASS**************
  **********************************************/
@@ -25,7 +26,7 @@ class ImageProcessor
 {
 public:
     ImageProcessor();
-
+    ~ImageProcessor();
     cv::VideoCapture vid_cap;
 
     GridMap local_map; // for now
@@ -38,6 +39,8 @@ public:
     double nearestCubeAngle;
     double nearestCubeDist;
     int nearestCubeColor;
+    int running;
+    std::thread *runThread;
 
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
@@ -49,7 +52,7 @@ public:
     double getNearestCubeAngle();
     int getNearestCubeColor();
 
-    void run();
+    static void run(ImageProcessor * ImageProcessorPointer);
 };
 
 #endif // IMAGEPROCESSOR_H

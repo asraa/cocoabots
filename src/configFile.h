@@ -168,8 +168,8 @@
 
 /////////////////////////////////////////////////////////////
 //Here starts definitions related to the states of the robot.
-#define WALL_FOLLOW_CARROT_DISTANCE_INCHES 15
-#define WALL_FOLLOW_WALL_DISTANCE_INCHES 15
+#define WALL_FOLLOW_CARROT_DISTANCE_INCHES 12
+#define WALL_FOLLOW_WALL_DISTANCE_INCHES 17
 #define WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES 35
 
 
