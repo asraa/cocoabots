@@ -53,9 +53,11 @@ void states::wallFollow(){
         break;
 
     case rotating:
-        if (getAngleDifference(getAngle(),initialTurningAngle <-80)){
+        double myAngle = getAngle();
+        double angleDif =getAngleDifference(myAngle,initialTurningAngle);
+        if (angleDif <-80){
             myState=followingWall;
-            printf("transitioning from rotating to following\n");
+            printf("transitioning from rotating to following; myangle =%d, initial angle = %d, difference=\n", myAngle, initialTurningAngle,);
         }
         break;
 
