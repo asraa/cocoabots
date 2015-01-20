@@ -29,15 +29,14 @@ static const double CAM_MAT_INV_13 = -0.430656;
 static const double CAM_MAT_INV_22 = 0.00146412;
 static const double CAM_MAT_INV_23 = -0.34553440;
 
-static const double CAM_ANGLE = 0; // in case we put it at an angle
+static const double CAM_ANGLE = 10; // in case we put it at an angle -- in degrees
 static const double CAM_HEIGHT = 5; // don't know yet
 
-//double determineDepth(double, double);
+double determineDepth(double, double);
 //Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d&, double, Eigen::Matrix3d&);
-//Eigen::Vector2d reconstructPoint2D(int, double);
+Eigen::Vector2d reconstructPoint2D(int, double);
 Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual);
-Eigen::Vector2d reconstructPoint2D(cv::Point& pt_im, double y_actual);
-
+Eigen::Vector2d reconstructPoint2D(cv::Point pt_im, double y_actual);
 
 }
 

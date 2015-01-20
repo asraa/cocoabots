@@ -24,26 +24,39 @@
 class ImageProcessor 
 {
 public:
-  ImageProcessor();
+    ImageProcessor();
 
-  struct ContourData {
-    cv::Mat drawing;
-    std::vector<std::vector<cv::Point> > contours;
-    std::vector<cv::Vec4i> hierarchy;
-  };
+    struct ContourData {
+        cv::Mat drawing;
+        std::vector<std::vector<cv::Point> > contours;
+        std::vector<cv::Vec4i> hierarchy;
+    };
 
-  cv::VideoCapture vid_cap;
+    cv::VideoCapture vid_cap;
 
-  GridMap local_map; // for now
+    GridMap local_map; // for now
 
-  void detectWall(cv::Mat&);
-  void detectBlocks(cv::Mat&);
+    static const int CUBE_COLOR_GREEN = 0;
+    static const int CUBE_COLOR_RED = 1;
 
-  ContourData getContours(cv::Mat&);
-  bool contour2small(std::vector<cv::Point>&);
-  void cleanContour(ContourData&);
+    // update for other threads to get
+    int foundCube;
+    double nearestCubeAngle;
+    double nearestCubeDist;
+    int nearestCubeColor;
 
-  void run(void);
+    void detectWall(cv::Mat&);
+    void detectBlocks(cv::Mat&);
+
+    ContourData getContours(cv::Mat&);
+    bool contour2small(std::vector<cv::Point>&);
+    void cleanContour(ContourData&);
+
+    int getFoundCube();
+    double getNearestCubeDist();
+    double getNearestCubeAngle();
+
+    void run();
 };
 
 #endif // IMAGEPROCESSOR_H

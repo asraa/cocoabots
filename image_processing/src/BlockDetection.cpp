@@ -25,9 +25,14 @@ int numOfBlocksEst(std::vector<cv::Point> & contours_poly){
 // does not consider occlusion
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 
+
     std::vector<cv::Point> contours_poly;
     cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
 
+    // estimate number of blocks in stack
+    int num_of_blocks = numOfBlocksEst(contours_poly);
+
+/*
     // find top most point
     int top_ind= 0;
     double top_y = contours_poly.at(0).y;
@@ -41,13 +46,31 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
     }
     cv::Point top_pt = contours_poly.at(top_ind);
     std::cout<<top_pt<<std::endl;
+*/
+    // **** until i figure out camera matrix problem ****
+    for(int j = 0; j < contours_poly.size(); j++) {
+        cv::Point pt1, pt2;
+        if(j<contours_poly.size()-1){
+            pt1 = contours_poly.at(j);
+            pt2 = contours_poly.at(j+1);
+        } else {
+            pt1 = contours_poly.at(j);
+            pt2 = contours_poly.at(0);
+        }
+        double delta_x = pt2.x - pt1.x;
+        double delta_y = pt2.y - pt1.y;
 
-    // estimate number of blocks in stack
-    int num_of_blocks = numOfBlocksEst(contours_poly);
-    std::cout<<"number"<<num_of_blocks<<std::endl;
+        double dist = sqrt(delta_x*delta_x + delta_y*delta_y);
+        double cos_theta = delta_x/dist;
+        if(fabs(cos_theta) < 0.1) { // magic number
+            double s = CameraMath::determineDepth(dist, num_of_blocks * BLOCK_HEIGHT);
+            Eigen::Vector2d pt_cam = CameraMath::reconstructPoint2D(pt1.x,s);
+            return pt_cam;
+        }
+    }
 
     // return (x,z) coordinate of block
-    return CameraMath::reconstructPoint2D(top_pt, num_of_blocks * BLOCK_HEIGHT);
+    //return CameraMath::reconstructPoint2D(top_pt, num_of_blocks * BLOCK_HEIGHT);
 
 }
 
@@ -106,39 +129,48 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 }
 */
 
-void detectBlock(cv::Mat& frame) {
+// only works for one stack/block right now
+// red blocks
+void detectBlock(cv::Mat& frame, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist) {
+
     cv::Mat im_red = ColorDetection::detectColor(frame, ColorDetection::COLOR_BLOCK_RED);
+
+    cv::namedWindow("ae",1);
+    cv::imshow("ae",im_red);
 
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
 
-    cv::namedWindow("red",1);
-    cv::imshow("red", im_red);
-
     ContourUtils::ContourData contour_data = ContourUtils::getContours(im_red);
-    cv::namedWindow("aa",1);
-    std::cout<<"contour size before"<<contour_data.contours.size();
 
     cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
     cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
-    cv::imshow("aa",drawing);
-
+    cv::namedWindow("qq",1);
+    cv::imshow("qq",drawing);
 
     ContourUtils::cleanContour(contour_data); // remove small features
-
-    std::cout<<"contour size"<<contour_data.contours.size();
 
     cv::Mat drawing2 = cv::Mat::zeros(frame.size(), CV_8UC3);
     cv::drawContours(drawing2, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
     cv::namedWindow("dd",1);
     cv::imshow("dd",drawing2);
 
-    Eigen::Vector2d rr = crudeEstimate(contour_data.contours.at(0));
-    std::cout<<"halo"<<rr<<std::endl;
-
+    if(contour_data.contours.size() < 1) {
+        updateBlockNotFound(found_cube);
+    } else { // need to change later
+        Eigen::Vector2d result = crudeEstimate(contour_data.contours.at(0)); // hacked for now
+        updateBlockFoundInfo(result, found_cube, nearest_cube_angle, nearest_cube_dist);
+        std::cout<<"cube found: "<<result<<std::endl;
+    }
 }
 
+void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist) {
+    found_cube = 1;
+    nearest_cube_angle = block_coord_cam[0];
+    nearest_cube_dist = block_coord_cam[1];
+}
 
-
-
+void updateBlockNotFound(int& found_cube) {
+    found_cube = 0;
+}
 
 }
