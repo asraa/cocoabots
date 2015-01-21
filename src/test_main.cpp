@@ -495,9 +495,9 @@ int main(int argc, char** argv){
             sensorsModule mysensors;
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
-            double hook;
-            double arm;
-            double sort;
+            double hook = 100;
+            double arm = 7;
+            double sort = 45;
             myactuator.armServoAngle=&arm;
             myactuator.hookServoAngle=&hook;
             myactuator.sortServoAngle=&sort;
