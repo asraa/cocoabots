@@ -1,6 +1,6 @@
 #ifndef CAMERACONFIG_H
 #define CAMERACONFIG_H
-static const int DEBUG = 1;
+static const int DEBUG = 0;
 
 // translation vector of camera w.r.t to robot center
 static const double CAM_ROBOT_X = 0;
