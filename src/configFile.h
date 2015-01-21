@@ -144,7 +144,7 @@
 
 //Speed control
 //Define gains for the angle and position control.
-#define USE_GIROSCOPE_FOR_ANGLE 0
+#define USE_GIROSCOPE_FOR_ANGLE 1
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
