@@ -25,7 +25,7 @@
 
 
 #define CIRCUMFERENCE_WHEEL 12.1738 // inches
-#define DISTANCE_DIFFERENCE_FOR_360_DEGREES (4.99*CIRCUMFERENCE_WHEEL)
+#define DISTANCE_DIFFERENCE_FOR_360_DEGREES (5.472*CIRCUMFERENCE_WHEEL)
 
 //Define values for the motors
 #define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
@@ -144,7 +144,7 @@
 
 //Speed control
 //Define gains for the angle and position control.
-#define USE_GIROSCOPE_FOR_ANGLE 1
+#define USE_GIROSCOPE_FOR_ANGLE 0
 #define SPEED_CONTROL_UPDATE_RATE_MILISECONDS 50
 #define FWD_ERROR_GAIN (0.30/CIRCUMFERENCE_WHEEL)    //Should be positive
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL)  //Should be negative
