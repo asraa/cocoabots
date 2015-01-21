@@ -24,6 +24,8 @@ SENSORS_OBJECTS = $(SENSORS_SOURCES:.cpp=.o)
 STATES_SOURCES = $(call rwildcard, ./, states*.cpp)
 STATES_OBJECTS = $(STATES_SOURCES:.cpp=.o)
 
+IMAGES_SOURCES = $(call rwildcard, ./imageProcessing/,*.cpp)
+IMAGES_OBJECTS = $(IMAGES_SOURCES:.cpp=.o)
 
 #File names for tests
 
@@ -54,6 +56,8 @@ clean_sensors:
 
 clean_states:
 	rm -f $(EXEC_TEST) $(EXEC) $(STATES_OBJECTS)
+clean_images:
+	rm -f $(EXEC_TEST) $(EXEC) $(IMAGES_OBJECTS)
 
 debug: CFLAGS+= -g
 debug: $(EXEC)
