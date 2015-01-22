@@ -187,6 +187,11 @@
 /////////////////////////////
 //Servos control
 
+//Logger
+#define UPDATE_RATE_LOGGER 200
+#define LOG_FILE_NAME "log.txt"
+#define LOGGING 1
+
 #define PI 3.14159
 #endif // CONFIGFILE_H
 

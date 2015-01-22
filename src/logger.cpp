@@ -1,13 +1,15 @@
 #include "logger.h"
+#include <unistd.h>
 #include <fstream>
-
+#include "configFile.h"
 int logger::myLogRate = 0;
 motorsControl* logger::myMotorsPt=NULL;
 servosControl* logger::myServosPt =NULL;
 sensorsModule* logger::mySensorsPt =NULL;
+ImageProcessor* logger::myImageProcessorPt=NULL;
 int logger::singleton=0;
 states** logger::myStateDblPt =NULL;
-std::ofstream logger::logfile("log.txt", std::ios_base::app);
+std::ofstream logger::logfile("log.txt",std::ofstream::out |  std::ios_base::app);
 
 
 
@@ -15,29 +17,34 @@ logger::logger(sensorsModule *sensorsPtr,
          motorsControl *motorsPtr,
          servosControl *servosPtr,
          states **statesDblPtr,
-         int logRateMs,
-               std::string logFileName)
+         ImageProcessor *ImageProcessorPtr,
+         std::string logFileName,
+         int logRateMs)
 {
+#if LOGGING
     if(!singleton){
         mySensorsPt = sensorsPtr;
         myMotorsPt = motorsPtr;
         myServosPt = servosPtr;
         myStateDblPt = statesDblPtr;
+        myImageProcessorPt = ImageProcessorPtr;
         singleton=1;
+        myLogRate=logRateMs;
+        if(logfile.is_open())
+            logfile.close();
         logfile.open(logFileName, std::ios_base::app);
 
-        if(logRateMs){ //Run Thread automatically
-
-        }
+        runThread = new std::thread(run,this);
     }
     else{
     }
-
+#endif
 }
 
 
 void logger::log() {
-
+#if LOGGING
+    if (mySensorsPt){
   logfile << "my Sensors:" <<
 
              "\n Time in Microseconds"<< mySensorsPt->timeMicrosecondsSinceEpoch <<
@@ -67,7 +74,8 @@ void logger::log() {
              "\n Gyroscope:" <<
              "  Gyroscope Angle:"<<mySensorsPt->gyroscopeAngle <<
              "  Gyroscope Reading:"<<mySensorsPt->gyroscopeReading << std::endl;
-
+    }
+    if (myMotorsPt){
   logfile << "my MotorControl:" <<
              "\n Time:" <<
              "  previousTime:"<<myMotorsPt->previousTime <<
@@ -93,7 +101,8 @@ void logger::log() {
              "\n Desired:" <<
              "  Desired position:"<<myMotorsPt->desiredPosition <<
              "  Desired Angle:"<<myMotorsPt->desiredAngle <<std::endl;
-
+    }
+    if (myServosPt){
   logfile << "my ServoControl:" <<
 
              "\n Angle:" <<
@@ -104,11 +113,14 @@ void logger::log() {
              "\n sweeping:" <<
              "  swipping:"<<myServosPt->swipping <<
              " previousSwipe:"<<myServosPt->previousSwipe <<std::endl;
-
+    }
+    if (myStateDblPt && *myStateDblPt){
   logfile << "my StateMachine:" <<
 
              "\n Name:" <<
              "  name:" << (*myStateDblPt)->getName() <<
+             "  nextStatename:" << (*myStateDblPt)->getNextState()->getName() <<
+
 
              "\n Times:" <<
              "  Running Time:" << (*myStateDblPt)->getRunningTimeMicroSeconds() <<
@@ -135,17 +147,40 @@ void logger::log() {
              "   Distance To Walls:" <<
              "   front:" << (*myStateDblPt)->getDistanceFrontWall() <<
              "   right:" << (*myStateDblPt)->getDistanceRightWall() <<std::endl;
+    }
+    if (myImageProcessorPt){
+  logfile << "my ImageProcessor:" <<
 
+             "\n Cube:" <<
+             "  found:" <<myImageProcessorPt->foundCube <<
+             "  Angle:" <<myImageProcessorPt->nearestCubeAngle <<
+             "  Distance:" <<myImageProcessorPt->nearestCubeDist <<
+             "  Color:" <<myImageProcessorPt->nearestCubeColor <<std::endl;
+    }
 
-
+#endif
 }
 
 void logger::log(std::string message) {
+#if LOGGING
     logfile << message << std::endl;
     log();
+#endif
 }
 
 
-logger::~logger(){
+void logger::run(void * loggerPtr){
+    logger * myLogger = (logger *)loggerPtr;
+    while(myLogger->running){
+        logger::log("Automatic log");
+        usleep(logger::myLogRate*1000);
+    }
+}
 
+logger::~logger(){
+    running=0;
+    if(runThread->joinable()){
+        runThread->join();
+        delete runThread;
+    }
 }

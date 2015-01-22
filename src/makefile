@@ -2,7 +2,7 @@ rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 # Declaration of variables
 CC = g++
-CFLAGS = -I. -std=c++11
+CFLAGS = -I. -std=c++11 
 LIBS = -lmraa -I /usr/local/include/eigen3 -I/usr/local/include/opencv -I/usr/local/include/opencv2 -std=c++11 -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_video -lopencv_features2d 
 CDEBUGFLAGS = -g
 
@@ -28,6 +28,10 @@ IMAGES_SOURCES = $(call rwildcard, ./imageProcessing/,*.cpp)
 IMAGES_OBJECTS = $(IMAGES_SOURCES:.cpp=.o)
 
 #File names for tests
+
+
+
+
 
 
 # Main target
@@ -65,4 +69,8 @@ debug: $(EXEC)
 debug_test: CFLAGS+= -g
 debug_test: test
 
+warnings: CFLAGS+= -Wall -Wno-reorder 2>>makeFileLog.txt
+warnings: $(EXEC)
 
+clean_log: 
+	rm -f makeFileLog.txt

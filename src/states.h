@@ -16,6 +16,7 @@ public:
            ImageProcessor * imageProcessorPointer,
            utils * utilsPointer);
     states(states * previouStatePointer);
+    virtual ~states();
     states * getNextState(); //Can return this, or a new state
     virtual void processData() = 0; //This is the brain of the robot
     std::string name;
@@ -65,9 +66,9 @@ protected:
                             //Takes care of procedures that have state machines inside them.
 
 
+    states * nextState;
     //Here are defined all the data that the states have acess to.
     long long startTimeStateMicroseconds;
-    states * nextState;
     sensorsModule * mySensors;
     motorsControl * myMotorControl;
     servosControl * myServosControl;
