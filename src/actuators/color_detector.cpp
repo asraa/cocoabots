@@ -11,11 +11,11 @@ int running = 1;
 
 color_detector::color_detector(int redPWMind, int greenPWMind, int dataPin):redPWM(redPWMind), greenPWM(greenPWMind)
 {
-    data_aio = new mraa::Aio(dataPin);
+    /*data_aio = new mraa::Aio(dataPin);
     if (data_aio == NULL){
         return;
     }
 
-    int myDataPin = dataPin;
+    int myDataPin = dataPin;*/
 
 }
