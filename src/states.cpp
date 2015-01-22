@@ -1,6 +1,7 @@
 #include "states.h"
 #include <cmath>
 #include <cstdio>
+
 states::states(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
@@ -22,6 +23,7 @@ states::states(motorsControl * motorControlPointer,
     wentToPoint=0;
     goingToPoint=0;
     finishedGoingToPoint=0;
+    name = "State Super Class";
 }
 
 states::states(states *previouStatePointer):states(
@@ -31,6 +33,10 @@ states::states(states *previouStatePointer):states(
                                                 previouStatePointer->myImageProcessor,
                                                 previouStatePointer->myUtils){
 
+}
+
+std::string states::getName(){
+    return name;
 }
 
 
@@ -130,7 +136,7 @@ void states::collectBlock(int color){
             myServosControl->hookBlock();
             startTimeState = getTimeMicroseconds();
         }
-    case(grabing):
+    case(grabing): 
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
@@ -160,7 +166,7 @@ void states::collectBlock(int color){
             startTimeState = getTimeMicroseconds();
         }
     case(swipping):
-        if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){
+        if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){ //sweeping
             myState=resettingFinish;
             myServosControl->reset();
             startTimeState = getTimeMicroseconds();

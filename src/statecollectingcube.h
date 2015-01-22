@@ -2,11 +2,10 @@
 #define STATECOLLECTINGCUBE_H
 #include "states.h"
 
-class stateCollectingCube:public states
+class stateCollectingCube: public states
 {
 public:
     stateCollectingCube(states * previousState);
     void processData();
 };
-
-#endif // STATECOLLECTINGCUBE_H
+#endif//STATECOLLECTINGCUBE_H

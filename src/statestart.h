@@ -12,6 +12,8 @@ public:
                utils * utilsPointer);
     stateStart(states * previouState);
      void processData();
+
+     static constexpr char* name= "State Start";//Deprecated, but it is okay
 };
 
 #endif // STARTSTATE_H

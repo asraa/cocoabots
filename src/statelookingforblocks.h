@@ -8,6 +8,7 @@ public:
     stateLookingForBlocks(states* previousState);
     void processData();
     int cubeFound;
+
 };
 
 #endif // STATELOOKINGFORBLOCKS_H

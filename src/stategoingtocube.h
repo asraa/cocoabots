@@ -6,6 +6,7 @@ class stateGoingToCube:public states
 public:
     stateGoingToCube(states * previousState);
     void processData();
+
 };
 
 #endif // STATEGOINGTOCUBE_H
