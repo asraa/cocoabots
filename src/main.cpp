@@ -8,7 +8,6 @@ int main(int argc, char** argv){
 
   }
   else{
-      cocoabot mycocoabot; //returns after the end of the test.
       mycocoabot.run(argc, argv);
   }
  
