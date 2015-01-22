@@ -11,11 +11,11 @@ void objectsSuperClass::addPosition(position Pos) {
 	posList.push_back(Pos);
 }
 
-positionVector objectsSuperClass::getPositions() {
+objectsSuperClass::positionVector objectsSuperClass::getPositions() {
 	return posList;
 }
 
-position objectsSuperClass::getMaxPos(positionVector posVec) {
+objectsSuperClass::position objectsSuperClass::getMaxPos(positionVector posVec) {
 	int posVecMaxX, posVecMaxY = 0;
 	for (int i = 0; i < posVec.size(); ++i) {
 		int x = std::get<0>(posVec[i]);
@@ -70,7 +70,7 @@ bool objectsSuperClass::checkIfEnclosed(int x, int y, positionVector posVec, pos
 	return (enclosedU && enclosedD && enclosedR && enclosedL);
 }
 
-positionVector objectsSuperClass::createLine(position Pos1, position Pos2) {
+objectsSuperClass::positionVector objectsSuperClass::createLine(position Pos1, position Pos2) {
 	positionVector PosVec;
 
 	int x1 = std::get<0>(Pos1);

@@ -4,19 +4,19 @@
 #include <map>
 #include "objectssuperclass.h"
 
-typedef std::tuple<int,int,int> cubeTuple;
-typedef std::map<position,cubeTuple> stackDictionary;
-
 class stack: public objectsSuperClass
 {
+	typedef std::tuple<int,int,int> cubeTuple;
+	typedef std::map<position,cubeTuple> stackDictionary;
+	
 	public:
 		stack(int ri, int rf);
 		void addStringVector(stringVector strVec);
 		void addStack(position Pos, cubeTuple Cubes);
 		void removeStack(position Pos);
-		cubeTuple getCubeStack(position Pos);
+		stack::cubeTuple getCubeStack(position Pos);
 
-		stackDictionary stackDict;
+		stack::stackDictionary stackDict;
 };
 
 #endif
