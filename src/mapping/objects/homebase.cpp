@@ -48,7 +48,7 @@ void homeBase::addStringVector(stringVector strVec) {
 			addPosition(tempPosList2[i]);
 		}
 	}
-	fillInPolygon(getPositions());
+	//fillInPolygon(getPositions());
 }
 
 void homeBase::fillInPolygon(positionVector posVec) {

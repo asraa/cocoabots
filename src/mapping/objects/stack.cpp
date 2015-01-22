@@ -58,6 +58,6 @@ void stack::removeStack(position Pos) {
 	}
 }
 
-cubeTuple stack::getCubeStack(position Pos) {
+stack::cubeTuple stack::getCubeStack(position Pos) {
 	return stackDict[Pos];
 }

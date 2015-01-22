@@ -12,7 +12,6 @@
 #define HOMEBASE 4
 #define STARTLOC 5
 
-
 #include "../configFile.h"
 #include "objects/barrier.h"
 #include "objects/stack.h"
@@ -29,29 +28,40 @@
 #include <iterator>
 #include <stdexcept>
 
-typedef std::vector< std::vector<int> > gridMap;
-typedef std::tuple<int,int> position;
-typedef std::vector< position > positionVector;
-typedef positionVector::iterator positionVectorIterator;
-typedef std::vector< std::string > stringVector;
-
 class map
 {
 	public:
+		typedef std::vector< std::vector<int> > gridMap;
+		typedef std::tuple<int,int> position;
+		typedef std::vector< position > positionVector;
+		typedef positionVector::iterator positionVectorIterator;
+		typedef std::vector< std::string > stringVector;
+		typedef std::tuple<int,int,int> cubeTuple;
+		typedef std::map<position,cubeTuple> stackDictionary;
+
 		map(std::string filename);
+		bool isPassable(position Pos);
+		bool typeIsPassable(int type);
+		map::positionVector generateSquareAroundPoint(position Pos, int diameter);
 		void buildMap(std::string filename);
 		void parseMapFile(std::string filename);
 		void parseObjects();
 		void writeMapVector(position Pos, int type);
 		void printMapFile(std::string filename);
-		gridMap createZeroMap(int xDim, int yDim);
-		position getMaxPos(positionVector posVec);
+		map::gridMap createZeroMap(int xDim, int yDim);
+		map::position getMaxPos(positionVector posVec);
 		int sign(int num);
 		int convertInd(int ind, int gridResInit, int gridResFin);
+		double getDistance(position Pos1, position Pos2);
+		map::position getClosestHomeBase(position currentPos);
+		map::position getClosestStack(position currentPos);
+		map::position getClosestItem(position currentPos, positionVector posVec);
+		map::cubeTuple lookupStackOrder(position stackPos);
+		void removeStack(position stackPos);
 		double indToInch(int ind);
 		int inchToInd(double inch);
 
-		position MAX_POS;
+		map::position MAX_POS;
 
 		barrier walls, platforms;
 		stack stacks;
@@ -59,8 +69,8 @@ class map
 		startLocation startLoc;
 
 		std::string mapFilename;
-		gridMap mapVector;
-		position robotLoc;
+		map::gridMap mapVector;
+		map::position robotLoc;
 };
 
 #endif
