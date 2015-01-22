@@ -140,6 +140,11 @@ void logger::log() {
 
 }
 
+void logger::log(std::string message) {
+    logfile << message << std::endl;
+    log();
+}
+
 
 logger::~logger(){
 

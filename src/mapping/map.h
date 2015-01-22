@@ -29,15 +29,17 @@
 #include <iterator>
 #include <stdexcept>
 
-typedef std::vector< std::vector<int> > gridMap;
-typedef std::tuple<int,int> position;
-typedef std::vector< position > positionVector;
-typedef positionVector::iterator positionVectorIterator;
-typedef std::vector< std::string > stringVector;
+
 
 class map
 {
+
 	public:
+    typedef std::vector< std::vector<int> > gridMap;
+    typedef std::tuple<int,int> position;
+    typedef std::vector< position > positionVector;
+    typedef positionVector::iterator positionVectorIterator;
+    typedef std::vector< std::string > stringVector;
 		map(std::string filename);
 		void buildMap(std::string filename);
 		void parseMapFile(std::string filename);

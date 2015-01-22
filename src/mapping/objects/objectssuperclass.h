@@ -8,14 +8,14 @@
 #include <algorithm>
 #include <math.h>
 
-typedef std::tuple<int,int> position;
-typedef std::vector< position > positionVector;
-typedef positionVector::iterator positionVectorIterator;
-typedef std::vector< std::string > stringVector;
 
 class objectsSuperClass
 {
 public:
+    typedef std::tuple<int,int> position;
+    typedef std::vector< position > positionVector;
+    typedef positionVector::iterator positionVectorIterator;
+    typedef std::vector< std::string > stringVector;
 	objectsSuperClass(int res_init, int res_fin);
 	virtual void addPosition(position Pos);
 	positionVector getPositions();
