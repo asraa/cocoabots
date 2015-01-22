@@ -10,12 +10,13 @@ stateGoingToCube::stateGoingToCube(states *previousState):states(previousState)
 void stateGoingToCube::processData(){
     static double distance = myImageProcessor->getNearestCubeDist();
     static double angle = myImageProcessor->getNearestCubeAngle();
+    static int color = myImageProcessor->getNearestCubeColor();
     startProcessData();
 
     goToPoint(distance,angle);
 
     if (finishedGoingToPoint){
-        nextState = new stateCollectingCube(this);
+        nextState = new stateCollectingCube(this,color);
     }
     finishProcesData();
 }

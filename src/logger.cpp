@@ -33,8 +33,8 @@ logger::logger(sensorsModule *sensorsPtr,
         if(logfile.is_open())
             logfile.close();
         logfile.open(logFileName, std::ios_base::app);
-
-        runThread = new std::thread(run,this);
+        if(myLogRate)
+            runThread = new std::thread(run,this);
     }
     else{
     }
