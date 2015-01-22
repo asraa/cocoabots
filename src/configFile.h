@@ -125,6 +125,11 @@
 #define GYROSCOPE_CHIP_PIN 10
 #define GYROSCOPE_SPI_PIN 0
 
+//color sensor
+#define RED_PWM 4
+#define GREEN_PWM 5
+#define RGB_DATA 4
+
 
 
 //Define values for the alpha parameter of the filter of the sensors

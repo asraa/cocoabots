@@ -7,6 +7,7 @@
 #include "motorscontrol.h"
 #include "servo.h"
 #include "servoscontrol.h"
+#include "color_detector.h"
 
 class actuator
 {
@@ -24,6 +25,7 @@ public:
     servo armServo;
     servo hookServo;
     sensorsModule * sensorsPointer;
+    color_detector myColorSensor;
 
     static void run(actuator *myactuator);
 
@@ -48,6 +50,9 @@ public:
     double getArmServoAngle();
     void setHookServoAngle(double angle);
     double getHookServoAngle();
+
+    //color sensor
+    void getRGData(int * r, int * g);
 };
 
 #endif // ACTUATOR_H

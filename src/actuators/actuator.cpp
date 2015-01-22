@@ -8,6 +8,7 @@ actuator::actuator():
     sortServo(SORT_SERVO_PWM),
     armServo(ARM_SERVO_PWM),
     hookServo(HOOK_SERVO_PWM),
+    myColorSensor(RED_PWM, GREEN_PWM, RGB_DATA),
     rightWheelPower(NULL),
     leftWheelPower(NULL),
     armServoAngle(NULL),
@@ -160,3 +161,11 @@ double actuator::getHookServoAngle(){
     return -1;
 }
 
+void actuator::getRGData(int *r,int *g){
+    pwm.writePWM(myColorSensor.redPWM, .9);
+    usleep(100);
+    *r = myColorSensor.data_aio->read();
+    pwm.writePWM(myColorSensor.greenPWM,.9);
+    usleep(100);
+    *g = myColorSensor.data_aio->read();
+}
