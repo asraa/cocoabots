@@ -9,6 +9,7 @@
 #include "actuators/motorscontrol.h"
 #include "mraa.hpp"
 #include <signal.h>
+#include <sys/time.h>
 #include  <thread>
 #include <stdlib.h>     /* atoi */
 #include "imageProcessing/ImageProcessor.h"
@@ -491,7 +492,7 @@ int main(int argc, char** argv){
         }
 
         else if (strcmp(argv[1],"remoteControlServo")==0){
-            signal(SIGINT, stopMotors);
+            //signal(SIGINT, stopMotors);
             sensorsModule mysensors;
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
@@ -548,6 +549,35 @@ int main(int argc, char** argv){
             while(RUNNING){
                 printf("found cube =%d, cubePosition= %lf, cubeAngle=%lf, cubeColor=%d\n", myImageProcessor.getFoundCube(), myImageProcessor.getNearestCubeDist(), myImageProcessor.getNearestCubeAngle(), myImageProcessor.getNearestCubeColor());
                 usleep(2000000);
+            }
+        }
+
+        else if (strcmp(argv[1],"calibrateServo") == 0){
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            double hook = 100;
+            double arm = 7;
+            double sort = 45;
+            int raise, unhook, sweep;
+            myactuator.armServoAngle=&arm;
+            myactuator.hookServoAngle=&hook;
+            myactuator.sortServoAngle=&sort;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                printf("define wait times (us) for starting raise, unhooking, and sweeping");
+                scanf("%d %d %d", &raise, &unhook, &sweep);
+                hook = 170;
+                usleep(raise);
+                arm = 150;
+                usleep(unhook);
+                hook = 100;
+                usleep(sweep);
+                sweep = 135;
+                hook = 100, arm = 7, sweep = 45;
+
+
             }
         }
 
