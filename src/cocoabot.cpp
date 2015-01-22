@@ -5,7 +5,7 @@
 
 actuator * actPointerMain;
 cocoabot *cocoabotPointer;
-void stopMotors(int signo)
+void stopMotorsMain(int signo)
 {
     if (signo == SIGINT) {
         cocoabotPointer->running=0;
@@ -36,7 +36,7 @@ cocoabot::cocoabot(): //Initializes all the modules
                            &myUtils);
     cocoabotPointer =this;
     actPointerMain = &myActuator;
-    signal(SIGINT, stopMotors);
+    signal(SIGINT, stopMotorsMain);
 }
 
 //Runs the state machine
