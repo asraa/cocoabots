@@ -8,7 +8,6 @@ actuator::actuator():
     sortServo(SORT_SERVO_PWM),
     armServo(ARM_SERVO_PWM),
     hookServo(HOOK_SERVO_PWM),
-    //myColorSensor(RED_PWM, GREEN_PWM, RGB_DATA),
     rightWheelPower(NULL),
     leftWheelPower(NULL),
     armServoAngle(NULL),
