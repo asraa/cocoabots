@@ -20,7 +20,7 @@ ContourData getContours(cv::Mat&);
 void cleanContour(ContourData&);
 bool contour2small(std::vector<cv::Point>&);
 
-static const int FEATURE_AREA_THRESH = 1000;
+static const double FEATURE_AREA_THRESH = 0;
 
 cv::Mat drawContours(ContourData &, cv::Mat&);
 

@@ -74,6 +74,8 @@ void updateMap(GridMap& local_map, int line_result, int size){
 
 }
 */
+
+// change to Fisher's map object later
 void updateMapPts(GridMap& local_map, int field_object, double pts_im[], int no_of_pts) {
 
     // define field_object later
@@ -88,8 +90,8 @@ void updateMapPts(GridMap& local_map, int field_object, double pts_im[], int no_
 void updateMapPts(GridMap& local_map, int * scan_line_output, int num_cols){
     for(int j = 0; j < num_cols; j++) {
         Eigen::Vector2d pt_c;
-        // ************** until i figure out camera matrix math ***********************
-        /*        if(scan_line_output[2*j+1] != -1) { // line top exists
+
+        if(scan_line_output[2*j+1] != -1) { // line top exists
             Eigen::Vector2d pt_im;
             pt_im << j, scan_line_output[2*j+1];
             pt_c = CameraMath::reconstructPoint2D(pt_im, WALL_HEIGHT);
@@ -102,10 +104,12 @@ void updateMapPts(GridMap& local_map, int * scan_line_output, int num_cols){
         }
 
         // update map
+        // std::cout << "wall point" << pt_c << std::endl;
         int x = floor(30+pt_c[0]); // hacking for now
         int y = floor(30+pt_c[1]);
         local_map.setVal(x,y,255);
-        */
+
+        /*
         if(scan_line_output[2*j+1] != -1) { // line top exists
             double s = CameraMath::determineDepth(-scan_line_output[2*j], 4); // hard code 4
             Eigen::Vector2d pt_c = CameraMath::reconstructPoint2D(j, s);
@@ -115,21 +119,31 @@ void updateMapPts(GridMap& local_map, int * scan_line_output, int num_cols){
             int x = floor(30+pt_c[0]); // hacking for now
             int y = floor(30+pt_c[1]);
             local_map.setVal(x,y,255);
-        }
+        }*/
     }
 }
 
 // should it be const
 void detectWall(cv::Mat& frame, GridMap& local_map, int color) {
 
+    clock_t start, end;
+
+    if(DEBUG==1) {
+        start = clock();
+    }
+
     cv::Mat im_color = WallDetection::getWallLine(frame, color);
     cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
     int *line_pts = WallDetection::scanLine(frame, color_edges);
     WallDetection::updateMapPts(local_map, line_pts, frame.cols);
     delete line_pts;
+
+    if(DEBUG==1) {
+        end = clock();
+    }
+
+    std::cout << "time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+
 }
-
-
-
 
 }

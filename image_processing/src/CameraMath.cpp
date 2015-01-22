@@ -56,11 +56,13 @@ Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam) {
     double y_robot = y_cam_rot + CAM_ROBOT_Y;
 
     double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
-    double sin_phi = x_robot / dist; // need to check
+    // this is x_robot because rotation is w.r.t. to forward direction
+    // clockwise is positive, counter-clockwise is negative
+    double sin_phi = x_robot / dist;
     double phi = asin(sin_phi);
 
     Eigen::Vector2d result;
-    result << dist, phi;
+    result << dist, phi/M_PI * 180;
     return result;
 }
 
