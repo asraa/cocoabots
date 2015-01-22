@@ -187,6 +187,19 @@ void states::collectBlock(int color){
 
 }
 
+void states::goToPoint(double distance, double angle){
+    wentToPoint=1;
+    if(!goingToPoint){
+        setCarrotPosition(distance,angle);
+    }
+    else{
+        if(getDistanceToCarrot()==0){
+            finishedGoingToPoint=1;
+        }
+    }
+}
+
+
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
 }
@@ -224,17 +237,6 @@ volatile double states::getDistanceFrontWall(){
 }
 
 
-void states::goToPoint(double distance, double angle){
-    wentToPoint=1;
-    if(!goingToPoint){
-        setCarrotPosition(distance,angle);
-    }
-    else{
-        if(getDistanceToCarrot()==0){
-            finishedGoingToPoint=1;
-        }
-    }
-}
 
 void states::setCarrotPosition(double distance, double angle){
     myMotorControl->setNewDesiredRelativePositionInRadialCordinates(distance, angle);

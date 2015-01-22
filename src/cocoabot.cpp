@@ -3,17 +3,17 @@
 #include <unistd.h>
 #include "statecollectingcube.h"
 
-actuator * actPointer;
+actuator * actPointerMain;
 cocoabot *cocoabotPointer;
 void stopMotors(int signo)
 {
     if (signo == SIGINT) {
         cocoabotPointer->running=0;
         double a =0;
-        actPointer->leftWheelPower = &a;
-        actPointer->rightWheelPower =&a;
-        actPointer->setPowerLeftWheel(0);
-        actPointer->setPowerRightWheel(0);
+        actPointerMain->leftWheelPower = &a;
+        actPointerMain->rightWheelPower =&a;
+        actPointerMain->setPowerLeftWheel(0);
+        actPointerMain->setPowerRightWheel(0);
     }
 }
 
@@ -35,7 +35,7 @@ cocoabot::cocoabot(): //Initializes all the modules
                            &myImageProcessor,
                            &myUtils);
     cocoabotPointer =this;
-    actPointer = &myActuator;
+    actPointerMain = &myActuator;
     signal(SIGINT, stopMotors);
 }
 
