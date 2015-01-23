@@ -251,7 +251,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     }
 
-/*
+    /*
     // or maybe just move to isBlock or sth like that
     ContourUtils::cleanContour(contour_data); // remove small features
 
@@ -271,18 +271,16 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
                 // assuming sorted from top to bottom
                 Eigen::Vector2d result = crudeEstimate(contour_data.contours.at(j)); // hacked for now
                 //std::cout << result << std::endl;
-                if(result[0] != -1) {
-                    updateBlockFoundInfo(result, 1, nearest_block_info);
+                updateBlockFoundInfo(result, 1, nearest_block_info);
+                if(DEBUG==1) {
+                    std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
                     if(DEBUG==1) {
-                        std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
-                        if(DEBUG==1) {
-                            end = clock();
-                        }
-
-                        //std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+                        end = clock();
                     }
-                    return;
+
+                    //std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
                 }
+                return;
             }
         }
     }

@@ -232,7 +232,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
     clock_t start, end;
     start = clock();
 
-    cv::Mat im_red = ColorDetection::detectColor(frame, ColorDetection::COLOR_BLOCK_RED);
+    cv::Mat im_red = ColorDetection::detectColor(frame, ColorDetection::COLOR_BLOCK_GREEN);
 
     // CHECK BACK ON THIS
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
@@ -251,7 +251,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     }
 
-/*
+    /*
     // or maybe just move to isBlock or sth like that
     ContourUtils::cleanContour(contour_data); // remove small features
 
@@ -271,18 +271,16 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
                 // assuming sorted from top to bottom
                 Eigen::Vector2d result = crudeEstimate(contour_data.contours.at(j)); // hacked for now
                 //std::cout << result << std::endl;
-                if(result[0] != -1) {
-                    updateBlockFoundInfo(result, 1, nearest_block_info);
+                updateBlockFoundInfo(result, 1, nearest_block_info);
+                if(DEBUG==1) {
+                    std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
                     if(DEBUG==1) {
-                        //std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
-                        if(DEBUG==1) {
-                            end = clock();
-                        }
-
-                        //std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+                        end = clock();
                     }
-                    return;
+
+                    //std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
                 }
+                return;
             }
         }
     }
@@ -312,6 +310,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
   */
 
+
 void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int cube_color, BlockInfo& nearest_block_info) {
 
     nearest_block_info.found_cube = 1;
@@ -323,7 +322,7 @@ void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int cube_color, Block
     nearest_block_info.nearest_cube_dist = block_coord_rob_radial[0];
     nearest_block_info.nearest_cube_angle = block_coord_rob_radial[1];
 
-    //std::cout << "dist" << nearest_cube_dist <<"angle"<<nearest_cube_angle<<std::endl;
+    std::cout << "dist" << nearest_block_info.nearest_cube_dist <<"angle"<<nearest_block_info.nearest_cube_angle<<std::endl;
 
     nearest_block_info.nearest_cube_color = cube_color;
 

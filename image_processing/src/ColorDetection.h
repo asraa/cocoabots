@@ -6,7 +6,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace ColorDetection {
 
@@ -18,7 +18,7 @@ static const int COLOR_BLOCK_RED = 5;
 static const int COLOR_BLOCK_GREEN = 6;
 
 cv::Mat detectColor(cv::Mat&,int);
-cv::Mat detectColor(cv::Mat&,int);
+cv::Mat detectColor(cv::Mat&,int[],int);
 
 
 }

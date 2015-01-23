@@ -6,7 +6,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 
 #include "CameraMath.h"
@@ -35,7 +35,7 @@ static const int POLY_VERTEX_NUM_THRESH = 8;
 
 static const double POLY_NEIGHBORHOOD = 9;
 
-static const double FEATURE_AREA_THRESH = 100;
+static const double FEATURE_AREA_THRESH = 1000;
 
 static const double ASPECT_RATIO_LOW = 0.8;
 static const double ASPECT_RATIO_UP = 4;

@@ -1,7 +1,7 @@
 #ifndef CAMERACONFIG_H
 #define CAMERACONFIG_H
 
-#include <math.h>
+#include <cmath>
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 

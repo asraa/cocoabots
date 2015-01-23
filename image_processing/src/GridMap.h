@@ -8,7 +8,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 /********************************************
  *************MAP CLASS**********************
