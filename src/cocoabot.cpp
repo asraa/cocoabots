@@ -106,7 +106,7 @@ void cocoabot::run(int argc, char **argv){
                         myState->goToPoint(cubePosition,cubeAngle);
                         myState->finishProcessingProceduresManual();
                     }
-                    printf("Collect Cube? Green=1, Red=2 No= 0\n");
+                    printf("Collect Cube? Green=2, Red=1 No= 0\n");
                     scanf("%d", &answer);
                     if (answer){
                         answer--;

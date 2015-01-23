@@ -45,6 +45,11 @@ public:
     //So that they could be cleaned. Take as an example the wall follow procedure and startProcessData
     // and finish Process Data.
 
+    void sharpTurnToTheRight();
+    void sharpTurnToTheLeft();
+    void curveToTheRight();
+    void curveToTheLeft();
+
     //wallFollow(); Follow a wall on the right
     void wallFollow(); //procedure to wall follow
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data
