@@ -49,6 +49,8 @@ int encoderQuadrature::getPhase(int a, int b) {
   else if (a == 0 && b == 1) {
     return 3;
   }
+
+  return 0; //Default return; should never get here
   // those are all the possibilities.
 }
 

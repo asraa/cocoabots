@@ -1,6 +1,7 @@
 #include "states.h"
 #include <cmath>
 #include <cstdio>
+
 states::states(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
@@ -22,6 +23,7 @@ states::states(motorsControl * motorControlPointer,
     wentToPoint=0;
     goingToPoint=0;
     finishedGoingToPoint=0;
+    name = "State Super Class";
 }
 
 states::states(states *previouStatePointer):states(
@@ -31,6 +33,10 @@ states::states(states *previouStatePointer):states(
                                                 previouStatePointer->myImageProcessor,
                                                 previouStatePointer->myUtils){
 
+}
+
+std::string states::getName(){
+    return name;
 }
 
 
@@ -124,18 +130,21 @@ void states::collectBlock(int color){
         else{
             myServosControl->reset();
         }
+        break;
     case(moving):
         if(difTime>BLOCK_COLLECT_MAX_TIME_MOVING){
             myState=grabing;
             myServosControl->hookBlock();
             startTimeState = getTimeMicroseconds();
         }
-    case(grabing):
+        break;
+    case(grabing): 
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
             startTimeState = getTimeMicroseconds();
         }
+        break;
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
@@ -146,25 +155,28 @@ void states::collectBlock(int color){
             }
             startTimeState = getTimeMicroseconds();
         }
+        break;
     case(sorting):
         if(difTime>BLOCK_COLLECT_SORT_TIME_MS){
             myState=releasing;
             myServosControl->unHookBlock();
             startTimeState = getTimeMicroseconds();
         }
-
+        break;
     case(releasing):
         if(difTime>BLOCK_COLLECT_RELEASE_TIME_MS){
             myState=swipping;
-            myServosControl->swipe();
+            myServosControl->sweep();
             startTimeState = getTimeMicroseconds();
         }
+        break;
     case(swipping):
-        if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){
+        if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){ //sweeping
             myState=resettingFinish;
             myServosControl->reset();
             startTimeState = getTimeMicroseconds();
         }
+        break;
     case(resettingFinish):
         if(difTime>BLOCK_COLLECT_RESET_TIME_MS){
             myState=resettingFinish;
@@ -173,13 +185,28 @@ void states::collectBlock(int color){
             finishedCollectingBlock=1;
             myState=resettingStart;
             collectingBlocks=0;
+            collectedBlocks=0;
         }
+        break;
 
     }
 
 
 
 }
+
+void states::goToPoint(double distance, double angle){
+    wentToPoint=1;
+    if(!goingToPoint){
+        setCarrotPosition(distance,angle);
+    }
+    else{
+        if(getDistanceToCarrot()==0){
+            finishedGoingToPoint=1;
+        }
+    }
+}
+
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
@@ -218,17 +245,6 @@ volatile double states::getDistanceFrontWall(){
 }
 
 
-void states::goToPoint(double distance, double angle){
-    wentToPoint=1;
-    if(!goingToPoint){
-        setCarrotPosition(distance,angle);
-    }
-    else{
-        if(getDistanceToCarrot()==0){
-            finishedGoingToPoint=1;
-        }
-    }
-}
 
 void states::setCarrotPosition(double distance, double angle){
     myMotorControl->setNewDesiredRelativePositionInRadialCordinates(distance, angle);
@@ -254,7 +270,7 @@ void states::startProcessData(){
 }
 
 int states::foundCube(){
-    myImageProcessor->foundCube;
+    return myImageProcessor->foundCube;
 }
 
 void states::finishProcesData(){
@@ -279,3 +295,7 @@ void states::finishProcesData(){
     }
 }
 
+
+states::~states(){
+
+}

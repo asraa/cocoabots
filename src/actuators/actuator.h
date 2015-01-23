@@ -48,6 +48,7 @@ public:
     double getArmServoAngle();
     void setHookServoAngle(double angle);
     double getHookServoAngle();
+
 };
 
 #endif // ACTUATOR_H

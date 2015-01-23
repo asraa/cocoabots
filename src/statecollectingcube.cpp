@@ -1,13 +1,16 @@
 #include "statecollectingcube.h"
 #include "statelookingforblocks.h"
-stateCollectingCube::stateCollectingCube(states *previousState):states(previousState)
+
+stateCollectingCube::stateCollectingCube(states *previousState, int color):states(previousState)
 {
+    name = "State Collecting Cube";
+    myColor=color;
 }
 
 void stateCollectingCube::processData(){
     startProcessData();
 
-    collectBlock(myImageProcessor->getNearestCubeColor()); //THIS IS WRONG. THIS IS FOR THE MOCK COMPETITION
+    collectBlock(myColor); //THIS IS WRONG. THIS IS FOR THE MOCK COMPETITION
 
     if (finishedCollectingBlock){
         nextState = new stateLookingForBlocks(this);

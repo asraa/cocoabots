@@ -5,6 +5,7 @@
 #include "sensorsmodule.h"
 #include "imageProcessing/ImageProcessor.h"
 #include "configFile.h"
+#include <string>
 #include "utils.h"
 class states
 {
@@ -15,14 +16,11 @@ public:
            ImageProcessor * imageProcessorPointer,
            utils * utilsPointer);
     states(states * previouStatePointer);
+    virtual ~states();
     states * getNextState(); //Can return this, or a new state
     virtual void processData() = 0; //This is the brain of the robot
-protected:
-    //Functions that should always be called.
-    void startProcessData(); //Should be called in the beginning of process data.
-                            //Takes care of procedures that have state machines inside them.
-    void finishProcesData(); // Should be called in the end of process data.
-                            //Takes care of procedures that have state machines inside them.
+    std::string name;
+    std::string getName();
 
     //Here are the helper functions for the states
     int getTimeRemainingGameSeconds();
@@ -59,9 +57,18 @@ protected:
     int goingToPoint;
     int finishedGoingToPoint;
 
+
+protected:
+    //Functions that should always be called.
+    void startProcessData(); //Should be called in the beginning of process data.
+                            //Takes care of procedures that have state machines inside them.
+    void finishProcesData(); // Should be called in the end of process data.
+                            //Takes care of procedures that have state machines inside them.
+
+
+    states * nextState;
     //Here are defined all the data that the states have acess to.
     long long startTimeStateMicroseconds;
-    states * nextState;
     sensorsModule * mySensors;
     motorsControl * myMotorControl;
     servosControl * myServosControl;

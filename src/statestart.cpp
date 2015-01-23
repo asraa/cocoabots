@@ -10,10 +10,11 @@ stateStart::stateStart(motorsControl * motorControlPointer,
                                                     imageProcessorPointer,
                                                     utilsPointer)
 {
+    name= "State Start";
 }
 
 stateStart::stateStart(states *previouState):states(previouState){
-
+    name= "State Start";
 }
 
 void stateStart::processData(){

@@ -25,7 +25,7 @@
 
 
 #define CIRCUMFERENCE_WHEEL 12.1738 // inches
-#define DISTANCE_DIFFERENCE_FOR_360_DEGREES (4.99*CIRCUMFERENCE_WHEEL)
+#define DISTANCE_DIFFERENCE_FOR_360_DEGREES (5.8*CIRCUMFERENCE_WHEEL)
 
 //Define values for the motors
 #define MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS 0.7
@@ -127,6 +127,8 @@
 
 
 
+
+
 //Define values for the alpha parameter of the filter of the sensors
 //They should be increased if there is too much noise
 /////////////////////////////////////
@@ -172,18 +174,23 @@
 #define WALL_FOLLOW_WALL_DISTANCE_INCHES 17
 #define WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES 35
 
-#define BLOCK_COLLECT_RESET_TIME_MS 300
-#define BLOCK_COLLECT_GRAB_TIME_MS 200
-#define BLOCK_COLLECT_LIFT_TIME_MS 400
-#define BLOCK_COLLECT_SORT_TIME_MS 200
-#define BLOCK_COLLECT_RELEASE_TIME_MS 200
-#define BLOCK_COLLECT_SWIPE_TIME_MS 900
-#define BLOCK_COLLECT_MAX_TIME_MOVING 400
+#define BLOCK_COLLECT_RESET_TIME_MS 1500
+#define BLOCK_COLLECT_GRAB_TIME_MS 600
+#define BLOCK_COLLECT_LIFT_TIME_MS 1500
+#define BLOCK_COLLECT_SORT_TIME_MS 800
+#define BLOCK_COLLECT_RELEASE_TIME_MS 600
+#define BLOCK_COLLECT_SWIPE_TIME_MS 2500
+#define BLOCK_COLLECT_MAX_TIME_MOVING 800
 #define BLOCK_COLLECT_DISTANCE_MOVE 6
 
 
 /////////////////////////////
 //Servos control
+
+//Logger
+#define UPDATE_RATE_LOGGER 1000
+#define LOG_FILE_NAME "log.txt"
+#define LOGGING 1
 
 #define PI 3.14159
 #endif // CONFIGFILE_H

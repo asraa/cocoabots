@@ -29,7 +29,8 @@ public:
     void sortRed();
     void sortGreen();
     void reset();
-    void swipe();
+    void sweep();
+    void stopSweep();
 };
 
 #endif // SERVOSCONTROL_H

@@ -9,6 +9,7 @@
 #include "actuators/motorscontrol.h"
 #include "mraa.hpp"
 #include <signal.h>
+#include <sys/time.h>
 #include  <thread>
 #include <stdlib.h>     /* atoi */
 #include "imageProcessing/ImageProcessor.h"
@@ -491,13 +492,13 @@ int main(int argc, char** argv){
         }
 
         else if (strcmp(argv[1],"remoteControlServo")==0){
-            signal(SIGINT, stopMotors);
+            //signal(SIGINT, stopMotors);
             sensorsModule mysensors;
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
-            double hook;
-            double arm;
-            double sort;
+            double hook = 100;
+            double arm = 7;
+            double sort = 45;
             myactuator.armServoAngle=&arm;
             myactuator.hookServoAngle=&hook;
             myactuator.sortServoAngle=&sort;
@@ -551,6 +552,69 @@ int main(int argc, char** argv){
             }
         }
 
+        else if (strcmp(argv[1],"calibrateServo") == 0){
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            double hook = 100;
+            double arm = 7;
+            double sort = 45;
+            int raise, unhook, sweep;
+            myactuator.armServoAngle=&arm;
+            myactuator.hookServoAngle=&hook;
+            myactuator.sortServoAngle=&sort;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                printf("define wait times (us) for starting raise, unhooking, and sweeping");
+                scanf("%d %d %d", &raise, &unhook, &sweep);
+                hook = 170;
+                usleep(raise);
+                arm = 150;
+                usleep(unhook);
+                hook = 100;
+                usleep(sweep);
+                sweep = 135;
+                hook = 100, arm = 7, sweep = 45;
+
+
+            }
+        }
+        else if (strcmp(argv[1],"servoControl") == 0){
+            servosControl myServos;
+            actuator myactuator;
+            actPointer= &myactuator;
+
+            int raise, hook,sort, sweep, reset;
+            myactuator.armServoAngle=&myServos.armAngle;
+            myactuator.hookServoAngle=&myServos.hookAngle;
+            myactuator.sortServoAngle=&myServos.sortAngle;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                printf("raise, hook, sort, sweep, reset\n");
+                scanf("%d %d %d %d %d", &raise, &hook, &sort, &sweep, &reset);
+                if(raise)
+                    myServos.raiseBlock();
+                if(hook)
+                    myServos.hookBlock();
+                else
+                    myServos.unHookBlock();
+                if(sort)
+                    myServos.sortGreen();
+                else
+                    myServos.sortRed();
+                if(sweep)
+                    myServos.sweep();
+                else
+                    myServos.stopSweep();
+                if (reset){
+                    myServos.stopSweep();
+                    myServos.reset();
+                }
+
+            }
+        }
         return 0;
     }
 }

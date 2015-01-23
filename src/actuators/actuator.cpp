@@ -160,3 +160,11 @@ double actuator::getHookServoAngle(){
     return -1;
 }
 
+//void actuator::getRGData(int *r,int *g){
+//    pwm.writePWM(myColorSensor.redPWM, .9);
+//    usleep(100);
+//    *r = myColorSensor.data_aio->read();
+//    pwm.writePWM(myColorSensor.greenPWM,.9);
+//    usleep(100);
+//    *g = myColorSensor.data_aio->read();
+//}
