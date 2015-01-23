@@ -156,7 +156,7 @@
 #define POSITION_TOLERANCE 0.05
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
-#define MINIMUM_THRESHOLD_PWM (0.04 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
+#define MINIMUM_THRESHOLD_PWM (0.05 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 #define MAXIMUM_DYNAMIC_TURN_ANGLE 90 //The maximum angle in which the robot can turn and move forward or back at the same time
 #define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 180
 
@@ -184,7 +184,7 @@
 #define BLOCK_COLLECT_DISTANCE_MOVE 6
 
 
-#define GO_TO_POINT_PRECISION_INCHES 0.5
+#define GO_TO_POINT_PRECISION_INCHES 0.8
 
 /////////////////////////////
 //Servos control
