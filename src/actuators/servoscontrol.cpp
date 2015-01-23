@@ -32,12 +32,10 @@ void servosControl::raiseBlock(){
 }
 
 void servosControl::sortRed(){
-    hookAngle = HOOK_START;
     sortAngle = 135;
 }
 
 void servosControl::sortGreen(){
-    hookAngle = HOOK_START;
     sortAngle = 45;
 }
 
