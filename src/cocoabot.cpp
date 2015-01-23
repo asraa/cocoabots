@@ -2,6 +2,7 @@
 #include <cstring>
 #include <unistd.h>
 #include "statecollectingcube.h"
+#include "statetestprocedure.h"
 
 actuator * actPointerMain;
 cocoabot *cocoabotPointer;
@@ -58,6 +59,7 @@ void cocoabot::run(){
 
 
 void cocoabot::run(int argc, char **argv){
+
     if(strcmp(argv[1],"collectBlock")==0){
         states * nextState = new stateCollectingCube(myState,0);
         logger::log();
@@ -66,18 +68,58 @@ void cocoabot::run(int argc, char **argv){
         delete previousState;
         previousState=NULL;
 
-    }
-
-
-    while (running){
-        myState->processData();
-        states * nextState = myState->getNextState();
-        if (nextState!=myState){ //Makes sure we are always in the same state
-            logger::log();
-            previousState = nextState;
-            delete previousState;
-            previousState=NULL;
+        while (running){
+            myState->processData();
+            states * nextState = myState->getNextState();
+            if (nextState!=myState){ //Makes sure we are always in the same state
+                logger::log();
+                previousState = nextState;
+                delete previousState;
+                previousState=NULL;
+            }
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
-        usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
     }
+
+    if(strcmp(argv[1],"goToBlockAndCollect")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        double cubePosition;
+        double cubeAngle;
+        int cubeColor;
+        int answer;
+        while (running){
+            if (myState->foundCube()){
+                cubePosition=myState->getDistanceNearestCube();
+                cubeAngle = myState->getAngleNearestCube();
+                cubeColor =myState->getColorNearestCube();
+                printf("I found a cube at %lf in, %lf, degrees.\n It's color is %d\n' Go to cube? 1, 0\n", cubePosition,cubeAngle, cubeColor);
+                scanf("%d", &answer);
+                if (answer){
+                    while ((running) && (!myState->finishedGoingToPoint)){
+                        myState->startProcessingProceduresManual();
+                        myState->goToPoint(cubePosition,cubeAngle);
+                        myState->finishProcessingProceduresManual();
+                    }
+                    printf("Collect Cube? Green=1, Red=2 No= 0\n");
+                    scanf("%d", &answer);
+                    if (answer){
+                        answer--;
+                        while ((running) && (!myState->finishedCollectingBlock)){
+                            myState->startProcessingProceduresManual();
+                            myState->collectBlock(answer);
+                            myState->finishProcessingProceduresManual();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
 }

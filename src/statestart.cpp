@@ -24,5 +24,5 @@ void stateStart::processData(){
     //nextState = new stateWallFollow(this);
     nextState = new stateLookingForBlocks(this);
     //finish doing stuff
-    finishProcesData();
+    finishProcessData();
 }

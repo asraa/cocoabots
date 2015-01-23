@@ -652,6 +652,15 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"testIr")==0){
+            sensorsModule mysensors;
+            RUNNING =1;
+            while(RUNNING){
+                printf("front Ir =%lf in, right IR = %lf in\n", mysensors.frontShortIRData, mysensors.rightShortIRData);
+                usleep(200000.0);
+            }
+
+        }
         return 0;
     }
 }

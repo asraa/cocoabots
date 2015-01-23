@@ -11,5 +11,5 @@ void stateWallFollow::processData(){
 
     wallFollow();
 
-    finishProcesData();
+    finishProcessData();
 }

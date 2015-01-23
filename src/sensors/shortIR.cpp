@@ -28,9 +28,9 @@ float shortIR::timing(){
 
 float shortIR::ranging(){
 	float rawData = timing();
-	return 12343.85 * pow(rawData,-1.15);	
+    return 12343.85 * pow(rawData,-1.15);	 //Data in centimeters
 }
 
 double shortIR::getData(){
-    return ranging();
+    return ranging() * 0.3937; // Data in inches
 }

@@ -13,5 +13,5 @@ void stateLookingForBlocks::processData(){
     if(foundCube()){
         nextState=new stateGoingToCube(this);
     }
-    finishProcesData();
+    finishProcessData();
 }

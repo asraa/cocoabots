@@ -15,5 +15,5 @@ void stateCollectingCube::processData(){
     if (finishedCollectingBlock){
         nextState = new stateLookingForBlocks(this);
     }
-    finishProcesData();
+    finishProcessData();
 }

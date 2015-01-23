@@ -184,6 +184,8 @@
 #define BLOCK_COLLECT_DISTANCE_MOVE 6
 
 
+#define GO_TO_POINT_PRECISION_INCHES 0.5
+
 /////////////////////////////
 //Servos control
 

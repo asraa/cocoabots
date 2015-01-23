@@ -206,7 +206,7 @@ void states::goToPoint(double distance, double angle){
         setCarrotPosition(distance,angle);
     }
     else{
-        if(getDistanceToCarrot()==0){
+        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES){
             finishedGoingToPoint=1;
         }
     }
@@ -267,6 +267,29 @@ long long int states::getTimeMicroseconds(){
     return mySensors->timeMicrosecondsSinceEpoch;
 }
 
+int states::foundCube(){
+    return myImageProcessor->getFoundCube();
+}
+
+double states::getDistanceNearestCube(){
+    return myImageProcessor->getNearestCubeDist();
+}
+
+double states::getAngleNearestCube(){
+    return myImageProcessor->getNearestCubeAngle();
+}
+
+int states::getColorNearestCube(){
+    return myImageProcessor->getNearestCubeColor();
+}
+
+void states::startProcessingProceduresManual(){
+    startProcessData();;
+}
+
+void states::finishProcessingProceduresManual(){
+    finishProcessData();
+}
 
 void states::startProcessData(){
     wallFollowed=0;
@@ -274,11 +297,7 @@ void states::startProcessData(){
     wentToPoint=0;
 }
 
-int states::foundCube(){
-    return myImageProcessor->getFoundCube();
-}
-
-void states::finishProcesData(){
+void states::finishProcessData(){
     if (wallFollowed){
         wallFollowing=1;
     }

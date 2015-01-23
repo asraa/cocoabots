@@ -18,5 +18,5 @@ void stateGoingToCube::processData(){
     if (finishedGoingToPoint){
         nextState = new stateCollectingCube(this,color);
     }
-    finishProcesData();
+    finishProcessData();
 }

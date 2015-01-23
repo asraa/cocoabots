@@ -36,6 +36,9 @@ public:
     void setCarrotPosition(double distance, double angle);
     double getDistanceToCarrot();
     int foundCube();
+    double getDistanceNearestCube();
+    double getAngleNearestCube();
+    int getColorNearestCube();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated
@@ -58,11 +61,14 @@ public:
     int finishedGoingToPoint;
 
 
+
+    void startProcessingProceduresManual();
+    void finishProcessingProceduresManual();
 protected:
     //Functions that should always be called.
     void startProcessData(); //Should be called in the beginning of process data.
                             //Takes care of procedures that have state machines inside them.
-    void finishProcesData(); // Should be called in the end of process data.
+    void finishProcessData(); // Should be called in the end of process data.
                             //Takes care of procedures that have state machines inside them.
 
 
