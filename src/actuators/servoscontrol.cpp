@@ -28,7 +28,7 @@ void servosControl::unHookBlock(){
 }
 
 void servosControl::raiseBlock(){
-    armAngle = ARM_START + 142;
+    armAngle = ARM_START + 146;
 }
 
 void servosControl::sortRed(){
