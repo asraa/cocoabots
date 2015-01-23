@@ -9,19 +9,14 @@
 #include <iostream>
 #include <cmath>
 
-namespace ImageUtils {
+#include "CameraConfig.h"
 
-static const int SMOOTH_KERNEL = 3;
-static const int MORPH_KERNEL = 3;
+
+namespace ImageUtils {
 
 void binaryImagePreProcess(cv::Mat&, int);
 
-static const int CANNY_THRESH_LOW = 5;
-static const int CANNY_THRESH_UP = 15;
-static const int CANNY_KERNEL = 3;
-
 cv::Mat cannyEdge(cv::Mat&);
-
 
 }
 

@@ -3,10 +3,10 @@
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <eigen3/Eigen/Dense>
-#include <eigen3/Eigen/LU>
 #include <iostream>
 #include <cmath>
+
+#include "CameraConfig.h"
 
 namespace ColorDetection {
 

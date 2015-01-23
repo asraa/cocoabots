@@ -13,10 +13,6 @@ static const int DEBUG = 0;
 /********************************/
 
 
-/********************************************************
- * NEED TO DIVIDE THINGS BY RESCALE FACTOR IF RESCALE ***
- * *****************************************************/
-
 // translation vector of camera w.r.t to robot center
 static const double CAM_ROBOT_X = 4;
 static const double CAM_ROBOT_Y = 0;
@@ -56,6 +52,38 @@ static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*CAM
                                                     0, 0, 1).finished())*ROT_MAT);
 
 static Eigen::Matrix3d CAM_MAT_INV = (CAM_MAT.inverse());
+
+
+// vertical pixels threshold for wall detection
+static const int WALL_LINE_THRESH = 10;
+// wall dimensions
+static const double WALL_LINE_WIDTH = 2;
+static const double WALL_HEIGHT = 6; // white + line
+static const double WALL_HEIGHT_TO_LINE = 4;
+
+// block dimensions
+static const double BLOCK_HEIGHT = 2; // inches
+
+// for block estimations
+static const double COS_THRESH = 0.1;
+
+static const int POLY_VERTEX_NUM_THRESH = 8;
+
+static const double POLY_NEIGHBORHOOD = 9;
+
+static const double FEATURE_AREA_THRESH = 200;
+
+static const double ASPECT_RATIO_LOW = 0.8;
+static const double ASPECT_RATIO_UP = 4;
+
+static const int SMOOTH_KERNEL = 3;
+static const int MORPH_KERNEL = 3;
+static const int CANNY_THRESH_LOW = 5;
+static const int CANNY_THRESH_UP = 15;
+static const int CANNY_KERNEL = 3;
+
+
+
 
 /*
 // with rotation

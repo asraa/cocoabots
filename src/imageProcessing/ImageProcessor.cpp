@@ -83,14 +83,12 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
         cv::Mat frame;
         // hard-coding resize_ratio for now
-        cv::resize(frame_raw, frame, cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
-        //frame = cv::imread( "images/calibration_19.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+        //frame = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+        cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
         //cv::resize(frame, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
-        //frame = frame_raw;
-
         // test
-        ImageProcessorPointer->detectWall(frame);
+        //ImageProcessorPointer->detectWall(frame);
         ImageProcessorPointer->detectBlocks(frame);
 
         if(DEBUG == 1) {
