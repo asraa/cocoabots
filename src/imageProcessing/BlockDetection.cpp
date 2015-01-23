@@ -91,7 +91,7 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
     int bottom_ind = findLowestPoint(contours_poly);
     cv::Point bottom_pt = contours_poly.at(bottom_ind);
     if(bottom_pt.y < FRAME_SIZE_Y)
-        return CameraMath::reconstructPoint2D(bottom_pt, 0); // on the floor
+        return CameraMath::reconstructPoint2D(bottom_pt, 0.0); // on the floor
 
     // otherwise find top most point
     int top_ind= findHighestPoint(contours_poly);
@@ -106,7 +106,7 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 }
 
 // finds the lowest point in the contour
-int findLowestPoint(std::vector<cv::Point> contour){
+int findLowestPoint(std::vector<cv::Point>& contour){
     int lowest_ind = 0;
     double lowest_val = contour.at(0).y;
     for(int j = 0; j < contour.size(); j++) {
@@ -119,7 +119,7 @@ int findLowestPoint(std::vector<cv::Point> contour){
 }
 
 // finds the highest point in the contour
-int findHighestPoint(std::vector<cv::Point> contour){
+int findHighestPoint(std::vector<cv::Point>& contour){
     int highest_ind = 0;
     double highest_val = contour.at(0).y;
     for(int j = 0; j < contour.size(); j++) {
@@ -138,9 +138,9 @@ int findLowestContour(ContourUtils::ContourData& contour_data ) {
     }
 }
 
-std::vector<Eigen::Vector2d> findBlocksSingleColor(cv::Mat& frame, int color) {
+std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlocksSingleColor(cv::Mat& frame, int color) {
 
-    std::vector<Eigen::Vector2d> list_of_pts;
+    std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> list_of_pts;
 
     cv::Mat im_color = ColorDetection::detectColor(frame, color);
     ContourUtils::ContourData contour_data = ContourUtils::getContours(im_color);
@@ -176,7 +176,7 @@ std::vector<Eigen::Vector2d> findBlocksSingleColor(cv::Mat& frame, int color) {
 
 }
 
-Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d> list_of_block_pts) {
+Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>>& list_of_block_pts) {
     double dist_min_val = list_of_block_pts.at(0)[0];
     int min_ind = 0;
     for(int i=0; i<list_of_block_pts.size(); i++) {
@@ -190,14 +190,7 @@ Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d> list_of_bloc
     return list_of_block_pts.at(min_ind);
 }
 
-Eigen::Vector2d findCloserOfTwoRadPts(Eigen::Vector2d pt1, Eigen::Vector2d pt2) {
-    if(pt1[0] < pt2[1])
-        return pt1;
-    else
-        return pt2;
-}
-
-bool closerThan(Eigen::Vector2d pt1, Eigen::Vector2d pt2) {
+bool closerThan(Eigen::Vector2d& pt1, Eigen::Vector2d& pt2) {
     return pt1[0] < pt2[0];
 }
 
@@ -206,8 +199,8 @@ bool closerThan(Eigen::Vector2d pt1, Eigen::Vector2d pt2) {
 void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     // list of points is in radial coordinates
-    std::vector<Eigen::Vector2d> list_of_red = findBlocksSingleColor(frame, ColorDetection::COLOR_BLOCK_RED);
-    std::vector<Eigen::Vector2d> list_of_green = findBlocksSingleColor(frame, ColorDetection::COLOR_BLOCK_GREEN);
+    std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> list_of_red = findBlocksSingleColor(frame, ColorDetection::COLOR_BLOCK_RED);
+    std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> list_of_green = findBlocksSingleColor(frame, ColorDetection::COLOR_BLOCK_GREEN);
 
     if(list_of_red.size() > 0 && list_of_green.size() > 0) {
         Eigen::Vector2d nearest_pt_red = findNearestBlockInList(list_of_red);
@@ -240,7 +233,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 }
 
 
-void updateBlockFoundInfo(Eigen::Vector2d block_coord_rad, int cube_color, BlockInfo& nearest_block_info) {
+void updateBlockFoundInfo(Eigen::Vector2d& block_coord_rad, int cube_color, BlockInfo& nearest_block_info) {
 
     nearest_block_info.found_cube = 1;
     nearest_block_info.nearest_cube_dist = block_coord_rad[0];

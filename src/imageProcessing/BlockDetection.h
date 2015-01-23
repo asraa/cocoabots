@@ -32,21 +32,21 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point>&);
 
 int numOfBlocksEst(std::vector<cv::Point> &);
 
-int findLowestPoint(std::vector<cv::Point> contour);
-int findHighestPoint(std::vector<cv::Point> contour);
+int findLowestPoint(std::vector<cv::Point>& contour);
+int findHighestPoint(std::vector<cv::Point>& contour);
 
 bool isBlock(std::vector<cv::Point>& contour);
 bool numberOfVerticesReasonable(std::vector<cv::Point>& contour);
 bool aspectRatioReasonable(std::vector<cv::Point>& contour);
 bool perimeterRatio2large(std::vector<cv::Point>& contour);
 bool contour2small(std::vector<cv::Point>& contour);
-Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d> list_of_block_pts);
+Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>>& list_of_block_pts);
 
 int isVertical(cv::Point pt1, cv::Point pt2);
 
 int findLowestContour(ContourUtils::ContourData& contour_data);
 
-void updateBlockFoundInfo(Eigen::Vector2d block_coord_rad, int cube_color, BlockInfo& nearest_block_info);
+void updateBlockFoundInfo(Eigen::Vector2d& block_coord_rad, int cube_color, BlockInfo& nearest_block_info);
 void updateBlockNotFound(BlockInfo& nearest_block_info);
 
 }
