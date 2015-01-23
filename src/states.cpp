@@ -142,6 +142,11 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
+            if (color == ImageProcessor::CUBE_COLOR_GREEN)
+                myServosControl->sortGreen();
+            else{
+                myServosControl->sortRed();
+            }
             startTimeState = getTimeMicroseconds();
         }
         break;
