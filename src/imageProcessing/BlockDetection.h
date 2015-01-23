@@ -21,6 +21,8 @@ struct BlockInfo {
     double nearest_cube_angle;
     double nearest_cube_dist;
     int nearest_cube_color;
+
+    BlockInfo(): found_cube(0), nearest_cube_angle(0), nearest_cube_dist(0), nearest_cube_color(0) {}
 };
 
 static const double BLOCK_HEIGHT = 2; // inches
@@ -33,7 +35,7 @@ static const int POLY_VERTEX_NUM_THRESH = 8;
 
 static const double POLY_NEIGHBORHOOD = 9;
 
-static const double FEATURE_AREA_THRESH = 1000;
+static const double FEATURE_AREA_THRESH = 100;
 
 static const double ASPECT_RATIO_LOW = 0.8;
 static const double ASPECT_RATIO_UP = 4;
