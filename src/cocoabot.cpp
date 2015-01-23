@@ -100,6 +100,7 @@ void cocoabot::run(int argc, char **argv){
                 printf("I found a cube at %lf in, %lf, degrees.\n It's color is %d\n' Go to cube? 1, 0\n", cubePosition,cubeAngle, cubeColor);
                 scanf("%d", &answer);
                 if (answer){
+                    myState->finishedGoingToPoint=0;
                     while ((running) && (!myState->finishedGoingToPoint)){
                         myState->startProcessingProceduresManual();
                         myState->goToPoint(cubePosition,cubeAngle);
@@ -109,6 +110,7 @@ void cocoabot::run(int argc, char **argv){
                     scanf("%d", &answer);
                     if (answer){
                         answer--;
+                        myState->finishedCollectingBlock=0;
                         while ((running) && (!myState->finishedCollectingBlock)){
                             myState->startProcessingProceduresManual();
                             myState->collectBlock(answer);
