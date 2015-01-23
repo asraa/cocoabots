@@ -83,7 +83,7 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
         cv::Mat frame;
         // hard-coding resize_ratio for now
-        //frame = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+        frame = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
         cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
         //cv::resize(frame, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
