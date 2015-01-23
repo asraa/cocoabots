@@ -21,9 +21,6 @@ ACTUATORS_OBJECTS = $(ACTUATORS_SOURCES:.cpp=.o)
 SENSORS_SOURCES = $(call rwildcard, ./sensors/,*.cpp)
 SENSORS_OBJECTS = $(SENSORS_SOURCES:.cpp=.o)
 
-STATES_SOURCES = $(call rwildcard, ./, states*.cpp)
-STATES_OBJECTS = $(STATES_SOURCES:.cpp=.o)
-
 IMAGES_SOURCES = $(call rwildcard, ./imageProcessing/,*.cpp)
 IMAGES_OBJECTS = $(IMAGES_SOURCES:.cpp=.o)
 
@@ -58,8 +55,6 @@ clean_actuators:
 clean_sensors:
 	rm -f $(EXEC_TEST) $(EXEC) $(SENSORS_OBJECTS)
 
-clean_states:
-	rm -f $(EXEC_TEST) $(EXEC) $(STATES_OBJECTS)
 clean_images:
 	rm -f $(EXEC_TEST) $(EXEC) $(IMAGES_OBJECTS)
 
