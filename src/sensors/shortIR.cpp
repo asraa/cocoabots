@@ -32,5 +32,5 @@ float shortIR::ranging(){
 }
 
 double shortIR::getData(){
-    return ranging() * 0.3937; // Data in inches
+    return (ranging());// * 0.3937); // Data in inches
 }
