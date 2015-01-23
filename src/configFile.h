@@ -170,8 +170,8 @@
 
 /////////////////////////////////////////////////////////////
 //Here starts definitions related to the states of the robot.
-#define WALL_FOLLOW_CARROT_DISTANCE_INCHES 11
-#define WALL_FOLLOW_WALL_DISTANCE_INCHES 13
+#define WALL_FOLLOW_CARROT_DISTANCE_INCHES 10
+#define WALL_FOLLOW_WALL_DISTANCE_INCHES 9
 #define WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES 20
 
 #define BLOCK_COLLECT_RESET_TIME_MS 1500
