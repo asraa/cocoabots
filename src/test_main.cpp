@@ -593,7 +593,7 @@ int main(int argc, char** argv){
             while(RUNNING)
             {
                 printf("raise, hook, sort, sweep, reset\n");
-                scanf("%d %d %d", &raise, &hook, &sort, &sweep, &reset);
+                scanf("%d %d %d %d %d", &raise, &hook, &sort, &sweep, &reset);
                 if(raise)
                     myServos.raiseBlock();
                 if(hook)
