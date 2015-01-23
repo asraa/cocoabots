@@ -12,12 +12,12 @@ ContourData getContours(cv::Mat& im_src) {
 
     ContourData contour_data;
     contour_data.contours = contours;
-    contour_data.hierarchy = hierarchy;
+    //contour_data.hierarchy = hierarchy;
 
     return contour_data;
 
 }
-
+/*
 bool contour2small(std::vector<cv::Point>& contour) {
     return (fabs(cv::contourArea(contour,0)) < FEATURE_AREA_THRESH);
 }
@@ -39,13 +39,12 @@ void cleanContour(ContourData& contour_data) {
 
 }
 
-
+*/
 cv::Mat drawContours(ContourData& contour_data, cv::Mat& frame) {
     cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
     cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 3, 8);
     cv::cvtColor(drawing,drawing,CV_BGR2GRAY);
     return drawing;
 }
-
 
 }

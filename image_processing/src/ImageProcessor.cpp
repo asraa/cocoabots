@@ -68,12 +68,15 @@ void ImageProcessor::local_map_refresh() {
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
     while(ImageProcessorPointer->running) {
-/*        Eigen::Vector2d pt_im;
-        pt_im << 455, 190;
+
+        /*Eigen::Vector2d pt_im;
+        pt_im << 163,124;
         std::cout<<"result" << CameraMath::reconstructPoint2D(pt_im, 2)<<std::endl;
         Eigen::Vector2d result = CameraMath::reconstructPoint2D(pt_im, 2);
         std::cout<< "radial" << CameraMath::cvtCamXY2RobotRadial(result[0],result[1])<<std::endl;
-        */
+        std::cout<< CAM_MAT<<std::endl;
+        std::cout<<ROT_MAT<<std::endl;
+        std::cout<<CAM_MAT_INV<<std::endl;*/
 
         cv::Mat frame_raw;
         ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
@@ -82,6 +85,7 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
         // hard-coding resize_ratio for now
         //cv::resize(frame_raw, frame, cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
         frame = cv::imread( "images/calibration_19.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+        cv::resize(frame, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
         //frame = frame_raw;
 

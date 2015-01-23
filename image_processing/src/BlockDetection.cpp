@@ -90,14 +90,12 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
     // find bottom most point
     int bottom_ind = findLowestPoint(contours_poly);
     cv::Point bottom_pt = contours_poly.at(bottom_ind);
-    std::cout<<bottom_pt<<std::endl;
     if(bottom_pt.y < FRAME_SIZE_Y)
         return CameraMath::reconstructPoint2D(bottom_pt, 0); // on the floor
 
     // otherwise find top most point
     int top_ind= findHighestPoint(contours_poly);
     cv::Point top_pt = contours_poly.at(top_ind);
-    std::cout<<top_pt<<std::endl;
 
     // estimate number of blocks in stack
     int num_of_blocks = numOfBlocksEst(contours_poly);
@@ -166,7 +164,7 @@ int findHighestPoint(std::vector<cv::Point> contour){
 
 int findLowestContour(ContourUtils::ContourData& contour_data ) {
     for(int j = 0; j < contour_data.contours.size(); j++) {
-        std::cout << j << " " << findLowestPoint(contour_data.contours.at(j)) << std::endl;
+        //std::cout << j << " " << findLowestPoint(contour_data.contours.at(j)) << std::endl;
     }
 }
 
@@ -224,6 +222,9 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 }
 */
 
+
+
+
 // TO-DO: REORGANIZE CODE
 void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
@@ -233,21 +234,21 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     cv::Mat im_red = ColorDetection::detectColor(frame, ColorDetection::COLOR_BLOCK_RED);
 
-    if(DEBUG == 1){
-        cv::namedWindow("ae",1);
-        cv::imshow("ae",im_red);
-    }
-
     // CHECK BACK ON THIS
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
 
     ContourUtils::ContourData contour_data = ContourUtils::getContours(im_red);
 
-    if(DEBUG==1){
+    // show images
+    if(DEBUG == 1){
+        cv::namedWindow("ae",1);
+        cv::imshow("ae",im_red);
+
         cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
         cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
         cv::namedWindow("qq",1);
         cv::imshow("qq",drawing);
+
     }
 
 /*
@@ -261,24 +262,24 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
         cv::imshow("dd",drawing2);
     }
 */
-    std::cout<<"number of contours"<<contour_data.contours.size()<<std::endl;
+    //std::cout<<"number of contours"<<contour_data.contours.size()<<std::endl;
     if(contour_data.contours.size() > 0) { // contours not null
         // findLowestContour(contour_data);
         for(int j = contour_data.contours.size()-1; j > -1; j--) {
             if(isBlock(contour_data.contours.at(j))) {
-                std::cout<<"hello"<<std::endl;
+                //std::cout<<"hello"<<std::endl;
                 // assuming sorted from top to bottom
                 Eigen::Vector2d result = crudeEstimate(contour_data.contours.at(j)); // hacked for now
-                std::cout << result << std::endl;
+                //std::cout << result << std::endl;
                 if(result[0] != -1) {
                     updateBlockFoundInfo(result, 1, nearest_block_info);
                     if(DEBUG==1) {
-                        std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
+                        //std::cout<<"cube found: x,y"<<std::endl<<result<<std::endl;
                         if(DEBUG==1) {
                             end = clock();
                         }
 
-                        std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+                        //std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
                     }
                     return;
                 }
@@ -291,7 +292,7 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
         end = clock();
     }
 
-    std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+    // std::cout << "block time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
 }
 
 /*****

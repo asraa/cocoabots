@@ -142,7 +142,7 @@ void detectWall(cv::Mat& frame, GridMap& local_map, int color) {
         end = clock();
     }
 
-    std::cout << "time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
+    // std::cout << "time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
 
 }
 
