@@ -20,7 +20,7 @@ void servosControl::run(servosControl *myservo){
 }
 
 void servosControl::hookBlock(){
-    hookAngle = HOOK_START + 80;
+    hookAngle = HOOK_START + 75;
 }
 
 void servosControl::unHookBlock(){
@@ -28,7 +28,7 @@ void servosControl::unHookBlock(){
 }
 
 void servosControl::raiseBlock(){
-    armAngle = ARM_START + 135;
+    armAngle = ARM_START + 142;
 }
 
 void servosControl::sortRed(){
