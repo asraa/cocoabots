@@ -11,16 +11,16 @@
 namespace ContourUtils {
 
 struct ContourData {
-    cv::Mat drawing;
+   // cv::Mat drawing;
     std::vector<std::vector<cv::Point> > contours;
-    std::vector<cv::Vec4i> hierarchy;
+   // std::vector<cv::Vec4i> hierarchy;
 };
 
 ContourData getContours(cv::Mat&);
-void cleanContour(ContourData&);
-bool contour2small(std::vector<cv::Point>&);
+//void cleanContour(ContourData&);
+//bool contour2small(std::vector<cv::Point>&);
 
-static const int FEATURE_AREA_THRESH = 1000;
+//static const double FEATURE_AREA_THRESH = 0;
 
 cv::Mat drawContours(ContourData &, cv::Mat&);
 

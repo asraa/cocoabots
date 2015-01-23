@@ -7,6 +7,7 @@
 #include <eigen3/Eigen/LU>
 #include <iostream>
 #include <math.h>
+#include <time.h>
 
 #include "ImageUtils.h"
 #include "ColorDetection.h"

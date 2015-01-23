@@ -3,13 +3,13 @@
 
 namespace CameraMath {
 
-
+/*
 double determineDepth(double delta_y_im, double real_delta_height) {
     double s = real_delta_height * cos(CAM_ANGLE_VERT/180*M_PI) / (CAM_MAT_INV_22 * delta_y_im);
     return s;
 }
 
-/*
+
 //if speed becomes a problem can pass matrix element instead
 Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double s, Eigen::Matrix3d& cam_mat_inv) {
     double coord1 = (cam_mat_inv(0,0)*pt_im(0) + cam_mat_inv(0,2)*1) * s; // hard-coding this to save complex matrix multiplication
@@ -17,7 +17,7 @@ Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double s, Eigen::Matr
     pt_c << coord1, s; // just outputting x,y (corresponding to x and z in space coord)
     return pt_c;
 }
-*/
+
 
 Eigen::Vector2d reconstructPoint2D(int pt_im_x, double s) {
     double coord1 = (CAM_MAT_INV_11*pt_im_x + CAM_MAT_INV_13*1) * s; // hard-coding this to save complex matrix multiplication
@@ -25,7 +25,7 @@ Eigen::Vector2d reconstructPoint2D(int pt_im_x, double s) {
     result << coord1, s;
     return result;
 }
-
+*/
 
 // returns (x,z) coordinates relative to camera
 Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual) {
@@ -56,11 +56,13 @@ Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam) {
     double y_robot = y_cam_rot + CAM_ROBOT_Y;
 
     double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
-    double sin_phi = x_robot / dist; // need to check
+    // this is x_robot because rotation is w.r.t. to forward direction
+    // clockwise is positive, counter-clockwise is negative
+    double sin_phi = x_robot / dist;
     double phi = asin(sin_phi);
 
     Eigen::Vector2d result;
-    result << dist, phi;
+    result << dist, phi/M_PI * 180;
     return result;
 }
 

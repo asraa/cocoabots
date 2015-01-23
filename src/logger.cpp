@@ -152,10 +152,10 @@ void logger::log() {
   logfile << "my ImageProcessor:" <<
 
              "\n Cube:" <<
-             "  found:" <<myImageProcessorPt->foundCube <<
-             "  Angle:" <<myImageProcessorPt->nearestCubeAngle <<
-             "  Distance:" <<myImageProcessorPt->nearestCubeDist <<
-             "  Color:" <<myImageProcessorPt->nearestCubeColor <<std::endl;
+             "  found:" <<myImageProcessorPt->getFoundCube() <<
+             "  Angle:" <<myImageProcessorPt->getNearestCubeAngle() <<
+             "  Distance:" <<myImageProcessorPt->getNearestCubeDist() <<
+             "  Color:" <<myImageProcessorPt->getNearestCubeColor() <<std::endl;
     }
 
 #endif

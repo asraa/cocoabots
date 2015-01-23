@@ -17,14 +17,16 @@
 #include "ImageUtils.h"
 #include "BlockDetection.h"
 #include "CameraConfig.h"
+
 /***********************************************
  ***********IMAGE PROCESSING CLASS**************
- **********************************************/
+ ***********************************************/
 
 
 class ImageProcessor 
 {
 public:
+
     ImageProcessor();
     ~ImageProcessor();
     cv::VideoCapture vid_cap;
@@ -32,10 +34,14 @@ public:
     GridMap local_map; // for now
 
     // update for other threads to get
+    BlockDetection::BlockInfo nearestBlockInfo;
+
+    /*
     int foundCube;
     double nearestCubeAngle;
     double nearestCubeDist;
     int nearestCubeColor;
+    */
 
     static const int CUBE_COLOR_GREEN = 0;
     static const int CUBE_COLOR_RED = 1;
