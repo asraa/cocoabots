@@ -270,7 +270,7 @@ void states::startProcessData(){
 }
 
 int states::foundCube(){
-    return myImageProcessor->foundCube;
+    return myImageProcessor->getFoundCube();
 }
 
 void states::finishProcesData(){

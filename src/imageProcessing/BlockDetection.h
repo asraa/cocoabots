@@ -7,6 +7,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 #include <math.h>
+#include <time.h>
 
 #include "CameraMath.h"
 #include "ContourUtils.h"
@@ -15,24 +16,50 @@
 
 namespace BlockDetection {
 
+struct BlockInfo {
+    int found_cube;
+    double nearest_cube_angle;
+    double nearest_cube_dist;
+    int nearest_cube_color;
+};
 
 static const double BLOCK_HEIGHT = 2; // inches
 
 // for crude estimate
 static const double BLOCK_THRESH = 10;
-static const double COS_THRESH = 0.2;
+static const double COS_THRESH = 0.1;
+
+static const int POLY_VERTEX_NUM_THRESH = 8;
 
 static const double POLY_NEIGHBORHOOD = 9;
 
-Eigen::Vector2d crudeEstimate(std::vector<cv::Point>&);
+static const double FEATURE_AREA_THRESH = 1000;
 
-void detectBlock(cv::Mat&, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist, int& nearest_cube_color);
+static const double ASPECT_RATIO_LOW = 0.8;
+static const double ASPECT_RATIO_UP = 4;
+
+
+void detectBlocks(cv::Mat&, BlockInfo& nearest_block_info);
+
+Eigen::Vector2d crudeEstimate(std::vector<cv::Point>&);
 
 int numOfBlocksEst(std::vector<cv::Point> &);
 
-void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int cube_color, int& found_cube, double& nearest_cube_angle, double& nearest_cube_dist, int& nearest_cube_color);
+int findLowestPoint(std::vector<cv::Point> contour);
+int findHighestPoint(std::vector<cv::Point> contour);
 
-void updateBlockNotFound(int& found_cube);
+bool isBlock(std::vector<cv::Point>& contour);
+bool numberOfVerticesReasonable(std::vector<cv::Point>& contour);
+bool aspectRatioReasonable(std::vector<cv::Point>& contour);
+bool perimeterRatio2large(std::vector<cv::Point>& contour);
+bool contour2small(std::vector<cv::Point>& contour);
+
+int isVertical(cv::Point pt1, cv::Point pt2);
+
+int findLowestContour(ContourUtils::ContourData& contour_data);
+
+void updateBlockFoundInfo(Eigen::Vector2d block_coord_cam, int cube_color, BlockInfo& nearest_block_info);
+void updateBlockNotFound(BlockInfo& nearest_block_info);
 
 }
 

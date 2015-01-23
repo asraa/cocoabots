@@ -17,7 +17,7 @@ cv::Mat detectColor(cv::Mat& frame, int color){
         inRange(frame_hsv, cv::Scalar(100,100,0), cv::Scalar(130,255,255), result);
     } else if (color == COLOR_BLOCK_GREEN) {
         inRange(frame_hsv, cv::Scalar(50,100,0), cv::Scalar(100,255,255), result);
-    } else if (color = COLOR_BLOCK_RED) {
+    } else if (color == COLOR_BLOCK_RED) {
         inRange(frame_hsv, cv::Scalar(0,100,0), cv::Scalar(50,255,255), result);
         cv::Mat result2;
         inRange(frame_hsv, cv::Scalar(150,100,0), cv::Scalar(255,255,255), result2);
@@ -25,6 +25,12 @@ cv::Mat detectColor(cv::Mat& frame, int color){
     }
     return result;
 }
+
+
+bool isRedBlock() {
+
+}
+
 
 // takes in colors array to account or different combinations of colors
 // e.g. blue & white --> wall / red & green --> stacks of blocks
