@@ -59,7 +59,7 @@ void cocoabot::run(){
 
 void cocoabot::run(int argc, char **argv){
     if(strcmp(argv[1],"collectBlock")==0){
-        states * nextState = new stateCollectingCube(myState, 1);
+        states * nextState = new stateCollectingCube(myState,0);
         logger::log();
         previousState=myState;
         myState = nextState;
