@@ -7,6 +7,8 @@ stacks(RES_INIT, RES_FIN),
 homeBases(RES_INIT, RES_FIN),
 startLoc(RES_INIT, RES_FIN) {
 //	assert((RES_INIT/RES_FIN)%2==0 || RES_INIT==RES_FIN);
+    
+    //want to add: getSonarReading(position currentPos, angle orientation)
 
 	MAX_POS = std::make_tuple(0,0);
 	mapFilename = filename;
@@ -262,6 +264,30 @@ double map::getDistance(position Pos1, position Pos2) {
 	return answer;
 }
 
+//returns a position vector for a line of sight
+map::position map::getEndPoint(position Pos1, int orientation){
+    double deltaX = cos(orientation*3.1415/180.0);
+    double deltaY = sin(orientation*3.1415/180.0);
+    int x = std::get<0>(Pos1);
+    int y = std::get<1>(Pos1);
+    double newX = x;
+    double newY = y;
+    position tempPos = Pos1;
+    while (isPassable(tempPos)){
+        newX += deltaX;
+        newY += deltaY;
+        tempPos = std::make_tuple(ceil(newX),ceil(newY));
+    }
+
+    return tempPos; //first blocked pos
+}
+
+//returns an ideal "sonar" reading for a position and vector
+double map::getSonarReading(position Pos1, int orientation){
+    position imped = getEndPoint(Pos1, orientation);
+    return getDistance(Pos1, imped);
+}
+
 map::position map::getClosestHomeBase(position currentPos) {
 	return getClosestItem(currentPos, homeBases.getPositions());
 }
@@ -285,6 +311,7 @@ map::position map::getClosestItem(position currentPos, positionVector posVec) {
 	return minPos;
 }
 
+
 map::cubeTuple map::lookupStackOrder(position stackPos) {
 	return stacks.getCubeStack(stackPos);
 }
@@ -302,3 +329,18 @@ int map::inchToInd(double inch) {
 	int ind = (int) inch/gridResDouble;
 	return ind;
 }
+
+
+
+int main_map(){
+    map myMap("red_map.txt");
+}
+
+//map myMap("green_map.txt");
+//
+// 0 = empty
+// 1 = wall
+// 2 = platform
+// 3 = stack
+// 4 = homebase
+// 5 = startloc

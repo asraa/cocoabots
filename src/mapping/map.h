@@ -35,6 +35,7 @@ class map
 
 		typedef std::vector< std::vector<int> > gridMap;
 		typedef std::tuple<int,int> position;
+        int orientation; //orientation with angle between 0 and 360
 		typedef std::vector< position > positionVector;
 		typedef positionVector::iterator positionVectorIterator;
 		typedef std::vector< std::string > stringVector;
@@ -59,6 +60,8 @@ class map
 		map::position getClosestStack(position currentPos);
 		map::position getClosestItem(position currentPos, positionVector posVec);
 		map::cubeTuple lookupStackOrder(position stackPos);
+        map::position getEndPoint(position Pos1, int orientation);
+        double getSonarReading(position Pos1, int orientation);
 		void removeStack(position stackPos);
 		double indToInch(int ind);
 		int inchToInd(double inch);

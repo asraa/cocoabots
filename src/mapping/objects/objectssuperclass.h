@@ -12,6 +12,8 @@ class objectsSuperClass
 {	
 	public:
 		typedef std::tuple<int,int> position;
+
+
 		typedef std::vector< position > positionVector;
 		typedef positionVector::iterator positionVectorIterator;
 		typedef std::vector< std::string > stringVector;

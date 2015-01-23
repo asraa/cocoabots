@@ -672,6 +672,66 @@ int main(int argc, char** argv){
             }
 
         }
+
+        else if (strcmp(argv[1],"remoteControlAll")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            servosControl myServos;
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+            myactuator.armServoAngle=&myServos.armAngle;
+            myactuator.hookServoAngle=&myServos.hookAngle;
+            myactuator.sortServoAngle=&myServos.sortAngle;
+            RUNNING =1;
+            double desiredPosition, desiredAngle;
+            int option;
+            while(RUNNING)
+            {
+                printf("Option Menu: \n 0: Change Position \n 1: Hook \n 2: Raise \n 3: Sort \n 4: Sweep \n 5: Reset \n");
+                scanf("%d",&option);
+                if (option == 0){
+                    printf("define the distance and angle to move\n My position=%lf \n", control.getNewPosition());
+                    scanf("%lf %lf", &desiredPosition, &desiredAngle);
+                    printf("my position =%lf\n", control.getNewPosition());
+                    control.desiredPosition+=desiredPosition;
+                    control.desiredAngle+=desiredAngle;
+                }
+
+                if (option == 1){
+                    myServos.hookBlock();
+                }
+                else
+                    myServos.unHookBlock();
+                if (option == 2){
+                    myServos.raiseBlock();
+                }
+                else
+                    myServos.unHookBlock();
+                if (option == 3){
+                    myServos.sortGreen();
+                }
+                else
+                    myServos.sortRed();
+                if (option == 4){
+                    myServos.sweep();
+                }
+                else
+                    myServos.stopSweep();
+                if (option == 5){
+                    myServos.stopSweep();
+                    myServos.reset();
+                }
+
+                usleep(20000.0);
+
+            }
+        }
+
         return 0;
     }
 }
