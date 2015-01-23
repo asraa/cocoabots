@@ -615,6 +615,43 @@ int main(int argc, char** argv){
 
             }
         }
+
+        else if (strcmp(argv[1],"goToCube")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            actuator myactuator(&mysensors);
+            actPointer= &myactuator;
+            motorsControl control(&mysensors);
+            control.desiredAngle=0;
+            control.desiredPosition=0;
+            myactuator.leftWheelPower = &control.leftMotorPower;
+            myactuator.rightWheelPower= &control.rightMotorPower;
+
+            ImageProcessor myImageProcessor;
+            RUNNING =1;
+            double desiredPosition;
+            double desiredAngle;
+            int answer=0;
+            while(RUNNING)
+            {
+                if(!myImageProcessor.getFoundCube()){
+
+                }
+                else{
+                    desiredAngle=myImageProcessor.getNearestCubeAngle();
+                    desiredPosition=myImageProcessor.getNearestCubeDist();
+                    printf("I found a cube at %lf in, %lf, degrees.\n Go to cube? 1, 0\n", desiredPosition,desiredAngle);
+                    scanf("%d", &answer);
+                    if (answer){
+                        control.setNewDesiredRelativePositionInRadialCordinates(desiredPosition,desiredAngle);
+                    }
+                }
+
+                usleep(20000.0);
+
+
+            }
+        }
         return 0;
     }
 }
