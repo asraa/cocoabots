@@ -179,6 +179,7 @@ void states::collectBlock(int color){
             finishedCollectingBlock=1;
             myState=resettingStart;
             collectingBlocks=0;
+            collectedBlocks=0;
         }
 
     }
