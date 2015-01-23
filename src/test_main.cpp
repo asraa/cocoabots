@@ -605,10 +605,13 @@ int main(int argc, char** argv){
                 else
                     myServos.sortRed();
                 if(sweep)
-                    myServos.swipe();
-                if (reset)
+                    myServos.sweep();
+                else
+                    myServos.stopSweep();
+                if (reset){
+                    myServos.stopSweep();
                     myServos.reset();
-
+                }
 
             }
         }

@@ -166,7 +166,7 @@ void states::collectBlock(int color){
     case(releasing):
         if(difTime>BLOCK_COLLECT_RELEASE_TIME_MS){
             myState=swipping;
-            myServosControl->swipe();
+            myServosControl->sweep();
             startTimeState = getTimeMicroseconds();
         }
         break;
