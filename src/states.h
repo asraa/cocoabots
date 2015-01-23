@@ -47,8 +47,8 @@ public:
 
     //wallFollow(); Follow a wall on the right
     void wallFollow(); //procedure to wall follow
-    int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine
-    int wallFollowing; //Variable that says if we have been wall following between iterations of the state machine
+    int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data
+    int wallFollowing; //Variable that says if we have wall folowed on the previous iteration of the state machine process data
 
     void collectBlock(int color);
     int collectedBlocks;
@@ -60,7 +60,10 @@ public:
     int goingToPoint;
     int finishedGoingToPoint;
 
-
+    void approachPoint(double distance, double angle);
+    int approachedPoint;
+    int approachingPoint;
+    int finishedApproachingPoint;
 
     void startProcessingProceduresManual();
     void finishProcessingProceduresManual();

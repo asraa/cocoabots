@@ -661,6 +661,17 @@ int main(int argc, char** argv){
             }
 
         }
+
+        else if (strcmp(argv[1],"callibrateIr")==0){
+            shortIR right(RIGHT_SHORTIR_PIN);
+            shortIR front(FRONT_SHORTIR_PIN);
+            RUNNING =1;
+            while(RUNNING){
+                printf("front Ir =%lf in, right IR = %lf in\n",front.timing(), right.timing());
+                usleep(200000.0);
+            }
+
+        }
         return 0;
     }
 }

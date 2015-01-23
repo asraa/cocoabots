@@ -212,6 +212,9 @@ void states::goToPoint(double distance, double angle){
     }
 }
 
+void states::approachPoint(double distance, double angle){
+
+}
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
@@ -295,6 +298,7 @@ void states::startProcessData(){
     wallFollowed=0;
     collectedBlocks=0;
     wentToPoint=0;
+    approachedPoint=0;
 }
 
 void states::finishProcessData(){
@@ -317,6 +321,11 @@ void states::finishProcessData(){
     }else{
         goingToPoint=0;
     }
+
+    if (approachedPoint)
+        approachingPoint=1;
+    else
+        approachingPoint=0;
 }
 
 
