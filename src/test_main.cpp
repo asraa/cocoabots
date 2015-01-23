@@ -580,7 +580,38 @@ int main(int argc, char** argv){
 
             }
         }
+        else if (strcmp(argv[1],"servoControl") == 0){
+            servosControl myServos;
+            actuator myactuator;
+            actPointer= &myactuator;
 
+            int raise, hook,sort, sweep, reset;
+            myactuator.armServoAngle=&myServos.armAngle;
+            myactuator.hookServoAngle=&myServos.hookAngle;
+            myactuator.sortServoAngle=&myServos.sortAngle;
+            RUNNING =1;
+            while(RUNNING)
+            {
+                printf("raise, hook, sort, sweep, reset\n");
+                scanf("%d %d %d", &raise, &hook, &sort, &sweep, &reset);
+                if(raise)
+                    myServos.raiseBlock();
+                if(hook)
+                    myServos.hookBlock();
+                else
+                    myServos.unHookBlock();
+                if(sort)
+                    myServos.sortGreen();
+                else
+                    myServos.sortRed();
+                if(sweep)
+                    myServos.swipe();
+                if (reset)
+                    myServos.reset();
+
+
+            }
+        }
         return 0;
     }
 }
