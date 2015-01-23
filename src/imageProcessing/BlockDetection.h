@@ -21,6 +21,11 @@ struct BlockInfo {
     double nearest_cube_angle;
     double nearest_cube_dist;
     int nearest_cube_color;
+
+BlockInfo():found_cube(0),
+      nearest_cube_angle(0),
+      nearest_cube_dist(0),
+      nearest_cube_color(0) {};
 };
 
 static const double BLOCK_HEIGHT = 2; // inches
