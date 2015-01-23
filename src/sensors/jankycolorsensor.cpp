@@ -21,12 +21,12 @@ void jankyColorSensor::run(void* jankyColorSensorPointer){
 	mraa::Aio* colorSensor = & (jankyColorSensorSensor->colorSensorAio);
 
 	while (jankyColorSensorSensor->running){
-		jankyColorSensorSensor dataInt = colorSensor.read();
+        jankyColorSensorSensor->dataInt = colorSensor->read();
     	usleep(10 * MS);
     }
 }
 
-float jankyColorSensor::getDataV() {
+float jankyColorSensor::getDataVolts() {
 	dataVolt = dataInt * INT_TO_VOLTS;
 	return dataVolt;
 }

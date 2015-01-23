@@ -15,8 +15,8 @@ class jankyColorSensor
 {
   public:
     ///initializes the jankycolorsensor
-    jankycolorsensor(int colorSensorPin);
-    ~jankycolorsensor();
+    jankyColorSensor(int colorSensorPin);
+    ~jankyColorSensor();
     static void run(void* jankyColorSensorPointer);
     int getData();
     float getDataVolts();
