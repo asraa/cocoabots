@@ -1,4 +1,4 @@
-#include "jankyColorSensor.h"
+#include "jankycolorsensor.h"
 
 jankyColorSensor::jankyColorSensor(int colorSensorPin): 
 colorSensorAio(colorSensorPin) {
