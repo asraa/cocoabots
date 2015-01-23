@@ -18,7 +18,7 @@ static const int COLOR_BLOCK_RED = 5;
 static const int COLOR_BLOCK_GREEN = 6;
 
 cv::Mat detectColor(cv::Mat&,int);
-cv::Mat detectColor(cv::Mat&,int);
+cv::Mat detectColor(cv::Mat&,int[],int);
 
 
 }
