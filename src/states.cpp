@@ -40,6 +40,7 @@ std::string states::getName(){
 }
 
 
+//Complex procedures (Ones that have states and timeouts inside them)
 void states::wallFollow(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static double initialTurningAngle =0;
@@ -201,20 +202,58 @@ void states::collectBlock(int color){
 }
 
 void states::goToPoint(double distance, double angle){
+    enum goToPointState{turning, going};
+    static goToPointState myState=turning;
+    static double myDistance=0;
+    static double myAngle=0;
+    double angleError;
     wentToPoint=1;
     if(!goingToPoint){
-        setCarrotPosition(distance,angle);
+        finishedGoingToPoint=0;
+        myState=turning;
+        myAngle=angle;
+        myDistance=distance;
+        setCarrotPosition(0,myAngle);
     }
-    else{
+    switch(myState){
+    case turning:
+        angleError=getAngleToCarrot();
+        if (angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE){
+            setCarrotPosition(myDistance,angleError);
+            myState=going;
+        }
+        break;
+    case going:
         if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES){
             finishedGoingToPoint=1;
+            wentToPoint=0;
         }
+        break;
     }
 }
 
-void states::approachPoint(double distance, double angle){
+void states::followPoint(double distance, double angle){
 
 }
+
+void states::curveToTheRight(){
+    setCarrotPosition(CURVE_CARROT_DISTANCE,CURVE_CARROT_ANGLE);
+}
+
+void states::curveToTheLeft(){
+    setCarrotPosition(CURVE_CARROT_DISTANCE,-CURVE_CARROT_ANGLE);
+}
+
+void states::sharpCurveToTheRight(){
+    setCarrotPosition(SHARP_CURVE_CARROT_DISTANCE,SHARP_CURVE_CARROT_ANGLE);
+}
+
+void states::sharpCurveToTheLeft(){
+    setCarrotPosition(SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
+}
+
+//Simple procedures (No states, no timeouts)
+
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
@@ -262,8 +301,13 @@ double states::getAngleDifference(double angle1, double angle2){
     return myMotorControl->getAngleError(angle1,angle2);
 }
 
+
 double states::getDistanceToCarrot(){
     return myMotorControl->getPositionError();
+}
+
+double states::getAngleToCarrot(){
+    return myMotorControl->getAngleError();
 }
 
 long long int states::getTimeMicroseconds(){

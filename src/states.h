@@ -35,6 +35,7 @@ public:
     double getAngleDifference(double angle1, double angle2);
     void setCarrotPosition(double distance, double angle);
     double getDistanceToCarrot();
+    double getAngleToCarrot();
     int foundCube();
     double getDistanceNearestCube();
     double getAngleNearestCube();
@@ -45,8 +46,8 @@ public:
     //So that they could be cleaned. Take as an example the wall follow procedure and startProcessData
     // and finish Process Data.
 
-    void sharpTurnToTheRight();
-    void sharpTurnToTheLeft();
+    void sharpCurveToTheRight();
+    void sharpCurveToTheLeft();
     void curveToTheRight();
     void curveToTheLeft();
 
@@ -65,7 +66,7 @@ public:
     int goingToPoint;
     int finishedGoingToPoint;
 
-    void approachPoint(double distance, double angle);
+    void followPoint(double distance, double angle);
     int approachedPoint;
     int approachingPoint;
     int finishedApproachingPoint;
