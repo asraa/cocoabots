@@ -64,7 +64,7 @@ void states::wallFollow(){
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            mediumCurveToTheRight();
+            sharpCurveToTheRight();
             //setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
@@ -84,7 +84,7 @@ void states::wallFollow(){
         if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             myState = rotating;
             initialTurningAngle=getAngle();
-            setCarrotPosition(0,-90);
+            setCarrotPosition(0,-45);
             //printf("transitioning from following for a wall to rotating\n");
 
         }
