@@ -323,6 +323,8 @@ void states::collectBlock(int color){
 
 void states::goToPoint(double distance, double angle){
     enum goToPointState{turning, going};
+    static long long int startTimeState;
+    long long int difTime;
     static goToPointState myState=turning;
     static double myDistance=0;
     static double myAngle=0;
@@ -334,17 +336,22 @@ void states::goToPoint(double distance, double angle){
         myAngle=angle;
         myDistance=distance;
         setCarrotPosition(0,myAngle);
+        startTimeState=getTimeMicroseconds();
     }
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
     switch(myState){
     case turning:
         angleError=getAngleToCarrot();
-        if (angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE){
+        if ((angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE)||
+                difTime>GO_TO_POINT_TURNING_TIMEOUT_MS){
             setCarrotPosition(myDistance,angleError);
             myState=going;
+            startTimeState=getTimeMicroseconds();
         }
         break;
     case going:
-        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES){
+        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES ||
+                startTimeState>GO_TO_POINT_POSITION_TIMEOUT_MS){
             finishedGoingToPoint=1;
             wentToPoint=0;
         }

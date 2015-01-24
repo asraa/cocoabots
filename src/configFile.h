@@ -152,11 +152,11 @@
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
 #define ANG_ERROR_GAIN (0.0063/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 #define ANG_SPEED_GAIN (-0.00028/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
-#define ANG_TOLERANCE 2
+#define ANG_TOLERANCE 3
 #define POSITION_TOLERANCE 0.1
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
-#define MINIMUM_THRESHOLD_PWM (0.065 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
+#define MINIMUM_THRESHOLD_PWM (0.07 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS) //Minimum pwm to move the motor at 1 safe factor
 #define MAXIMUM_DYNAMIC_TURN_ANGLE 90 //The maximum angle in which the robot can turn and move forward or back at the same time
 #define MAXIMUM_DYNAMIC_TURN_ANGLE_SPEED 180
 
@@ -189,6 +189,9 @@
 
 #define GO_TO_POINT_PRECISION_INCHES 1
 #define GO_TO_POINT_PRECISION_ANGLE 2.1
+#define GO_TO_POINT_TURNING_TIMEOUT_MS 1500
+#define GO_TO_POINT_POSITION_TIMEOUT_MS 4000
+
 
 #define FOLLOW_POINT_DISTANCE_INCHES 28
 #define FOLLOW_POINT_CARROT_DISTANCE 10
@@ -203,7 +206,9 @@
 
 #define SHARP_CURVE_CARROT_DISTANCE 8
 #define SHARP_CURVE_CARROT_ANGLE 21
-
+/////////////////////////////////
+//States definitions
+#define GO_TO_CUBE_WAIT_TIME_MS 2000
 
 /////////////////////////////
 //Servos control
