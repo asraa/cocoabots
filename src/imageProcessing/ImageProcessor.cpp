@@ -43,6 +43,7 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
     updateNearestBlockInfoAverage();
 }
 
+// average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
 
 
@@ -63,69 +64,73 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 
 }
 
+// for other threads to use
 int ImageProcessor::getFoundCube() {
     return nearestBlockInfo.found_cube > 0.5;
 }
-
 int ImageProcessor::getNearestCubeColor() {
     return nearestBlockInfo.nearest_cube_color > 0.5;
 }
-
 double ImageProcessor::getNearestCubeAngle() {
     return nearestBlockInfo.nearest_cube_angle;
 }
-
 double ImageProcessor::getNearestCubeDist() {
     return nearestBlockInfo.nearest_cube_dist;
 }
 
+// refresh local map to zeros
 void ImageProcessor::local_map_refresh() {
     local_map.setZeros();
     local_map.setVal(30,30,180);
 }
 
-void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
+// write image to file for debugging purposes
+void ImageProcessor::writeToFile(std::string fn) {
+    cv::Mat temp;
+    frame.copyTo(temp);
+    cv::imwrite(fn,frame);
+}
 
-    cv::Mat frame_raw;
-    cv::Mat frame;
+// singled out to avoid adding pointers to each global variable
+void ImageProcessor::doStuff() {
 
+    vid_cap >> frame_raw; // get a new frame from camera
+    //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+
+    cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
+
+    //detectWall(frame);
+    detectBlocks(frame);
+
+
+    if(DEBUG == 1) {
+        cv::namedWindow("frame",1);
+        cv::imshow("frame",frame);
+        cv::Mat local_map_im = local_map.cvtImage();
+        local_map_refresh();
+
+        cv::namedWindow("www",CV_WINDOW_NORMAL);
+        cv::imshow("www",local_map_im);
+        cv::waitKey(100);
+    }
+    // some sort of usleep...
+
+}
+
+void ImageProcessor::clearCameraCache() {
     // hack to clean cache from the camera to avoid weird bug in the beginning
     for(int i = 0; i < 10; i++) {
-        ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
+        vid_cap >> frame_raw; // get a new frame from camera
         usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }
 
+}
+
+void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
+
+    ImageProcessorPointer->clearCameraCache();
     while(ImageProcessorPointer->running) {
-
-        /*Eigen::Vector2d pt_im;
-        pt_im << 163,124;
-        std::cout<<"result" << CameraMath::reconstructPoint2D(pt_im, 2)<<std::endl;
-        Eigen::Vector2d result = CameraMath::reconstructPoint2D(pt_im, 2);
-        std::cout<< "radial" << CameraMath::cvtCamXY2RobotRadial(result[0],result[1])<<std::endl;
-        std::cout<< CAM_MAT<<std::endl;
-        std::cout<<ROT_MAT<<std::endl;
-        std::cout<<CAM_MAT_INV<<std::endl;*/
-
-        ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
-        //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
-
-        cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
-
-        //ImageProcessorPointer->detectWall(frame);
-        ImageProcessorPointer->detectBlocks(frame);
-
-
-        if(DEBUG == 1) {
-            cv::namedWindow("frame",1);
-            cv::imshow("frame",frame);
-            cv::Mat local_map_im = ImageProcessorPointer->local_map.cvtImage();
-            ImageProcessorPointer->local_map_refresh();
-
-            cv::namedWindow("www",CV_WINDOW_NORMAL);
-            cv::imshow("www",local_map_im);
-            cv::waitKey(100);
-        }
-        // some sort of usleep...
+        ImageProcessorPointer->doStuff();
         usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }
 

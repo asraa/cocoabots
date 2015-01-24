@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cmath>
 #include <thread>
+#include <cstring>
 
 #include "GridMap.h"
 #include "ColorDetection.h"
@@ -44,6 +45,9 @@ public:
     int nearestCubeColor;
     */
 
+    cv::Mat frame_raw;
+    cv::Mat frame;
+
     static const int CUBE_COLOR_GREEN = 0;
     static const int CUBE_COLOR_RED = 1;
 
@@ -57,6 +61,12 @@ public:
     void local_map_refresh();
 
     void updateNearestBlockInfoAverage();
+
+    void writeToFile(std::string fn);
+
+    void doStuff();
+    void clearCameraCache();
+
 
     int getFoundCube();
     double getNearestCubeDist();
