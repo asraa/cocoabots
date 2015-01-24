@@ -103,6 +103,6 @@ static Eigen::Matrix3d CAM_MAT_INV((Eigen::Matrix3d() << (0.00145/FRAME_RESIZE_S
 */
 
 // update rate for camera thread
-static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 10000;
+static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 100;
 
 #endif
