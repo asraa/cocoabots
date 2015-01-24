@@ -48,7 +48,7 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 
     nearestBlockInfo.found_cube =
             nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
-            + nearestBlockInfoPrevious.found_cube * (1-BLOCK_FOUND_PREVIOUS_WEIGHT);
+            + nearestBlockInfo.found_cube * (1-BLOCK_FOUND_PREVIOUS_WEIGHT);
     nearestBlockInfo.nearest_cube_angle =
             nearestBlockInfoPrevious.nearest_cube_angle * BLOCK_ANGLE_PREVIOUS_WEIGHT
             + nearestBlockInfo.nearest_cube_angle * (1-BLOCK_ANGLE_PREVIOUS_WEIGHT);
