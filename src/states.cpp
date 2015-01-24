@@ -80,12 +80,11 @@ void states::wallFollow(){
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
-                curveToTheRight();
+                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
                 sharpCurveToTheRight();
             }
-            //setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
@@ -258,7 +257,20 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
+    followedPoint=1;
+    if(!followingPoint){
+        finishedFollowingPoint=0;
+    }
 
+    if(!finishedFollowingPoint){
+        if (distance<FOLLOW_POINT_DISTANCE_INCHES){
+            finishedFollowingPoint=1;
+            followedPoint=0;
+        }
+        else{
+            setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+        }
+    }
 }
 
 void states::curveToTheRight(){

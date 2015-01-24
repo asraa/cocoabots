@@ -67,11 +67,13 @@ public:
     void goToPoint(double distance, double angle);
     int wentToPoint;
     int goingToPoint;
+    int failedGoingToPoint;
     int finishedGoingToPoint;
 
     void followPoint(double distance, double angle);
     int followedPoint;
     int followingPoint;
+    int failedFollowingPoint;
     int finishedFollowingPoint;
 
     void startProcessingProceduresManual();

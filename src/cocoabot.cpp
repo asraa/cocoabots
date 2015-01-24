@@ -177,5 +177,18 @@ void cocoabot::run(int argc, char **argv){
             myState->finishProcessingProceduresManual();
         }
     }
+    if(strcmp(argv[1],"followCube")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->followPoint(myState->getDistanceNearestCube(), myState->getAngleNearestCube());
+            myState->finishProcessingProceduresManual();
+        }
+    }
 
 }
