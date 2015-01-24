@@ -48,6 +48,8 @@ public:
 
     void sharpCurveToTheRight();
     void sharpCurveToTheLeft();
+    void mediumCurveToTheRight();
+    void mediumCurveToTheLeft();
     void curveToTheRight();
     void curveToTheLeft();
 

@@ -244,6 +244,15 @@ void states::curveToTheLeft(){
     setCarrotPosition(CURVE_CARROT_DISTANCE,-CURVE_CARROT_ANGLE);
 }
 
+void states::mediumCurveToTheRight(){
+    setCarrotPosition(MEDIUM_CURVE_CARROT_DISTANCE,CURVE_CARROT_ANGLE);
+}
+
+void states::mediumCurveToTheLeft(){
+    setCarrotPosition(MEDIUM_CURVE_CARROT_DISTANCE,-CURVE_CARROT_ANGLE);
+}
+
+
 void states::sharpCurveToTheRight(){
     setCarrotPosition(SHARP_CURVE_CARROT_DISTANCE,SHARP_CURVE_CARROT_ANGLE);
 }
