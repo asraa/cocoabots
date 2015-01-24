@@ -24,7 +24,7 @@ void stateGoingToCube::processData(){
             }
         }
         else{
-            nextState=new stateLookingForBlocks;
+            nextState=new stateLookingForBlocks(this);
         }
         finishProcessData();
     }
