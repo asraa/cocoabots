@@ -266,7 +266,7 @@ void states::followPoint(double distance, double angle){
         if (distance<FOLLOW_POINT_DISTANCE_INCHES){
             finishedFollowingPoint=1;
             followedPoint=0;
-            setCarrotPosition(0,angle);
+            setCarrotPosition(0,0);
         }
         else{
             setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
