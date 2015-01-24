@@ -58,7 +58,7 @@ void states::wallFollow(){
             if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,-90);
+                setCarrotPosition(0,-45);
             }
             else{
                 myState = rotating;
@@ -91,7 +91,7 @@ void states::wallFollow(){
         if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             myState = rotating;
             initialTurningAngle=getAngle();
-            setCarrotPosition(0,-90);
+            setCarrotPosition(0,-45);
             //printf("transitioning from following for a wall to rotating\n");
 
         }
