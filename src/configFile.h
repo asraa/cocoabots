@@ -186,6 +186,10 @@
 
 #define GO_TO_POINT_PRECISION_INCHES 0.8
 
+#define CURVE_CARROT_DISTANCE 10
+#define CURVE_CARROT_ANGLE 15
+
+
 /////////////////////////////
 //Servos control
 
