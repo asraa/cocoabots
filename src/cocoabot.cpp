@@ -1,6 +1,7 @@
 #include "cocoabot.h"
 #include <cstring>
 #include <unistd.h>
+#include <cstdio>
 #include "statecollectingcube.h"
 #include "statetestprocedure.h"
 
@@ -184,13 +185,22 @@ void cocoabot::run(int argc, char **argv){
         myState = nextState;
         delete previousState;
         previousState=NULL;
+        double cubePosition;
+        double cubeAngle;
+        double cubeColor;
         while (running){
             myState->startProcessingProceduresManual();
-            if(myState->foundCube())
-               myState->followPoint(myState->getDistanceNearestCube(), myState->getAngleNearestCube());
+            if(myState->foundCube()){
+                cubePosition=myState->getDistanceNearestCube();
+                cubeAngle = myState->getAngleNearestCube();
+                cubeColor =myState->getColorNearestCube();
+                printf("I found a cube at %lf in, %lf, degrees.\n", cubePosition,cubeAngle, cubeColor);
+                myState->followPoint(myState->getDistanceNearestCube(), myState->getAngleNearestCube());
+            }
             else
                 myState->stop();
             myState->finishProcessingProceduresManual();
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
     }
 
