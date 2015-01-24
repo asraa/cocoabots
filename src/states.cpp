@@ -263,13 +263,18 @@ void states::followPoint(double distance, double angle){
     }
 
     if(!finishedFollowingPoint){
-        if (distance<FOLLOW_POINT_DISTANCE_INCHES){
+        if (distance<FOLLOW_POINT_DISTANCE_INCHES+FOLLOW_POINT_PRECISION_INCHES){
             finishedFollowingPoint=1;
             followedPoint=0;
             setCarrotPosition(0,0);
         }
         else{
-            setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+            distance-=FOLLOW_POINT_DISTANCE_INCHES;
+            if (distance>FOLLOW_POINT_CARROT_DISTANCE)
+                setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+            else
+                setCarrotPosition(distance,angle);
+
         }
     }
 }
