@@ -13,7 +13,7 @@ ImageProcessor::ImageProcessor():
 
     vid_cap = cv::VideoCapture(0); // need to check what 0 is and is not sketchy
     if(!vid_cap.isOpened()) {
-        // do something ??
+        return;
     }
     running=1;
     runThread = new std::thread(run,this);
