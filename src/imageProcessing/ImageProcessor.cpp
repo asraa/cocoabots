@@ -65,11 +65,11 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 }
 
 int ImageProcessor::getFoundCube() {
-    return nearestBlockInfo.found_cube;
+    return nearestBlockInfo.found_cube > 0.5;
 }
 
 int ImageProcessor::getNearestCubeColor() {
-    return nearestBlockInfo.nearest_cube_color;
+    return nearestBlockInfo.nearest_cube_color > 0.5;
 }
 
 double ImageProcessor::getNearestCubeAngle() {

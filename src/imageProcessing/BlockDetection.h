@@ -18,10 +18,10 @@
 namespace BlockDetection {
 
 struct BlockInfo {
-    int found_cube;
+    double found_cube;
     double nearest_cube_angle;
     double nearest_cube_dist;
-    int nearest_cube_color;
+    double nearest_cube_color;
 
     BlockInfo(): found_cube(0), nearest_cube_angle(0), nearest_cube_dist(0), nearest_cube_color(0) {}
 };
