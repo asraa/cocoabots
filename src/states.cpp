@@ -267,6 +267,7 @@ void states::collectBlock(int color){
             else{
                 myServosControl->sortRed();
             }
+            setCarrotPosition(-18,0);
             startTimeState = getTimeMicroseconds();
         }
         break;
