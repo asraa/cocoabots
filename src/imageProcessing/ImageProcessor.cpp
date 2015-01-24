@@ -45,7 +45,6 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 
 void ImageProcessor::updateNearestBlockInfoAverage() {
 
-    BlockDetection::BlockInfo tempBlock = nearestBlockInfo;
 
     nearestBlockInfo.found_cube =
             nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
@@ -60,7 +59,7 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
             nearestBlockInfoPrevious.nearest_cube_color * BLOCK_COLOR_PREVIOUS_WEIGHT
             + nearestBlockInfo.nearest_cube_color * (1-BLOCK_COLOR_PREVIOUS_WEIGHT);
 
-    nearestBlockInfoPrevious = tempBlock;
+    nearestBlockInfoPrevious = nearestBlockInfo;
 
 }
 

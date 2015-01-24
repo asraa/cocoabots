@@ -23,7 +23,7 @@ struct BlockInfo {
     double nearest_cube_dist;
     double nearest_cube_color;
 
-    BlockInfo(): found_cube(0), nearest_cube_angle(0), nearest_cube_dist(0), nearest_cube_color(0) {}
+    BlockInfo(): found_cube(0.0), nearest_cube_angle(0.0), nearest_cube_dist(0.0), nearest_cube_color(0.0) {}
 };
 
 void detectBlocks(cv::Mat&, BlockInfo& nearest_block_info);
