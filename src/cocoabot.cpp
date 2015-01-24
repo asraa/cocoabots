@@ -194,7 +194,7 @@ void cocoabot::run(int argc, char **argv){
                 cubePosition=myState->getDistanceNearestCube();
                 cubeAngle = myState->getAngleNearestCube();
                 cubeColor =myState->getColorNearestCube();
-                printf("I found a cube at %lf in, %lf, degrees.\n", cubePosition,cubeAngle, cubeColor);
+                printf("I found a cube at %lf in, %lf, degrees.\n", cubePosition,cubeAngle);
                 myState->followPoint(myState->getDistanceNearestCube(), myState->getAngleNearestCube());
             }
             else

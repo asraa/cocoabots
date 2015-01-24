@@ -27,7 +27,6 @@ const uint8_t pwmUtils::registers[16]= {
 };
 
 void pwmUtils::initPWM(mraa::I2c * i2c){
-    i2c->dir(mraa::DIR_OUT);
     uint8_t writeBuf[2] = {0};
     writeBuf[0] = 0x00; // Write to MODE 1 Register;
     writeBuf[1] = 1 << 4; // Enable Sleep Mode
