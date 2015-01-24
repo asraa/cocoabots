@@ -64,7 +64,8 @@ void states::wallFollow(){
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            mediumCurveToTheRight();
+            //setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
@@ -233,6 +234,30 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
+    double angleError;
+    wentToPoint=1;
+    if(!goingToPoint){
+        finishedGoingToPoint=0;
+        myState=turning;
+        myAngle=angle;
+        myDistance=distance;
+        setCarrotPosition(0,myAngle);
+    }
+    switch(myState){
+    case turning:
+        angleError=getAngleToCarrot();
+        if (angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE){
+            setCarrotPosition(myDistance,angleError);
+            myState=going;
+        }
+        break;
+    case going:
+        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES){
+            finishedGoingToPoint=1;
+            wentToPoint=0;
+        }
+        break;
+    }
 
 }
 
@@ -351,7 +376,7 @@ void states::startProcessData(){
     wallFollowed=0;
     collectedBlocks=0;
     wentToPoint=0;
-    approachedPoint=0;
+    followedPoint=0;
 }
 
 void states::finishProcessData(){
@@ -375,10 +400,10 @@ void states::finishProcessData(){
         goingToPoint=0;
     }
 
-    if (approachedPoint)
-        approachingPoint=1;
+    if (followedPoint)
+        followingPoint=1;
     else
-        approachingPoint=0;
+        followingPoint=0;
 }
 
 

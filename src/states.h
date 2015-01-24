@@ -69,9 +69,9 @@ public:
     int finishedGoingToPoint;
 
     void followPoint(double distance, double angle);
-    int approachedPoint;
-    int approachingPoint;
-    int finishedApproachingPoint;
+    int followedPoint;
+    int followingPoint;
+    int finishedFollowingPoint;
 
     void startProcessingProceduresManual();
     void finishProcessingProceduresManual();
