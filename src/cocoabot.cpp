@@ -136,6 +136,46 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"curveRight")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->curveToTheRight();
+            myState->finishProcessingProceduresManual();
+        }
+    }
 
+    if(strcmp(argv[1],"mediumCurveRight")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->mediumCurveToTheRight();
+            myState->finishProcessingProceduresManual();
+        }
+    }
+
+    if(strcmp(argv[1],"sharpCurveRight")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->sharpCurveToTheRight();
+            myState->finishProcessingProceduresManual();
+        }
+    }
 
 }

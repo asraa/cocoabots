@@ -60,6 +60,7 @@ public:
     void computeNewMotorPowers();
 
     int getAngleError(double myDesiredAngle, double realAngle);
+    int getAngleError();
     double getPositionError(double desiredPosition, double realPosition);
     double getPositionError();
     double getNewAngle();
