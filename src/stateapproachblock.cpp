@@ -1,5 +1,6 @@
 #include "stateapproachblock.h"
 #include "statecollectingcube.h"
+#include "stategoingtocube.h"
 stateApproachBlock::stateApproachBlock(states * previousState):states(previousState)
 {
 }
@@ -11,7 +12,7 @@ void stateApproachBlock::processData(){
         followPoint(getDistanceNearestCube(),getAngleNearestCube());
     }
     if(finishedFollowingPoint){
-        nextState= new stateCollectingCube(this,1);
+        nextState= new stateGoingToCube(this);
     }
 
     finishProcessData();

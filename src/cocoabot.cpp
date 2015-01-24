@@ -7,6 +7,7 @@
 
 actuator * actPointerMain;
 cocoabot *cocoabotPointer;
+//Global function that assures that we stop the motors when stopping the robot.
 void stopMotorsMain(int signo)
 {
     if (signo == SIGINT) {
