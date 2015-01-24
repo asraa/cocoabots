@@ -42,6 +42,10 @@ std::string states::getName(){
 
 //Complex procedures (Ones that have states and timeouts inside them)
 void states::wallFollow(){
+    wallFollowLeft();
+}
+
+void states::wallFollowRight(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
     static double initialTurningAngle =0;
@@ -123,6 +127,97 @@ void states::wallFollow(){
             double wallDistance = getDistanceRightWall();
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
             carrotAngle = cartesianCoordinatesToAngle(carrotDistance, distanceToMoveToWall);
+            setCarrotPosition(carrotDistance,carrotAngle);
+
+        }
+
+        break;
+    }
+
+}
+//Copy of the above. It is bad practice, but I'm feeling lazy at the moment
+void states::wallFollowLeft(){
+    enum wallFollowState{lookingForWall, rotating, followingWall};
+    static long long int startTimeState;
+    static double initialTurningAngle =0;
+    static wallFollowState myState;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+
+    wallFollowed=1;
+    if(!wallFollowing){
+        myState = lookingForWall;
+        startTimeState=getTimeMicroseconds();
+    }
+
+    switch (myState) {
+    case lookingForWall:
+
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            if (getDistanceLeftWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            //printf("transitioning from looking for a wall to rotating\n");
+        }
+        else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            //printf("transitioning from looking for a wall to following a wall");
+            myState=followingWall;
+        } else{
+            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            }
+            else{
+                sharpCurveToTheLeft();
+            }
+            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+
+        }
+        break;
+
+    case rotating:{
+        double myAngle = getAngle();
+        double angleDif =abs(getAngleToCarrot());
+        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+            myState=followingWall;
+            startTimeState = getTimeMicroseconds();
+            //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+        }
+        break;
+    }
+    case followingWall:
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            myState = rotating;
+            initialTurningAngle=getAngle();
+            setCarrotPosition(0,45);
+            startTimeState = getTimeMicroseconds();
+            //printf("transitioning from following for a wall to rotating\n");
+
+        }
+        else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+            myState=lookingForWall;
+            startTimeState = getTimeMicroseconds();
+
+            //printf("transitioning from following to  looking \n");
+
+
+        }
+        else{
+            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
+            double carrotAngle;
+            double wallDistance = getDistanceLeftWall();
+            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
+            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
             setCarrotPosition(carrotDistance,carrotAngle);
 
         }
@@ -357,6 +452,10 @@ double states::cartesianCoordinatesToAngle(double frontDistance, double sideDist
     return atan2(sideDistance,frontDistance) / PI *180;
 }
 
+
+volatile double states::getDistanceLeftWall(){
+    return mySensors->leftShortIRData;
+}
 
 volatile double states::getDistanceRightWall(){
     return mySensors->rightShortIRData;
