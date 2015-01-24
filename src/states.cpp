@@ -43,8 +43,11 @@ std::string states::getName(){
 //Complex procedures (Ones that have states and timeouts inside them)
 void states::wallFollow(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
+    static long long int startTimeState;
     static double initialTurningAngle =0;
     static wallFollowState myState;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
 
     wallFollowed=1;
     if(!wallFollowing){
@@ -59,11 +62,15 @@ void states::wallFollow(){
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
             }
             else{
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+
             }
             //printf("transitioning from looking for a wall to rotating\n");
         }
@@ -81,7 +88,7 @@ void states::wallFollow(){
     case rotating:{
         double myAngle = getAngle();
         double angleDif =abs(getAngleToCarrot());
-        if (angleDif <10){
+        if (angleDif <10 || difTime<WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
@@ -92,6 +99,7 @@ void states::wallFollow(){
             myState = rotating;
             initialTurningAngle=getAngle();
             setCarrotPosition(0,-45);
+            startTimeState = getTimeMicroseconds();
             //printf("transitioning from following for a wall to rotating\n");
 
         }
