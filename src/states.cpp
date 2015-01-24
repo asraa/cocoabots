@@ -73,8 +73,8 @@ void states::wallFollow(){
 
     case rotating:{
         double myAngle = getAngle();
-        double angleDif =getAngleDifference(myAngle,initialTurningAngle);
-        if (angleDif <-80){
+        double angleDif =abs(getAngleToCarrot());
+        if (angleDif <10){
             myState=followingWall;
             //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
@@ -346,6 +346,13 @@ void states::startProcessingProceduresManual(){
 
 void states::finishProcessingProceduresManual(){
     finishProcessData();
+}
+
+double states::abs(double number){
+    if (number<0){
+        number*=-1;
+    }
+    return number;
 }
 
 void states::startProcessData(){
