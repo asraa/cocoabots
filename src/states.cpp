@@ -43,29 +43,48 @@ std::string states::getName(){
 //Complex procedures (Ones that have states and timeouts inside them)
 void states::wallFollow(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
+    static long long int startTimeState;
     static double initialTurningAngle =0;
     static wallFollowState myState;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
 
     wallFollowed=1;
     if(!wallFollowing){
         myState = lookingForWall;
+        startTimeState=getTimeMicroseconds();
     }
 
     switch (myState) {
     case lookingForWall:
 
         if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-            myState = rotating;
-            initialTurningAngle=getAngle();
-            setCarrotPosition(0,-90);
+            if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+
+            }
             //printf("transitioning from looking for a wall to rotating\n");
         }
         else if (getDistanceRightWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            sharpCurveToTheRight();
-            //setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            }
+            else{
+                sharpCurveToTheRight();
+            }
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
@@ -73,9 +92,10 @@ void states::wallFollow(){
 
     case rotating:{
         double myAngle = getAngle();
-        double angleDif =getAngleDifference(myAngle,initialTurningAngle);
-        if (angleDif <-80){
+        double angleDif =abs(getAngleToCarrot());
+        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
+            startTimeState = getTimeMicroseconds();
             //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
         break;
@@ -84,12 +104,15 @@ void states::wallFollow(){
         if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             myState = rotating;
             initialTurningAngle=getAngle();
-            setCarrotPosition(0,-90);
+            setCarrotPosition(0,-45);
+            startTimeState = getTimeMicroseconds();
             //printf("transitioning from following for a wall to rotating\n");
 
         }
         else if (getDistanceRightWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
             myState=lookingForWall;
+            startTimeState = getTimeMicroseconds();
+
             //printf("transitioning from following to  looking \n");
 
 
@@ -234,7 +257,25 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
+    followedPoint=1;
+    if(!followingPoint){
+        finishedFollowingPoint=0;
+    }
 
+    if(!finishedFollowingPoint){
+        if (distance<FOLLOW_POINT_DISTANCE_INCHES){
+            finishedFollowingPoint=1;
+            followedPoint=0;
+            setCarrotPosition(0,angle);
+        }
+        else{
+            setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+        }
+    }
+}
+
+void states::stop(){
+    setCarrotPosition(0,0);
 }
 
 void states::curveToTheRight(){
@@ -346,6 +387,13 @@ void states::startProcessingProceduresManual(){
 
 void states::finishProcessingProceduresManual(){
     finishProcessData();
+}
+
+double states::abs(double number){
+    if (number<0){
+        number*=-1;
+    }
+    return number;
 }
 
 void states::startProcessData(){
