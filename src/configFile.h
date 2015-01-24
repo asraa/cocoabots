@@ -142,7 +142,7 @@
 //////////////////////////////////////
 
 //Sensors update Rate
-#define SENSORS_UPDATE_RATE_MILISECONDS 0 //UPDATE AS OFTEN AS POSSIBLE
+#define SENSORS_UPDATE_RATE_MILISECONDS 1 //UPDATE AS OFTEN AS POSSIBLE
 
 //Speed control
 //Define gains for the angle and position control.
@@ -166,7 +166,7 @@
 #define BACKWARDS_CURRENT_LIMIT  (0.08 / MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 
 #define UPDATE_RATE_ACTUATORS_MILISECONDS 5
-#define UPDATE_RATE_STATE_MACHINE_MICROSECONDS 0
+#define UPDATE_RATE_STATE_MACHINE_MICROSECONDS 1000
 
 /////////////////////////////////////////////////////////////
 //Here starts definitions related to the states of the robot.
