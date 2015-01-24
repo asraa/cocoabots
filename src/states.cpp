@@ -78,8 +78,8 @@ void states::wallFollow(){
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            sharpCurveToTheRight();
-            //setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            //sharpCurveToTheRight();
+            setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
