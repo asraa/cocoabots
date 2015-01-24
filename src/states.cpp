@@ -274,6 +274,10 @@ void states::followPoint(double distance, double angle){
     }
 }
 
+void states::stop(){
+    setCarrotPosition(0,0);
+}
+
 void states::curveToTheRight(){
     setCarrotPosition(CURVE_CARROT_DISTANCE,CURVE_CARROT_ANGLE);
 }

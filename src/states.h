@@ -53,6 +53,7 @@ public:
     void mediumCurveToTheLeft();
     void curveToTheRight();
     void curveToTheLeft();
+    void stop();
 
     //wallFollow(); Follow a wall on the right
     void wallFollow(); //procedure to wall follow
