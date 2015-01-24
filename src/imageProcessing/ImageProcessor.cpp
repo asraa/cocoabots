@@ -67,6 +67,15 @@ void ImageProcessor::local_map_refresh() {
 
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
+    cv::Mat frame_raw;
+    cv::Mat frame;
+
+    // hack to clean cache from the camera to avoid weird bug in the beginning
+    for(int i = 0; i < 10; i++) {
+        ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
+        usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
+    }
+
     while(ImageProcessorPointer->running) {
 
         /*Eigen::Vector2d pt_im;
@@ -78,18 +87,15 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
         std::cout<<ROT_MAT<<std::endl;
         std::cout<<CAM_MAT_INV<<std::endl;*/
 
-        cv::Mat frame_raw;
         ImageProcessorPointer->vid_cap >> frame_raw; // get a new frame from camera
+        //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
-        cv::Mat frame;
-        // hard-coding resize_ratio for now
-        frame = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
         cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
-        //cv::resize(frame, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
         // test
         //ImageProcessorPointer->detectWall(frame);
         ImageProcessorPointer->detectBlocks(frame);
+
 
         if(DEBUG == 1) {
             cv::namedWindow("frame",1);
