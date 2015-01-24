@@ -33,7 +33,6 @@ void ImageProcessor::detectWall(cv::Mat& frame) {
 
     // detect yellow line
 
-    // detect red line (somehow)
 
 }
 
@@ -41,6 +40,27 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 
     // very crude stuff right now
     BlockDetection::detectBlocks(frame, nearestBlockInfo);
+    updateNearestBlockInfoAverage();
+}
+
+void ImageProcessor::updateNearestBlockInfoAverage() {
+
+    BlockDetection::BlockInfo tempBlock = nearestBlockInfo;
+
+    nearestBlockInfo.found_cube =
+            nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
+            + nearestBlockInfoPrevious.found_cube * (1-BLOCK_FOUND_PREVIOUS_WEIGHT);
+    nearestBlockInfo.nearest_cube_angle =
+            nearestBlockInfoPrevious.nearest_cube_angle * BLOCK_ANGLE_PREVIOUS_WEIGHT
+            + nearestBlockInfo.nearest_cube_angle * (1-BLOCK_ANGLE_PREVIOUS_WEIGHT);
+    nearestBlockInfo.nearest_cube_dist =
+            nearestBlockInfoPrevious.nearest_cube_dist * BLOCK_DIST_PREVIOUS_WEIGHT
+            + nearestBlockInfo.nearest_cube_dist * (1-BLOCK_DIST_PREVIOUS_WEIGHT);
+    nearestBlockInfo.nearest_cube_color -
+            nearestBlockInfoPrevious.nearest_cube_color * BLOCK_COLOR_PREVIOUS_WEIGHT
+            + nearestBlockInfo.nearest_cube_color * (1-BLOCK_COLOR_PREVIOUS_WEIGHT);
+
+    nearestBlockInfoPrevious = tempBlock;
 
 }
 
@@ -92,7 +112,6 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
         cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
-        // test
         //ImageProcessorPointer->detectWall(frame);
         ImageProcessorPointer->detectBlocks(frame);
 
@@ -107,7 +126,6 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
             cv::imshow("www",local_map_im);
             cv::waitKey(100);
         }
-
         // some sort of usleep...
         usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }

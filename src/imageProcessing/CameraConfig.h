@@ -54,6 +54,14 @@ static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*CAM
 static Eigen::Matrix3d CAM_MAT_INV = (CAM_MAT.inverse());
 
 
+// for averaging over previous frames
+static const double BLOCK_FOUND_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_COLOR_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_DIST_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_ANGLE_PREVIOUS_WEIGHT = 0.8;
+
+
+
 // vertical pixels threshold for wall detection
 static const int WALL_LINE_THRESH = 10;
 // wall dimensions

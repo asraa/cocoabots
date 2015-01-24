@@ -35,6 +35,7 @@ public:
 
     // update for other threads to get
     BlockDetection::BlockInfo nearestBlockInfo;
+    BlockDetection::BlockInfo nearestBlockInfoPrevious;
 
     /*
     int foundCube;
@@ -52,7 +53,10 @@ public:
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
 
+
     void local_map_refresh();
+
+    void updateNearestBlockInfoAverage();
 
     int getFoundCube();
     double getNearestCubeDist();
