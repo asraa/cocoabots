@@ -257,24 +257,43 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
+    enum followPointStates {updating,updated};
+    static followPointStates myState = updating;
+    static long long int startTimeState;
+
     followedPoint=1;
     if(!followingPoint){
         finishedFollowingPoint=0;
+        startTimeState = getTimeMicroseconds();
+        myState=updating;
     }
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
 
-    if(!finishedFollowingPoint){
-        if (distance<FOLLOW_POINT_DISTANCE_INCHES+FOLLOW_POINT_PRECISION_INCHES){
-            finishedFollowingPoint=1;
-            followedPoint=0;
-            setCarrotPosition(0,0);
+    switch(myState){
+    case updating:
+        if(!finishedFollowingPoint){
+            if (distance<FOLLOW_POINT_DISTANCE_INCHES+FOLLOW_POINT_PRECISION_INCHES){
+                finishedFollowingPoint=1;
+                followedPoint=0;
+                setCarrotPosition(0,0);
+            }
+            else{
+                distance-=FOLLOW_POINT_DISTANCE_INCHES;
+                if (distance>FOLLOW_POINT_CARROT_DISTANCE)
+                    setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+                else
+                    setCarrotPosition(distance,angle);
+
+            }
         }
-        else{
-            distance-=FOLLOW_POINT_DISTANCE_INCHES;
-            if (distance>FOLLOW_POINT_CARROT_DISTANCE)
-                setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
-            else
-                setCarrotPosition(distance,angle);
-
+        startTimeState = getTimeMicroseconds();
+        myState=updated;
+        break;
+    case updated:
+        if(difTime>FOLLOW_POINT_UPDATE_RATE_MS){
+            startTimeState = getTimeMicroseconds();
+            myState=updating;
         }
     }
 }
