@@ -122,6 +122,20 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"wallFollow")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->wallFollow();
+            myState->finishProcessingProceduresManual();
+        }
+    }
+
 
 
 }
