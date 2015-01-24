@@ -28,7 +28,7 @@ float shortIR::timing(){
 
 float shortIR::ranging(){
 	float rawData = timing();
-    return 1023.9/rawData; // ??? no idea
+    return 1023.9 * pow(rawData,-0.961); // ??? no idea
 }
 
 double shortIR::getData(){
