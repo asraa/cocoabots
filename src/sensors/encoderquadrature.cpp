@@ -50,7 +50,7 @@ int encoderQuadrature::getPhase(int a, int b) {
     return 3;
   }
 
-  return 0; //Default return; should never get here
+  return 4; //Default return; should never get here
   // those are all the possibilities.
 }
 
