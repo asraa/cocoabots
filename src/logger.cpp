@@ -156,6 +156,7 @@ void logger::log() {
              "  Angle:" <<myImageProcessorPt->getNearestCubeAngle() <<
              "  Distance:" <<myImageProcessorPt->getNearestCubeDist() <<
              "  Color:" <<myImageProcessorPt->getNearestCubeColor() <<std::endl;
+    myImageProcessorPt->writeToFile("cameraPicture.jpg");
     }
 
 #endif
