@@ -200,7 +200,7 @@
 #define MEDIUM_CURVE_CARROT_ANGLE 17
 
 #define SHARP_CURVE_CARROT_DISTANCE 8
-#define SHARP_CURVE_CARROT_ANGLE 25
+#define SHARP_CURVE_CARROT_ANGLE 23
 
 
 /////////////////////////////
