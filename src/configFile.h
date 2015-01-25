@@ -209,7 +209,7 @@
 /////////////////////////////////
 //States definitions
 #define GO_TO_CUBE_WAIT_TIME_MS 2000
-
+#define GO_TO_CUBE_OVERSHOOT_DISTANCE 4
 /////////////////////////////
 //Servos control
 
