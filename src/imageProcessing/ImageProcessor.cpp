@@ -116,7 +116,7 @@ void ImageProcessor::doStuff() {
     vid_cap.retrieve(frame_raw); // get a new frame from camera
     //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
-    //cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
+    cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
 
     //detectWall(frame);
     detectBlocks(frame);
