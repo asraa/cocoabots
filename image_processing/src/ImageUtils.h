@@ -32,6 +32,8 @@ cv::Mat drawContoursFilled(ContourData& contour_data, cv::Mat& im_src);
 cv::Mat getContoursMat(cv::Mat& im_src);
 void cleanContour(ContourData& contour_data, double area);
 
+void replaceByPolyContours(ImageUtils::ContourData& contour_data);
+
 // ********** HOUGH LINE STUFF ************//
 struct HoughDataNonP {
     std::vector<cv::Vec2f> lines;

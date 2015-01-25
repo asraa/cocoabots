@@ -77,6 +77,13 @@ void cleanContour(ContourData& contour_data, double area) {
     }
 }
 
+void replaceByPolyContours(ImageUtils::ContourData& contour_data) {
+    for(int i = 0; i < contour_data.contours.size(); i++) {
+        std::vector<cv::Point> contour = contour_data.contours.at(i);
+        cv::approxPolyDP(cv::Mat(contour),contour_data.contours.at(i), POLY_NEIGHBORHOOD, true);
+    }
+}
+
 
 // ********** HOUGH LINE STUFF ************//
 ImageUtils::HoughDataNonP houghLinesNonP(cv::Mat& im_src) {

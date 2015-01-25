@@ -44,7 +44,6 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 
     goThroughPixels(purp_contour, local_map);
 
-    cv::waitKey(100);
     // do a hough line fit
 
     // check line properties

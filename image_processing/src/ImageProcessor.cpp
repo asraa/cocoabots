@@ -41,7 +41,7 @@ ImageProcessor::~ImageProcessor(){
 void ImageProcessor::detectWall(cv::Mat& frame) {
 
     // detect blue line
-    WallDetection::detectWall(frame, local_map, ColorDetection::COLOR_LINE_BLUE);
+    WallDetection::detectWall(frame, local_map);
 
     // detect yellow line
 
@@ -159,13 +159,17 @@ void ImageProcessor::clearCameraCache() {
 }
 
 void ImageProcessor::debugStuff() {
-    frame_raw = cv::imread("images/blocks_14.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
-    cv::resize(frame_raw, frame, cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
-    WallDetection::detectWall(frame, local_map, ColorDetection::COLOR_LINE_BLUE);
+    frame_raw = cv::imread("images/blocks_12.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+    vid_cap.grab(); // get a new frame from camera
+    vid_cap.retrieve(frame_raw); // get a new frame from camera
+    cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
+    WallDetection::detectWall(frame, local_map);
     TerritoryDetection::detectPurpleLine(frame, local_map);
+    cv::namedWindow("wewe",1);
+    cv::imshow("wewe",frame);
     if(DEBUG == 1) {
         cv::Mat local_map_im = local_map.cvtImage();
-        //local_map_refresh();
+        local_map_refresh();
 
         cv::namedWindow("www",CV_WINDOW_NORMAL);
         cv::imshow("www",local_map_im);

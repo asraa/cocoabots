@@ -5,9 +5,10 @@
 namespace WallDetection {
 
 // returns binary image of line color
-cv::Mat getWallLine(cv::Mat& im_src, int color) {
-    cv::Mat im_color;
-    im_color = ColorDetection::detectColor(im_src, color);
+cv::Mat getWallLine(cv::Mat& im_src) {
+    cv::Mat im_blue = ColorDetection::detectColor(im_src, ColorDetection::COLOR_LINE_BLUE);
+    cv::Mat im_yellow = ColorDetection::detectColor(im_src, ColorDetection::COLOR_LINE_YELLOW);
+    cv::Mat im_color = im_blue + im_yellow;
     ImageUtils::binaryImagePreProcess(im_color, cv::MORPH_OPEN);
     return im_color;
 }
@@ -32,10 +33,11 @@ int * scanLine(cv::Mat& im_src, cv::Mat& im_line_edges) {
                     if(line_bottom[j] == -1) // no edge has been found before
                         line_bottom[j] = i;
                     else {
-                        if(std::abs(i - line_bottom[j]) > WALL_LINE_THRESH) {
+                        /*if(std::abs(i - line_bottom[j]) > WALL_LINE_THRESH) {
                             line_top[j] = i;
                         } else
-                            line_bottom[j] = i;
+                            line_bottom[j] = i;*/
+                        line_top[j] = i;
                     }
                 }
             } else if(line_top[j]!=-1) { // maybe move this into a separate function
@@ -124,11 +126,21 @@ void updateMapPts(GridMap& local_map, int * scan_line_output, int num_cols){
 }
 
 // should it be const
-void detectWall(cv::Mat& frame, GridMap& local_map, int color) {
+void detectWall(cv::Mat& frame, GridMap& local_map) {
 
-    cv::Mat im_color = WallDetection::getWallLine(frame, color);
+    cv::Mat im_wall_line = WallDetection::getWallLine(frame); // detect blue/yellow
+
     //cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
-    cv::Mat color_edges = ImageUtils::getContoursMat(im_color);
+    ImageUtils::ContourData color_contour_data = ImageUtils::getContours(im_wall_line);
+    ImageUtils::cleanContour(color_contour_data, 500); // clean features that are too small
+                                                       // remove magical number soon
+
+    //ImageUtils::replaceByPolyContours(color_contour_data);
+    cv::Mat color_edges = ImageUtils::drawContours(color_contour_data, im_wall_line);
+
+    cv::namedWindow("le",1);
+    cv::imshow("le",color_edges);
+
     int *line_pts = WallDetection::scanLine(frame, color_edges);
     WallDetection::updateMapPts(local_map, line_pts, frame.cols);
     delete line_pts;
