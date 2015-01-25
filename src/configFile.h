@@ -41,7 +41,7 @@
 #define ARM_SERVO_PWM 14
 #define HOOK_SERVO_PWM 13
 #define HOOK_START 70
-#define ARM_START 7
+#define ARM_START 25
 #define SORT_START 90
 //defining times for servo control in microseconds
 #define TIME_FOR_HOOK 500000
