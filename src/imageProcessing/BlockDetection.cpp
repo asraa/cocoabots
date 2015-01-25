@@ -195,7 +195,13 @@ bool closerThan(Eigen::Vector2d& pt1, Eigen::Vector2d& pt2) {
 }
 
 
-void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
+// TO-DO: REORGANIZE CODE
+double detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
+
+    // for debug
+    clock_t start, end;
+    double cpu_time;
+    start = clock();
 
     // list of points is in radial coordinates
     std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> list_of_red = findBlocksSingleColor(frame, ColorDetection::COLOR_BLOCK_RED);
@@ -227,6 +233,11 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     else
         updateBlockNotFound(nearest_block_info);
+
+    // for debug
+    end = clock();
+    cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
+    return cpu_time;
 
 }
 

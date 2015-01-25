@@ -7,7 +7,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 
 #include "CameraConfig.h"
 #include "CameraMath.h"
@@ -26,7 +26,7 @@ struct BlockInfo {
     BlockInfo(): found_cube(0.0), nearest_cube_angle(0.0), nearest_cube_dist(0.0), nearest_cube_color(0.0) {}
 };
 
-void detectBlocks(cv::Mat&, BlockInfo& nearest_block_info);
+double detectBlocks(cv::Mat&, BlockInfo& nearest_block_info);
 
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point>&);
 

@@ -18,6 +18,8 @@ ImageProcessor::ImageProcessor():
     running=1;
     runThread = new std::thread(run,this);
 
+    cpu_time = 0.0; // for debug
+
 }
 
 ImageProcessor::~ImageProcessor(){
@@ -37,8 +39,8 @@ void ImageProcessor::detectWall(cv::Mat& frame) {
 
 void ImageProcessor::detectBlocks(cv::Mat& frame) {
 
-    // very crude stuff right now
-    BlockDetection::detectBlocks(frame, nearestBlockInfo);
+    // cpu time for debug
+    cpu_time = BlockDetection::detectBlocks(frame, nearestBlockInfo);
     updateNearestBlockInfoAverage();
 }
 
@@ -75,6 +77,9 @@ double ImageProcessor::getNearestCubeAngle() {
 }
 double ImageProcessor::getNearestCubeDist() {
     return nearestBlockInfo.nearest_cube_dist;
+}
+double ImageProcessor::getCpuTime() {
+    return cpu_time;
 }
 
 // refresh local map to zeros
@@ -120,7 +125,7 @@ void ImageProcessor::doStuff() {
 
 void ImageProcessor::clearCameraCache() {
     // hack to clean cache from the camera to avoid weird bug in the beginning
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < 3; i++) {
         vid_cap >> frame_raw; // get a new frame from camera
     }
 
