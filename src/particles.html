@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+<meta http-equiv="refresh" content="1" >
+
+<script>
+
+        window.addEventListener("load", init);
+
+        var logoImage = new Image();
+        logoImage.src = 'logo.png';
+        var canvas = document.createElement('canvas');
+        canvas.width = 600;
+        canvas.height = 200;
+        var context = canvas.getContext('2d');
+        document.body.appendChild(canvas);
+
+        function init() {
+
+                // move the origin to 10, 10
+                context.translate(50, 35);
+
+                // now move across and down half the
+                // width and height of the image
+                context.translate(64, 64);
+
+                // rotate around this point
+                context.rotate(0.5);
+
+                // then draw the image back and up
+                context.drawImage(logoImage, -64, -64);
+        }
+
+
+
+context.save();
+
+// move the origin to 50, 35
+context.translate(50, 35);
+
+// now move across and down half the
+// width and height of the image (which is 128 x 128)
+context.translate(64, 64);
+
+// rotate around this point
+context.rotate(0.5);
+
+// then draw the image back and up
+context.drawImage(logoImage, -64, -64);
+
+context.restore();
+
+</script>
+
+
+</body>
+</html>
+

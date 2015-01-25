@@ -13,7 +13,7 @@
 #include  <thread>
 #include <stdlib.h>     /* atoi */
 #include "imageProcessing/ImageProcessor.h"
-
+#include "localization/particlefilter.h"
 
 
 
@@ -743,7 +743,18 @@ int main(int argc, char** argv){
 
 
         }
+        else if(strcmp(argv[1],"particleFilter1")==0){
+            printf("ParticleFilterTest\n");
+            RUNNING =1;
+            particleFilter myParticleFilter(50,50);
+            while(RUNNING){
+                myParticleFilter.createSimpleWebpageView("particleFilter.html");
+                myParticleFilter.updateParticles(10,5);
+                myParticleFilter.resample();
+                usleep(200000.0);
+            }
 
+        }
 
 
         return 0;

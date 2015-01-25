@@ -218,6 +218,20 @@
 #define LOG_FILE_NAME "log.txt"
 #define LOGGING 1
 
+///////////////
+//Particle Filter
+#define PARTICLE_FILTER_NUMBER_OF_PARTICLES 100
+#define PARTICLE_FILTER_ENCODERS_NORMALIZED_STANDARD_DEVIATION 0.02
+#define PARTICLE_FILTER_ANGLE_NORMALIZED_STANDARD_DEVIATION 0.05
+#define PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE 1 //if the angle is positive when clockwise, we have to multiply it by -1
+                                                   // In other words, make it -1, if Y increases going up instead of down.
+#define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X 3
+#define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y 3
+#define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 50 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
+#define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 10 // If we resample too often, we lose variance.
+                            //If we don't resample often enough, the particles get too scattered.
+#define PARTICLE_FILTER_UPDATE_RATE_MS 50
+
 #define PI 3.14159
 #endif // CONFIGFILE_H
 
