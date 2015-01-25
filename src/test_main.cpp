@@ -158,8 +158,8 @@ int main(int argc, char** argv){
             RUNNING=1;
             while(RUNNING)
             {
-                myactuator.setPowerLeftWheel(1);
-                myactuator.setPowerRightWheel(1);
+                myactuator.setPowerLeftWheel(0.3);
+                myactuator.setPowerRightWheel(0.3);
 
 
                 usleep(200000.0);
@@ -173,8 +173,8 @@ int main(int argc, char** argv){
             RUNNING=1;
             while(RUNNING)
             {
-                myactuator.setPowerLeftWheel(-1);
-                myactuator.setPowerRightWheel(-1);
+                myactuator.setPowerLeftWheel(0.3);
+                myactuator.setPowerRightWheel(-0.3);
 
 
                 usleep(200000.0);
