@@ -5,11 +5,13 @@
 
 // initializer for ImageProcessing class
 ImageProcessor::ImageProcessor():
-    local_map(70,70)
+    local_map(70,70),
     /*foundCube(0),
     nearestCubeAngle(0),
     nearestCubeDist(0),
-    nearestCubeColor(0)*/{
+    nearestCubeColor(0)*/
+    frame(cv::Scalar(0,0,0))
+{
 
     vid_cap = cv::VideoCapture(0); // need to check what 0 is and is not sketchy
     if(!vid_cap.isOpened()) {
