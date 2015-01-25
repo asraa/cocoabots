@@ -33,7 +33,6 @@ void ImageProcessor::detectWall(cv::Mat& frame) {
 
     // detect yellow line
 
-
 }
 
 void ImageProcessor::detectBlocks(cv::Mat& frame) {
@@ -94,6 +93,8 @@ void ImageProcessor::writeToFile(std::string fn) {
 // singled out to avoid adding pointers to each global variable
 void ImageProcessor::doStuff() {
 
+    clearCameraCache();
+
     vid_cap >> frame_raw; // get a new frame from camera
     //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
@@ -119,9 +120,8 @@ void ImageProcessor::doStuff() {
 
 void ImageProcessor::clearCameraCache() {
     // hack to clean cache from the camera to avoid weird bug in the beginning
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 5; i++) {
         vid_cap >> frame_raw; // get a new frame from camera
-        usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }
 
 }

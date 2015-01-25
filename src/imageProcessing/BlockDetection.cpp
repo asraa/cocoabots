@@ -195,7 +195,6 @@ bool closerThan(Eigen::Vector2d& pt1, Eigen::Vector2d& pt2) {
 }
 
 
-// TO-DO: REORGANIZE CODE
 void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     // list of points is in radial coordinates
@@ -214,7 +213,6 @@ void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
             nearest_pt_rad = nearest_pt_green;
             updateBlockFoundInfo(nearest_pt_rad, 0, nearest_block_info); //red
         }
-
     }
 
     else if(list_of_red.size() > 0) {
