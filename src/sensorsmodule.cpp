@@ -14,6 +14,8 @@ sensorsModule::sensorsModule():
     leftUltraShortIRData(0),
     backUltraShortIRData(0),
 
+    colorSensorData(0),
+
     frontShortIRData(0),
     rightShortIRData(0),
     leftShortIRData(0),
@@ -23,6 +25,7 @@ sensorsModule::sensorsModule():
     ultrasonicAlpha(ULTRASONIC_ALPHA),
     ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
     shortIRAlpha(SHORT_IR_ALPHA),
+    colorSensorAlpha(1),
     encoderAlpha(ENCODER_ALPHA),
     encoderAngleAlpha(ENCODER_ANGLE_ALPHA),
     gyroscopeTotalAlpha(GYROSCOPE_TOTAL_ALPHA),
@@ -96,6 +99,10 @@ sensorsModule::sensorsModule():
 
     #if GYROSCOPE
     ,mygyroscope(GYROSCOPE_CHIP_PIN, GYROSCOPE_SPI_PIN)
+    #endif
+
+    #if COLOR_DETECTOR
+    ,colorSensor(COLOR_DETECTOR_PIN)
     #endif
 {
     running=1;
@@ -180,6 +187,9 @@ void sensorsModule::run(sensorsModule * sensors){
         updateData(&sensors->gyroscopeReading, sensors->mygyroscope.getReading(), sensors->gyroscopeReadingAlpha,started);
         #endif
 
+        #if COLOR_DETECTOR
+        updateSensor(&sensors->colorSensor,&sensors->colorSensorData, sensors->colorSensorAlpha,started);
+        #endif
 
         updateTime(sensors);
         usleep(SENSORS_UPDATE_RATE_MILISECONDS);

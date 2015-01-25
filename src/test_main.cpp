@@ -732,6 +732,20 @@ int main(int argc, char** argv){
             }
         }
 
+        else if(strcmp(argv[1],"colorsensor")==0){
+            printf("Running color sensor test\n");
+            sensorsModule mysensors;
+            RUNNING =1;
+            while(RUNNING){
+                printf("%lf in\n", mysensors.colorSensorData);
+                usleep(200000.0);
+            }
+
+
+        }
+
+
+
         return 0;
     }
 }
