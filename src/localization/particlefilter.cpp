@@ -3,13 +3,18 @@
 #include <cmath>
 #include <cstdio>
 #include <fstream>
+#include <unistd.h>
+
 #include "../configFile.h"
 
 //initialize a vector with the default standard non normalized probabilities (all zeros)
 const std::vector<double> particleFilter::initialProbabilities(PARTICLE_FILTER_NUMBER_OF_PARTICLES, 1.0);
 
+
 particleFilter::particleFilter(double positionX, double positionY):
-    myProbabilities(initialProbabilities)
+    myProbabilities(initialProbabilities),
+    mySensors(NULL),
+    myMotorsControl(NULL)
 {
     std::default_random_engine randomNumberGenerator; //This is used to get the
                                                       //position state from the distribution
@@ -36,6 +41,126 @@ particleFilter::particleFilter(double positionX, double positionY):
         myParticles.push_back(particle);
     }
 
+}
+
+
+particleFilter::particleFilter(double positionX,
+                               double positionY,
+                               sensorsModule *sensorsPtr,
+                               motorsControl *motorsPtr):particleFilter(positionX,positionY){
+    mySensors = sensorsPtr;
+    myMotorsControl = motorsPtr;
+    running = 1;
+    runThread = new  std::thread(run,this);
+
+}
+
+particleFilter::~particleFilter(){
+    running=0;
+    runThread->join();
+    delete runThread;
+}
+
+void particleFilter::run(particleFilter *particleFilterPtr){
+    particleFilter * myParticleFilter = particleFilterPtr;
+    int updatedPositionCounter;
+    double previousPosition;
+    double previousAngle;
+    double distance;
+    double differenceAngle;
+
+    previousPosition = myParticleFilter->getNewPosition();
+    previousAngle = myParticleFilter->getNewAngle();
+
+    while (myParticleFilter->running) {
+
+        distance = myParticleFilter->getNewPosition() - previousPosition;
+        differenceAngle = myParticleFilter->getNewAngle() - previousAngle;
+
+        myParticleFilter->updateParticles(differenceAngle,distance);
+
+        previousPosition = myParticleFilter->getNewPosition();
+        previousAngle=myParticleFilter->getNewAngle();
+
+        updatedPositionCounter++;
+
+        myParticleFilter->updateProbabilities();
+
+        if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
+            updatedPositionCounter=0;
+            myParticleFilter->resample();
+
+        }
+        myParticleFilter->updateRobotPosition();
+        usleep(PARTICLE_FILTER_UPDATE_RATE_MS*1000);
+    }
+}
+
+
+void particleFilter::updateProbabilities(){
+    std::vector <struct particleFilterParticle> tempParticles = myParticles;// protects against race conditions, etc
+    struct particleFilterParticle *particlePtr;
+    int numberOfParticles = tempParticles.size();
+
+    double probability;
+    for (int i=0; i<numberOfParticles; i++){
+        particlePtr=&tempParticles[i];
+    //TODO GET EXPECTED SENSORS READINGS FROM POSITION OF THE PARTICLE
+    // get sensor reading(particlePtr->x,particlePtr->y,particlePtr->angle)
+
+    //TODO Compare the expected reading with the real reading and see the probability
+    // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
+    probability=1;
+    //TODO multiply the probability of the particle by this probability
+    myProbabilities[i]*=probability;
+    }
+
+
+
+}
+
+struct particleFilterParticle particleFilter::updateRobotPosition(){
+    std::vector <struct particleFilterParticle> tempParticles = myParticles;// protects against race conditions, etc
+    std::vector <double> tempProbabilities = myProbabilities;
+    int numberOfParticles = tempParticles.size();
+    double probabilityNormalizationFactor=0;
+    double x;
+    double y;
+    double angle;
+    double tempProbability;
+    struct particleFilterParticle tempParticle;
+
+    for (int i=0; i<numberOfParticles; i++){
+        tempProbability=tempProbabilities[i];
+        tempParticle=tempParticles[i];
+
+        probabilityNormalizationFactor+=tempProbability;
+        x += tempParticle.x*tempProbability;
+        y += tempParticle.y*tempProbability;
+        angle += tempParticle.angle*tempProbability;
+    }
+
+    x = x/probabilityNormalizationFactor;
+    y = y/probabilityNormalizationFactor;
+    angle = angle/probabilityNormalizationFactor;
+
+    tempParticle.x=x;
+    tempParticle.y=y;
+    tempParticle.angle=angle;
+    robot=tempParticle;
+    return tempParticle;
+}
+
+double particleFilter::getRobotX(){
+    return robot.x;
+}
+
+double particleFilter::getRobotY(){
+    return robot.y;
+}
+
+double particleFilter::getRobotAngle(){
+    return robot.angle;
 }
 
 void particleFilter::resample(){
@@ -108,7 +233,29 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
     }
 }
 
+double particleFilter::getNewAngle(){
+    return myMotorsControl->getNewAngle();
+}
 
+
+double particleFilter::getNewPosition(){
+    return myMotorsControl->getNewPosition();
+}
+
+
+float particleFilter::normalPdf(float value, float median, float standardDeviation)
+{
+    static const float inv_sqrt_2pi = 0.3989422804014327;
+    float a = (value - median) / standardDeviation;
+
+    return inv_sqrt_2pi / standardDeviation * std::exp(-0.5f * a * a);
+}
+
+///
+/// \brief particleFilter::createSimpleWebpageView
+/// Creates a simple webpage to show the positions of the particles and the robot.
+/// \param nameOfFile
+/// name of the file that will be created and destroyed.
 void particleFilter::createSimpleWebpageView(std::string nameOfFile){
     remove(nameOfFile.c_str());
     std::ofstream webpage(nameOfFile,std::ofstream::out |  std::ios_base::app);

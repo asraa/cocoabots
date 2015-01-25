@@ -755,6 +755,18 @@ int main(int argc, char** argv){
             }
 
         }
+        else if(strcmp(argv[1],"particleFilter2")==0){
+            printf("ParticleFilterTest\n");
+            RUNNING =1;
+            sensorsModule mySensors;
+            motorsControl myMotorControl(&mySensors);
+            particleFilter myParticleFilter(50,50,&mySensors,&myMotorControl);
+            while(RUNNING){
+                myParticleFilter.createSimpleWebpageView("particleFilter.html");
+                usleep(200000.0);
+            }
+
+        }
 
 
         return 0;

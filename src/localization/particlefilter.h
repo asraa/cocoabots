@@ -33,17 +33,34 @@ struct particleFilterParticle{
 class particleFilter
 {
 public:
-    particleFilter(double positionX, double positionY);
+    particleFilter(double positionX, double positionY);//Only for simple debugging.
+    particleFilter(double positionX, double positionY,
+                   sensorsModule * sensorsPtr, motorsControl * motorsPtr);
 
-
+    ~particleFilter();
     struct particleFilterParticle robot;
+    double getRobotX();
+    double getRobotY();
+    double getRobotAngle();
+    struct particleFilterParticle updateRobotPosition();
     std::vector <struct particleFilterParticle> myParticles;
     std::vector <double> myProbabilities;
     void resample();
     void updateParticles(double differenceAngle, double distance);
+    void updateProbabilities();
     void resetProbabilities();
     static const std::vector<double> initialProbabilities;
     void createSimpleWebpageView(std::string nameOfFile);
+    float normalPdf(float value, float median, float standardDeviation);
+
+    int running;
+    std::thread *runThread;
+    double getNewAngle();
+    double getNewPosition();
+    static void run(particleFilter * particleFilterPtr);
+private:
+    sensorsModule * mySensors;
+    motorsControl * myMotorsControl;
 };
 
 #endif // PARTICLEFILTER_H
