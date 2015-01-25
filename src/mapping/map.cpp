@@ -370,7 +370,7 @@ void map::floodFill(position pos, int target, int replacement) {
 }
 
 
-int main(){
+int MAP_main(){
     map myMap("red_map.txt");
 }
 
