@@ -1,32 +1,21 @@
 #ifndef JANKYCOLORSENSOR_H
 #define JANKYCOLORSENSOR_H
 
-#define MS 1000
-#define INT_TO_VOLTS 0.0049
 
 #include "mraa.hpp"
-#include <unistd.h>
-#include <stdint.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <thread>
+#include "sensorssuperclass.h"
 
-class jankyColorSensor
+class jankyColorSensor: public sensorsSuperClass
 {
   public:
     ///initializes the jankycolorsensor
+    mraa::Aio * colorSensorAio;
     jankyColorSensor(int colorSensorPin);
-    ~jankyColorSensor();
-    static void run(void* jankyColorSensorPointer);
-    int getData();
-    float getDataVolts();
+    double getData();
 
-    std::thread *runThread;
-    mraa::Aio colorSensorAio;
+private:
+    int myDataPin;
 
-    int running;
-    int dataInt;
-    float dataVolt;
 };
 
 
