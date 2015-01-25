@@ -54,6 +54,8 @@ public:
     int running;
     std::thread *runThread;
 
+
+
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
 
@@ -72,6 +74,12 @@ public:
     double getNearestCubeDist();
     double getNearestCubeAngle();
     int getNearestCubeColor();
+
+    // for debug
+    double cpu_time;
+    double cache_time;
+    double getCpuTime();
+    double getCacheTime();
 
     static void run(ImageProcessor * ImageProcessorPointer);
 };

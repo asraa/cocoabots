@@ -7,7 +7,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/LU>
 #include <cmath>
-#include <time.h>
+#include <ctime>
 
 #include "CameraConfig.h"
 #include "CameraMath.h"
