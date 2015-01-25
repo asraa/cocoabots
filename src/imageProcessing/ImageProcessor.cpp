@@ -18,9 +18,11 @@ ImageProcessor::ImageProcessor():
     if(!vid_cap.isOpened()) {
         return;
     }
-    vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-    vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+    vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640*FRAME_RESIZE_SCALE);
+    vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
     vid_cap.set(CV_CAP_PROP_FPS, 30);
+    vid_cap.set(CV_CAP_PROP_FOCUS_AUTO,0);
+    vid_cap.set(CV_CAP_PROP_EXPOSURE,1);
     running=1;
     runThread = new std::thread(run,this);
 
@@ -116,7 +118,7 @@ void ImageProcessor::doStuff() {
     vid_cap.retrieve(frame_raw); // get a new frame from camera
     //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
-    cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
+    //cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
 
     //detectWall(frame);
     detectBlocks(frame);
