@@ -45,7 +45,7 @@ logger::logger(sensorsModule *sensorsPtr,
 void logger::log() {
 #if LOGGING
     if (mySensorsPt){
-  logfile << "my Sensors:" <<
+  logfile << "\nmy Sensors:" <<
 
              "\n Time in Microseconds"<< mySensorsPt->timeMicrosecondsSinceEpoch <<
 
@@ -76,7 +76,7 @@ void logger::log() {
              "  Gyroscope Reading:"<<mySensorsPt->gyroscopeReading << std::endl;
     }
     if (myMotorsPt){
-  logfile << "my MotorControl:" <<
+  logfile << "\nmy MotorControl:" <<
              "\n Time:" <<
              "  previousTime:"<<myMotorsPt->previousTime <<
 
@@ -103,7 +103,7 @@ void logger::log() {
              "  Desired Angle:"<<myMotorsPt->desiredAngle <<std::endl;
     }
     if (myServosPt){
-  logfile << "my ServoControl:" <<
+  logfile << "\nmy ServoControl:" <<
 
              "\n Angle:" <<
              "  armAngle:" <<myServosPt->armAngle <<
@@ -115,7 +115,7 @@ void logger::log() {
              " previousSwipe:"<<myServosPt->previousSwipe <<std::endl;
     }
     if (myStateDblPt && *myStateDblPt){
-  logfile << "my StateMachine:" <<
+  logfile << "\nmy StateMachine:" <<
 
              "\n Name:" <<
              "  name:" << (*myStateDblPt)->getName() <<
@@ -149,14 +149,20 @@ void logger::log() {
              "   right:" << (*myStateDblPt)->getDistanceRightWall() <<std::endl;
     }
     if (myImageProcessorPt){
-  logfile << "my ImageProcessor:" <<
+  logfile << "\nmy ImageProcessor:" <<
 
              "\n Cube:" <<
              "  found:" <<myImageProcessorPt->getFoundCube() <<
              "  Angle:" <<myImageProcessorPt->getNearestCubeAngle() <<
              "  Distance:" <<myImageProcessorPt->getNearestCubeDist() <<
-             "  Color:" <<myImageProcessorPt->getNearestCubeColor() <<std::endl;
+             "  Color:" <<myImageProcessorPt->getNearestCubeColor() <<
+
+             "\n Time:" <<
+             "  Cache Time:" <<myImageProcessorPt->getCacheTime() <<
+             "  Cpu Time:" <<myImageProcessorPt->getCpuTime() <<std::endl;
     myImageProcessorPt->writeToFile("cameraPicture.jpg");
+    logfile << "------------------------------------------------------" << std::endl;
+    logfile << "------------------------------------------------------\n" << std::endl;
     }
 
 #endif
