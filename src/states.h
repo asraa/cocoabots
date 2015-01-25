@@ -42,6 +42,7 @@ public:
     double getAngleNearestCube();
     int getColorNearestCube();
     double abs(double number);
+    int isCubeRed();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated

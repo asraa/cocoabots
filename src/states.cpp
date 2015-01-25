@@ -521,6 +521,10 @@ int states::getColorNearestCube(){
     return myImageProcessor->getNearestCubeColor();
 }
 
+int states::isCubeRed(){
+    return (mySensors->colorSensorData > RED_THRESHOLD);
+}
+
 void states::startProcessingProceduresManual(){
     startProcessData();;
 }
