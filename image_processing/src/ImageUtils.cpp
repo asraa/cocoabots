@@ -37,9 +37,21 @@ ContourData getContours(cv::Mat& im_src) {
     return contour_data;
 }
 
+ContourData getContourPolyMat(cv::Mat& im_src) {
+    ContourData contour_data = getContours(im_src);
+    
+}
+
 cv::Mat drawContours(ContourData& contour_data, cv::Mat& im_src) {
     cv::Mat drawing = cv::Mat::zeros(im_src.size(), CV_8UC3);
     cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255));
+    cv::cvtColor(drawing,drawing,CV_BGR2GRAY);
+    return drawing;
+}
+
+cv::Mat drawContoursFilled(ContourData& contour_data, cv::Mat& im_src) {
+    cv::Mat drawing = cv::Mat::zeros(im_src.size(), CV_8UC3);
+    cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), -1);
     cv::cvtColor(drawing,drawing,CV_BGR2GRAY);
     return drawing;
 }
@@ -48,6 +60,23 @@ cv::Mat getContoursMat(cv::Mat& im_src) {
     ContourData contour_data = getContours(im_src);
     return drawContours(contour_data, im_src);
 }
+
+// VERY INEFFICIENT
+void cleanContour(ContourData& contour_data, double area) {
+    std::vector<int> to_be_removed;
+    for(int i = 0; i < contour_data.contours.size(); i++) {
+        if(fabs(cv::contourArea(contour_data.contours.at(i),0)) < area) {
+            to_be_removed.push_back(i);
+        }
+    }
+    int j;
+    for(int i = to_be_removed.size()-1; i > - 1; i--) {
+        j = to_be_removed.at(i);
+        contour_data.contours.erase(contour_data.contours.begin()+j);
+//        contour_data.hierarchy.erase(contour_data.hierarchy.begin()+i); // probably a bad idea
+    }
+}
+
 
 // ********** HOUGH LINE STUFF ************//
 ImageUtils::HoughDataNonP houghLinesNonP(cv::Mat& im_src) {

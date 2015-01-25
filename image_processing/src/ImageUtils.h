@@ -28,7 +28,9 @@ struct ContourData {
 };
 ContourData getContours(cv::Mat& im_src);
 cv::Mat drawContours(ContourData & contour_data, cv::Mat& im_src);
+cv::Mat drawContoursFilled(ContourData& contour_data, cv::Mat& im_src);
 cv::Mat getContoursMat(cv::Mat& im_src);
+void cleanContour(ContourData& contour_data, double area);
 
 // ********** HOUGH LINE STUFF ************//
 struct HoughDataNonP {

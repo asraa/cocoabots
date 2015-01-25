@@ -12,7 +12,7 @@ cv::Mat getWallLine(cv::Mat& im_src, int color) {
     return im_color;
 }
 
-// ** changes the source image
+// ** changes the source image to omit pixels above wall
 // scans through each line
 int * scanLine(cv::Mat& im_src, cv::Mat& im_line_edges) {
 
@@ -51,7 +51,7 @@ int * scanLine(cv::Mat& im_src, cv::Mat& im_line_edges) {
         result[2*i+1] = line_top[i];
     }
 
-    return result; // what's up with this -- gives warning.
+    return result;
 }
 
 

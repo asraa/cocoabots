@@ -17,9 +17,6 @@
 
 namespace WallDetection {
 
-static const int COLOR_WHITE = 255;
-static const int COLOR_BLACK = 0; // for drawing map (??)
-
 static const int FIELD_OBJECT_BLUE_WALL = 1; // to label map
 
 void detectWall(cv::Mat&, GridMap&, int); // highest level code

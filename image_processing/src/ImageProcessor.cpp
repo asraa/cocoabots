@@ -159,11 +159,18 @@ void ImageProcessor::clearCameraCache() {
 }
 
 void ImageProcessor::debugStuff() {
-    frame_raw = cv::imread("images/blocks_13.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+    frame_raw = cv::imread("images/blocks_14.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
     cv::resize(frame_raw, frame, cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
     WallDetection::detectWall(frame, local_map, ColorDetection::COLOR_LINE_BLUE);
+    TerritoryDetection::detectPurpleLine(frame, local_map);
+    if(DEBUG == 1) {
+        cv::Mat local_map_im = local_map.cvtImage();
+        //local_map_refresh();
 
-    TerritoryDetection::detectPurpleLine(frame);
+        cv::namedWindow("www",CV_WINDOW_NORMAL);
+        cv::imshow("www",local_map_im);
+        cv::waitKey(100);
+    }
 }
 
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
