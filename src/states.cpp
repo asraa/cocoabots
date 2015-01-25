@@ -164,7 +164,7 @@ void states::wallFollowLeft(){
             else{
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,-45);
+                setCarrotPosition(0,45);
                 startTimeState = getTimeMicroseconds();
 
             }
@@ -205,9 +205,18 @@ void states::wallFollowLeft(){
 
         }
         else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
-            myState=lookingForWall;
-            startTimeState = getTimeMicroseconds();
+            if (getDistanceFrontWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
 
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState=lookingForWall;
+                startTimeState = getTimeMicroseconds();
+            }
             //printf("transitioning from following to  looking \n");
 
 

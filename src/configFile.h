@@ -208,7 +208,7 @@
 #define SHARP_CURVE_CARROT_ANGLE 21
 /////////////////////////////////
 //States definitions
-#define GO_TO_CUBE_WAIT_TIME_MS 2000
+#define GO_TO_CUBE_WAIT_TIME_MS 3500
 #define GO_TO_CUBE_OVERSHOOT_DISTANCE 4
 /////////////////////////////
 //Servos control
