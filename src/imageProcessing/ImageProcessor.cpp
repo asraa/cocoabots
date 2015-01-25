@@ -20,8 +20,7 @@ ImageProcessor::ImageProcessor():
     }
     vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640*FRAME_RESIZE_SCALE);
     vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
-    vid_cap.set(CV_CAP_PROP_FPS, 30);
-    vid_cap.set(CV_CAP_PROP_EXPOSURE,1);
+    vid_cap.set(CV_CAP_PROP_FPS, 15);
     running=1;
     runThread = new std::thread(run,this);
 
