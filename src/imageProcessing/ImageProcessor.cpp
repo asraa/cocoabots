@@ -109,7 +109,7 @@ void ImageProcessor::doStuff() {
 
     clock_t start = clock(); // for debug
 
-    vid_cap >> frame_raw; // get a new frame from camera
+    vid_cap.retrieve(frame_raw); // get a new frame from camera
     //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
     cv::resize(frame_raw, frame, cv::Size(0,0), FRAME_RESIZE_SCALE, FRAME_RESIZE_SCALE, cv::INTER_LINEAR);
@@ -141,8 +141,8 @@ void ImageProcessor::clearCameraCache() {
     clock_t start = clock();
 
     // hack to clean cache from the camera to avoid weird bug in the beginning
-    for(int i = 0; i < 3; i++) {
-        vid_cap >> frame_raw; // get a new frame from camera
+    for(int i = 0; i < 4; i++) {
+        vid_cap.grab(); // get a new frame from camera
     }
 
     // for debug
