@@ -38,7 +38,7 @@ Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual) {
     return result;
 }
 
-Eigen::Vector2d reconstructPoint2D(cv::Point pt_im, double y_actual) {
+Eigen::Vector2d reconstructPoint2D(cv::Point& pt_im, double y_actual) {
     Eigen::Vector3d pt_im_hom;
     pt_im_hom << pt_im.x, pt_im.y, 1;
     Eigen::Vector3d temp = CAM_MAT_INV * pt_im_hom;

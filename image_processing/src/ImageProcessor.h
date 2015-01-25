@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cmath>
 #include <thread>
+#include <cstring>
 
 #include "GridMap.h"
 #include "ColorDetection.h"
@@ -17,6 +18,7 @@
 #include "ImageUtils.h"
 #include "BlockDetection.h"
 #include "CameraConfig.h"
+#include "TerritoryDetection.h"
 
 /***********************************************
  ***********IMAGE PROCESSING CLASS**************
@@ -35,6 +37,7 @@ public:
 
     // update for other threads to get
     BlockDetection::BlockInfo nearestBlockInfo;
+    BlockDetection::BlockInfo nearestBlockInfoPrevious;
 
     /*
     int foundCube;
@@ -42,6 +45,9 @@ public:
     double nearestCubeDist;
     int nearestCubeColor;
     */
+
+    cv::Mat frame_raw;
+    cv::Mat frame;
 
     static const int CUBE_COLOR_GREEN = 0;
     static const int CUBE_COLOR_RED = 1;
@@ -52,12 +58,29 @@ public:
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
 
+
     void local_map_refresh();
+
+    void updateNearestBlockInfoAverage();
+
+    void writeToFile(std::string fn);
+
+    void doStuff();
+    void clearCameraCache();
+
 
     int getFoundCube();
     double getNearestCubeDist();
     double getNearestCubeAngle();
     int getNearestCubeColor();
+
+    // for debug
+    double cpu_time;
+    double cache_time;
+    double getCpuTime();
+    double getCacheTime();
+
+    void debugStuff();
 
     static void run(ImageProcessor * ImageProcessorPointer);
 };

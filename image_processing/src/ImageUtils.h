@@ -9,19 +9,39 @@
 #include <iostream>
 #include <cmath>
 
+#include "CameraConfig.h"
+
+
 namespace ImageUtils {
 
-static const int SMOOTH_KERNEL = 3;
-static const int MORPH_KERNEL = 3;
-
+// gaussian blur and morphology operation
 void binaryImagePreProcess(cv::Mat&, int);
 
-static const int CANNY_THRESH_LOW = 5;
-static const int CANNY_THRESH_UP = 15;
-static const int CANNY_KERNEL = 3;
-
+// ******** CANNY EDGE ********** //
 cv::Mat cannyEdge(cv::Mat&);
 
+// ******* CONTOUR STUFF ********** //
+struct ContourData {
+   // cv::Mat drawing;
+    std::vector<std::vector<cv::Point> > contours;
+   // std::vector<cv::Vec4i> hierarchy;
+};
+ContourData getContours(cv::Mat& im_src);
+cv::Mat drawContours(ContourData & contour_data, cv::Mat& im_src);
+cv::Mat getContoursMat(cv::Mat& im_src);
+
+// ********** HOUGH LINE STUFF ************//
+struct HoughDataNonP {
+    std::vector<cv::Vec2f> lines;
+};
+ImageUtils::HoughDataNonP houghLinesNonP(cv::Mat& im_src);
+cv::Mat drawHoughLinesNonP(ImageUtils::HoughDataNonP hough, cv::Mat im_src);
+
+struct HoughDataP {
+    std::vector<cv::Vec4i> lines;
+};
+ImageUtils::HoughDataP houghLinesP(cv::Mat& im_src);
+cv::Mat drawHoughLinesP(ImageUtils::HoughDataP hough, cv::Mat& im_src);
 
 }
 

@@ -126,23 +126,12 @@ void updateMapPts(GridMap& local_map, int * scan_line_output, int num_cols){
 // should it be const
 void detectWall(cv::Mat& frame, GridMap& local_map, int color) {
 
-    clock_t start, end;
-
-    if(DEBUG==1) {
-        start = clock();
-    }
-
     cv::Mat im_color = WallDetection::getWallLine(frame, color);
-    cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
+    //cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
+    cv::Mat color_edges = ImageUtils::getContoursMat(im_color);
     int *line_pts = WallDetection::scanLine(frame, color_edges);
     WallDetection::updateMapPts(local_map, line_pts, frame.cols);
     delete line_pts;
-
-    if(DEBUG==1) {
-        end = clock();
-    }
-
-    // std::cout << "time " << ((double) (end - start)) / CLOCKS_PER_SEC << std::endl;
 
 }
 

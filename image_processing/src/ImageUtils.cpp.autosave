@@ -37,6 +37,11 @@ ContourData getContours(cv::Mat& im_src) {
     return contour_data;
 }
 
+ContourData getContourPolyMat(cv::Mat& im_src) {
+    ContourData contour_data = getContours(im_src);
+    
+}
+
 cv::Mat drawContours(ContourData& contour_data, cv::Mat& im_src) {
     cv::Mat drawing = cv::Mat::zeros(im_src.size(), CV_8UC3);
     cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255));

@@ -22,6 +22,8 @@ cv::Mat detectColor(cv::Mat& frame, int color){
         cv::Mat result2;
         inRange(frame_hsv, cv::Scalar(150,100,0), cv::Scalar(255,255,255), result2);
         result = result + result2;
+    } else if (color == COLOR_LINE_PURPLE) {
+        inRange(frame_hsv, cv::Scalar(120,30,0), cv::Scalar(155,255,255), result);
     }
     return result;
 }

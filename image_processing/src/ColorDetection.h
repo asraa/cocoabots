@@ -3,10 +3,10 @@
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <eigen3/Eigen/Dense>
-#include <eigen3/Eigen/LU>
 #include <iostream>
 #include <cmath>
+
+#include "CameraConfig.h"
 
 namespace ColorDetection {
 
@@ -16,6 +16,7 @@ static const int COLOR_LINE_YELLOW = 3;
 static const int COLOR_WALL = 4;
 static const int COLOR_BLOCK_RED = 5;
 static const int COLOR_BLOCK_GREEN = 6;
+static const int COLOR_LINE_PURPLE = 7;
 
 cv::Mat detectColor(cv::Mat&,int);
 cv::Mat detectColor(cv::Mat&,int[],int);

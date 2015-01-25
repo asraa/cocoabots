@@ -9,13 +9,9 @@
 /*********************************
 ** set to 0 if running on edison *
 **********************************/
-static const int DEBUG = 0;
+static const int DEBUG = 1;
 /********************************/
 
-
-/********************************************************
- * NEED TO DIVIDE THINGS BY RESCALE FACTOR IF RESCALE ***
- * *****************************************************/
 
 // translation vector of camera w.r.t to robot center
 static const double CAM_ROBOT_X = 4;
@@ -57,6 +53,58 @@ static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*CAM
 
 static Eigen::Matrix3d CAM_MAT_INV = (CAM_MAT.inverse());
 
+
+// for averaging over previous frames
+static const double BLOCK_FOUND_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_COLOR_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_DIST_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_ANGLE_PREVIOUS_WEIGHT = 0.8;
+
+
+
+// vertical pixels threshold for wall detection
+static const int WALL_LINE_THRESH = 10;
+// wall dimensions
+static const double WALL_LINE_WIDTH = 2;
+static const double WALL_HEIGHT = 6; // white + line
+static const double WALL_HEIGHT_TO_LINE = 4;
+
+// block dimensions
+static const double BLOCK_HEIGHT = 2; // inches
+
+// for block estimations
+static const double COS_THRESH = 0.1;
+
+static const int POLY_VERTEX_NUM_THRESH = 8;
+
+static const double POLY_NEIGHBORHOOD = 9;
+
+static const double FEATURE_AREA_THRESH = 200;
+
+static const double ASPECT_RATIO_LOW = 0.8;
+static const double ASPECT_RATIO_UP = 4;
+
+// image utils parameters
+// for gaussian blur
+static const int SMOOTH_KERNEL = 3;
+static const int MORPH_KERNEL = 3;
+// for canny edge detection
+static const int CANNY_THRESH_LOW = 5;
+static const int CANNY_THRESH_UP = 15;
+static const int CANNY_KERNEL = 3;
+// for hough line detection (standard)
+static const double HOUGH_RES_RHO_PIXEL = 1;
+static const double HOUGH_RES_THETA_RAD = (M_PI/180.0);
+static const int HOUGH_MIN_VOTES = 0;
+// for hough line detection (probabilistic)
+static const double HOUGH_P_RES_RHO_PIXEL = 1;
+static const double HOUGH_P_RES_THETA_RAD = (M_PI/180.0);// 1 radian
+static const int HOUGH_P_MIN_VOTES = 100;
+static const int HOUGH_P_MAX_LINE_GAP = 5;
+
+
+
+
 /*
 // with rotation
 static Eigen::Matrix3d CAM_MAT((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*685), (FRAME_RESIZE_SCALE*115.7287), (FRAME_RESIZE_SCALE*271.3519), 0, (FRAME_RESIZE_SCALE*720.8317), (FRAME_RESIZE_SCALE*(-50.8599)), 0, (FRAME_RESIZE_SCALE*0.3923), (FRAME_RESIZE_SCALE*0.9198)).finished());
@@ -67,6 +115,6 @@ static Eigen::Matrix3d CAM_MAT_INV((Eigen::Matrix3d() << (0.00145/FRAME_RESIZE_S
 */
 
 // update rate for camera thread
-static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 10000;
+static const int UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS = 100;
 
 #endif
