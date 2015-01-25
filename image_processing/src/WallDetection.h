@@ -19,9 +19,9 @@ namespace WallDetection {
 
 static const int FIELD_OBJECT_BLUE_WALL = 1; // to label map
 
-void detectWall(cv::Mat&, GridMap&, int); // highest level code
+void detectWall(cv::Mat&, GridMap&); // highest level code
 
-cv::Mat getWallLine(cv::Mat&, int);
+cv::Mat getWallLine(cv::Mat&);
 int * scanLine(cv::Mat&, cv::Mat&);
 
 void updateMapPts(GridMap&, int *, int);
