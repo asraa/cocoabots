@@ -42,6 +42,10 @@ std::string states::getName(){
 
 //Complex procedures (Ones that have states and timeouts inside them)
 void states::wallFollow(){
+    wallFollowLeft();
+}
+
+void states::wallFollowRight(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
     static double initialTurningAngle =0;
@@ -131,6 +135,97 @@ void states::wallFollow(){
     }
 
 }
+//Copy of the above. It is bad practice, but I'm feeling lazy at the moment
+void states::wallFollowLeft(){
+    enum wallFollowState{lookingForWall, rotating, followingWall};
+    static long long int startTimeState;
+    static double initialTurningAngle =0;
+    static wallFollowState myState;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+
+    wallFollowed=1;
+    if(!wallFollowing){
+        myState = lookingForWall;
+        startTimeState=getTimeMicroseconds();
+    }
+
+    switch (myState) {
+    case lookingForWall:
+
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            if (getDistanceLeftWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            //printf("transitioning from looking for a wall to rotating\n");
+        }
+        else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            //printf("transitioning from looking for a wall to following a wall");
+            myState=followingWall;
+        } else{
+            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            }
+            else{
+                sharpCurveToTheLeft();
+            }
+            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+
+        }
+        break;
+
+    case rotating:{
+        double myAngle = getAngle();
+        double angleDif =abs(getAngleToCarrot());
+        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+            myState=followingWall;
+            startTimeState = getTimeMicroseconds();
+            //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+        }
+        break;
+    }
+    case followingWall:
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            myState = rotating;
+            initialTurningAngle=getAngle();
+            setCarrotPosition(0,45);
+            startTimeState = getTimeMicroseconds();
+            //printf("transitioning from following for a wall to rotating\n");
+
+        }
+        else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+            myState=lookingForWall;
+            startTimeState = getTimeMicroseconds();
+
+            //printf("transitioning from following to  looking \n");
+
+
+        }
+        else{
+            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
+            double carrotAngle;
+            double wallDistance = getDistanceLeftWall();
+            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
+            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
+            setCarrotPosition(carrotDistance,carrotAngle);
+
+        }
+
+        break;
+    }
+
+}
 
 void states::collectBlock(int color){
     static long long int startTimeState;
@@ -172,6 +267,7 @@ void states::collectBlock(int color){
             else{
                 myServosControl->sortRed();
             }
+            setCarrotPosition(-18,0);
             startTimeState = getTimeMicroseconds();
         }
         break;
@@ -227,6 +323,8 @@ void states::collectBlock(int color){
 
 void states::goToPoint(double distance, double angle){
     enum goToPointState{turning, going};
+    static long long int startTimeState;
+    long long int difTime;
     static goToPointState myState=turning;
     static double myDistance=0;
     static double myAngle=0;
@@ -238,17 +336,22 @@ void states::goToPoint(double distance, double angle){
         myAngle=angle;
         myDistance=distance;
         setCarrotPosition(0,myAngle);
+        startTimeState=getTimeMicroseconds();
     }
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
     switch(myState){
     case turning:
         angleError=getAngleToCarrot();
-        if (angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE){
+        if ((angleError<=GO_TO_POINT_PRECISION_ANGLE&& -angleError<=GO_TO_POINT_PRECISION_ANGLE)||
+                difTime>GO_TO_POINT_TURNING_TIMEOUT_MS){
             setCarrotPosition(myDistance,angleError);
             myState=going;
+            startTimeState=getTimeMicroseconds();
         }
         break;
     case going:
-        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES){
+        if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES ||
+                startTimeState>GO_TO_POINT_POSITION_TIMEOUT_MS){
             finishedGoingToPoint=1;
             wentToPoint=0;
         }
@@ -257,19 +360,43 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
+    enum followPointStates {updating,updated};
+    static followPointStates myState = updating;
+    static long long int startTimeState;
+
     followedPoint=1;
     if(!followingPoint){
         finishedFollowingPoint=0;
+        startTimeState = getTimeMicroseconds();
+        myState=updating;
     }
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
 
-    if(!finishedFollowingPoint){
-        if (distance<FOLLOW_POINT_DISTANCE_INCHES){
-            finishedFollowingPoint=1;
-            followedPoint=0;
-            setCarrotPosition(0,0);
+    switch(myState){
+    case updating:
+        if(!finishedFollowingPoint){
+            if (distance<FOLLOW_POINT_DISTANCE_INCHES+FOLLOW_POINT_PRECISION_INCHES){
+                finishedFollowingPoint=1;
+                followedPoint=0;
+                setCarrotPosition(0,0);
+            }
+            else{
+                distance-=FOLLOW_POINT_DISTANCE_INCHES;
+                if (distance>FOLLOW_POINT_CARROT_DISTANCE)
+                    setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+                else
+                    setCarrotPosition(distance,angle);
+
+            }
         }
-        else{
-            setCarrotPosition(FOLLOW_POINT_CARROT_DISTANCE,angle);
+        startTimeState = getTimeMicroseconds();
+        myState=updated;
+        break;
+    case updated:
+        if(difTime>FOLLOW_POINT_UPDATE_RATE_MS){
+            startTimeState = getTimeMicroseconds();
+            myState=updating;
         }
     }
 }
@@ -333,6 +460,10 @@ double states::cartesianCoordinatesToAngle(double frontDistance, double sideDist
     return atan2(sideDistance,frontDistance) / PI *180;
 }
 
+
+volatile double states::getDistanceLeftWall(){
+    return mySensors->leftShortIRData;
+}
 
 volatile double states::getDistanceRightWall(){
     return mySensors->rightShortIRData;

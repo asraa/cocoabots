@@ -1,5 +1,5 @@
 #include "statelookingforblocks.h"
-
+#include "stateapproachblock.h"
 
 stateLookingForBlocks::stateLookingForBlocks(states *previousState):states(previousState)
 {
@@ -11,7 +11,7 @@ void stateLookingForBlocks::processData(){
         wallFollow();
 
     if(foundCube()){
-        nextState=new stateGoingToCube(this);
+        nextState=new stateApproachBlock(this);
     }
     finishProcessData();
 }

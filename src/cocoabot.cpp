@@ -7,6 +7,7 @@
 
 actuator * actPointerMain;
 cocoabot *cocoabotPointer;
+//Global function that assures that we stop the motors when stopping the robot.
 void stopMotorsMain(int signo)
 {
     if (signo == SIGINT) {
@@ -194,7 +195,7 @@ void cocoabot::run(int argc, char **argv){
                 cubePosition=myState->getDistanceNearestCube();
                 cubeAngle = myState->getAngleNearestCube();
                 cubeColor =myState->getColorNearestCube();
-                printf("I found a cube at %lf in, %lf, degrees.\n", cubePosition,cubeAngle, cubeColor);
+                printf("I found a cube at %lf in, %lf, degrees.\n", cubePosition,cubeAngle);
                 myState->followPoint(myState->getDistanceNearestCube(), myState->getAngleNearestCube());
             }
             else

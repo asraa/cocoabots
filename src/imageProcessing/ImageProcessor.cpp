@@ -87,7 +87,7 @@ void ImageProcessor::local_map_refresh() {
 void ImageProcessor::writeToFile(std::string fn) {
     cv::Mat temp;
     frame.copyTo(temp);
-    cv::imwrite(fn,frame);
+    cv::imwrite(fn,temp);
 }
 
 // singled out to avoid adding pointers to each global variable

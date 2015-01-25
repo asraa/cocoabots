@@ -30,6 +30,7 @@ public:
 
     //Positive is defined to be to the right, i.e. a negative side distance will make it turn to the left
     double cartesianCoordinatesToAngle(double frontDistance, double sideDistance);
+    volatile double getDistanceLeftWall();
     volatile double getDistanceRightWall();
     volatile double getDistanceFrontWall();
     double getAngleDifference(double angle1, double angle2);
@@ -56,6 +57,8 @@ public:
     void stop();
 
     //wallFollow(); Follow a wall on the right
+    void wallFollowLeft(); //procedure to wall follow
+    void wallFollowRight(); //procedure to wall follow
     void wallFollow(); //procedure to wall follow
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data
     int wallFollowing; //Variable that says if we have wall folowed on the previous iteration of the state machine process data

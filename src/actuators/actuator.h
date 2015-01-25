@@ -29,11 +29,11 @@ public:
 
     //Those points should point to the values that we desire to write to the motors
     int running;
-    double * rightWheelPower;
-    double * leftWheelPower;
-    double * sortServoAngle;
-    double * armServoAngle;
-    double * hookServoAngle;
+    volatile double * rightWheelPower;
+    volatile double * leftWheelPower;
+    volatile double * sortServoAngle;
+    volatile double * armServoAngle;
+    volatile double * hookServoAngle;
 
 
     std::thread *runThread;
