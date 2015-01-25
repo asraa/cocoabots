@@ -91,7 +91,7 @@ private:
     double powerMinimumThreshold(double power);
 
 
-    sensorsModule * mysensors;
+    volatile sensorsModule * mysensors;
 };
 
 #endif // MOTORSCONTROL_H
