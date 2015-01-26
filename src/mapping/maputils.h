@@ -20,6 +20,8 @@ struct mapPosition {
 		return (x==p.x) && (y==p.y);
 	}
 	mapPosition():x(0),y(0){}
+	mapPosition(int X, int Y):x(X),y(Y){}
+
 };
 
 struct mapCubeStack {
@@ -27,6 +29,7 @@ struct mapCubeStack {
 	int mid;
 	int top;
 	mapCubeStack():bot(0),mid(0),top(0){}
+	mapCubeStack(int BOT, int MID, int TOP):bot(BOT),mid(MID),top(TOP){}
 };
 
 struct mapPositionComparator {
