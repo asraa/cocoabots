@@ -4,7 +4,7 @@ startLocation::startLocation(int ri, int rf): objectsSuperClass(ri, rf) {
 	// do nothin
 }
 
-void startLocation::addStringVector(stringVector strVec) {
+void startLocation::addStringVector(mapStringVector strVec) {
 	std::string tempString;
 	const char* tempChar;
 	std::vector<int> tempInts;
@@ -17,6 +17,6 @@ void startLocation::addStringVector(stringVector strVec) {
 		tempInts.push_back(tempInt);
 	}
 
-	position Pos1 = std::make_tuple(tempInts[0],tempInts[1]);
+	mapPosition Pos1 = {tempInts[0],tempInts[1]};
 	addPosition(Pos1);
 }

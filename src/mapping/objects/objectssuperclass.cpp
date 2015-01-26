@@ -2,34 +2,32 @@
 
 objectsSuperClass::objectsSuperClass(int ri, int rf)
 {
-	position max_pos = std::make_tuple(0,0);
+	MAX_POS = {0,0};
 	res_init = ri;
 	res_fin = rf;
 }
 
-void objectsSuperClass::addPosition(position Pos) {
+void objectsSuperClass::addPosition(struct mapPosition Pos) {
 	posList.push_back(Pos);
 }
 
-objectsSuperClass::positionVector objectsSuperClass::getPositions() {
+mapPositionVector objectsSuperClass::getPositions() {
 	return posList;
 }
 
-objectsSuperClass::position objectsSuperClass::getMaxPos(positionVector posVec) {
-	int posVecMaxX = 0;
-	int posVecMaxY = 0;
+struct mapPosition objectsSuperClass::getMaxPos(mapPositionVector posVec) {
+	int maxX = 0;
+	int maxY = 0;
 	for (int i = 0; i < posVec.size(); ++i) {
-		int x = std::get<0>(posVec[i]);
-		int y = std::get<1>(posVec[i]);
-		if (x > posVecMaxX) {
-			posVecMaxX = x;
+		if (posVec[i].x > maxX) {
+			maxX = posVec[i].x;
 		}
-		if (y > posVecMaxY) {
-			posVecMaxY = y;
+		if (posVec[i].y > maxY) {
+			maxY = posVec[i].y;
 		}
 	}
 
-	position Pos = std::make_tuple(posVecMaxX,posVecMaxY);
+	mapPosition Pos = {maxX,maxY};
 	return Pos;
 }
 
@@ -37,61 +35,56 @@ void objectsSuperClass::updateMaxPos() {
 	MAX_POS = getMaxPos(getPositions());
 }
 
-bool objectsSuperClass::checkIfEnclosed(int x, int y, positionVector posVec, position maxPos) {
-	bool enclosedU, enclosedD, enclosedL, enclosedR = false;
+// bool objectsSuperClass::checkIfEnclosed(int x, int y, mapPositionVector posVec, struct mapPosition maxPos) {
+// 	bool enclosedU, enclosedD, enclosedL, enclosedR = false;
 
-	for (int yTemp = y; yTemp >= 0; --yTemp) {
-		position Pos = std::make_tuple(x,yTemp);
-		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
-			enclosedU = true;
-		}
-	}
+// 	for (int yTemp = y; yTemp >= 0; --yTemp) {
+// 		mapPosition Pos = {x,yTemp};
+// 		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
+// 			enclosedU = true;
+// 		}
+// 	}
 
-	for (int yTemp = y; yTemp <= std::get<1>(maxPos); ++yTemp) {
-		position Pos = std::make_tuple(x,yTemp);
-		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
-			enclosedD = true;
-		}
-	}
+// 	for (int yTemp = y; yTemp <= maxPos.y; ++yTemp) {
+// 		mapPosition Pos = {x,yTemp};
+// 		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
+// 			enclosedD = true;
+// 		}
+// 	}
 
-	for (int xTemp = x; xTemp >= 0; --xTemp) {
-		position Pos = std::make_tuple(xTemp,y);
-		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
-			enclosedL = true;
-		}
-	}
+// 	for (int xTemp = x; xTemp >= 0; --xTemp) {
+// 		mapPosition Pos = {xTemp,y};
+// 		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
+// 			enclosedL = true;
+// 		}
+// 	}
 
-	for (int xTemp = x; xTemp <= std::get<0>(maxPos); ++xTemp) {
-		position Pos = std::make_tuple(xTemp,y);
-		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
-			enclosedR = true;
-		}
-	}
+// 	for (int xTemp = x; xTemp <= maxPos.x; ++xTemp) {
+// 		mapPosition Pos = {xTemp,y};
+// 		if (std::find(posVec.begin(), posVec.end(), Pos) != posVec.end()) {
+// 			enclosedR = true;
+// 		}
+// 	}
 
-	return (enclosedU && enclosedD && enclosedR && enclosedL);
-}
+// 	return (enclosedU && enclosedD && enclosedR && enclosedL);
+// }
 
-objectsSuperClass::positionVector objectsSuperClass::createLine(position Pos1, position Pos2) {
-	positionVector PosVec;
-
-	int x1 = std::get<0>(Pos1);
-	int y1 = std::get<1>(Pos1);
-	int x2 = std::get<0>(Pos2);
-	int y2 = std::get<1>(Pos2);
+mapPositionVector objectsSuperClass::createLine(struct mapPosition Pos1, struct mapPosition Pos2) {
+	mapPositionVector PosVec;
 
 	int xsgn, ysgn;
 	int deltaX, deltaY, maxDelta;
 
-	deltaX = (x2 - x1);
-	deltaY = (y2 - y1);
+	deltaX = (Pos2.x - Pos1.x);
+	deltaY = (Pos2.y - Pos1.y);
 	xsgn = sign(deltaX);
 	ysgn = sign(deltaY);
 	maxDelta = std::max(fabs(deltaX),fabs(deltaY));
 
 	for (int i = 0; i <= maxDelta; ++i) {
-		int xCoord = x1 + xsgn*i;
-		int yCoord = y1 + ysgn*i;
-		position Pos = std::make_tuple(xCoord,yCoord);
+		int xCoord = Pos1.x + xsgn*i;
+		int yCoord = Pos1.y + ysgn*i;
+		mapPosition Pos = {xCoord, yCoord};
 		PosVec.push_back(Pos);
 	}
 

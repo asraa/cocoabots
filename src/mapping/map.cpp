@@ -10,19 +10,19 @@ startLoc(RES_INIT, RES_FIN) {
     
     //want to add: getSonarReading(position currentPos, angle orientation)
 
-	MAX_POS = std::make_tuple(0,0);
+	MAX_POS = {0,0};
 	mapFilename = filename;
 	buildMap(mapFilename);
 }
 
-bool map::isPassable(position Pos) {
+bool map::isPassable(struct mapPosition Pos) {
 	bool isPassable = true;
 	int x, y;
 	int range = ceil(ROBOT_SIZE / RES_FIN);
-	positionVector posVec = generateSquareAroundPoint(Pos, range);
+	mapPositionVector posVec = generateSquareAroundPoint(Pos, range);
 	for (int i = 0; i < posVec.size(); ++i) {
-		x = fmax(0,fmin(std::get<0>(posVec[i]),std::get<0>(MAX_POS)));
-		y = fmax(0,fmin(std::get<1>(posVec[i]),std::get<1>(MAX_POS)));
+		x = fmax(0,fmin(posVec[i].x,MAX_POS.x));
+		y = fmax(0,fmin(posVec[i].y,MAX_POS.y));
 		if (!typeIsPassable(mapVector[x][y])) {
 			isPassable = false;
 		}
@@ -40,15 +40,13 @@ bool map::typeIsPassable(int type) {
 	return isPassable;
 }
 
-map::positionVector map::generateSquareAroundPoint(position Pos, int diameter) {
-	positionVector tempVec;
-	position tempPos;
+mapPositionVector map::generateSquareAroundPoint(struct mapPosition Pos, int diameter) {
+	mapPositionVector tempVec;
+	mapPosition tempPos;
 	int radius = ceil(diameter/2);
-	int x = std::get<0>(Pos);
-	int y = std::get<1>(Pos);
 	for (int offx = -radius; offx <= radius; ++offx) {
 		for (int offy = -radius; offy <= radius; ++offy) {
-			tempPos = std::make_tuple(x+offx,y+offy);
+			tempPos = {Pos.x+offx,Pos.y+offy};
 			tempVec.push_back(tempPos);
 		}
 	}
@@ -59,12 +57,13 @@ void map::buildMap(std::string filename) {
 	parseMapFile(filename);
 	parseObjects();
 	floodFillOutside(); // fill the outside map with 6's
+	floodFillHomeBase();
 	printMapFile("map.txt");
 }
 
 void map::parseMapFile(std::string mapFilename) {
 	std::string currentLine;
-	std::vector< std::string > tempVector;
+	mapStringVector tempVector;
 
 	std::ifstream mapFile;
 	mapFile.open(mapFilename);
@@ -108,23 +107,15 @@ void map::parseMapFile(std::string mapFilename) {
 }
 
 void map::parseObjects() {
-	positionVector tempVec;
+	mapPositionVector tempVec;
 	tempVec.push_back(walls.MAX_POS);
 	tempVec.push_back(platforms.MAX_POS);
 	tempVec.push_back(stacks.MAX_POS);
 	tempVec.push_back(homeBases.MAX_POS);
 	tempVec.push_back(startLoc.MAX_POS);
 	MAX_POS = getMaxPos(tempVec);
-	int MAX_POSX = std::get<0>(MAX_POS);
-	int MAX_POSY = std::get<1>(MAX_POS);
 
-	for (int i = 0; i < tempVec.size(); ++i) {
-		position pos = tempVec[i];
-		int posx = std::get<0>(pos);
-		int posy = std::get<1>(pos);
-	}
-
-	mapVector = createZeroMap(std::get<0>(MAX_POS),std::get<1>(MAX_POS));
+	mapVector = createZeroMap(MAX_POS.x,MAX_POS.y);
 
 	tempVec.clear();
 	tempVec = walls.getPositions();
@@ -157,33 +148,31 @@ void map::parseObjects() {
 	}
 }
 
-void map::writeMapVector(position Pos, int type) {
+void map::writeMapVector(struct mapPosition Pos, int type) {
 	// 0 = empty
 	// 1 = wall
 	// 2 = platform
 	// 3 = stack
 	// 4 = homebase
 	// 5 = startloc
-	int x = std::get<0>(Pos);
-	int y = std::get<1>(Pos);
-	int current = mapVector[x][y];
+	int current = mapVector[Pos.x][Pos.y];
 	switch(current) {
-		case 0 : mapVector[x][y] = type;
+		case 0 : mapVector[Pos.x][Pos.y] = type;
 		case 1 : if (type == 2 || type == 3 || type == 5) {
-			mapVector[x][y] = type;
+			mapVector[Pos.x][Pos.y] = type;
 		}
 		case 2 : if (type == 3 || type == 5) {
-			mapVector[x][y] = type;
+			mapVector[Pos.x][Pos.y] = type;
 		}
 		case 4 : if (type == 1 || type == 2 || type == 3 || type == 5) {
-			mapVector[x][y] = type;
+			mapVector[Pos.x][Pos.y] = type;
 		}
 	}
 }
 
-map::gridMap map::createZeroMap(int xDim, int yDim) {
+mapGridMap map::createZeroMap(int xDim, int yDim) {
 	std::vector<int> tempVector;
-	gridMap tempMap;
+	mapGridMap tempMap;
 
 	for (int x = 0; x <= xDim; ++x) {
 		tempVector.clear();
@@ -195,21 +184,19 @@ map::gridMap map::createZeroMap(int xDim, int yDim) {
 	return tempMap;
 }
 
-map::position map::getMaxPos(positionVector posVec) {
-	int posVecMaxX = 0;
-	int posVecMaxY = 0;
+struct mapPosition map::getMaxPos(mapPositionVector posVec) {
+	int maxX = 0;
+	int maxY = 0;
 	for (int i = 0; i < posVec.size(); ++i) {
-		int x = std::get<0>(posVec[i]);
-		int y = std::get<1>(posVec[i]);
-		if (x > posVecMaxX) {
-			posVecMaxX = x;
+		if (posVec[i].x > maxX) {
+			maxX = posVec[i].x;
 		}
-		if (y > posVecMaxY) {
-			posVecMaxY = y;
+		if (posVec[i].y > maxY) {
+			maxY = posVec[i].y;
 		}
 	}
 
-	position Pos = std::make_tuple(posVecMaxX,posVecMaxY);
+	mapPosition Pos = {maxX,maxY};
 	return Pos;
 }
 
@@ -217,8 +204,8 @@ void map::printMapFile(std::string filename) {
 	std::ofstream outFile;
 	outFile.open(filename);
 
-	for (int y = 0; y <= std::get<1>(MAX_POS); ++y) {
-		for (int x = 0; x <= std::get<0>(MAX_POS); ++x) {
+	for (int y=MAX_POS.y; y >= 0; --y) {
+		for (int x = 0; x <= MAX_POS.x; ++x) {
 			outFile << mapVector[x][y];
 		}
 		outFile << std::endl;
@@ -247,58 +234,53 @@ int map::convertInd(int ind, int gridResInit, int gridResFin) {
 	return convertedInd;
 }
 
-double map::getDistance(position Pos1, position Pos2) {
-	int x1, y1, x2, y2;
+double map::getDistance(struct mapPosition Pos1, struct mapPosition Pos2) {
 	double dx1, dy1, dx2, dy2;
 
-	x1 = std::get<0>(Pos1);
-	y1 = std::get<1>(Pos1);
-	x2 = std::get<0>(Pos2);
-	y2 = std::get<1>(Pos2);
-
-	dx1 = indToInch(x1);
-	dy1 = indToInch(y1);
-	dx2 = indToInch(x2);
-	dy2 = indToInch(y2);
+	dx1 = indToInch(Pos1.x);
+	dy1 = indToInch(Pos1.y);
+	dx2 = indToInch(Pos2.x);
+	dy2 = indToInch(Pos2.y);
 
 	double answer = sqrt(pow(dx2-dx1,2)+pow(dy2-dy1,2));
 	return answer;
 }
 
 //returns a position vector for a line of sight
-map::position map::getEndPoint(position Pos1, int orientation){
+struct mapPosition map::getEndPoint(struct mapPosition Pos1, int orientation){
     double deltaX = cos(orientation*3.1415/180.0);
     double deltaY = sin(orientation*3.1415/180.0);
-    int x = std::get<0>(Pos1);
-    int y = std::get<1>(Pos1);
-    double newX = x;
-    double newY = y;
-    position tempPos = Pos1;
+    double newX = Pos1.x;
+    double newY = Pos1.y;
+    mapPosition tempPos = Pos1;
     while (isPassable(tempPos)){
         newX += deltaX;
         newY += deltaY;
-        tempPos = std::make_tuple(ceil(newX),ceil(newY));
+        int tempX, tempY;
+        tempX = ceil(newX);
+        tempY = ceil(newY);
+        tempPos = {tempX,tempY};
     }
 
     return tempPos; //first blocked pos
 }
 
 //returns an ideal "sonar" reading for a position and vector
-double map::getSonarReading(position Pos1, int orientation){
-    position imped = getEndPoint(Pos1, orientation);
+double map::getSonarReading(struct mapPosition Pos1, int orientation){
+    mapPosition imped = getEndPoint(Pos1, orientation);
     return getDistance(Pos1, imped);
 }
 
-map::position map::getClosestHomeBase(position currentPos) {
+struct mapPosition map::getClosestHomeBase(struct mapPosition currentPos) {
 	return getClosestItem(currentPos, homeBases.getPositions());
 }
 
-map::position map::getClosestStack(position currentPos) {
+struct mapPosition map::getClosestStack(struct mapPosition currentPos) {
 	return getClosestItem(currentPos, stacks.getPositions());
 }
 
-map::position map::getClosestItem(position currentPos, positionVector posVec) {
-	position minPos = std::make_tuple(0,0);
+struct mapPosition map::getClosestItem(struct mapPosition currentPos, mapPositionVector posVec) {
+	mapPosition minPos = {0,0};
 	double minDistance;
 	if (!posVec.empty()) {
 		minPos = posVec[0];
@@ -312,11 +294,11 @@ map::position map::getClosestItem(position currentPos, positionVector posVec) {
 	return minPos;
 }
 
-map::cubeTuple map::lookupStackOrder(position stackPos) {
+struct mapCubeStack map::lookupStackOrder(struct mapPosition stackPos) {
 	return stacks.getCubeStack(stackPos);
 }
 
-void map::removeStack(position stackPos) {
+void map::removeStack(struct mapPosition stackPos) {
 	stacks.removeStack(stackPos);
 }
 
@@ -332,36 +314,43 @@ int map::inchToInd(double inch) {
 
 void map::floodFillOutside() {
 	int x, y;
-	position pos;
-	int target, replacement;
-	target = EMPTY;
-	replacement = OUTSIDE;
-	for (x = 0; x <= std::get<0>(MAX_POS); ++x) {
-		pos = std::make_tuple(x,0);
+	mapPosition pos;
+	int target = EMPTY;
+	int replacement = OUTSIDE;
+	for (x = 0; x <= MAX_POS.x; ++x) {
+		pos = {x,0};
 		floodFill(pos, target, replacement);
-		pos = std::make_tuple(x,std::get<1>(MAX_POS));
+		pos = {x,MAX_POS.y};
 		floodFill(pos, target, replacement);
 	}
-	for (y = 0; y <= std::get<1>(MAX_POS); ++y) {
-		pos = std::make_tuple(0,y);
+	for (y = 0; y <= MAX_POS.y; ++y) {
+		pos = {0,y};
 		floodFill(pos, target, replacement);
-		pos = std::make_tuple(std::get<0>(MAX_POS),y);
+		pos = {MAX_POS.x,y};
 		floodFill(pos, target, replacement);
 	}
 }
 
-void map::floodFill(position pos, int target, int replacement) {
-	int x = fmax(0,fmin(std::get<0>(MAX_POS),std::get<0>(pos)));
-	int y = fmax(0,fmin(std::get<1>(MAX_POS),std::get<1>(pos)));
+void map::floodFillHomeBase() {
+	mapPosition pos = getAveragePosition(homeBases.getPositions());
+	int target = EMPTY;
+	int replacement = HOMEBASE;
+	floodFill(pos,target,replacement);
+}
+
+void map::floodFill(struct mapPosition pos, int target, int replacement) {
+	int x = fmax(0,fmin(MAX_POS.x,pos.x));
+	int y = fmax(0,fmin(MAX_POS.y,pos.y));
+	pos = {x,y};
 	int color = mapVector[x][y];
 	if (target == replacement) {
 	}
 	else if (color == target) {
-		writeMapVector(std::make_tuple(x,y),replacement);
-		position west = std::make_tuple(x-1,y);
-		position east = std::make_tuple(x+1,y);
-		position north = std::make_tuple(x,y+1);
-		position south = std::make_tuple(x,y-1);
+		writeMapVector(pos,replacement);
+		mapPosition west = {x-1,y};
+		mapPosition east = {x+1,y};
+		mapPosition north = {x,y+1};
+		mapPosition south = {x,y-1};
 		floodFill(west,target,replacement);
 		floodFill(east,target,replacement);
 		floodFill(north,target,replacement);
@@ -369,9 +358,23 @@ void map::floodFill(position pos, int target, int replacement) {
 	}
 }
 
+struct mapPosition map::getAveragePosition(mapPositionVector posVec) {
+	int x, y;
+	int xTot = 0;
+	int yTot = 0;
+	for (int i = 0; i < posVec.size(); i++) {
+		xTot += posVec[i].x;
+		yTot += posVec[i].y;
+	}
+	x = round(xTot/posVec.size());
+	y = round(yTot/posVec.size());
+	mapPosition Pos = {x,y};
+	return Pos;
+}
 
-int main(){
-    map myMap("red_map.txt");
+int main_map(){
+    map myMap("practice_map.txt");
+    std::cout << sizeof(myMap.mapVector) << std::endl;
 }
 
 //map myMap("green_map.txt");

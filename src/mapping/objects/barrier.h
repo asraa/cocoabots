@@ -7,7 +7,7 @@ class barrier: public objectsSuperClass
 {
 	public:
 		barrier(int ri, int rf);
-		void addStringVector(stringVector strVec);
+		void addStringVector(mapStringVector strVec);
 };
 
 #endif
