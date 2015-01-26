@@ -459,12 +459,16 @@ int map::inchToInd(double inch) {
 
 double map::getStartLocationX(){
     mapPosition startPos = startLoc.getPositions()[0];
-    return startPos.x;
+    double x = startPos.x;
+    x= indToInch(x);
+    return x;
 
 }
 
 double map::getStartLocationY(){
     mapPosition startPos = startLoc.getPositions()[0];
+    double y = startPos.y;
+    y=indToInch(y);
     return startPos.y;
 }
 void map::floodFillOutside() {
