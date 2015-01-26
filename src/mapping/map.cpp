@@ -36,7 +36,7 @@ startLoc(RES_INIT, RES_FIN) {
 bool map::isPassable(struct mapPosition Pos) {
 	int x, y;
 	int range = floor(ROBOT_SIZE / RES_FIN);
-	mapPositionVector posVec = generateSquareAroundPoint(Pos, range);
+	mapPositionVector posVec = generateCircleAroundPoint(Pos, range);
 	for (int i = 0; i < posVec.size(); ++i) {
 		x = fmax(0,fmin(posVec[i].x,MAX_POS.x));
 		y = fmax(0,fmin(posVec[i].y,MAX_POS.y));
@@ -74,6 +74,18 @@ bool map::typeIsPassable(int type) {
 	return isPassable;
 }
 
+mapPositionVector map::generateCircleAroundPoint(struct mapPosition Pos, int diameter) {
+	mapPositionVector tempVec;
+	mapPosition tempPos;
+	int radius = ceil(diameter/2);
+	for (int theta = 0; theta <= 360; theta += 5) {
+		tempPos.x = round(Pos.x + radius*cos(theta));
+		tempPos.y = round(Pos.y + radius*sin(theta));
+		tempVec.push_back(tempPos);
+	}
+	return tempVec;
+}
+
 mapPositionVector map::generateSquareAroundPoint(struct mapPosition Pos, int diameter) {
 	mapPositionVector tempVec;
 	mapPosition tempPos1, tempPos2;
@@ -98,6 +110,7 @@ void map::buildMap(std::string filename) {
 	parseObjects();
 	floodFillOutside(); // fill the outside map with 6's
 	floodFillHomeBase();
+	floodFill({100,100},0,1);
 	printMapFile("map.txt");
 	// buildMapRRT();
 }
@@ -458,7 +471,7 @@ mapPositionVector map::findPathRRT(struct mapPosition startPos, struct mapPositi
 	int K = 0;
 
 	while (!(latestConnectedPosConnectsGoalPos) && K < KMAX) {
-		// std::cout << K << std::endl;
+		//std::cout << K << std::endl;
 		nextPos = randConfRRT();
 		nearestPosInd = nearestVertexIndiceRRT(nextPos);
 		nearestPos = getPosAtIndiceRRT(nearestPosInd);
@@ -466,8 +479,10 @@ mapPositionVector map::findPathRRT(struct mapPosition startPos, struct mapPositi
 			nextNode = {nextPos,nearestPosInd};
 			nodeVectorRRT.push_back(nextNode);
 			latestConnectedPos = nextNode.pos;
-			if (isConnectableRRT(latestConnectedPos,goalPos)) {
-				latestConnectedPosConnectsGoalPos = true;
+			if (getDistance(latestConnectedPos,goalPos) < ROBOT_SIZE) {
+				if (isConnectableRRT(latestConnectedPos,goalPos)) {
+					latestConnectedPosConnectsGoalPos = true;
+				}
 			}
 		}
 		K++;
@@ -606,21 +621,20 @@ struct mapPosition map::stepFromToRRT(struct mapPosition Pos1, struct mapPositio
 	}
 }
 
-int main_map() {
+int main() {
 	map myMap("practice_map.txt");
-	std::cout << measure<>::execution( [&]() {
-    map myMap("practice_map.txt");
     mapPosition startPos = myMap.startLoc.getPositions()[0];
     mapPosition goalPos = myMap.stacks.getPositions()[0];
-    mapPositionVector path = myMap.findPathRRT(startPos, goalPos, 100);
-    for (int i = 0; i < path.size(); i++) {
-    	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
-    }
+	std::cout << measure<>::execution( [&]() {
+    mapPositionVector path = myMap.findPathRRT(startPos, goalPos, 5000);
+}) << std::endl;
+	// for (int i = 0; i < path.size(); i++) {
+ //    	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
+ //    }
     std::cout << "You needed " << myMap.nodeVectorRRT.size() << " iterations." << std::endl;
     std::cout << "the start was: (" << startPos.x << "," << startPos.y << ")" << std::endl;
     std::cout << "the goal was: (" << goalPos.x << "," << goalPos.y << ")" << std::endl;
     std::cout << "congrats you did it!" << std::endl;
-}) << std::endl;
 }
 
 //map myMap("green_map.txt");

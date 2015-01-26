@@ -33,6 +33,7 @@ class map
 		map(std::string filename);
 		bool isPassable(struct mapPosition Pos);
 		bool typeIsPassable(int type);
+		mapPositionVector generateCircleAroundPoint(struct mapPosition Pos, int diameter);
 		mapPositionVector generateSquareAroundPoint(struct mapPosition Pos, int diameter);
 		void buildMap(std::string filename);
 		void buildMapRRT();
