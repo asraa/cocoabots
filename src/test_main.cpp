@@ -798,6 +798,7 @@ int main(int argc, char** argv){
             double x = myMap.getStartLocationX();
             double y = myMap.getStartLocationY();
             particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
+            myMap.printMapFile("myMapDebug.txt");
             while(RUNNING){
                 myParticleFilter.createSimpleWebpageView("particleFilter.html", "map2.png");
                 usleep(200000.0);

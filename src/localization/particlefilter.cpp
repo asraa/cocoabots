@@ -199,9 +199,9 @@ struct particleFilterParticle particleFilter::updateRobotPosition(){
     std::vector <double> tempProbabilities = myProbabilities;
     int numberOfParticles = tempParticles.size();
     double probabilityNormalizationFactor=0;
-    double x;
-    double y;
-    double angle;
+    double x=0;
+    double y=0;
+    double angle=0;
     double tempProbability;
     struct particleFilterParticle tempParticle;
 
