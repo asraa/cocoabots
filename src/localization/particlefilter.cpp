@@ -403,7 +403,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
         webpage << "context.save();\n" << std::endl;
 
         //centralizes the image.
-        webpage<< "context.translate(8, 8);\n"
+        webpage<< "context.translate(0, 0);\n"
               // << "context.translate(320, 240);\n"
                << std::endl;
 
@@ -411,7 +411,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
                    "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-        webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
+        webpage <<"context.drawImage("<<nameOfImage<<", -8, -8);\n"<< std::endl;
 
         webpage <<"context.restore();\n"<< std::endl;
     }
@@ -427,7 +427,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     webpage << "context.save();\n" << std::endl;
 
     //centralizes the image.
-    webpage<< "context.translate(11, 9);\n"
+    webpage<< "context.translate(0, 0);\n"
          //  << "context.translate(320, 240);\n"
            << std::endl;
 
@@ -435,7 +435,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
                "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-    webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
+    webpage <<"context.drawImage("<<nameOfImage<<", -11, -9);\n"<< std::endl;
 
     webpage <<"context.restore();\n"<< std::endl;
 }
