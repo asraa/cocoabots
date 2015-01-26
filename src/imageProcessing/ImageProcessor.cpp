@@ -109,7 +109,7 @@ void ImageProcessor::doStuff() {
     clock_t start = clock(); // for debug
 
     vid_cap.retrieve(frame); // get a new frame from camera
-    cv::resize(frame,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
+    cv::resize(frame,frame,cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
 
     detectWall(frame);
     detectBlocks(frame);
