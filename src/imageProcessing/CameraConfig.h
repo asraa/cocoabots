@@ -45,8 +45,8 @@ static Eigen::Matrix3d ROT_MAT = ((Eigen::Matrix3d() << 1,        0,            
                                                         0, cos(CAM_ANGLE_VERT), -sin(CAM_ANGLE_VERT),
                                                         0, sin(CAM_ANGLE_VERT), cos(CAM_ANGLE_VERT)).finished());
 
-static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*CAM_MAT_fx), 0, (FRAME_RESIZE_SCALE*CAM_MAT_cx),
-                                                    0, (FRAME_RESIZE_SCALE*CAM_MAT_fy), (FRAME_RESIZE_SCALE*CAM_MAT_cy),
+static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (CAM_MAT_fx), 0, (CAM_MAT_cx),
+                                                    0, (CAM_MAT_fy), (CAM_MAT_cy),
                                                     0, 0, 1).finished())*ROT_MAT);
 
 static Eigen::Matrix3d CAM_MAT_INV = (CAM_MAT.inverse());
