@@ -127,11 +127,20 @@ void particleFilter::updateProbabilities(){
 #endif
 
 #if PARTICLE_FILTER_RIGHT == 1
-    realBackReading=mySensors->backShortIRData;
+    realRightReading=mySensors->rightShortIRData;
 #endif
 
 #if PARTICLE_FILTER_RIGHT ==2
-    realBackReading=mySensors->backUltrasonicData;
+    realRightReading=mySensors->rightUltrasonicData;
+#endif
+
+
+#if PARTICLE_FILTER_LEFT == 1
+    realLeftReading=mySensors->leftShortIRData;
+#endif
+
+#if PARTICLE_FILTER_LEFT ==2
+    realLeftReading=mySensors->leftUltrasonicData;
 #endif
 
     for (int i=0; i<numberOfParticles; i++){
@@ -154,12 +163,26 @@ void particleFilter::updateProbabilities(){
     likelyhood=1;
 #if PARTICLE_FILTER_FRONT == 1
     if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
-        likelyhood*=nor
+        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
     }
 #endif
 
 #if PARTICLE_FILTER_FRONT ==2
     if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+
+    }
+#endif
+
+#if PARTICLE_FILTER_BACK == 1
+    if (backReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+    }
+#endif
+
+#if PARTICLE_FILTER_BACK ==2
+    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
     }
 #endif

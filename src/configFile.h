@@ -237,10 +237,10 @@
 #define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
 
-#define PARTICLE_FILTER_FRONT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
-#define PARTICLE_FILTER_BACK 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
-#define PARTICLE_FILTER_LEFT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
-#define PARTICLE_FILTER_RIGHT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
+#define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_RIGHT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
 #define PARTICLE_FILTER_INCHE_PIXEL_RATIO 2 //defined by: real size of map / pixes of map
 
@@ -250,7 +250,9 @@
 #define MAP_ROBOT_DISTANCE_CENTER_BACK 10
 #define MAP_ROBOT_DISTANCE_CENTER_RIGHT 6.0
 #define MAP_ROBOT_DISTANCE_CENTER_LEFT 6.0
-#define MAP_DEBUG 1
+#define MAP_DEBUG 0
+#define MAP_DEBUG_FILE_NAME "myDebugMap.txt"
+
 
 #define PI 3.14159
 #endif // CONFIGFILE_H

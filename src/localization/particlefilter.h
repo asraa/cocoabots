@@ -66,5 +66,5 @@ private:
     sensorsModule * mySensors;
     motorsControl * myMotorsControl;
     map * myMap;
-
+};
 #endif // PARTICLEFILTER_H
