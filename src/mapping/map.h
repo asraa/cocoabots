@@ -3,7 +3,7 @@
 
 #define RES_INIT 24 // inches
 #define RES_FIN 1 // inches
-#define ROBOT_SIZE 29 // max diag inches
+#define ROBOT_SIZE 18 // max diag inches
 #define MAPFILENAME "map.txt"
 #define EMPTY 0
 #define WALL 1
@@ -57,6 +57,23 @@ class map
 		void floodFillOutside();
 		struct mapPosition getAveragePosition(mapPositionVector posVec);
 		void floodFill(struct mapPosition pos, int target, int replacement);
+
+		// RRT begins
+		mapNodeVector nodeVectorRRT;
+		mapPositionVector findPathRRT(struct mapPosition startPos, struct mapPosition end);
+		void printNodes(mapNodeVector nodes, std::string filename);
+		mapPositionVector buildPathRRT(mapNodeVector nodes);
+		struct mapPosition randConfRRT();
+		int nearestVertexIndiceRRT(struct mapPosition pos);
+		int getParentAtIndiceRRT(int indice);
+		struct mapPosition getPosAtIndiceRRT(int indice);
+		bool isConnectableRRT(struct mapPosition startPos, struct mapPosition goalPos);
+		double getThetaRRT(struct mapPosition Pos1, struct mapPosition Pos2);
+		struct mapPosition stepFromToRRT(struct mapPosition Pos1, struct mapPosition Pos2, double stepSize);
+		// RRT ends
+
+
+
 
 		mapPosition MAX_POS;
 

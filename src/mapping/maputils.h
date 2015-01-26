@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <math.h>
 #include <cmath>
+#include <random>
 
 struct mapPosition {
 	int x;
@@ -38,16 +39,17 @@ struct mapPositionComparator {
 	}
 };
 
-// bool operator<(mapCubeStack const& c1, mapCubeStack const& c2)
-// {
-// 	return (c1.bot<c2.bot) || (c1.bot==c2.bot && c1.mid<c2.mid) || (c1.bot==c2.bot && c1.mid==c2.mid && c1.top<c2.top);
-// }
+struct mapNode {
+	struct mapPosition pos;
+	int parent;
+};
 
 typedef std::vector< std::vector<int> > mapGridMap;
 typedef std::vector<struct mapPosition> mapPositionVector;
 typedef mapPositionVector::iterator mapPositionVectorIterator;
 typedef std::vector<std::string> mapStringVector;
 typedef std::map<struct mapPosition, struct mapCubeStack, mapPositionComparator> mapStackDictionary;
+typedef std::vector<struct mapNode> mapNodeVector;
 
 class mapUtils {
 	public:
