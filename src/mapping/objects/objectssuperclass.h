@@ -1,39 +1,27 @@
 #ifndef OBJECTSSUPERCLASS_H
 #define OBJECTSSUPERCLASS_H
 
-#include <iostream>
-#include <vector>
-#include <tuple>
-#include <string>
-#include <algorithm>
-#include <math.h>
+#include "../maputils.h"
 
 class objectsSuperClass
 {	
 	public:
-		typedef std::tuple<int,int> position;
-
-
-		typedef std::vector< position > positionVector;
-		typedef positionVector::iterator positionVectorIterator;
-		typedef std::vector< std::string > stringVector;
-
 		objectsSuperClass(int res_init, int res_fin);
-		virtual void addPosition(position Pos);
-		objectsSuperClass::positionVector getPositions();
-		virtual void addStringVector(stringVector strVec)=0;
-		objectsSuperClass::position getMaxPos(positionVector posVec);
+		virtual void addPosition(struct mapPosition Pos);
+		mapPositionVector getPositions();
+		virtual void addStringVector(mapStringVector strVec)=0;
+		struct mapPosition getMaxPos(mapPositionVector posVec);
 		void updateMaxPos();
-		objectsSuperClass::positionVector createLine(position Pos1, position Pos2);
-		bool checkIfEnclosed(int x, int y, positionVector posVec, position maxPos);
+		mapPositionVector createLine(struct mapPosition Pos1, struct mapPosition Pos2);
+		// bool checkIfEnclosed(int x, int y, mapPositionVector posVec, struct mapPosition maxPos);
 
 		int sign(int num);
 		int convertInd(int ind);
 
 		int res_init, res_fin;
-		objectsSuperClass::position MAX_POS;
-		objectsSuperClass::positionVector posList;
-		objectsSuperClass::positionVectorIterator posListIt;
+		mapPosition MAX_POS;
+		mapPositionVector posList;
+		mapPositionVectorIterator posListIt;
 		// virtual datatype function=what
 };
 

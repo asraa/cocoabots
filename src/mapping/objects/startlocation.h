@@ -7,7 +7,7 @@ class startLocation: public objectsSuperClass
 {
 	public:
 		startLocation(int ri, int rf);
-		void addStringVector(stringVector strVec);
+		void addStringVector(mapStringVector strVec);
 
 };
 

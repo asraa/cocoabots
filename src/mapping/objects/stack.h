@@ -1,22 +1,18 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <map>
 #include "objectssuperclass.h"
 
 class stack: public objectsSuperClass
 {
-	typedef std::tuple<int,int,int> cubeTuple;
-	typedef std::map<position,cubeTuple> stackDictionary;
-	
 	public:
 		stack(int ri, int rf);
-		void addStringVector(stringVector strVec);
-		void addStack(position Pos, cubeTuple Cubes);
-		void removeStack(position Pos);
-		stack::cubeTuple getCubeStack(position Pos);
+		void addStringVector(mapStringVector strVec);
+		void addStack(mapPosition Pos, mapCubeStack cubeStack);
+		void removeStack(mapPosition Pos);
+		struct mapCubeStack getCubeStack(mapPosition Pos);
 
-		stack::stackDictionary stackDict;
+		mapStackDictionary stackDict;
 };
 
 #endif

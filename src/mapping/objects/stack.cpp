@@ -4,7 +4,7 @@ stack::stack(int ri, int rf): objectsSuperClass(ri, rf) {
 	// do shit
 }
 
-void stack::addStringVector(stringVector strVec) {
+void stack::addStringVector(mapStringVector strVec) {
 	std::string tempString;
 	const char* tempChar;
 	std::vector<int> tempInts;
@@ -17,7 +17,7 @@ void stack::addStringVector(stringVector strVec) {
 		tempInts.push_back(tempInt);
 	}
 
-	position Pos1 = std::make_tuple(tempInts[0],tempInts[1]);
+	mapPosition Pos1 = {tempInts[0],tempInts[1]};
 
 	int c1, c2, c3;
 
@@ -40,17 +40,17 @@ void stack::addStringVector(stringVector strVec) {
 		c3 = 1;
 	}
 
-	cubeTuple ccc = std::make_tuple(c1,c2,c3);
+	mapCubeStack ccc = {c1,c2,c3};
 
 	addStack(Pos1, ccc);
 }
 
-void stack::addStack(position Pos, cubeTuple Cubes) {
-	stackDict[Pos] = Cubes;
+void stack::addStack(struct mapPosition Pos, struct mapCubeStack cubeStack) {
+	stackDict[Pos] = cubeStack;
 	addPosition(Pos);
 }
 
-void stack::removeStack(position Pos) {
+void stack::removeStack(mapPosition Pos) {
 	stackDict.erase(stackDict.find(Pos));
 	posListIt = std::find(posList.begin(), posList.end(), Pos);
 	if (posListIt != posList.end()) {
@@ -58,6 +58,6 @@ void stack::removeStack(position Pos) {
 	}
 }
 
-stack::cubeTuple stack::getCubeStack(position Pos) {
+struct mapCubeStack stack::getCubeStack(mapPosition Pos) {
 	return stackDict[Pos];
 }

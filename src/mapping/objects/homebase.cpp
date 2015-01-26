@@ -4,13 +4,13 @@ homeBase::homeBase(int ri, int rf): objectsSuperClass(ri,rf) {
 	// do nothin
 }
 
-void homeBase::addStringVector(stringVector strVec) {
-	positionVector tempPosList, tempPosList2;
+void homeBase::addStringVector(mapStringVector strVec) {
+	mapPositionVector tempPosList, tempPosList2;
 	std::string tempString;
 	const char* tempChar;
 	std::vector<int> tempInts;
 	int tempInt;
-	position Pos1, Pos2;
+	mapPosition Pos1, Pos2;
 
 	for (int i = 0; i < strVec.size(); ++i) {
 		tempString = strVec[i];
@@ -30,7 +30,7 @@ void homeBase::addStringVector(stringVector strVec) {
 	for (int i = 0; i < N; ++i) {
 		int x = tempInts[2*i];
 		int y = tempInts[2*i+1];
-		position tempPos = std::make_tuple(x,y);
+		mapPosition tempPos = {x,y};
 		tempPosList.push_back(tempPos);
 	}
 
@@ -51,14 +51,15 @@ void homeBase::addStringVector(stringVector strVec) {
 	//fillInPolygon(getPositions());
 }
 
-void homeBase::fillInPolygon(positionVector posVec) {
-	position maxPos = getMaxPos(posVec);
-	for (int x = 0; x <= std::get<0>(maxPos); ++x) {
-		for (int y = 0; y <= std::get<1>(maxPos); ++y) {
-			if (checkIfEnclosed(x,y,posVec,maxPos)) {
-				position Pos = std::make_tuple(x,y);
-				addPosition(Pos);
-			}
-		}
-	}
-}
+// void homeBase::fillInPolygon(mapPositionVector posVec) {
+// 	mapPosition Pos;
+// 	mapPosition maxPos = getMaxPos(posVec);
+// 	for (int x = 0; x <= maxPos.x; ++x) {
+// 		for (int y = 0; y <= maxPos.y; ++y) {
+// 			if (checkIfEnclosed(x,y,posVec,maxPos)) {
+// 				Pos = {x,y};
+// 				addPosition(Pos);
+// 			}
+// 		}
+// 	}
+// }

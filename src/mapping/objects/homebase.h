@@ -7,8 +7,8 @@ class homeBase: public objectsSuperClass
 {
 	public:
 		homeBase(int ri, int rf);
-		void addStringVector(stringVector strVec);
-		void fillInPolygon(positionVector posVec);
+		void addStringVector(mapStringVector strVec);
+		// void fillInPolygon(mapPositionVector posVec);
 
 };
 

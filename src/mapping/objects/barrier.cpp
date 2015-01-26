@@ -4,7 +4,7 @@ barrier::barrier(int ri, int rf): objectsSuperClass(ri, rf) {
 	// do shit
 }
 
-void barrier::addStringVector(stringVector strVec) {
+void barrier::addStringVector(mapStringVector strVec) {
 	std::string tempString;
 	const char* tempChar;
 	std::vector<int> tempInts;
@@ -17,10 +17,10 @@ void barrier::addStringVector(stringVector strVec) {
 		tempInts.push_back(tempInt);
 	}
 
-	position Pos1 = std::make_tuple(tempInts[0],tempInts[1]);
-	position Pos2 = std::make_tuple(tempInts[2],tempInts[3]);
+	mapPosition Pos1 = {tempInts[0],tempInts[1]};
+	mapPosition Pos2 = {tempInts[2],tempInts[3]};
 
-	positionVector PosVec = createLine(Pos1, Pos2);
+	mapPositionVector PosVec = createLine(Pos1, Pos2);
 
 	for (int i = 0; i < PosVec.size(); ++i) {
 		addPosition(PosVec[i]);
