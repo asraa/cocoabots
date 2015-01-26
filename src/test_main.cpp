@@ -799,7 +799,7 @@ int main(int argc, char** argv){
             double y = myMap.getStartLocationY();
             particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
             while(RUNNING){
-                myParticleFilter.createSimpleWebpageView("particleFilter.html");
+                myParticleFilter.createSimpleWebpageView("particleFilter.html", "map2.png");
                 usleep(200000.0);
             }
 

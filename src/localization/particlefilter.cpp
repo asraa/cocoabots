@@ -331,7 +331,12 @@ float particleFilter::normalPdf(float value, float median, float standardDeviati
 /// Creates a simple webpage to show the positions of the particles and the robot.
 /// \param nameOfFile
 /// name of the file that will be created and destroyed.
+///
 void particleFilter::createSimpleWebpageView(std::string nameOfFile){
+    createSimpleWebpageView(nameOfFile, "map.png");
+}
+
+void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string nameOfMapFile){
     remove(nameOfFile.c_str());
     std::ofstream webpage(nameOfFile,std::ofstream::out |  std::ios_base::app);
     std::vector <struct particleFilterParticle> tempParticles = myParticles;
@@ -360,7 +365,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
     { //map
     std::string nameOfImage = "map";
     webpage << "var "<< nameOfImage<< " = new Image();\n"
-      <<nameOfImage<<".src = 'map.png'; \n " << std::endl;
+      <<nameOfImage<<".src = '"<<nameOfMapFile<<"'; \n " << std::endl;
     }
 
     //particles
