@@ -128,7 +128,7 @@
 //Color Detector
 #define COLOR_DETECTOR 1
 #define COLOR_DETECTOR_PIN 2
-#define RED_THRESHOLD 200
+#define RED_THRESHOLD 590
 
 //Define values for the alpha parameter of the filter of the sensors
 //They should be increased if there is too much noise
@@ -153,7 +153,7 @@
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
 #define ANG_ERROR_GAIN (0.0063/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 #define ANG_SPEED_GAIN (-0.00028/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
-#define ANG_TOLERANCE 3
+#define ANG_TOLERANCE 2
 #define POSITION_TOLERANCE 0.1
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
@@ -189,8 +189,8 @@
 
 
 #define GO_TO_POINT_PRECISION_INCHES 1
-#define GO_TO_POINT_PRECISION_ANGLE 2.1
-#define GO_TO_POINT_TURNING_TIMEOUT_MS 3000
+#define GO_TO_POINT_PRECISION_ANGLE 1.5
+#define GO_TO_POINT_TURNING_TIMEOUT_MS 5000
 #define GO_TO_POINT_POSITION_TIMEOUT_MS 6000
 
 

@@ -2,6 +2,22 @@
 #include <cstdio>
 #define RRT_NUM_ITERS 5000
 
+#include <chrono>
+
+template<typename TimeT = std::chrono::milliseconds>
+struct measure
+{
+    template<typename F>
+    static typename TimeT::rep execution(F const &func)
+    {
+        auto start = std::chrono::system_clock::now();
+        func();
+        auto duration = std::chrono::duration_cast< TimeT>(
+            std::chrono::system_clock::now() - start);
+        return duration.count();
+    }
+};
+
 map::map(std::string filename):
 walls(RES_INIT, RES_FIN),
 platforms(RES_INIT, RES_FIN),
@@ -42,6 +58,7 @@ bool map::isWall(struct mapPosition pos){
     }
 }
 
+
 bool map::typeIsPassable(int type) {
 	bool isPassable = false;
 	switch(type) {
@@ -78,7 +95,32 @@ void map::buildMap(std::string filename) {
 	floodFillOutside(); // fill the outside map with 6's
 	floodFillHomeBase();
 	printMapFile("map.txt");
+	// buildMapRRT();
 }
+
+// void map::buildMapRRT() {
+// 	MAX_POS_RRT = {MAX_POS.x/(RES_RRT/RES_FIN),MAX_POS.y/(RES_RRT/RES_FIN)};
+// 	mapVectorRRT = createZeroMap(MAX_POS_RRT.x,MAX_POS_RRT.y);
+// 	for (int x = 0; x <= MAX_POS_RRT.x; x++) {
+// 		for (int y = 0; y <= MAX_POS_RRT.y; y++) {
+// 			mapVectorRRT[x][y] = mapVector[RES_RRT*x][RES_RRT*y];
+// 		}
+// 	}
+// }
+
+// void map::printMapFileRRT(std::string filename) {
+// 	std::ofstream outFile;
+// 	outFile.open(filename);
+
+// 	for (int y=MAX_POS_RRT.y; y >= 0; --y) {
+// 		for (int x = 0; x <= MAX_POS_RRT.x; ++x) {
+// 			outFile << mapVectorRRT[x][y];
+// 		}
+// 		outFile << std::endl;
+// 	}
+
+// 	outFile.close();
+// }
 
 void map::parseMapFile(std::string mapFilename) {
 	std::string currentLine;
@@ -467,19 +509,21 @@ RRT IMPLEMENTATION
 
 */
 
-mapPositionVector map::findPathRRT(struct mapPosition startPos, struct mapPosition goalPos) {
+mapPositionVector map::findPathRRT(struct mapPosition startPos, struct mapPosition goalPos, int KMAX) {
 	nodeVectorRRT.clear();
-	mapNode nextNode;
-	mapNode firstNode = {startPos,0};
-	nodeVectorRRT.push_back(firstNode);
 
+	mapNode nextNode;
+	mapNode startNode = {startPos,0};
+	nodeVectorRRT.push_back(startNode);
+
+	bool latestConnectedPosConnectsGoalPos = false;
 	mapPosition nextPos, nearestPos, latestConnectedPos;
 	latestConnectedPos = startPos;
 	int nearestPosInd;
 
 	int K = 0;
 
-	while (!(latestConnectedPos == goalPos) && K < RRT_NUM_ITERS) {
+	while (!(latestConnectedPosConnectsGoalPos) && K < KMAX) {
 		// std::cout << K << std::endl;
 		nextPos = randConfRRT();
 		nearestPosInd = nearestVertexIndiceRRT(nextPos);
@@ -488,24 +532,30 @@ mapPositionVector map::findPathRRT(struct mapPosition startPos, struct mapPositi
 			nextNode = {nextPos,nearestPosInd};
 			nodeVectorRRT.push_back(nextNode);
 			latestConnectedPos = nextNode.pos;
+			if (isConnectableRRT(latestConnectedPos,goalPos)) {
+				latestConnectedPosConnectsGoalPos = true;
+			}
 		}
 		K++;
 	}
 
-	// printNodes(nodeVectorRRT, "nodes.txt");
-	// printMapFile("map.txt");
+	printNodes(nodeVectorRRT, "nodes.txt");
+	printMapFile("map.txt");
 
-	if (latestConnectedPos == goalPos) {
-		return buildPathRRT(nodeVectorRRT);
+	if (latestConnectedPosConnectsGoalPos) {
+		return buildPathRRT(nodeVectorRRT, goalPos);
 	}
 	else {
-		printNodes(nodeVectorRRT, "nodes.txt");
-		mapPositionVector tempVec;
-		mapPosition tempPos;
-		tempPos = {0,0};
-		tempVec.push_back(tempPos);
-		return tempVec;
+		return findPathRRT(startPos, goalPos, KMAX);
 	}
+	// else {
+	// 	printNodes(nodeVectorRRT, "nodes.txt");
+	// 	mapPositionVector tempVec;
+	// 	mapPosition tempPos;
+	// 	tempPos = {0,0};
+	// 	tempVec.push_back(tempPos);
+	// 	return tempVec;
+	// }
 }
 
 void map::printNodes(mapNodeVector nodes, std::string filename) {
@@ -513,17 +563,18 @@ void map::printNodes(mapNodeVector nodes, std::string filename) {
 	outFile.open(filename);
 
 	for (int i = 0; i < nodes.size(); i++) {
-		mapVector[nodes[i].pos.x][nodes[i].pos.y] = 7;
+		//mapVector[nodes[i].pos.x][nodes[i].pos.y] = 7;
 		outFile << i << ": (" << nodes[i].pos.x << "," << nodes[i].pos.y << "), " << nodes[i].parent << std::endl;
 	}
 
 	outFile.close();
 }
 
-mapPositionVector map::buildPathRRT(mapNodeVector nodes) {
+mapPositionVector map::buildPathRRT(mapNodeVector nodes, struct mapPosition goalPos) {
 	mapPositionVector path;
 	int parentInd = nodes.size()-1;
 
+	path.emplace(path.begin(), goalPos);
 	path.emplace(path.begin(),getPosAtIndiceRRT(parentInd));
 
 	while (parentInd != 0) {
@@ -622,10 +673,12 @@ struct mapPosition map::stepFromToRRT(struct mapPosition Pos1, struct mapPositio
 }
 
 int main_map() {
+	map myMap("practice_map.txt");
+	std::cout << measure<>::execution( [&]() {
     map myMap("practice_map.txt");
     mapPosition startPos = myMap.startLoc.getPositions()[0];
     mapPosition goalPos = myMap.stacks.getPositions()[0];
-    mapPositionVector path = myMap.findPathRRT(startPos, goalPos);
+    mapPositionVector path = myMap.findPathRRT(startPos, goalPos, 100);
     for (int i = 0; i < path.size(); i++) {
     	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
     }
@@ -633,6 +686,7 @@ int main_map() {
     std::cout << "the start was: (" << startPos.x << "," << startPos.y << ")" << std::endl;
     std::cout << "the goal was: (" << goalPos.x << "," << goalPos.y << ")" << std::endl;
     std::cout << "congrats you did it!" << std::endl;
+}) << std::endl;
 }
 
 //map myMap("green_map.txt");
