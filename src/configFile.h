@@ -242,7 +242,10 @@
 #define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
-#define PARTICLE_FILTER_INCHE_PIXEL_RATIO 2 //defined by: real size of map / pixes of map
+//HACK TO MAKE THE MAP EASIER TO WORK WITH
+#define PARTICLE_FILTER_MAP_Y_INCHES 96
+#define PARTICLE_FILTER_MAP_Y_PIXELS 193
+#define PARTICLE_FILTER_INCHES_PIXEL_RATIO (PARTICLE_FILTER_MAP_X_PIXELS / PARTICLE_FILTER_MAP_X_INCHES) //defined by: real size of map / pixes of map
 
 /////////////////////
 #define MAP_FILE_NAME "myMap.txt"

@@ -396,8 +396,9 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
         std::string nameOfImage = "image";
         nameOfImage.append(std::to_string(i));
         particle = tempParticles[i];
-        int x = (int) (particle.x * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
-        int y = (int) (particle.y * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
+        int x = (int) (particle.x * PARTICLE_FILTER_INCHES_PIXEL_RATIO);
+        int y = (int) (particle.y * PARTICLE_FILTER_INCHES_PIXEL_RATIO);
+        y = PARTICLE_FILTER_MAP_Y_PIXELS-y;
         double angle = particle.angle/180*PI;
 
         webpage << "context.save();\n" << std::endl;
@@ -420,8 +421,9 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     std::string nameOfImage = "robot";
 
     particle = robot;
-    int x = (int) particle.x * PARTICLE_FILTER_INCHE_PIXEL_RATIO;
-    int y = (int) particle.y * PARTICLE_FILTER_INCHE_PIXEL_RATIO;
+    int x = (int) particle.x * PARTICLE_FILTER_INCHES_PIXEL_RATIO;
+    int y = (int) particle.y * PARTICLE_FILTER_INCHES_PIXEL_RATIO;
+    y = PARTICLE_FILTER_MAP_Y_PIXELS-y;
     double angle = particle.angle/180*PI;
 
     webpage << "context.save();\n" << std::endl;
