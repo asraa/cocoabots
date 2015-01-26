@@ -14,6 +14,7 @@
 #include <stdlib.h>     /* atoi */
 #include "imageProcessing/ImageProcessor.h"
 #include "localization/particlefilter.h"
+#include "mapping/map.h"
 
 
 
@@ -768,6 +769,26 @@ int main(int argc, char** argv){
 
         }
 
+        else if(strcmp(argv[1],"mapSonar")==0){
+            RUNNING =1;
+            map myMap(MAP_FILE_NAME);
+            double positionX;
+            double positionY;
+            double angle;
+            while(RUNNING){
+                printf("Put the desired positionX, desired positionY, and angle(clockwise postive)\n"
+                       "to print the sonar readings\n");
+                scanf("%lf %lf %lf", &positionX, &positionY, &angle);
+                printf("right = %lf\n left = %lf \n front = %lf \n back = %lf",
+                       myMap.getSonarReadingRight(positionX,positionY,angle),
+                       myMap.getSonarReadingLeft(positionX,positionY,angle),
+                       myMap.getSonarReadingFront(positionX,positionY,angle),
+                       myMap.getSonarReadingBack(positionX,positionY,angle));
+
+                usleep(200000.0);
+            }
+
+        }
 
         return 0;
     }

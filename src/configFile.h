@@ -243,6 +243,9 @@
 #define PARTICLE_FILTER_RIGHT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
 
 #define PARTICLE_FILTER_INCHE_PIXEL_RATIO 2 //defined by: real size of map / pixes of map
+
+/////////////////////
+#define MAP_FILE_NAME "myMap.txt"
 #define PI 3.14159
 #endif // CONFIGFILE_H
 
