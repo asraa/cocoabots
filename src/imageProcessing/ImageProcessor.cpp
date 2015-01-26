@@ -105,7 +105,7 @@ void ImageProcessor::writeToFile(std::string fn) {
 void ImageProcessor::doStuff() {
 
     clearCameraCache();
-
+    vid_cap.retrieve(frame);/*
     clock_t start = clock(); // for debug
 
     vid_cap.retrieve(frame); // get a new frame from camera
@@ -117,7 +117,7 @@ void ImageProcessor::doStuff() {
 
     // for debug
     clock_t end = clock();
-    cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
+    cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;*/
 
 }
 
