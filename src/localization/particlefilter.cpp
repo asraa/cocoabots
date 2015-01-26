@@ -357,8 +357,8 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     }
 
     webpage << "var canvas = document.createElement('canvas');\n "
-           << "canvas.width = 640; \n"
-           << "canvas.height = 480; \n"
+           << "canvas.width = 800; \n"
+           << "canvas.height = 600; \n"
            << "var context = canvas.getContext('2d');\n"
            << "document.body.appendChild(canvas);\n" << std::endl;
 
@@ -411,7 +411,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
                    "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-        webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
+        webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
 
         webpage <<"context.restore();\n"<< std::endl;
     }
@@ -435,7 +435,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
                "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-    webpage <<"context.drawImage("<<nameOfImage<<", -22, -18);\n"<< std::endl;
+    webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
 
     webpage <<"context.restore();\n"<< std::endl;
 }
