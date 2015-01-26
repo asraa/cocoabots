@@ -47,9 +47,11 @@ particleFilter::particleFilter(double positionX, double positionY):
 particleFilter::particleFilter(double positionX,
                                double positionY,
                                sensorsModule *sensorsPtr,
-                               motorsControl *motorsPtr):particleFilter(positionX,positionY){
+                               motorsControl *motorsPtr,
+                               map *mapPtr):particleFilter(positionX,positionY){
     mySensors = sensorsPtr;
     myMotorsControl = motorsPtr;
+    myMap = mapPtr;
     running = 1;
     runThread = new  std::thread(run,this);
 
@@ -83,8 +85,8 @@ void particleFilter::run(particleFilter *particleFilterPtr){
         previousAngle=myParticleFilter->getNewAngle();
 
         updatedPositionCounter++;
-
-        myParticleFilter->updateProbabilities();
+        if(myParticleFilter->myMap)
+            myParticleFilter->updateProbabilities();
 
         if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
             updatedPositionCounter=0;
@@ -102,17 +104,90 @@ void particleFilter::updateProbabilities(){
     struct particleFilterParticle *particlePtr;
     int numberOfParticles = tempParticles.size();
 
-    double probability;
+    double likelyhood;
+    double realFrontReading = 0;
+    double realBackReading = 0;
+    double realRightReading = 0;
+    double realLeftReading = 0;
+
+#if PARTICLE_FILTER_FRONT == 1
+    realFrontReading=mySensors->frontShortIRData;
+#endif
+
+#if PARTICLE_FILTER_FRONT ==2
+    realFrontReading=mySensors->frontUltrasonicData;
+#endif
+
+#if PARTICLE_FILTER_BACK == 1
+    realBackReading=mySensors->backShortIRData;
+#endif
+
+#if PARTICLE_FILTER_BACK ==2
+    realBackReading=mySensors->backUltrasonicData;
+#endif
+
+#if PARTICLE_FILTER_RIGHT == 1
+    realRightReading=mySensors->rightShortIRData;
+#endif
+
+#if PARTICLE_FILTER_RIGHT ==2
+    realRightReading=mySensors->rightUltrasonicData;
+#endif
+
+
+#if PARTICLE_FILTER_LEFT == 1
+    realLeftReading=mySensors->leftShortIRData;
+#endif
+
+#if PARTICLE_FILTER_LEFT ==2
+    realLeftReading=mySensors->leftUltrasonicData;
+#endif
+
     for (int i=0; i<numberOfParticles; i++){
         particlePtr=&tempParticles[i];
     //TODO GET EXPECTED SENSORS READINGS FROM POSITION OF THE PARTICLE
     // get sensor reading(particlePtr->x,particlePtr->y,particlePtr->angle)
+        double x = particlePtr->x;
+        double y = particlePtr->y;
+        double angle = particlePtr->angle;
+        double frontReading = myMap->getSonarReadingFront(x,y,angle);
+        double backReading = myMap->getSonarReadingBack(x,y,angle);
+        double rightReading = myMap->getSonarReadingRight(x,y,angle);
+        double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
+
+
+
 
     //TODO Compare the expected reading with the real reading and see the probability
     // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
-    probability=1;
+    likelyhood=1;
+#if PARTICLE_FILTER_FRONT == 1
+    if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+    }
+#endif
+
+#if PARTICLE_FILTER_FRONT ==2
+    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+
+    }
+#endif
+
+#if PARTICLE_FILTER_BACK == 1
+    if (backReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+    }
+#endif
+
+#if PARTICLE_FILTER_BACK ==2
+    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+
+    }
+#endif
     //TODO multiply the probability of the particle by this probability
-    myProbabilities[i]*=probability;
+    myProbabilities[i]*=likelyhood;
     }
 
 
@@ -124,9 +199,9 @@ struct particleFilterParticle particleFilter::updateRobotPosition(){
     std::vector <double> tempProbabilities = myProbabilities;
     int numberOfParticles = tempParticles.size();
     double probabilityNormalizationFactor=0;
-    double x;
-    double y;
-    double angle;
+    double x=0;
+    double y=0;
+    double angle=0;
     double tempProbability;
     struct particleFilterParticle tempParticle;
 
@@ -256,7 +331,12 @@ float particleFilter::normalPdf(float value, float median, float standardDeviati
 /// Creates a simple webpage to show the positions of the particles and the robot.
 /// \param nameOfFile
 /// name of the file that will be created and destroyed.
+///
 void particleFilter::createSimpleWebpageView(std::string nameOfFile){
+    createSimpleWebpageView(nameOfFile, "map.png");
+}
+
+void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string nameOfMapFile){
     remove(nameOfFile.c_str());
     std::ofstream webpage(nameOfFile,std::ofstream::out |  std::ios_base::app);
     std::vector <struct particleFilterParticle> tempParticles = myParticles;
@@ -277,10 +357,18 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
     }
 
     webpage << "var canvas = document.createElement('canvas');\n "
-           << "canvas.width = 640; \n"
-           << "canvas.height = 480; \n"
+           << "canvas.width = 800; \n"
+           << "canvas.height = 600; \n"
            << "var context = canvas.getContext('2d');\n"
            << "document.body.appendChild(canvas);\n" << std::endl;
+
+    { //map
+    std::string nameOfImage = "map";
+    webpage << "var "<< nameOfImage<< " = new Image();\n"
+      <<nameOfImage<<".src = '"<<nameOfMapFile<<"'; \n " << std::endl;
+    }
+
+    //particles
     for (int i=0; i<numberOfParticles;i++){
         std::string nameOfImage = "image";
         nameOfImage.append(std::to_string(i));
@@ -289,7 +377,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
           <<nameOfImage<<".src = 'smallArrow.gif'; \n " << std::endl;
     }
 
-    {
+    {//robot
     std::string nameOfImage = "robot";
     webpage << "var "<< nameOfImage<< " = new Image();\n"
       <<nameOfImage<<".src = 'smallRedArrow.gif'; \n " << std::endl;
@@ -297,25 +385,33 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
 
     webpage << "function init() {\n "<< std::endl;
 
+    //robot
+    {
+        std::string nameOfImage = "map";
+        webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
+
+    }
+
     for (int i=0; i<numberOfParticles;i++){
         std::string nameOfImage = "image";
         nameOfImage.append(std::to_string(i));
         particle = tempParticles[i];
-        int x = (int) particle.x;
-        int y = (int) particle.y;
+        int x = (int) (particle.x * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
+        int y = (int) (particle.y * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
         double angle = particle.angle/180*PI;
 
         webpage << "context.save();\n" << std::endl;
 
         //centralizes the image.
-        webpage<< "context.translate(8, 8);\n"
-               << "context.translate(320, 240);\n" << std::endl;
+        webpage<< "context.translate(0, 0);\n"
+              // << "context.translate(320, 240);\n"
+               << std::endl;
 
         webpage << "context.translate(" << x <<","<< y <<");\n" <<
                    "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-        webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
+        webpage <<"context.drawImage("<<nameOfImage<<", -8, -8);\n"<< std::endl;
 
         webpage <<"context.restore();\n"<< std::endl;
     }
@@ -331,14 +427,15 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
     webpage << "context.save();\n" << std::endl;
 
     //centralizes the image.
-    webpage<< "context.translate(8, 8);\n"
-           << "context.translate(320, 240);\n" << std::endl;
+    webpage<< "context.translate(0, 0);\n"
+         //  << "context.translate(320, 240);\n"
+           << std::endl;
 
     webpage << "context.translate(" << x <<","<< y <<");\n" <<
                "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-    webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
+    webpage <<"context.drawImage("<<nameOfImage<<", -11, -9);\n"<< std::endl;
 
     webpage <<"context.restore();\n"<< std::endl;
 }

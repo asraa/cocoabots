@@ -1,5 +1,5 @@
 #include "map.h"
-
+#include <cstdio>
 #define RRT_NUM_ITERS 5000
 
 #include <chrono>
@@ -48,20 +48,16 @@ bool map::isPassable(struct mapPosition Pos) {
 	return true;;
 }
 
-// bool map::isPassableRRT(struct mapPosition Pos) {
-// 	int x, y;
-// 	int range = floor(ROBOT_SIZE / RES_RRT);
-// 	mapPositionVector posVec = generateSquareAroundPoint(Pos, range);
-// 	for (int i = 0; i < posVec.size(); ++i) {
-// 		x = fmax(0,fmin(posVec[i].x,MAX_POS_RRT.x));
-// 		y = fmax(0,fmin(posVec[i].y,MAX_POS_RRT.y));
-// 		// std::cout << mapVector[x][y] << "@ (" << x << "," << y << ")" << std::endl;
-// 		if (!typeIsPassable(mapVectorRRT[x][y])) {
-// 			return false;
-// 		}
-// 	}
-// 	return true;;
-// }
+bool map::isWall(struct mapPosition pos){
+    int type = mapVector[pos.x][pos.y];
+    switch(type) {
+        case WALL : return true;
+        case PLATFORM : return true;
+        case OUTSIDE : return true;
+        default: return false;
+    }
+}
+
 
 bool map::typeIsPassable(int type) {
 	bool isPassable = false;
@@ -331,7 +327,7 @@ struct mapPosition map::getEndPoint(struct mapPosition Pos1, int orientation){
     double newX = Pos1.x;
     double newY = Pos1.y;
     mapPosition tempPos = Pos1;
-    while (isPassable(tempPos)){
+    while (!isWall(tempPos)){
         newX += deltaX;
         newY += deltaY;
         int tempX, tempY;
@@ -348,6 +344,76 @@ double map::getSonarReading(struct mapPosition Pos1, int orientation){
     mapPosition imped = getEndPoint(Pos1, orientation);
     return getDistance(Pos1, imped);
 }
+
+double map::getSonarReading(double x, double y, int angle){
+    mapPosition myMapPosition;
+    int myX;
+    int myY;
+    int myAngle=angle;
+    myX=inchToInd(x);
+    myY=inchToInd(y);
+    myMapPosition.x=myX;
+    myMapPosition.y=myY;
+#if MAP_DEBUG
+    printf("x= %lf y = %lf\n", x, y);
+    printMapFile("mapDebug.txt");
+#endif
+    return getSonarReading(myMapPosition,myAngle);
+}
+
+
+double map::getSonarReadingFront(double x, double y, int angle){
+    double newX;
+    double newY;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=9;
+#endif
+    return getSonarReading(newX,newY,angle);
+}
+
+double map::getSonarReadingRight(double x, double y, int angle){
+    double newX;
+    double newY;
+    angle+=90;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=8;
+#endif
+    return getSonarReading(newX,newY,angle);
+}
+
+
+double map::getSonarReadingLeft(double x, double y, int angle){
+    double newX;
+    double newY;
+    angle+=270;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=7;
+#endif
+    return getSonarReading(newX,newY,angle);
+}
+
+
+double map::getSonarReadingBack(double x, double y, int angle){
+    double newX;
+    double newY;
+    angle+=180;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
+    newY= y+ sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
+#if MAP_DEBUG
+    mapVector[inchToInd(x)][inchToInd(y)]=3;
+    mapVector[inchToInd(newX)][inchToInd(newY)]=5;
+#endif
+    return getSonarReading(newX,newY,angle);}
 
 struct mapPosition map::getClosestHomeBase(struct mapPosition currentPos) {
 	return getClosestItem(currentPos, homeBases.getPositions());
@@ -390,6 +456,17 @@ int map::inchToInd(double inch) {
 	return ind;
 }
 
+
+double map::getStartLocationX(){
+    mapPosition startPos = startLoc.getPositions()[0];
+    return startPos.x;
+
+}
+
+double map::getStartLocationY(){
+    mapPosition startPos = startLoc.getPositions()[0];
+    return startPos.y;
+}
 void map::floodFillOutside() {
 	int x, y;
 	mapPosition pos;

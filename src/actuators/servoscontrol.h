@@ -14,7 +14,7 @@ public:
     int startCollect;
     int timeStart;
 
-    int swipping;
+    volatile int swipping;
     int previousSwipe;
 
     std::thread *runThread;

@@ -153,7 +153,7 @@
 #define FWD_SPEED_GAIN (-0.0/CIRCUMFERENCE_WHEEL/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
 #define ANG_ERROR_GAIN (0.0063/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)
 #define ANG_SPEED_GAIN (-0.00028/MAXIMUM_NORMALIZED_SAFE_SPEED_MOTORS)  //Should be negative
-#define ANG_TOLERANCE 3
+#define ANG_TOLERANCE 2
 #define POSITION_TOLERANCE 0.1
 #define ANG_SPEED_TOLERANCE 2  //angles per second
 #define POSITION_SPEED_TOLERANCE 0.001
@@ -189,8 +189,8 @@
 
 
 #define GO_TO_POINT_PRECISION_INCHES 1
-#define GO_TO_POINT_PRECISION_ANGLE 2.1
-#define GO_TO_POINT_TURNING_TIMEOUT_MS 100000
+#define GO_TO_POINT_PRECISION_ANGLE 1.5
+#define GO_TO_POINT_TURNING_TIMEOUT_MS 5000
 #define GO_TO_POINT_POSITION_TIMEOUT_MS 6000
 
 
@@ -221,17 +221,38 @@
 
 ///////////////
 //Particle Filter
-#define PARTICLE_FILTER_NUMBER_OF_PARTICLES 100
+#define PARTICLE_FILTER_NUMBER_OF_PARTICLES 300
 #define PARTICLE_FILTER_ENCODERS_NORMALIZED_STANDARD_DEVIATION 0.02
 #define PARTICLE_FILTER_ANGLE_NORMALIZED_STANDARD_DEVIATION 0.05
 #define PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE 1 //if the angle is positive when clockwise, we have to multiply it by -1
                                                    // In other words, make it -1, if Y increases going up instead of down.
 #define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X 3
 #define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y 3
-#define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 50 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
+#define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 150 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 10 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
+#define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
+#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 5
+#define PARTICLE_FILTER_MAX_IR_RANGE 40
+#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
+
+#define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_RIGHT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+
+#define PARTICLE_FILTER_INCHE_PIXEL_RATIO 2 //defined by: real size of map / pixes of map
+
+/////////////////////
+#define MAP_FILE_NAME "myMap.txt"
+#define MAP_ROBOT_DISTANCE_CENTER_FRONT 5.5
+#define MAP_ROBOT_DISTANCE_CENTER_BACK 10
+#define MAP_ROBOT_DISTANCE_CENTER_RIGHT 6.0
+#define MAP_ROBOT_DISTANCE_CENTER_LEFT 6.0
+#define MAP_DEBUG 0
+#define MAP_DEBUG_FILE_NAME "myDebugMap.txt"
+
 
 #define PI 3.14159
 #endif // CONFIGFILE_H

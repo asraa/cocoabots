@@ -157,6 +157,7 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
         cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
         cv::namedWindow("qq",1);
         cv::imshow("qq",drawing);
+        cv::waitKey(100);
     }
 
     //std::cout<<"number of contours"<<contour_data.contours.size()<<std::endl;
@@ -166,7 +167,7 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
             if(isBlock(contour_data.contours.at(j))) {
                 Eigen::Vector2d block_pt_xy = crudeEstimate(contour_data.contours.at(j)); // hacked for now
                 Eigen::Vector2d block_pt_radial = CameraMath::cvtCamXY2RobotRadial(block_pt_xy[0], block_pt_xy[1]);
-                //std::cout << result << std::endl;
+                std::cout << "x,z coords"<<block_pt_xy << std::endl;
                 list_of_pts.push_back(block_pt_radial);
             }
         }
