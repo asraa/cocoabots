@@ -33,11 +33,11 @@ int * scanLine(cv::Mat& im_src, cv::Mat& im_line_edges) {
                     if(line_bottom[j] == -1) // no edge has been found before
                         line_bottom[j] = i;
                     else {
-                        /*if(std::abs(i - line_bottom[j]) > WALL_LINE_THRESH) {
+                        if(std::abs(i - line_bottom[j]) > WALL_LINE_THRESH) {
                             line_top[j] = i;
                         } else
-                            line_bottom[j] = i;*/
-                        line_top[j] = i;
+                            line_bottom[j] = i;
+                        //line_top[j] = i;
                     }
                 }
             } else if(line_top[j]!=-1) { // maybe move this into a separate function

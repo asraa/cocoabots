@@ -372,9 +372,8 @@ struct mapPosition map::getAveragePosition(mapPositionVector posVec) {
 	return Pos;
 }
 
-int main_map(){
+int main_map() {
     map myMap("practice_map.txt");
-    std::cout << sizeof(myMap.mapVector) << std::endl;
 }
 
 //map myMap("green_map.txt");

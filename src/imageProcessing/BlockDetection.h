@@ -11,9 +11,8 @@
 
 #include "CameraConfig.h"
 #include "CameraMath.h"
-#include "ContourUtils.h"
-#include "ColorDetection.h"
 #include "ImageUtils.h"
+#include "ColorDetection.h"
 
 namespace BlockDetection {
 
@@ -44,7 +43,7 @@ Eigen::Vector2d findNearestBlockInList(std::vector<Eigen::Vector2d,Eigen::aligne
 
 int isVertical(cv::Point pt1, cv::Point pt2);
 
-int findLowestContour(ContourUtils::ContourData& contour_data);
+int findLowestContour(ImageUtils::ContourData& contour_data);
 
 void updateBlockFoundInfo(Eigen::Vector2d& block_coord_rad, int cube_color, BlockInfo& nearest_block_info);
 void updateBlockNotFound(BlockInfo& nearest_block_info);

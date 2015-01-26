@@ -18,6 +18,7 @@
 #include "ImageUtils.h"
 #include "BlockDetection.h"
 #include "CameraConfig.h"
+#include "TerritoryDetection.h"
 
 /***********************************************
  ***********IMAGE PROCESSING CLASS**************
@@ -54,17 +55,13 @@ public:
     int running;
     std::thread *runThread;
 
-
-
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
-
+    void detectPurpleLine(cv::Mat& frame);
 
     void local_map_refresh();
 
     void updateNearestBlockInfoAverage();
-
-    void writeToFile(std::string fn);
 
     void doStuff();
     void clearCameraCache();
@@ -80,6 +77,10 @@ public:
     double cache_time;
     double getCpuTime();
     double getCacheTime();
+    void writeToFile(std::string fn);
+
+    void debugStuff();
+
 
     static void run(ImageProcessor * ImageProcessorPointer);
 };
