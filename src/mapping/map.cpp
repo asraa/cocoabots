@@ -469,7 +469,7 @@ double map::getStartLocationY(){
     mapPosition startPos = startLoc.getPositions()[0];
     double y = startPos.y;
     y=indToInch(y);
-    return startPos.y;
+    return y;
 }
 void map::floodFillOutside() {
 	int x, y;
