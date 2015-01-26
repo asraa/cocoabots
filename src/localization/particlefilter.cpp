@@ -296,8 +296,8 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
         noiseDistance = noiseDistanceDistribution(randomNumberGenerator);
         noiseAngle = noiseAngleDistribution(randomNumberGenerator);
 
-        newDistance = distance + noiseDistance;
-        newAngle = differenceAngle + noiseAngle + particle->angle;
+        newDistance = noiseDistance;
+        newAngle = noiseAngle + particle->angle;
         movingAngle = (newAngle+particle->angle) / 2 * PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE; //Some geometry involved in this
         newDistanceX = cos(movingAngle*PI/180) * newDistance;
         newDistanceY = sin(movingAngle*PI/180) * newDistance;
