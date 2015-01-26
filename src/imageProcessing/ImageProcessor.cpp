@@ -108,7 +108,7 @@ void ImageProcessor::doStuff() {
 
     clock_t start = clock(); // for debug
 
-    vid_cap.retrieve(frame_raw); // get a new frame from camera
+    vid_cap.retrieve(frame); // get a new frame from camera
 
     detectWall(frame);
     detectBlocks(frame);
