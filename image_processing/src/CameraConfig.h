@@ -17,12 +17,11 @@ static const int DEBUG = 1;
 
 
 static const double FRAME_RESIZE_SCALE = 0.5;
-
 static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
 static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
 
-// translation vector of camera w.r.t to robot center
-static const double CAM_ROBOT_X = 4;
+// translation vector of camera w.r.t to robot hook
+static const double CAM_ROBOT_X = 4.5;
 static const double CAM_ROBOT_Y = 0;
 
 // horizontal rotation of camera w.r.t. to front direction
@@ -30,28 +29,23 @@ static const double CAM_ROBOT_Y = 0;
 static const double CAM_ANGLE_HOR = 0;
 // vertical rotation of camera w.r.t. horizontal plane
 // downwards is positive
-static const double CAM_ANGLE_VERT = (23.0977 / 180 * M_PI); // in case we put it at an angle -- in radians
+static const double CAM_ANGLE_VERT = (22.3 / 180 * M_PI); // in case we put it at an angle -- in radians
 // height of camera
 // in inches
 static const double CAM_HEIGHT = 11; // inches
 
 // camera matrix elements
-static const double CAM_MAT_fx = 685.3;
-static const double CAM_MAT_cx = 295.5;
-static const double CAM_MAT_fy = 683.9;
-static const double CAM_MAT_cy = 236.4;
-/*
-static Eigen::Matrix3d ROT_MAT;
-static Eigen::Matrix3d CAM_MAT;
-static Eigen::Matrix3d CAM_MAT_INV;
-*/
+static const double CAM_MAT_fx = 345.2863;
+static const double CAM_MAT_cx = 148.7808;
+static const double CAM_MAT_fy = 344.4604;
+static const double CAM_MAT_cy = 120.2642;
 
 static Eigen::Matrix3d ROT_MAT = ((Eigen::Matrix3d() << 1,        0,                    0,
                                                         0, cos(CAM_ANGLE_VERT), -sin(CAM_ANGLE_VERT),
                                                         0, sin(CAM_ANGLE_VERT), cos(CAM_ANGLE_VERT)).finished());
 
-static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (FRAME_RESIZE_SCALE*CAM_MAT_fx), 0, (FRAME_RESIZE_SCALE*CAM_MAT_cx),
-                                                    0, (FRAME_RESIZE_SCALE*CAM_MAT_fy), (FRAME_RESIZE_SCALE*CAM_MAT_cy),
+static Eigen::Matrix3d CAM_MAT = (((Eigen::Matrix3d() << (CAM_MAT_fx), 0, (CAM_MAT_cx),
+                                                    0, (CAM_MAT_fy), (CAM_MAT_cy),
                                                     0, 0, 1).finished())*ROT_MAT);
 
 static Eigen::Matrix3d CAM_MAT_INV = (CAM_MAT.inverse());
