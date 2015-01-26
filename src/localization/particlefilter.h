@@ -39,7 +39,7 @@ public:
                    double positionY,
                    sensorsModule * sensorsPtr,
                    motorsControl * motorsPtr,
-                   map * mapPtr);
+                   map * mapPtr = NULL);
 
     ~particleFilter();
     struct particleFilterParticle robot;

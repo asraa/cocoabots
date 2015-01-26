@@ -85,8 +85,8 @@ void particleFilter::run(particleFilter *particleFilterPtr){
         previousAngle=myParticleFilter->getNewAngle();
 
         updatedPositionCounter++;
-
-        myParticleFilter->updateProbabilities();
+        if(myParticleFilter->myMap)
+            myParticleFilter->updateProbabilities();
 
         if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
             updatedPositionCounter=0;
