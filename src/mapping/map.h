@@ -35,6 +35,8 @@ class map
 		bool typeIsPassable(int type);
 		mapPositionVector generateSquareAroundPoint(struct mapPosition Pos, int diameter);
 		void buildMap(std::string filename);
+		void buildMapRRT();
+		void printMapFileRRT(std::string filename);
 		void parseMapFile(std::string filename);
 		void parseObjects();
 		void writeMapVector(struct mapPosition Pos, int type);
@@ -60,9 +62,9 @@ class map
 
 		// RRT begins
 		mapNodeVector nodeVectorRRT;
-		mapPositionVector findPathRRT(struct mapPosition startPos, struct mapPosition end);
+		mapPositionVector findPathRRT(struct mapPosition startPos, struct mapPosition goalPos, int KMAX);
 		void printNodes(mapNodeVector nodes, std::string filename);
-		mapPositionVector buildPathRRT(mapNodeVector nodes);
+		mapPositionVector buildPathRRT(mapNodeVector nodes, struct mapPosition goalPos);
 		struct mapPosition randConfRRT();
 		int nearestVertexIndiceRRT(struct mapPosition pos);
 		int getParentAtIndiceRRT(int indice);
