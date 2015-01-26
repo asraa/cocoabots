@@ -39,9 +39,6 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
     ImageUtils::cleanContour(purp_contour_data, 500);
     cv::Mat purp_contour = ImageUtils::drawContoursFilled(purp_contour_data, im_purp);
 
-    cv::namedWindow("po",1);
-    cv::imshow("po",purp_contour);
-
     goThroughPixels(purp_contour, local_map);
 
     // do a hough line fit
