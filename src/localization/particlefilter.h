@@ -19,6 +19,7 @@
 #include <vector>
 #include <string>
 #include "../sensorsmodule.h"
+#include"../mapping/map.h"
 #include"../actuators/motorscontrol.h" //The motorscontrol keep track of the speed, because they need to
                                 //be updated less often than the sensors.
 
@@ -34,8 +35,11 @@ class particleFilter
 {
 public:
     particleFilter(double positionX, double positionY);//Only for simple debugging.
-    particleFilter(double positionX, double positionY,
-                   sensorsModule * sensorsPtr, motorsControl * motorsPtr);
+    particleFilter(double positionX,
+                   double positionY,
+                   sensorsModule * sensorsPtr,
+                   motorsControl * motorsPtr,
+                   map * mapPtr);
 
     ~particleFilter();
     struct particleFilterParticle robot;
@@ -61,6 +65,6 @@ public:
 private:
     sensorsModule * mySensors;
     motorsControl * myMotorsControl;
-};
+    map * myMap;
 
 #endif // PARTICLEFILTER_H

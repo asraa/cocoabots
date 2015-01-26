@@ -232,7 +232,7 @@
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 10 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
 #define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
-#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 2
+#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 5
 #define PARTICLE_FILTER_MAX_IR_RANGE 40
 #define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
@@ -246,6 +246,12 @@
 
 /////////////////////
 #define MAP_FILE_NAME "myMap.txt"
+#define MAP_ROBOT_DISTANCE_CENTER_FRONT 5.5
+#define MAP_ROBOT_DISTANCE_CENTER_BACK 10
+#define MAP_ROBOT_DISTANCE_CENTER_RIGHT 6.0
+#define MAP_ROBOT_DISTANCE_CENTER_LEFT 6.0
+#define MAP_DEBUG 1
+
 #define PI 3.14159
 #endif // CONFIGFILE_H
 

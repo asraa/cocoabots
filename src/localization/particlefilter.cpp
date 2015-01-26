@@ -47,9 +47,11 @@ particleFilter::particleFilter(double positionX, double positionY):
 particleFilter::particleFilter(double positionX,
                                double positionY,
                                sensorsModule *sensorsPtr,
-                               motorsControl *motorsPtr):particleFilter(positionX,positionY){
+                               motorsControl *motorsPtr,
+                               map *mapPtr):particleFilter(positionX,positionY){
     mySensors = sensorsPtr;
     myMotorsControl = motorsPtr;
+    myMap = mapPtr;
     running = 1;
     runThread = new  std::thread(run,this);
 
@@ -102,17 +104,67 @@ void particleFilter::updateProbabilities(){
     struct particleFilterParticle *particlePtr;
     int numberOfParticles = tempParticles.size();
 
-    double probability;
+    double likelyhood;
+    double realFrontReading = 0;
+    double realBackReading = 0;
+    double realRightReading = 0;
+    double realLeftReading = 0;
+
+#if PARTICLE_FILTER_FRONT == 1
+    realFrontReading=mySensors->frontShortIRData;
+#endif
+
+#if PARTICLE_FILTER_FRONT ==2
+    realFrontReading=mySensors->frontUltrasonicData;
+#endif
+
+#if PARTICLE_FILTER_BACK == 1
+    realBackReading=mySensors->backShortIRData;
+#endif
+
+#if PARTICLE_FILTER_BACK ==2
+    realBackReading=mySensors->backUltrasonicData;
+#endif
+
+#if PARTICLE_FILTER_RIGHT == 1
+    realBackReading=mySensors->backShortIRData;
+#endif
+
+#if PARTICLE_FILTER_RIGHT ==2
+    realBackReading=mySensors->backUltrasonicData;
+#endif
+
     for (int i=0; i<numberOfParticles; i++){
         particlePtr=&tempParticles[i];
     //TODO GET EXPECTED SENSORS READINGS FROM POSITION OF THE PARTICLE
     // get sensor reading(particlePtr->x,particlePtr->y,particlePtr->angle)
+        double x = particlePtr->x;
+        double y = particlePtr->y;
+        double angle = particlePtr->angle;
+        double frontReading = myMap->getSonarReadingFront(x,y,angle);
+        double backReading = myMap->getSonarReadingBack(x,y,angle);
+        double rightReading = myMap->getSonarReadingRight(x,y,angle);
+        double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
+
+
+
 
     //TODO Compare the expected reading with the real reading and see the probability
     // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
-    probability=1;
+    likelyhood=1;
+#if PARTICLE_FILTER_FRONT == 1
+    if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        likelyhood*=nor
+    }
+#endif
+
+#if PARTICLE_FILTER_FRONT ==2
+    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+
+    }
+#endif
     //TODO multiply the probability of the particle by this probability
-    myProbabilities[i]*=probability;
+    myProbabilities[i]*=likelyhood;
     }
 
 

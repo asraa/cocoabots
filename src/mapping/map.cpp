@@ -1,5 +1,5 @@
 #include "map.h"
-
+#include <cstdio>
 #define RRT_NUM_ITERS 5000
 
 map::map(std::string filename):
@@ -30,6 +30,16 @@ bool map::isPassable(struct mapPosition Pos) {
 		}
 	}
 	return true;;
+}
+
+bool map::isWall(struct mapPosition pos){
+    int type = mapVector[pos.x][pos.y];
+    switch(type) {
+        case WALL : return true;
+        case PLATFORM : return true;
+        case OUTSIDE : return true;
+        default: return false;
+    }
 }
 
 bool map::typeIsPassable(int type) {
@@ -262,7 +272,7 @@ struct mapPosition map::getEndPoint(struct mapPosition Pos1, int orientation){
     double newX = Pos1.x;
     double newY = Pos1.y;
     mapPosition tempPos = Pos1;
-    while (isPassable(tempPos)){
+    while (!isWall(tempPos)){
         newX += deltaX;
         newY += deltaY;
         int tempX, tempY;
@@ -289,28 +299,66 @@ double map::getSonarReading(double x, double y, int angle){
     myY=inchToInd(y);
     myMapPosition.x=myX;
     myMapPosition.y=myY;
-
+#if MAP_DEBUG
+    printf("x= %lf y = %lf\n", x, y);
+    printMapFile("mapDebug.txt");
+#endif
     return getSonarReading(myMapPosition,myAngle);
 }
 
 
 double map::getSonarReadingFront(double x, double y, int angle){
-    return getSonarReading(x,y,-angle);
+    double newX;
+    double newY;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=9;
+#endif
+    return getSonarReading(newX,newY,angle);
 }
 
 double map::getSonarReadingRight(double x, double y, int angle){
-    return getSonarReading(x,y,angle+90);
+    double newX;
+    double newY;
+    angle+=90;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=8;
+#endif
+    return getSonarReading(newX,newY,angle);
 }
 
 
 double map::getSonarReadingLeft(double x, double y, int angle){
-    return getSonarReading(x,y,angle+270);
+    double newX;
+    double newY;
+    angle+=270;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
+#if MAP_DEBUG
+    mapVector[inchToInd(newX)][inchToInd(newY)]=7;
+#endif
+    return getSonarReading(newX,newY,angle);
 }
 
 
 double map::getSonarReadingBack(double x, double y, int angle){
-    return getSonarReading(x,y,angle+180);
-}
+    double newX;
+    double newY;
+    angle+=180;
+    angle=-angle;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
+    newY= y+ sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
+#if MAP_DEBUG
+    mapVector[inchToInd(x)][inchToInd(y)]=3;
+    mapVector[inchToInd(newX)][inchToInd(newY)]=5;
+#endif
+    return getSonarReading(newX,newY,angle);}
 
 struct mapPosition map::getClosestHomeBase(struct mapPosition currentPos) {
 	return getClosestItem(currentPos, homeBases.getPositions());
