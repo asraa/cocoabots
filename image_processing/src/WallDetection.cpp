@@ -138,9 +138,6 @@ void detectWall(cv::Mat& frame, GridMap& local_map) {
     //ImageUtils::replaceByPolyContours(color_contour_data);
     cv::Mat color_edges = ImageUtils::drawContours(color_contour_data, im_wall_line);
 
-    cv::namedWindow("le",1);
-    cv::imshow("le",color_edges);
-
     int *line_pts = WallDetection::scanLine(frame, color_edges);
     WallDetection::updateMapPts(local_map, line_pts, frame.cols);
     delete line_pts;

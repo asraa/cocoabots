@@ -11,8 +11,8 @@ ImageProcessor::ImageProcessor():
     vid_cap = cv::VideoCapture(0); // need to check what 0 is and is not sketchy
 
     if(vid_cap.isOpened()) {
-        vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640*FRAME_RESIZE_SCALE);
-        vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
+        //vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640*FRAME_RESIZE_SCALE);
+        //vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
         vid_cap.set(CV_CAP_PROP_FPS, 30);
     }
     else if (!DEBUG) {
@@ -34,6 +34,7 @@ ImageProcessor::~ImageProcessor(){
 
 // ************ DO THE STUFF ************* //
 void ImageProcessor::detectWall(cv::Mat& frame) {
+    local_map_refresh();
     WallDetection::detectWall(frame, local_map);
 }
 
@@ -107,7 +108,8 @@ void ImageProcessor::doStuff() {
 
     clock_t start = clock(); // for debug
 
-    vid_cap.retrieve(frame_raw); // get a new frame from camera
+    vid_cap.retrieve(frame); // get a new frame from camera
+    cv::resize(frame,frame,cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
 
     detectWall(frame);
     detectBlocks(frame);
@@ -148,14 +150,14 @@ void ImageProcessor::debugStuff() {
     std::cout<<"time time time "<<dd<<std::endl;
     cv::namedWindow("wewe",1);
     cv::imshow("wewe",frame);
-    if(DEBUG == 1) {
-        cv::Mat local_map_im = local_map.cvtImage();
-        local_map_refresh();
 
-        cv::namedWindow("www",CV_WINDOW_NORMAL);
-        cv::imshow("www",local_map_im);
-        cv::waitKey(100);
-    }
+    cv::Mat local_map_im = local_map.cvtImage();
+    local_map_refresh();
+
+    cv::namedWindow("www",CV_WINDOW_NORMAL);
+    cv::imshow("www",local_map_im);
+    cv::waitKey(100);
+
 }
 
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
