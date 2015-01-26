@@ -16,6 +16,11 @@ static const int DEBUG = 1;
 /********************************/
 
 
+static const double FRAME_RESIZE_SCALE = 0.5;
+
+static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
+static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
+
 // translation vector of camera w.r.t to robot center
 static const double CAM_ROBOT_X = 4;
 static const double CAM_ROBOT_Y = 0;
@@ -29,11 +34,6 @@ static const double CAM_ANGLE_VERT = (23.0977 / 180 * M_PI); // in case we put i
 // height of camera
 // in inches
 static const double CAM_HEIGHT = 11; // inches
-
-static const double FRAME_RESIZE_SCALE = 0.5;
-
-static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
-static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
 
 // camera matrix elements
 static const double CAM_MAT_fx = 685.3;
@@ -69,7 +69,7 @@ static const double BLOCK_ANGLE_PREVIOUS_WEIGHT = 0.8;
 
 
 // vertical pixels threshold for wall detection
-static const int WALL_LINE_THRESH = 10;
+static const int WALL_LINE_THRESH = 3;
 // wall dimensions
 static const double WALL_LINE_WIDTH = 2;
 static const double WALL_HEIGHT = 6; // white + line

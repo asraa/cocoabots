@@ -3,16 +3,11 @@
 #include <unistd.h>
 
 
-// initializer for ImageProcessing class
+// *** (DE)CONSTRUCTORS FOR IMAGE PROCESSING CLASS *** //
 ImageProcessor::ImageProcessor():
-    local_map(70,70)
-    /*foundCube(0),
-    nearestCubeAngle(0),
-    nearestCubeDist(0),
-    nearestCubeColor(0)*/
-    //frame(cv::Size(320,240),CV_8UC3)
+    local_map(70,70),
+    frame(cv::Scalar(0,0,0))
 {
-
     vid_cap = cv::VideoCapture(0); // need to check what 0 is and is not sketchy
 
     if(vid_cap.isOpened()) {
@@ -20,8 +15,8 @@ ImageProcessor::ImageProcessor():
         vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
         vid_cap.set(CV_CAP_PROP_FPS, 30);
     }
-    else {
-        // return;
+    else if (!DEBUG) {
+        return;
     }
 
     running=1;
@@ -29,7 +24,6 @@ ImageProcessor::ImageProcessor():
 
     cpu_time = 0.0; // for debug
     cache_time = 0.0; // for debug
-
 }
 
 ImageProcessor::~ImageProcessor(){
@@ -38,25 +32,22 @@ ImageProcessor::~ImageProcessor(){
     delete runThread;
 }
 
+// ************ DO THE STUFF ************* //
 void ImageProcessor::detectWall(cv::Mat& frame) {
-
-    // detect blue line
     WallDetection::detectWall(frame, local_map);
-
-    // detect yellow line
-
 }
 
 void ImageProcessor::detectBlocks(cv::Mat& frame) {
-
-    // cpu time for debug
     BlockDetection::detectBlocks(frame, nearestBlockInfo);
     updateNearestBlockInfoAverage();
 }
 
+void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
+    TerritoryDetection::detectPurpleLine(frame, local_map);
+}
+// ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
-
 
     nearestBlockInfo.found_cube =
             nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
@@ -75,7 +66,13 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 
 }
 
-// for other threads to use
+// refresh local map to zeros
+void ImageProcessor::local_map_refresh() {
+    local_map.setZeros();
+    local_map.setVal(30,30,180);
+}
+
+// ****** FOR OTHER THREADS TO USE ****** //
 int ImageProcessor::getFoundCube() {
     return nearestBlockInfo.found_cube > 0.5;
 }
@@ -96,12 +93,6 @@ double ImageProcessor::getCacheTime() {
     return cache_time;
 }
 
-// refresh local map to zeros
-void ImageProcessor::local_map_refresh() {
-    local_map.setZeros();
-    local_map.setVal(30,30,180);
-}
-
 // write image to file for debugging purposes
 void ImageProcessor::writeToFile(std::string fn) {
     cv::Mat temp;
@@ -109,7 +100,7 @@ void ImageProcessor::writeToFile(std::string fn) {
     cv::imwrite(fn,temp);
 }
 
-// singled out to avoid adding pointers to each global variable
+// ****** MAIN FUNCTION IN LOOP ******* //
 void ImageProcessor::doStuff() {
 
     clearCameraCache();
@@ -117,25 +108,10 @@ void ImageProcessor::doStuff() {
     clock_t start = clock(); // for debug
 
     vid_cap.retrieve(frame_raw); // get a new frame from camera
-    //frame_raw = cv::imread( "images/blocks_1.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
 
-    cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
-
-    //detectWall(frame);
+    detectWall(frame);
     detectBlocks(frame);
-
-
-    if(DEBUG == 1) {
-        cv::namedWindow("frame",1);
-        cv::imshow("frame",frame);
-        cv::Mat local_map_im = local_map.cvtImage();
-        local_map_refresh();
-
-        cv::namedWindow("www",CV_WINDOW_NORMAL);
-        cv::imshow("www",local_map_im);
-        cv::waitKey(100);
-    }
-    // some sort of usleep...
+    detectPurpleLine(frame);
 
     // for debug
     clock_t end = clock();
@@ -155,16 +131,21 @@ void ImageProcessor::clearCameraCache() {
     // for debug
     clock_t end = clock();
     cache_time = ((double) (end - start)) / CLOCKS_PER_SEC;
-
 }
 
+// for debug
 void ImageProcessor::debugStuff() {
     frame_raw = cv::imread("images/blocks_12.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
     vid_cap.grab(); // get a new frame from camera
     vid_cap.retrieve(frame_raw); // get a new frame from camera
     cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
+    clock_t start = clock();
     WallDetection::detectWall(frame, local_map);
+    BlockDetection::detectBlocks(frame, nearestBlockInfo);
     TerritoryDetection::detectPurpleLine(frame, local_map);
+    clock_t end = clock();
+    double dd = ((double) (end - start)) / CLOCKS_PER_SEC;
+    std::cout<<"time time time "<<dd<<std::endl;
     cv::namedWindow("wewe",1);
     cv::imshow("wewe",frame);
     if(DEBUG == 1) {
