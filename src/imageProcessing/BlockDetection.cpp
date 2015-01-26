@@ -132,7 +132,7 @@ int findHighestPoint(std::vector<cv::Point>& contour){
 }
 
 
-int findLowestContour(ContourUtils::ContourData& contour_data ) {
+int findLowestContour(ImageUtils::ContourData& contour_data ) {
     for(int j = 0; j < contour_data.contours.size(); j++) {
         //std::cout << j << " " << findLowestPoint(contour_data.contours.at(j)) << std::endl;
     }
@@ -143,7 +143,7 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
     std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> list_of_pts;
 
     cv::Mat im_color = ColorDetection::detectColor(frame, color);
-    ContourUtils::ContourData contour_data = ContourUtils::getContours(im_color);
+    ImageUtils::ContourData contour_data = ImageUtils::getContours(im_color);
 
     // CHECK BACK ON THIS
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
@@ -195,7 +195,6 @@ bool closerThan(Eigen::Vector2d& pt1, Eigen::Vector2d& pt2) {
 }
 
 
-// TO-DO: REORGANIZE CODE
 void detectBlocks(cv::Mat& frame, BlockInfo& nearest_block_info) {
 
     // list of points is in radial coordinates
