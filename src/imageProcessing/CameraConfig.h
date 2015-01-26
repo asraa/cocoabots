@@ -21,7 +21,7 @@ static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
 static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
 
 // translation vector of camera w.r.t to robot hook
-static const double CAM_ROBOT_X = 4.5;
+static const double CAM_ROBOT_X = 4.7;
 static const double CAM_ROBOT_Y = 0;
 
 // horizontal rotation of camera w.r.t. to front direction
