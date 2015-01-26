@@ -83,15 +83,16 @@ void particleFilter::run(particleFilter *particleFilterPtr){
 
         previousPosition = myParticleFilter->getNewPosition();
         previousAngle=myParticleFilter->getNewAngle();
+        if(getNewSpeed()>0){
+            updatedPositionCounter++;
+            if(myParticleFilter->myMap)
+                myParticleFilter->updateProbabilities();
 
-        updatedPositionCounter++;
-        if(myParticleFilter->myMap)
-            myParticleFilter->updateProbabilities();
+            if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
+                updatedPositionCounter=0;
+                myParticleFilter->resample();
 
-        if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
-            updatedPositionCounter=0;
-            myParticleFilter->resample();
-
+            }
         }
         myParticleFilter->updateRobotPosition();
         usleep(PARTICLE_FILTER_UPDATE_RATE_MS*1000);
@@ -315,6 +316,10 @@ double particleFilter::getNewAngle(){
 
 double particleFilter::getNewPosition(){
     return myMotorsControl->getNewPosition();
+}
+
+double particleFilter::getNewSpeed(){
+    return myMotorsControl->realSpeed;
 }
 
 

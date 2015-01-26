@@ -62,6 +62,8 @@ public:
     std::thread *runThread;
     double getNewAngle();
     double getNewPosition();
+    double getNewSpeed();
+
     static void run(particleFilter * particleFilterPtr);
 private:
     sensorsModule * mySensors;
