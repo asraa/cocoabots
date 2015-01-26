@@ -158,36 +158,36 @@ void particleFilter::updateProbabilities(){
 
 
 
-    //TODO Compare the expected reading with the real reading and see the probability
-    // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
-    likelyhood=1;
+        //TODO Compare the expected reading with the real reading and see the probability
+        // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
+        likelyhood=1;
 #if PARTICLE_FILTER_FRONT == 1
-    if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
-        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
-    }
+        if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+            likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+        }
 #endif
 
 #if PARTICLE_FILTER_FRONT ==2
-    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
-        likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+            likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
-    }
+        }
 #endif
 
 #if PARTICLE_FILTER_BACK == 1
-    if (backReading<PARTICLE_FILTER_MAX_IR_RANGE){
-        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
-    }
+        if (backReading<PARTICLE_FILTER_MAX_IR_RANGE){
+            likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+        }
 #endif
 
 #if PARTICLE_FILTER_BACK ==2
-    if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
-        likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+            likelyhood*=normalPdf(realFrontReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
-    }
+        }
 #endif
-    //TODO multiply the probability of the particle by this probability
-    myProbabilities[i]*=likelyhood;
+        //TODO multiply the probability of the particle by this probability
+        myProbabilities[i]*=likelyhood;
     }
 
 
@@ -199,9 +199,9 @@ struct particleFilterParticle particleFilter::updateRobotPosition(){
     std::vector <double> tempProbabilities = myProbabilities;
     int numberOfParticles = tempParticles.size();
     double probabilityNormalizationFactor=0;
-    double x=0;
-    double y=0;
-    double angle=0;
+    double x=0.0;
+    double y=0.0;
+    double angle=0.0;
     double tempProbability;
     struct particleFilterParticle tempParticle;
 
@@ -420,8 +420,8 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     std::string nameOfImage = "robot";
 
     particle = robot;
-    int x = (int) particle.x;
-    int y = (int) particle.y;
+    int x = (int) particle.x * PARTICLE_FILTER_INCHE_PIXEL_RATIO;
+    int y = (int) particle.y * PARTICLE_FILTER_INCHE_PIXEL_RATIO;
     double angle = particle.angle/180*PI;
 
     webpage << "context.save();\n" << std::endl;
