@@ -789,18 +789,18 @@ int main(int argc, char** argv){
             }
 
         }
-        else if(strcmp(argv[1],"particleFilterMap")==0){
+        else if(strcmp(argv[1],"particleFilterMock2Map")==0){
             printf("ParticleFilterTest with map\n");
             RUNNING =1;
             sensorsModule mySensors;
             motorsControl myMotorControl(&mySensors);
-            map myMap(MAP_DEBUG_FILE_NAME);
+            map myMap(MAP_DEBUG_MOCK2_FILE_NAME);
             double x = myMap.getStartLocationX();
             double y = myMap.getStartLocationY();
             particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
             myMap.printMapFile("myMapDebug.txt");
             while(RUNNING){
-                myParticleFilter.createSimpleWebpageView("particleFilter.html", "map2.png");
+                myParticleFilter.createSimpleWebpageView("particleFilter.html", "mapMock2.png");
                 usleep(200000.0);
             }
 

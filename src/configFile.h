@@ -252,6 +252,8 @@
 #define MAP_ROBOT_DISTANCE_CENTER_LEFT 6.0
 #define MAP_DEBUG 0
 #define MAP_DEBUG_FILE_NAME "myDebugMap.txt"
+#define MAP_DEBUG_MOCK2_FILE_NAME "mockCompetition2Map.txt"
+
 
 
 #define PI 3.14159
