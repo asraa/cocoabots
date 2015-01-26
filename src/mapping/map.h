@@ -2,7 +2,7 @@
 #define MAP_H
 
 #define RES_INIT 24 // inches
-#define RES_FIN 1 // inches
+#define RES_FIN 4 // inches
 #define ROBOT_SIZE 18 // max diag inches
 #define MAPFILENAME "map.txt"
 #define EMPTY 0
