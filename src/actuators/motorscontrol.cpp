@@ -174,18 +174,22 @@ void motorsControl::updateSpeed(){
     double newPosition =getNewPosition();
     double timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
     double dt = timeMicroSeconds-previousTime;
-    double newSpeed = (newPosition -previousPosition)*MICROSECOND/dt;
-    realSpeed=newSpeed;
-    //normalizedSpeed=realSpeed/MAXIMUM_SPEED;
+    if(dt>0){
+        double newSpeed = (newPosition -previousPosition)*MICROSECOND/dt;
+        realSpeed=newSpeed;
+        //normalizedSpeed=realSpeed/MAXIMUM_SPEED;
+    }
 }
 
 void motorsControl::updateAngularSpeed(){
     double newAngle =getNewAngle();
     double timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
     double dt = timeMicroSeconds-previousTime;
-    double newAngularSpeed = (newAngle -previousAngle)*MICROSECOND/dt;
-    realAngularSpeed=newAngularSpeed;
-    //normalizedAngularSpeed=realAngularSpeed/MAXIMUM_ANGULAR_SPEED;
+    if(dt>0){
+        double newAngularSpeed= (newAngle -previousAngle)*MICROSECOND/dt;
+        realAngularSpeed=newAngularSpeed;
+        //normalizedAngularSpeed=realAngularSpeed/MAXIMUM_ANGULAR_SPEED;
+    }
 }
 
 void motorsControl::updateWheelsSpeed(){
@@ -193,10 +197,12 @@ void motorsControl::updateWheelsSpeed(){
     double newLeftWheelPosition = getNewLeftWheelPosition();
     double timeMicroSeconds = mysensors->timeMicrosecondsSinceEpoch;
     double dt = timeMicroSeconds-previousTime;
-    double newRightWheelSpeed = (newRightWheelPosition-previousRightWheelPosition)*MICROSECOND/dt;
-    double newLeftWheelSpeed = (newLeftWheelPosition-previousLeftWheelPosition)*MICROSECOND/dt;
-    normalizedLeftWheelSpeed = newLeftWheelSpeed/MAXIMUM_REVOLUTIONS_PER_SECOND;
-    normalizedRightWheelSpeed = newRightWheelSpeed/MAXIMUM_REVOLUTIONS_PER_SECOND;
+    if(dt>0){
+        double newRightWheelSpeed = (newRightWheelPosition-previousRightWheelPosition)*MICROSECOND/dt;
+        double newLeftWheelSpeed = (newLeftWheelPosition-previousLeftWheelPosition)*MICROSECOND/dt;
+        normalizedLeftWheelSpeed = newLeftWheelSpeed/MAXIMUM_REVOLUTIONS_PER_SECOND;
+        normalizedRightWheelSpeed = newRightWheelSpeed/MAXIMUM_REVOLUTIONS_PER_SECOND;
+    }
 }
 
 void motorsControl::updateTime(){

@@ -281,6 +281,14 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
            << "canvas.height = 480; \n"
            << "var context = canvas.getContext('2d');\n"
            << "document.body.appendChild(canvas);\n" << std::endl;
+
+    { //map
+    std::string nameOfImage = "map";
+    webpage << "var "<< nameOfImage<< " = new Image();\n"
+      <<nameOfImage<<".src = 'map.png'; \n " << std::endl;
+    }
+
+    //particles
     for (int i=0; i<numberOfParticles;i++){
         std::string nameOfImage = "image";
         nameOfImage.append(std::to_string(i));
@@ -289,7 +297,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
           <<nameOfImage<<".src = 'smallArrow.gif'; \n " << std::endl;
     }
 
-    {
+    {//robot
     std::string nameOfImage = "robot";
     webpage << "var "<< nameOfImage<< " = new Image();\n"
       <<nameOfImage<<".src = 'smallRedArrow.gif'; \n " << std::endl;
@@ -297,19 +305,27 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
 
     webpage << "function init() {\n "<< std::endl;
 
+    //robot
+    {
+        std::string nameOfImage = "map";
+        webpage <<"context.drawImage("<<nameOfImage<<", 0, 0);\n"<< std::endl;
+
+    }
+
     for (int i=0; i<numberOfParticles;i++){
         std::string nameOfImage = "image";
         nameOfImage.append(std::to_string(i));
         particle = tempParticles[i];
-        int x = (int) particle.x;
-        int y = (int) particle.y;
+        int x = (int) (particle.x * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
+        int y = (int) (particle.y * PARTICLE_FILTER_INCHE_PIXEL_RATIO);
         double angle = particle.angle/180*PI;
 
         webpage << "context.save();\n" << std::endl;
 
         //centralizes the image.
         webpage<< "context.translate(8, 8);\n"
-               << "context.translate(320, 240);\n" << std::endl;
+              // << "context.translate(320, 240);\n"
+               << std::endl;
 
         webpage << "context.translate(" << x <<","<< y <<");\n" <<
                    "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
@@ -331,14 +347,15 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
     webpage << "context.save();\n" << std::endl;
 
     //centralizes the image.
-    webpage<< "context.translate(8, 8);\n"
-           << "context.translate(320, 240);\n" << std::endl;
+    webpage<< "context.translate(11, 9);\n"
+         //  << "context.translate(320, 240);\n"
+           << std::endl;
 
     webpage << "context.translate(" << x <<","<< y <<");\n" <<
                "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
-    webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
+    webpage <<"context.drawImage("<<nameOfImage<<", -22, -18);\n"<< std::endl;
 
     webpage <<"context.restore();\n"<< std::endl;
 }

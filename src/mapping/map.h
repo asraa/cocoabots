@@ -50,6 +50,12 @@ class map
 		struct mapCubeStack lookupStackOrder(struct mapPosition stackPos);
         struct mapPosition getEndPoint(struct mapPosition Pos1, int orientation);
         double getSonarReading(struct mapPosition Pos1, int orientation);
+        double getSonarReading(double x, double y, int angle);
+        double getSonarReadingFront(double x, double y, int angle);
+        double getSonarReadingRight(double x, double y, int angle);
+        double getSonarReadingLeft(double x, double y, int angle);
+        double getSonarReadingBack(double x, double y, int angle);
+
 		void removeStack(struct mapPosition stackPos);
 		double indToInch(int ind);
 		int inchToInd(double inch);

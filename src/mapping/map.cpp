@@ -271,6 +271,38 @@ double map::getSonarReading(struct mapPosition Pos1, int orientation){
     return getDistance(Pos1, imped);
 }
 
+double map::getSonarReading(double x, double y, int angle){
+    mapPosition myMapPosition;
+    int myX;
+    int myY;
+    int myAngle=angle;
+    myX=inchToInd(x);
+    myY=inchToInd(y);
+    myMapPosition.x=myX;
+    myMapPosition.y=myY;
+
+    return getSonarReading(myMapPosition,myAngle);
+}
+
+
+double map::getSonarReadingFront(double x, double y, int angle){
+    return getSonarReading(x,y,-angle);
+}
+
+double map::getSonarReadingRight(double x, double y, int angle){
+    return getSonarReading(x,y,angle+90);
+}
+
+
+double map::getSonarReadingLeft(double x, double y, int angle){
+    return getSonarReading(x,y,angle+270);
+}
+
+
+double map::getSonarReadingBack(double x, double y, int angle){
+    return getSonarReading(x,y,angle+180);
+}
+
 struct mapPosition map::getClosestHomeBase(struct mapPosition currentPos) {
 	return getClosestItem(currentPos, homeBases.getPositions());
 }

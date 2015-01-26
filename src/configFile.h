@@ -231,8 +231,18 @@
 #define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 50 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 10 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
+#define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
+#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 2
+#define PARTICLE_FILTER_MAX_IR_RANGE 40
+#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
 
+#define PARTICLE_FILTER_FRONT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
+#define PARTICLE_FILTER_BACK 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
+#define PARTICLE_FILTER_LEFT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
+#define PARTICLE_FILTER_RIGHT 0//0=none. 1 = ultra short IR sensor. 2 = shortIRsensor. 3=ultrasonic.
+
+#define PARTICLE_FILTER_INCHE_PIXEL_RATIO 2 //defined by: real size of map / pixes of map
 #define PI 3.14159
 #endif // CONFIGFILE_H
 
