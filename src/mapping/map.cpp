@@ -698,7 +698,7 @@ struct mapPosition map::stepFromToRRT(struct mapPosition Pos1, struct mapPositio
 	}
 }
 
-int main() {
+int main_map() {
 	map myMap("practice_map.txt");
     mapPosition startPos = myMap.startLoc.getPositions()[0];
     mapPosition goalPos = myMap.stacks.getPositions()[0];
