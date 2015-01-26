@@ -16,7 +16,8 @@ objectsSuperClass::positionVector objectsSuperClass::getPositions() {
 }
 
 objectsSuperClass::position objectsSuperClass::getMaxPos(positionVector posVec) {
-	int posVecMaxX, posVecMaxY = 0;
+	int posVecMaxX = 0;
+	int posVecMaxY = 0;
 	for (int i = 0; i < posVec.size(); ++i) {
 		int x = std::get<0>(posVec[i]);
 		int y = std::get<1>(posVec[i]);

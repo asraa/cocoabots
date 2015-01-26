@@ -289,6 +289,12 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
           <<nameOfImage<<".src = 'smallArrow.gif'; \n " << std::endl;
     }
 
+    {
+    std::string nameOfImage = "robot";
+    webpage << "var "<< nameOfImage<< " = new Image();\n"
+      <<nameOfImage<<".src = 'smallRedArrow.gif'; \n " << std::endl;
+    }
+
     webpage << "function init() {\n "<< std::endl;
 
     for (int i=0; i<numberOfParticles;i++){
@@ -306,13 +312,36 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile){
                << "context.translate(320, 240);\n" << std::endl;
 
         webpage << "context.translate(" << x <<","<< y <<");\n" <<
-                   "context.rotate("<<angle<<");\n" << std::endl;
+                   "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
 
 
         webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
 
         webpage <<"context.restore();\n"<< std::endl;
     }
+
+{
+    std::string nameOfImage = "robot";
+
+    particle = robot;
+    int x = (int) particle.x;
+    int y = (int) particle.y;
+    double angle = particle.angle/180*PI;
+
+    webpage << "context.save();\n" << std::endl;
+
+    //centralizes the image.
+    webpage<< "context.translate(8, 8);\n"
+           << "context.translate(320, 240);\n" << std::endl;
+
+    webpage << "context.translate(" << x <<","<< y <<");\n" <<
+               "context.rotate("<<angle*PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE<<");\n" << std::endl;
+
+
+    webpage <<"context.drawImage("<<nameOfImage<<", -16, -16);\n"<< std::endl;
+
+    webpage <<"context.restore();\n"<< std::endl;
+}
 
     webpage << "}\n\n"<<
                "</script>\n\n" <<

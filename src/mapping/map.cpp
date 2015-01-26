@@ -58,6 +58,7 @@ map::positionVector map::generateSquareAroundPoint(position Pos, int diameter) {
 void map::buildMap(std::string filename) {
 	parseMapFile(filename);
 	parseObjects();
+	floodFillOutside(); // fill the outside map with 6's
 	printMapFile("map.txt");
 }
 
@@ -311,7 +312,6 @@ map::position map::getClosestItem(position currentPos, positionVector posVec) {
 	return minPos;
 }
 
-
 map::cubeTuple map::lookupStackOrder(position stackPos) {
 	return stacks.getCubeStack(stackPos);
 }
@@ -330,9 +330,47 @@ int map::inchToInd(double inch) {
 	return ind;
 }
 
+void map::floodFillOutside() {
+	int x, y;
+	position pos;
+	int target, replacement;
+	target = EMPTY;
+	replacement = OUTSIDE;
+	for (x = 0; x <= std::get<0>(MAX_POS); ++x) {
+		pos = std::make_tuple(x,0);
+		floodFill(pos, target, replacement);
+		pos = std::make_tuple(x,std::get<1>(MAX_POS));
+		floodFill(pos, target, replacement);
+	}
+	for (y = 0; y <= std::get<1>(MAX_POS); ++y) {
+		pos = std::make_tuple(0,y);
+		floodFill(pos, target, replacement);
+		pos = std::make_tuple(std::get<0>(MAX_POS),y);
+		floodFill(pos, target, replacement);
+	}
+}
+
+void map::floodFill(position pos, int target, int replacement) {
+	int x = fmax(0,fmin(std::get<0>(MAX_POS),std::get<0>(pos)));
+	int y = fmax(0,fmin(std::get<1>(MAX_POS),std::get<1>(pos)));
+	int color = mapVector[x][y];
+	if (target == replacement) {
+	}
+	else if (color == target) {
+		writeMapVector(std::make_tuple(x,y),replacement);
+		position west = std::make_tuple(x-1,y);
+		position east = std::make_tuple(x+1,y);
+		position north = std::make_tuple(x,y+1);
+		position south = std::make_tuple(x,y-1);
+		floodFill(west,target,replacement);
+		floodFill(east,target,replacement);
+		floodFill(north,target,replacement);
+		floodFill(south,target,replacement);
+	}
+}
 
 
-int main_map(){
+int MAP_main(){
     map myMap("red_map.txt");
 }
 
@@ -344,3 +382,4 @@ int main_map(){
 // 3 = stack
 // 4 = homebase
 // 5 = startloc
+// 6 = voidspace

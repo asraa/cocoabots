@@ -11,6 +11,7 @@
 #define STACK 3
 #define HOMEBASE 4
 #define STARTLOC 5
+#define OUTSIDE 6
 
 #include "../configFile.h"
 #include "objects/barrier.h"
@@ -65,6 +66,8 @@ class map
 		void removeStack(position stackPos);
 		double indToInch(int ind);
 		int inchToInd(double inch);
+		void floodFillOutside();
+		void floodFill(position pos, int target, int replacement);
 
 		map::position MAX_POS;
 
