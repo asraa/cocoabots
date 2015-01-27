@@ -136,25 +136,36 @@ void particleFilter::respawn(){
 
             myParticles.push_back(particle);
         }
+        numberOfParticles+=PARTICLE_FILTER_NUMBER_OF_PARTICLES_RESPAWN;
+
     }
 }
 
 void particleFilter::killParticles(){
-    double maxLikelyhood;
+    double maxLikelyhood=0.0;
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
-    for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>maxLikelyhood){
-            maxLikelyhood=myProbabilities[i];
+    for(int i=0  ; i<numberOfParticles;i++){
+        if(i< myProbabilities.size()){
+            if(myProbabilities[i]>maxLikelyhood){
+                maxLikelyhood=myProbabilities[i];
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
-    for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
-            newProbabilities.push_back(myProbabilities[i]);
-            newParticles.push_back(myParticles[i]);
+    for(int i=0; i<numberOfParticles;i++){
+        if(i< myProbabilities.size()){
+
+            if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
+                newProbabilities.push_back(myProbabilities[i]);
+                newParticles.push_back(myParticles[i]);
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
-    numberOfParticles=newProbabilities.size();
+    numberOfParticles=newParticles.size();
     myParticles=newParticles;
     myProbabilities=newProbabilities;
 
@@ -164,6 +175,7 @@ void particleFilter::updateProbabilities(){
     std::vector <struct particleFilterParticle> tempParticles = myParticles;// protects against race conditions, etc
     struct particleFilterParticle *particlePtr;
     int numberOfParticles = tempParticles.size();
+    double totalLikelyHood=0;
 
     double likelyhood;
     double realFrontReading = 0;
@@ -215,7 +227,6 @@ void particleFilter::updateProbabilities(){
         double backReading = myMap->getSonarReadingBack(x,y,angle);
         double rightReading = myMap->getSonarReadingRight(x,y,angle);
         double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
-
 
 
 
@@ -273,7 +284,12 @@ void particleFilter::updateProbabilities(){
 #endif
         //TODO multiply the probability of the particle by this probability
         myProbabilities[i]*=likelyhood;
+        totalLikelyHood+=likelyhood;
     }
+    for (int i=0; i<numberOfParticles; i++){
+        myProbabilities[i]/=totalLikelyHood;
+    }
+
 
 
 
