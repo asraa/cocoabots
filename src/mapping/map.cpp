@@ -357,8 +357,11 @@ double map::getSonarReadingRight(double x, double y, int angle){
     double newY;
     angle+=90;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
-    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
+    double cosAngle=cos(angle*PI/180);
+    double sinAngle =sin(angle*PI/180);
+    newX= x + cosAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X - sinAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_Y;
+    newY= y + sinAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X + cosAngle* MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_Y;
+
 #if MAP_DEBUG
     mapVector[inchToInd(newX)][inchToInd(newY)]=8;
 #endif
