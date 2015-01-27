@@ -145,7 +145,7 @@ void particleFilter::killParticles(){
     double maxLikelyhood;
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
-    for(int i=0; i<numberOfParticles;i++){
+    for(int i=0  ; i<numberOfParticles;i++){
         if(i< myProbabilities.size()){
             if(myProbabilities[i]>maxLikelyhood){
                 maxLikelyhood=myProbabilities[i];
