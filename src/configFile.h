@@ -224,26 +224,26 @@
 
 ///////////////
 //Particle Filter
-#define PARTICLE_FILTER_NUMBER_OF_PARTICLES 100
+#define PARTICLE_FILTER_NUMBER_OF_PARTICLES 200
 #define PARTICLE_FILTER_ENCODERS_NORMALIZED_STANDARD_DEVIATION 0.04
 #define PARTICLE_FILTER_ANGLE_NORMALIZED_STANDARD_DEVIATION 0.04
 #define PARTICLE_FILTER_ANGLE_NEGATIVE_CLOCKWISE -1 //if the angle is positive when clockwise, we have to multiply it by -1
                                                    // In other words, make it -1, if Y increases going up instead of down.
 #define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X 3
 #define PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y 3
-#define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 50 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
+#define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 100 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 20 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
-#define PARTICLE_FILTER_MAX_STILL_UPDATES 5
+#define PARTICLE_FILTER_MAX_STILL_UPDATES 1
 #define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
 #define PARTICLE_FILTER_STANDARD_DEVIATION_IR 3
-#define PARTICLE_FILTER_MAX_IR_RANGE 40
-#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
+#define PARTICLE_FILTER_MAX_IR_RANGE 30
+#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 50
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
 
 
 #define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
-#define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_BACK 2//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
