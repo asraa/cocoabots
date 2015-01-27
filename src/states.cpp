@@ -167,7 +167,7 @@ void states::wallFollowLeft(){
     }
 
     else {
-        printf("Not stuck on a corner \n");
+//        printf("Not stuck on a corner \n");
 
         if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
             if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
@@ -180,7 +180,7 @@ void states::wallFollowLeft(){
             if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
-                printf("Not wiggling anymore \n");
+//                printf("Not wiggling anymore \n");
 
             }
             else{
@@ -221,7 +221,7 @@ void states::wallFollowLeft(){
                 setCarrotPosition(0,45);
                 startTimeState = getTimeMicroseconds();
             }
-            printf("transitioning from looking for a wall to rotating\n");
+//            printf("transitioning from looking for a wall to rotating\n");
         }
         else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             printf("transitioning from looking for a wall to following a wall");
@@ -256,7 +256,7 @@ void states::wallFollowLeft(){
         if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
-            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+//            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
         printf(" rotating\n");
         break;
@@ -267,7 +267,7 @@ void states::wallFollowLeft(){
             initialTurningAngle=getAngle();
             setCarrotPosition(0,45);
             startTimeState = getTimeMicroseconds();
-            printf("transitioning from following for a wall to rotating\n");
+//            printf("transitioning from following for a wall to rotating\n");
 
         }
         else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
@@ -283,7 +283,7 @@ void states::wallFollowLeft(){
                 myState=lookingForWall;
                 startTimeState = getTimeMicroseconds();
             }
-            printf("transitioning from following to  looking \n");
+//            printf("transitioning from following to  looking \n");
 
 
         }
@@ -294,7 +294,7 @@ void states::wallFollowLeft(){
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
             carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
             setCarrotPosition(carrotDistance,carrotAngle);
-            printf("Following wall\n");
+//            printf("Following wall\n");
 
         }
 
