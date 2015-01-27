@@ -155,9 +155,14 @@ void particleFilter::killParticles(){
         }
     }
     for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
-            newProbabilities.push_back(myProbabilities[i]);
-            newParticles.push_back(myParticles[i]);
+        if(i< myProbabilities.size()){
+
+            if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
+                newProbabilities.push_back(myProbabilities[i]);
+                newParticles.push_back(myParticles[i]);
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
     numberOfParticles=newParticles.size();
