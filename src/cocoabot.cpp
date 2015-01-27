@@ -131,6 +131,8 @@ void cocoabot::run(int argc, char **argv){
         myState = nextState;
         delete previousState;
         previousState=NULL;
+        myServosControl.hookBlock();
+        myServosControl.hookBlock();
         while (running){
             myState->startProcessingProceduresManual();
             myState->wallFollow();
