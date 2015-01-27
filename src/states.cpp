@@ -236,6 +236,7 @@ void states::wallFollowLeft(){
                 wiggling =true;
                 wiggleDirection++;
                 wiggleDirection%=4;
+                stuckOnACorner=0;
 
             }
             else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
