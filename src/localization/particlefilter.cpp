@@ -304,7 +304,7 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
         newDistanceX = cos(movingAngle*PI/180) * newDistance;
         newDistanceY = sin(movingAngle*PI/180) * newDistance;
 
-        if(!myMap->isWall(newDistanceX, newDistanceY)){
+        if(!myMap->isWall(particle->x+newDistanceX, particle->y+newDistanceY)){
             particle->angle = newAngle;
             particle->x += newDistanceX;
             particle->y += newDistanceY;
