@@ -112,7 +112,7 @@ void map::buildMap(std::string filename) {
 	parseObjects();
 	floodFillOutside(); // fill the outside map with 6's
 	floodFillHomeBase();
-	floodFill({100,100},0,1);
+    //floodFill({100,100},0,1);
 	printMapFile("map.txt");
 	// buildMapRRT();
 }
