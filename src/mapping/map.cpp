@@ -64,6 +64,14 @@ bool map::isWall(struct mapPosition pos){
     }
 }
 
+bool map::isWall(double x, double y){
+    mapPosition tempPos;
+    int indX = inchToInd(x);
+    int indY = inchToInd(y);
+    tempPos.x=indX;
+    tempPos.y=indY;
+    return isWall(tempPos);
+}
 
 bool map::typeIsPassable(int type) {
 	bool isPassable = false;
