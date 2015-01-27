@@ -142,7 +142,7 @@ void particleFilter::respawn(){
 }
 
 void particleFilter::killParticles(){
-    double maxLikelyhood=0;
+    double maxLikelyhood=0.0;
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
     for(int i=0  ; i<numberOfParticles;i++){
@@ -226,7 +226,7 @@ void particleFilter::updateProbabilities(){
         double backReading = myMap->getSonarReadingBack(x,y,angle);
         double rightReading = myMap->getSonarReadingRight(x,y,angle);
         double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
-
+        double totalLikelyHood=0;
 
 
 
@@ -284,7 +284,12 @@ void particleFilter::updateProbabilities(){
 #endif
         //TODO multiply the probability of the particle by this probability
         myProbabilities[i]*=likelyhood;
+        totalLikelyHood+=likelyhood;
     }
+    for (int i=0; i<numberOfParticles; i++){
+        myProbabilities[i]/=likelyhood;
+    }
+
 
 
 
