@@ -84,7 +84,6 @@ void states::wallFollowRight(){
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
-                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
                 sharpCurveToTheRight();
@@ -232,6 +231,8 @@ void states::wallFollowLeft(){
         } else{
             if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
                 wiggling=1;
+                startTimeState = getTimeMicroseconds();
+
             }
             else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
                 setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
