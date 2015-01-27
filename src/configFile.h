@@ -13,7 +13,7 @@
 #define MOTOR_DIRECTION_BACK 0  //Defines the value of the Dir pin when going back 1/0
 #define MOTOR_DIRECTION_FRONT 1  //Defines the value of the Dir pin when going front 0/1
 #define CLOCKWISE_POSITIVE 1 //Change from +1 to -1 if it is negative in the clockwise direction
-#define ENCODER_OPPOSITE_MOTOR  1 // +1 or -1 If the encoders are defined to be going opposite to the motor direction
+#define ENCODER_OPPOSITE_MOTOR  -1 // +1 or -1 If the encoders are defined to be going opposite to the motor direction
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
