@@ -4,6 +4,7 @@ sensorsModule::sensorsModule():
     frontUltrasonicData(0),
     rightUltrasonicData(0),
     leftUltrasonicData(0),
+    backUltrasonicData(0),
 
     rightEncoderMovement(0),
     leftEncoderMovement(0),
@@ -42,6 +43,9 @@ sensorsModule::sensorsModule():
     ,leftUltrasonic(LEFT_ULTRASONIC_TR,LEFT_ULTRASONIC_EC)
     #endif
 
+    #if BACK_ULTRASONIC
+    ,backUltrasonic(BACK_ULTRASONIC_TR, BACK_ULTRASONIC_EC)
+    #endif
     #if ENC_2_WIRES
     #if RIGHT_ENCODER
     ,rightEncoder(RIGHT_ENCODER_ENC_A,RIGHT_ENCODER_ENC_B,0)
@@ -132,6 +136,9 @@ void sensorsModule::run(sensorsModule * sensors){
         updateSensor(&sensors->leftUltrasonic,&sensors->leftUltrasonicData, sensors->ultrasonicAlpha,started);
         #endif
 
+        #if BACK_ULTRASONIC
+        updateSensor(&sensors->backUltrasonic,&sensors->backUltrasonicData, sensors->ultrasonicAlpha,started);
+        #endif
 
         #if RIGHT_ENCODER
         updateSensor(&sensors->rightEncoder,&sensors->rightEncoderMovement, sensors->encoderAlpha,started);

@@ -20,6 +20,7 @@ public:
     ~sensorsModule();
 
     volatile double frontUltrasonicData;
+    volatile double backUltrasonicData;
     volatile double rightUltrasonicData;
     volatile double leftUltrasonicData;
 
@@ -103,6 +104,10 @@ ultrasonic rightUltrasonic;
 
 #if LEFT_ULTRASONIC
 ultrasonic leftUltrasonic;
+#endif
+
+#if BACK_ULTRASONIC
+ultrasonic backUltrasonic;
 #endif
 
 
