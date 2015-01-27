@@ -230,8 +230,12 @@ void states::wallFollowLeft(){
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
-                wiggling=1;
-                startTimeState = getTimeMicroseconds();
+                printf("starting to wiggle\n");
+                //previousStartTimeState = startTimeState;
+                startTimeState=getTimeMicroseconds();
+                wiggling =true;
+                wiggleDirection++;
+                wiggleDirection%=4;
 
             }
             else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
