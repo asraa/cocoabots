@@ -287,7 +287,7 @@ void particleFilter::updateProbabilities(){
         totalLikelyHood+=likelyhood;
     }
     for (int i=0; i<numberOfParticles; i++){
-        myProbabilities[i]/=likelyhood;
+        myProbabilities[i]/=totalLikelyHood;
     }
 
 
