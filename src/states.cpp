@@ -162,13 +162,13 @@ void states::wallFollowLeft(){
         else{
             switch(wiggleDirection){
             case(0):
-                sharpCurveToTheLeftBack();
+                sharpCurveToTheRightBack();
                 break;
             case(1):
                 sharpCurveToTheRight();
                 break;
             case(2):
-                sharpCurveToTheLeftBack();
+                sharpCurveToTheRightBack();
                 break;
             case(3):
                 sharpCurveToTheRight();
