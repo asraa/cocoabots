@@ -467,7 +467,6 @@ void map::removeStack(struct mapPosition stackPos) {
 double map::indToInch(int ind) {
 	return (double) ind*RES_FIN;
 }
-
 int map::inchToInd(double inch) {
 	double gridResDouble = (double) RES_FIN;
 	int ind = (int) round(inch/gridResDouble);
