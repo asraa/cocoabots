@@ -66,6 +66,8 @@ void logger::log() {
              "  front:"<<mySensorsPt->frontUltrasonicData <<
              "  left:"<<mySensorsPt->leftUltrasonicData <<
              "  right:"<<mySensorsPt->rightUltrasonicData <<
+             "  back:"<<mySensorsPt->backUltrasonicData <<
+
 
              "\n Encoders:" <<
              "  left:"<<mySensorsPt->leftEncoderMovement <<
