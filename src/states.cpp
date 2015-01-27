@@ -156,7 +156,7 @@ void states::wallFollowLeft(){
 
     if(wiggling){
         if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
-            startTimeState=previousStartTimeState;
+            startTimeState=getTimeMicroseconds();//previousStartTimeState;
             wiggling=0;
         }
         else{
@@ -169,9 +169,9 @@ void states::wallFollowLeft(){
         }
     }
     else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
-        if(goingOppositeToPower()==-1){
+        if(goingOppositeToPower()){
             printf("starting to wiggle\n");
-            previousStartTimeState = startTimeState;
+            //previousStartTimeState = startTimeState;
             startTimeState=getTimeMicroseconds();
             wiggling =true;
             wiggleDirection=!wiggleDirection;
