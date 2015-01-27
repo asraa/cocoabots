@@ -154,6 +154,7 @@ void states::wallFollowLeft(){
         stuckOnACorner=0;
     }
     if(stuckOnACorner){
+        printf("Stuck on a corner \n");
         if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS){
             sharpCurveToTheRightBack();
 
@@ -165,6 +166,8 @@ void states::wallFollowLeft(){
     }
 
     else {
+        printf("Not stuck on a corner \n");
+
         if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
             if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
                 stuckOnACorner=1;
@@ -172,9 +175,12 @@ void states::wallFollowLeft(){
             }
         }
         if(wiggling){
+            printf("Wiggling \n");
             if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
+                printf("Not wiggling anymore \n");
+
             }
             else{
                 switch(wiggleDirection){
