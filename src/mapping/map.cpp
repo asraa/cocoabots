@@ -13,7 +13,7 @@ struct measure
         auto duration = std::chrono::duration_cast< TimeT>(
             std::chrono::system_clock::now() - start);
         return duration.count();
-    }
+    }f
 };
 
 map::map(std::string filename):
@@ -296,6 +296,10 @@ double map::getDistance(struct mapPosition Pos1, struct mapPosition Pos2) {
 
 	double answer = sqrt(pow(dx2-dx1,2)+pow(dy2-dy1,2));
 	return answer;
+}
+
+double map::getDistanceInd(struct mapPosition Pos1, struct mapPosition Pos2) {
+	return sqrt(pow(Pos2.x-Pos1.x,2)+pow(Pos2.y-Pos1.y,2));
 }
 
 struct mapPosition map::getEndPoint(struct mapPosition Pos1, int orientation){

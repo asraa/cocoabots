@@ -53,6 +53,7 @@ class map
 		int sign(int num);
 		int convertInd(int ind, int gridResInit, int gridResFin);
 		double getDistance(struct mapPosition Pos1, struct mapPosition Pos2);
+		double getDistanceInd(struct mapPosition Pos1, struct mapPosition Pos2);
 		struct mapPosition getClosestHomeBase(struct mapPosition currentPos);
 		struct mapPosition getClosestStack(struct mapPosition currentPos);
 		struct mapPosition getClosestItem(struct mapPosition currentPos, mapPositionVector posVec);
