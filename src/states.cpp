@@ -201,16 +201,6 @@ void states::wallFollowLeft(){
             }
             return;
         }
-        else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
-//            if(goingOppositeToPower()==2){
-//                printf("starting to wiggle\n");
-//                //previousStartTimeState = startTimeState;
-//                startTimeState=getTimeMicroseconds();
-//                wiggling =true;
-//                wiggleDirection++;
-//                wiggleDirection%=4;
-//            }
-        }
     }
 
     switch (myState) {
@@ -225,11 +215,11 @@ void states::wallFollowLeft(){
 
             }
             else{
+
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 setCarrotPosition(0,45);
                 startTimeState = getTimeMicroseconds();
-
             }
             printf("transitioning from looking for a wall to rotating\n");
         }
@@ -245,6 +235,7 @@ void states::wallFollowLeft(){
                 wiggleDirection++;
                 wiggleDirection%=4;
                 stuckOnACorner=0;
+                return;
 
             }
             else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
@@ -267,6 +258,7 @@ void states::wallFollowLeft(){
             startTimeState = getTimeMicroseconds();
             printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
+        printf(" rotating\n");
         break;
     }
     case followingWall:
@@ -302,6 +294,7 @@ void states::wallFollowLeft(){
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
             carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
             setCarrotPosition(carrotDistance,carrotAngle);
+            printf("Following wall\n");
 
         }
 
