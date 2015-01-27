@@ -63,6 +63,7 @@ public:
     double getNewAngle();
     double getNewPosition();
     double getNewSpeed();
+    double getNewAngleSpeed();
 
     static void run(particleFilter * particleFilterPtr);
 private:

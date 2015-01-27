@@ -75,15 +75,14 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     previousAngle = myParticleFilter->getNewAngle();
 
     while (myParticleFilter->running) {
+        if(particleFilterPtr->getNewSpeed()>0 || particleFilterPtr->getNewAngleSpeed()){
+            distance = myParticleFilter->getNewPosition() - previousPosition;
+            differenceAngle = myParticleFilter->getNewAngle() - previousAngle;
 
-        distance = myParticleFilter->getNewPosition() - previousPosition;
-        differenceAngle = myParticleFilter->getNewAngle() - previousAngle;
+            myParticleFilter->updateParticles(differenceAngle,distance);
 
-        myParticleFilter->updateParticles(differenceAngle,distance);
-
-        previousPosition = myParticleFilter->getNewPosition();
-        previousAngle=myParticleFilter->getNewAngle();
-        if(particleFilterPtr->getNewSpeed()>0){
+            previousPosition = myParticleFilter->getNewPosition();
+            previousAngle=myParticleFilter->getNewAngle();
             updatedPositionCounter++;
             if(myParticleFilter->myMap)
                 myParticleFilter->updateProbabilities();
@@ -320,6 +319,10 @@ double particleFilter::getNewPosition(){
 
 double particleFilter::getNewSpeed(){
     return myMotorsControl->realSpeed;
+}
+
+double particleFilter::getNewAngleSpeed(){
+    return myMotorsControl->realAngularSpeed;
 }
 
 
