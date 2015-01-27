@@ -175,6 +175,7 @@ void particleFilter::updateProbabilities(){
     std::vector <struct particleFilterParticle> tempParticles = myParticles;// protects against race conditions, etc
     struct particleFilterParticle *particlePtr;
     int numberOfParticles = tempParticles.size();
+    double totalLikelyHood=0;
 
     double likelyhood;
     double realFrontReading = 0;
@@ -226,7 +227,6 @@ void particleFilter::updateProbabilities(){
         double backReading = myMap->getSonarReadingBack(x,y,angle);
         double rightReading = myMap->getSonarReadingRight(x,y,angle);
         double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
-        double totalLikelyHood=0;
 
 
 
