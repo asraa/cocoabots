@@ -372,8 +372,10 @@ double map::getSonarReadingFront(double x, double y, int angle){
     double newX;
     double newY;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
-    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_FRONT;
+    double cosAngle=cos(angle*PI/180);
+    double sinAngle =sin(angle*PI/180);
+    newX= x + cosAngle*MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_X - sinAngle*MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_Y;
+    newY= y + sinAngle*MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_X + cosAngle* MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_Y;
 #if MAP_DEBUG
     mapVector[inchToInd(newX)][inchToInd(newY)]=9;
 #endif
@@ -385,8 +387,8 @@ double map::getSonarReadingRight(double x, double y, int angle){
     double newY;
     angle+=90;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
-    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
+    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
 #if MAP_DEBUG
     mapVector[inchToInd(newX)][inchToInd(newY)]=8;
 #endif
@@ -399,8 +401,10 @@ double map::getSonarReadingLeft(double x, double y, int angle){
     double newY;
     angle+=270;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
-    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_LEFT;
+    double cosAngle=cos(angle*PI/180);
+    double sinAngle =sin(angle*PI/180);
+    newX= x + cosAngle*MAP_ROBOT_DISTANCE_CENTER_LEFT_SENSOR_X - sinAngle*MAP_ROBOT_DISTANCE_CENTER_LEFT_SENSOR_Y;
+    newY= y + sinAngle*MAP_ROBOT_DISTANCE_CENTER_LEFT_SENSOR_X + cosAngle* MAP_ROBOT_DISTANCE_CENTER_LEFT_SENSOR_Y;
 #if MAP_DEBUG
     mapVector[inchToInd(newX)][inchToInd(newY)]=7;
 #endif
@@ -413,8 +417,8 @@ double map::getSonarReadingBack(double x, double y, int angle){
     double newY;
     angle+=180;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
-    newY= y+ sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK;
+    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK_SENSOR_X;
+    newY= y+ sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_BACK_SENSOR_X;
 #if MAP_DEBUG
     mapVector[inchToInd(x)][inchToInd(y)]=3;
     mapVector[inchToInd(newX)][inchToInd(newY)]=5;

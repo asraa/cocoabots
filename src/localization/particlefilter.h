@@ -27,7 +27,13 @@ struct particleFilterParticle{
     double x;
     double y;
     double angle;
-    particleFilterParticle():x(0),y(0),angle(0){}
+    double standardDeviationX;
+    double standardDeviationY;
+    double standardDeviationAngle;
+    double sumLikelyHoods;
+    particleFilterParticle():x(0),y(0),angle(0),
+    standardDeviationAngle(0),standardDeviationX(0),
+    standardDeviationY(0), sumLikelyHoods(0){}
 };
 
 
