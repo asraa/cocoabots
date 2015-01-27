@@ -198,6 +198,7 @@ void states::wallFollowLeft(){
                     break;
                 }
             }
+            return;
         }
         else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
 //            if(goingOppositeToPower()==2){
@@ -250,6 +251,7 @@ void states::wallFollowLeft(){
             }
             else{
                 sharpCurveToTheLeft();
+                return;
             }
             printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
