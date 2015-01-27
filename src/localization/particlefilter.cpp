@@ -89,7 +89,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
             previousAngle=angle;
             updatedPositionCounter++;
         }
-        if(moved||stillUpdates--){
+        if(moved||stillUpdates--==0){
             if(myParticleFilter->myMap)
                 myParticleFilter->updateProbabilities();
 
