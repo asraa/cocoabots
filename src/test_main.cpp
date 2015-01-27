@@ -805,7 +805,22 @@ int main(int argc, char** argv){
             }
 
         }
+        else if(strcmp(argv[1],"particleFilterPracticeMap")==0){
+            printf("ParticleFilterTest with map\n");
+            RUNNING =1;
+            sensorsModule mySensors;
+            motorsControl myMotorControl(&mySensors);
+            map myMap(MAP_DEBUG_PRACTICE_FILE_NAME);
+            double x = myMap.getStartLocationX();
+            double y = myMap.getStartLocationY();
+            particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
+            myMap.printMapFile("myMapDebug.txt");
+            while(RUNNING){
+                myParticleFilter.createSimpleWebpageView("particleFilter.html", "practiceMap.png");
+                usleep(200000.0);
+            }
 
+        }
         return 0;
     }
 }

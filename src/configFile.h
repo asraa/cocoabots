@@ -243,8 +243,8 @@
 #define PARTICLE_FILTER_RIGHT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
 //HACK TO MAKE THE MAP EASIER TO WORK WITH
-#define PARTICLE_FILTER_MAP_Y_INCHES 96
-#define PARTICLE_FILTER_MAP_Y_PIXELS 193
+#define PARTICLE_FILTER_MAP_Y_INCHES 120
+#define PARTICLE_FILTER_MAP_Y_PIXELS 255
 #define PARTICLE_FILTER_INCHES_PIXEL_RATIO (PARTICLE_FILTER_MAP_Y_PIXELS / PARTICLE_FILTER_MAP_Y_INCHES) //defined by: real size of map / pixes of map
 
 /////////////////////
@@ -256,6 +256,7 @@
 #define MAP_DEBUG 0
 #define MAP_DEBUG_FILE_NAME "myDebugMap.txt"
 #define MAP_DEBUG_MOCK2_FILE_NAME "mockCompetition2Map.txt"
+#define MAP_DEBUG_PRACTICE_FILE_NAME "practiceMap.txt"
 
 
 
