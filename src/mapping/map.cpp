@@ -659,20 +659,19 @@ struct mapPosition map::getPosAtIndiceRRT(int indice) {
 }
 
 bool map::isConnectableRRT(struct mapPosition startPos, struct mapPosition goalPos) {
-	bool connects = true;
 	double stepSize = RES_FIN;
 	mapPosition Pos = startPos;
 
 	if (!(isPassable(startPos)) && !(isPassable(goalPos))) {
-		connects = false;
+		return false;
 	}
 	while (getDistance(Pos,goalPos) > stepSize) {
 		Pos = stepFromToRRT(Pos, goalPos, stepSize);
 		if (!(isPassable(Pos))) {
-			connects = false;
+			return false;
 		}
 	}
-	return connects;
+	return true;
 }
 
 double map::getThetaRRT(struct mapPosition Pos1, struct mapPosition Pos2) {
