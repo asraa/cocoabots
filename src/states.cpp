@@ -139,8 +139,9 @@ void states::wallFollowRight(){
 void states::wallFollowLeft(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    static long long int previousStartTimeState;
     static int wiggleDirection=0;
-    static int wiggling=1;
+    static int wiggling=0;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -155,7 +156,7 @@ void states::wallFollowLeft(){
 
     if(wiggling){
         if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
-            startTimeState=getTimeMicroseconds();
+            startTimeState=previousStartTimeState;
             wiggling=0;
         }
         else{
@@ -169,6 +170,7 @@ void states::wallFollowLeft(){
     }
     else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
         if(goingOppositeToPower()){
+            previousStartTimeState = startTimeState;
             startTimeState=getTimeMicroseconds();
             wiggling =true;
             wiggleDirection=!wiggleDirection;
