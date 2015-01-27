@@ -146,8 +146,12 @@ void particleFilter::killParticles(){
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
     for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>maxLikelyhood){
-            maxLikelyhood=myProbabilities[i];
+        if(i< myProbabilities.size()){
+            if(myProbabilities[i]>maxLikelyhood){
+                maxLikelyhood=myProbabilities[i];
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
     for(int i; i<numberOfParticles;i++){
