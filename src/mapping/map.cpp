@@ -730,11 +730,11 @@ int main_map() {
     std::cout << "average time: ";
 	std::cout << measure<>::execution( [&]() {
 	for (int i = 0; i < times; i++) {
-		mapPositionVector path = myMap.findPathRRT(startPos,goalPos,5000);
+		mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
 	}})/times << "ms" << std::endl;
 
 	std::cout << "jagged path" << std::endl;
-	mapPositionVector path = myMap.findPathRRT(startPos,goalPos,5000);
+	mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
 	for (int i = 0; i < path.size(); i++) {
 		myMap.mapVector[path[i].x][path[i].y] = 7;
     	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
