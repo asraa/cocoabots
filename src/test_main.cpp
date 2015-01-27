@@ -736,9 +736,23 @@ int main(int argc, char** argv){
         else if(strcmp(argv[1],"colorsensor")==0){
             printf("Running color sensor test\n");
             sensorsModule mysensors;
+            double min = 900;
+            double max = 0;
             RUNNING =1;
             while(RUNNING){
-                printf("%lf in\n", mysensors.colorSensorData);
+                if (mysensors.colorSensorData < min && mysensors.colorSensorData > 10) {
+
+                    min = mysensors.colorSensorData;
+                    printf("%lf min\n", min);
+                }
+                if (mysensors.colorSensorData > max) {
+
+                    max = mysensors.colorSensorData;
+                    printf("%lf max\n", max);
+                }
+
+
+
                 usleep(200000.0);
             }
 
