@@ -136,6 +136,8 @@ void particleFilter::respawn(){
 
             myParticles.push_back(particle);
         }
+        numberOfParticles+=PARTICLE_FILTER_NUMBER_OF_PARTICLES_RESPAWN;
+
     }
 }
 
@@ -154,7 +156,7 @@ void particleFilter::killParticles(){
             newParticles.push_back(myParticles[i]);
         }
     }
-    numberOfParticles=newProbabilities.size();
+    numberOfParticles=newParticles.size();
     myParticles=newParticles;
     myProbabilities=newProbabilities;
 
