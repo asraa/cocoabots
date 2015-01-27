@@ -195,14 +195,14 @@ void states::wallFollowLeft(){
             }
         }
         else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
-            if(goingOppositeToPower()==2){
-                printf("starting to wiggle\n");
-                //previousStartTimeState = startTimeState;
-                startTimeState=getTimeMicroseconds();
-                wiggling =true;
-                wiggleDirection++;
-                wiggleDirection%=4;
-            }
+//            if(goingOppositeToPower()==2){
+//                printf("starting to wiggle\n");
+//                //previousStartTimeState = startTimeState;
+//                startTimeState=getTimeMicroseconds();
+//                wiggling =true;
+//                wiggleDirection++;
+//                wiggleDirection%=4;
+//            }
         }
     }
 
