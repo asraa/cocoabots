@@ -165,13 +165,13 @@ void states::wallFollowLeft(){
                 sharpCurveToTheLeftBack();
                 break;
             case(1):
-                sharpCurveToTheRightBack();
+                sharpCurveToTheRight();
                 break;
             case(2):
                 sharpCurveToTheLeft();
                 break;
             case(3):
-                sharpCurveToTheRight();
+                sharpCurveToTheRightBack();
                 break;
             }
         }
