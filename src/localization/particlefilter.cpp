@@ -410,7 +410,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
         webpage << "context.save();\n" << std::endl;
 
         //centralizes the image.
-        webpage<< "context.translate(0, 0);\n"
+        webpage<< "context.translate(8, 8);\n"
               // << "context.translate(320, 240);\n"
                << std::endl;
 
@@ -435,7 +435,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     webpage << "context.save();\n" << std::endl;
 
     //centralizes the image.
-    webpage<< "context.translate(0, 0);\n"
+    webpage<< "context.translate(11, 9);\n"
          //  << "context.translate(320, 240);\n"
            << std::endl;
 
