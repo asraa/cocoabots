@@ -160,11 +160,19 @@ void states::wallFollowLeft(){
             wiggling=0;
         }
         else{
-            if (wiggleDirection){
+            switch(wiggleDirection){
+            case(0):
                 sharpCurveToTheLeftBack();
-            }
-            else{
+                break;
+            case(1):
                 sharpCurveToTheRightBack();
+                break;
+            case(2):
+                sharpCurveToTheLeft();
+                break;
+            case(3):
+                sharpCurveToTheRight();
+                break;
             }
         }
     }
@@ -174,7 +182,8 @@ void states::wallFollowLeft(){
             //previousStartTimeState = startTimeState;
             startTimeState=getTimeMicroseconds();
             wiggling =true;
-            wiggleDirection=!wiggleDirection;
+            wiggleDirection++;
+            wiggleDirection%=4;
         }
     }
 
