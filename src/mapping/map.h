@@ -3,7 +3,7 @@
 
 #define RES_INIT 24 // inches
 #define RES_FIN 1 // inches
-#define ROBOT_SIZE 18 // max diag inches
+#define ROBOT_SIZE 16 // max diag inches
 #define MAPFILENAME "map.txt"
 #define EMPTY 0
 #define WALL 1
@@ -12,6 +12,8 @@
 #define HOMEBASE 4
 #define STARTLOC 5
 #define OUTSIDE 6
+#define RAND_CONF_BIAS 5
+#define RRT_NUM_ITERS 5000
 
 #include "../configFile.h"
 #include "objects/barrier.h"
@@ -24,6 +26,8 @@
 #include <cmath>
 #include <algorithm>
 #include <iterator>
+#include <chrono>
+#include <random>
 
 class map
 {
@@ -75,21 +79,28 @@ class map
 
 		// RRT begins
 		mapNodeVector nodeVectorRRT;
-		mapPositionVector findPathRRT(struct mapPosition startPos, struct mapPosition goalPos, int KMAX);
+		mapPositionVector findPathRRT(struct mapPosition startPos, struct mapPosition goalPos);
 		void printNodes(mapNodeVector nodes, std::string filename);
-		mapPositionVector buildPathRRT(mapNodeVector nodes, struct mapPosition goalPos);
-		struct mapPosition randConfRRT();
+		mapPositionVector buildPathRRT(mapNodeVector nodes);
+		struct mapPosition randConfRRT(struct mapPosition goalPos, int bias);
 		int nearestVertexIndiceRRT(struct mapPosition pos);
 		int getParentAtIndiceRRT(int indice);
 		struct mapPosition getPosAtIndiceRRT(int indice);
 		bool isConnectableRRT(struct mapPosition startPos, struct mapPosition goalPos);
 		double getThetaRRT(struct mapPosition Pos1, struct mapPosition Pos2);
 		struct mapPosition stepFromToRRT(struct mapPosition Pos1, struct mapPosition Pos2, double stepSize);
+		void getMostsRRT();
+		void printMapPositionVector(mapPositionVector posVec);
+		//mapPositionVector smoothTriangle(mapPosition currentPos, mapPosition middlePos, mapPosition finalPos);
+		mapPositionVector smooth(mapPositionVector posVec);
+		int getFarthestConnectablePoint(mapPositionVector posVec);
+
+		// std::random_device rd;
+		// std::mt19937 gen(rd());
+		// std::uniform_real_distribution<> random(0,1);
 		// RRT ends
 
-
-
-
+		int LEFTMOST, RIGHTMOST, UPMOST, DOWNMOST;
 		mapPosition MAX_POS;
 
 		barrier walls, platforms;
