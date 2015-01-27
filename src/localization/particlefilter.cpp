@@ -145,15 +145,24 @@ void particleFilter::killParticles(){
     double maxLikelyhood;
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
-    for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>maxLikelyhood){
-            maxLikelyhood=myProbabilities[i];
+    for(int i=0  ; i<numberOfParticles;i++){
+        if(i< myProbabilities.size()){
+            if(myProbabilities[i]>maxLikelyhood){
+                maxLikelyhood=myProbabilities[i];
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
-    for(int i; i<numberOfParticles;i++){
-        if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
-            newProbabilities.push_back(myProbabilities[i]);
-            newParticles.push_back(myParticles[i]);
+    for(int i=0; i<numberOfParticles;i++){
+        if(i< myProbabilities.size()){
+
+            if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
+                newProbabilities.push_back(myProbabilities[i]);
+                newParticles.push_back(myParticles[i]);
+            }
+        }else{
+            printf("%d  index ERROR!", i);
         }
     }
     numberOfParticles=newParticles.size();
