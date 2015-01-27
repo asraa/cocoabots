@@ -4,6 +4,7 @@
 
 #include "mraa.hpp"
 #include "sensorssuperclass.h"
+#include "../configFile.h"
 
 class jankyColorSensor: public sensorsSuperClass
 {
@@ -11,9 +12,11 @@ class jankyColorSensor: public sensorsSuperClass
     ///initializes the jankycolorsensor
     mraa::Aio * colorSensorAio;
     jankyColorSensor(int colorSensorPin);
+    int runningTotal();
     double getData();
 
 private:
+    int count;
     int myDataPin;
 
 };
