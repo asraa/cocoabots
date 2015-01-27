@@ -232,7 +232,7 @@
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 50 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
 #define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
-#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 5
+#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 3
 #define PARTICLE_FILTER_MAX_IR_RANGE 40
 #define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 60
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
