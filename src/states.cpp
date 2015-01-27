@@ -155,9 +155,12 @@ void states::wallFollowLeft(){
     }
     if(stuckOnACorner){
         printf("Stuck on a corner \n");
-        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS){
-            sharpCurveToTheRightBack();
+        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS/2){
+            setCarrotPosition(0,-50);
             return;
+
+        }else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
+                sharpCurveToTheRightBack();
 
         }
         else{
