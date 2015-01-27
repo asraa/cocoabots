@@ -155,16 +155,21 @@ void states::wallFollowLeft(){
         stuckOnACorner=0;
     }
     if(stuckOnACorner){
-        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*2){
+        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS){
             sharpCurveToTheRightBack();
 
+        }
+        else{
+            stuckOnACorner=0;
         }
     }
 
     else {
         if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
-            stuckOnACorner=1;
-            startTimeState = getTimeMicroseconds();
+            if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+                stuckOnACorner=1;
+                startTimeState = getTimeMicroseconds();
+            }
         }
         if(wiggling){
             if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
@@ -177,13 +182,13 @@ void states::wallFollowLeft(){
                     sharpCurveToTheRightBack();
                     break;
                 case(1):
-                    sharpCurveToTheRight();
+                    sharpCurveToTheLeftBack();
                     break;
                 case(2):
                     sharpCurveToTheRightBack();
                     break;
                 case(3):
-                    sharpCurveToTheRight();
+                    sharpCurveToTheLeftBack();
                     break;
                 }
             }
@@ -224,7 +229,7 @@ void states::wallFollowLeft(){
             printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            if(difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+            if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
                 wiggling=1;
             }
             else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
