@@ -13,7 +13,7 @@ struct measure
         auto duration = std::chrono::duration_cast< TimeT>(
             std::chrono::system_clock::now() - start);
         return duration.count();
-    }f
+    }
 };
 
 map::map(std::string filename):
