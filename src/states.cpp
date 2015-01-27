@@ -160,6 +160,7 @@ void states::wallFollowLeft(){
 
         }
         else{
+            startTimeState = getTimeMicroseconds();
             stuckOnACorner=0;
         }
     }
