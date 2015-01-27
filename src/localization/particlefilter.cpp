@@ -142,7 +142,7 @@ void particleFilter::respawn(){
 }
 
 void particleFilter::killParticles(){
-    double maxLikelyhood;
+    double maxLikelyhood=0;
     std::vector <struct particleFilterParticle> newParticles;
     std::vector <double> newProbabilities;
     for(int i=0  ; i<numberOfParticles;i++){
