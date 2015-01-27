@@ -70,21 +70,26 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     double differenceAngle;
     double position;
     double angle;
+    int stillUpdates=PARTICLE_FILTER_MAX_STILL_UPDATES;
+    int moved=0;
     previousPosition = myParticleFilter->getNewPosition();
     previousAngle = myParticleFilter->getNewAngle();
 
     while (myParticleFilter->running) {
         position=myParticleFilter->getNewPosition();
         angle=myParticleFilter->getNewAngle();
+        moved=0;
         if (position!=previousPosition || angle!=previousAngle){
+            moved=1;
             distance = position - previousPosition;
             differenceAngle = angle - previousAngle;
-
+            stillUpdates=PARTICLE_FILTER_MAX_STILL_UPDATES;
             myParticleFilter->updateParticles(differenceAngle,distance);
-
             previousPosition = position;
             previousAngle=angle;
             updatedPositionCounter++;
+        }
+        if(moved||stillUpdates--){
             if(myParticleFilter->myMap)
                 myParticleFilter->updateProbabilities();
 
@@ -240,6 +245,10 @@ double particleFilter::getRobotAngle(){
     return robot.angle;
 }
 
+struct particleFilterParticle updateRobotVariance(){
+
+}
+
 void particleFilter::resample(){
     std::default_random_engine randomNumberGenerator; //This is used to get
                                                       //particles from the distribution
@@ -304,9 +313,11 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
         newDistanceX = cos(movingAngle*PI/180) * newDistance;
         newDistanceY = sin(movingAngle*PI/180) * newDistance;
 
-        particle->angle = newAngle;
-        particle->x += newDistanceX;
-        particle->y += newDistanceY;
+        if(!myMap->isWall(particle->x+newDistanceX, particle->y+newDistanceY)){
+            particle->angle = newAngle;
+            particle->x += newDistanceX;
+            particle->y += newDistanceY;
+        }
     }
 }
 
@@ -408,7 +419,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
         webpage << "context.save();\n" << std::endl;
 
         //centralizes the image.
-        webpage<< "context.translate(0, 0);\n"
+        webpage<< "context.translate(8, 8);\n"
               // << "context.translate(320, 240);\n"
                << std::endl;
 
@@ -433,7 +444,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
     webpage << "context.save();\n" << std::endl;
 
     //centralizes the image.
-    webpage<< "context.translate(0, 0);\n"
+    webpage<< "context.translate(11, 9);\n"
          //  << "context.translate(320, 240);\n"
            << std::endl;
 

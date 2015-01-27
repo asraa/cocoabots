@@ -16,6 +16,7 @@
 #include "actuators/motorscontrol.h"
 #include "actuators/servoscontrol.h"
 #include "imageProcessing/ImageProcessor.h"
+#include "localization/particlefilter.h"
 #include "states.h"
 class logger
 {
@@ -25,7 +26,9 @@ public:
         servosControl * servosPtr,
         states ** statesDblPtr,
         ImageProcessor * ImageProcessorPtr,
-        std::string logFileName = LOG_FILE_NAME, int logRateMs=UPDATE_RATE_LOGGER);
+        particleFilter * particleFilterPtr =NULL,
+        std::string logFileName = LOG_FILE_NAME,
+           int logRateMs=UPDATE_RATE_LOGGER);
     ~logger();
 
     std::thread *runThread;

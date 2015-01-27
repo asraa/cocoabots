@@ -18,6 +18,7 @@ logger::logger(sensorsModule *sensorsPtr,
          servosControl *servosPtr,
          states **statesDblPtr,
          ImageProcessor *ImageProcessorPtr,
+         particleFilter *particleFilterPtr,
          std::string logFileName,
          int logRateMs)
 {
