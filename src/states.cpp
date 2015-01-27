@@ -84,7 +84,6 @@ void states::wallFollowRight(){
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
-                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
                 sharpCurveToTheRight();
@@ -139,7 +138,7 @@ void states::wallFollowRight(){
 void states::wallFollowLeft(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
-    static long long int previousStartTimeState;
+    static int stuckOnACorner=0;
     static int wiggleDirection=0;
     static int wiggling=0;
     static double initialTurningAngle =0;
@@ -152,38 +151,57 @@ void states::wallFollowLeft(){
         myState = lookingForWall;
         startTimeState=getTimeMicroseconds();
         wiggling=0;
+        stuckOnACorner=0;
     }
+    if(stuckOnACorner){
+        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS){
+            sharpCurveToTheRightBack();
 
-    if(wiggling){
-        if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
-            startTimeState=getTimeMicroseconds();//previousStartTimeState;
-            wiggling=0;
         }
         else{
-            switch(wiggleDirection){
-            case(0):
-                sharpCurveToTheLeftBack();
-                break;
-            case(1):
-                sharpCurveToTheRight();
-                break;
-            case(2):
-                sharpCurveToTheRightBack();
-                break;
-            case(3):
-                sharpCurveToTheRight();
-                break;
-            }
+            startTimeState = getTimeMicroseconds();
+            stuckOnACorner=0;
         }
     }
-    else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
-        if(goingOppositeToPower()){
-            printf("starting to wiggle\n");
-            //previousStartTimeState = startTimeState;
-            startTimeState=getTimeMicroseconds();
-            wiggling =true;
-            wiggleDirection++;
-            wiggleDirection%=4;
+
+    else {
+        if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
+            if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+                stuckOnACorner=1;
+                startTimeState = getTimeMicroseconds();
+            }
+        }
+        if(wiggling){
+            if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
+                startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                wiggling=0;
+            }
+            else{
+                switch(wiggleDirection){
+                case(0):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(1):
+                    sharpCurveToTheLeftBack();
+                    break;
+                case(2):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(3):
+                    sharpCurveToTheLeftBack();
+                    break;
+                }
+            }
+        }
+        else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+//            if(goingOppositeToPower()==2){
+//                printf("starting to wiggle\n");
+//                //previousStartTimeState = startTimeState;
+//                startTimeState=getTimeMicroseconds();
+//                wiggling =true;
+//                wiggleDirection++;
+//                wiggleDirection%=4;
+//            }
         }
     }
 
@@ -211,7 +229,17 @@ void states::wallFollowLeft(){
             printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+            if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
+                printf("starting to wiggle\n");
+                //previousStartTimeState = startTimeState;
+                startTimeState=getTimeMicroseconds();
+                wiggling =true;
+                wiggleDirection++;
+                wiggleDirection%=4;
+                stuckOnACorner=0;
+
+            }
+            else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
                 setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
@@ -528,11 +556,11 @@ volatile double states::getDistanceFrontWall(){
 
 int states::goingOppositeToPower(){
     int answ = 0;
-    answ+=(myMotorControl->normalizedLeftWheelSpeed>0 && myMotorControl->leftMotorPower<0);
-    answ+=(myMotorControl->normalizedLeftWheelSpeed<0 && myMotorControl->leftMotorPower>0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed>=0 && myMotorControl->leftMotorPower<0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed<=0 && myMotorControl->leftMotorPower>0);
 
-    answ+=(myMotorControl->normalizedRightWheelSpeed>0 && myMotorControl->rightMotorPower<0);
-    answ+=(myMotorControl->normalizedRightWheelSpeed<0 && myMotorControl->rightMotorPower>0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed>=0 && myMotorControl->rightMotorPower<0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed<=0 && myMotorControl->rightMotorPower>0);
 
     return answ;
 }
