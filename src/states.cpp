@@ -161,7 +161,7 @@ void states::wallFollowLeft(){
         }
         else{
             if (wiggleDirection){
-                sharpCurveToTheLeftBack();;
+                sharpCurveToTheLeftBack();
             }
             else{
                 sharpCurveToTheRightBack();
@@ -169,7 +169,7 @@ void states::wallFollowLeft(){
         }
     }
     else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
-        if(goingOppositeToPower()){
+        if(goingOppositeToPower()==2){
             previousStartTimeState = startTimeState;
             startTimeState=getTimeMicroseconds();
             wiggling =true;
@@ -518,11 +518,11 @@ volatile double states::getDistanceFrontWall(){
 
 int states::goingOppositeToPower(){
     int answ = 0;
-    answ+=(myMotorControl->normalizedLeftWheelSpeed>=0 && myMotorControl->leftMotorPower<0);
-    answ+=(myMotorControl->normalizedLeftWheelSpeed<=0 && myMotorControl->leftMotorPower>0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed>0 && myMotorControl->leftMotorPower<0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed<0 && myMotorControl->leftMotorPower>0);
 
-    answ+=(myMotorControl->normalizedRightWheelSpeed>=0 && myMotorControl->rightMotorPower<0);
-    answ+=(myMotorControl->normalizedRightWheelSpeed<=0 && myMotorControl->rightMotorPower>0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed>0 && myMotorControl->rightMotorPower<0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed<0 && myMotorControl->rightMotorPower>0);
 
     return answ;
 }
