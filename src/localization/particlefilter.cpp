@@ -14,7 +14,7 @@ const std::vector<double> particleFilter::initialProbabilities(PARTICLE_FILTER_N
 particleFilter::particleFilter(double positionX, double positionY):
     myProbabilities(initialProbabilities),
     mySensors(NULL),
-    myMotorsControl(NULL)
+    myMap(NULL)
 {
     std::default_random_engine randomNumberGenerator; //This is used to get the
                                                       //position state from the distribution
@@ -47,10 +47,8 @@ particleFilter::particleFilter(double positionX, double positionY):
 particleFilter::particleFilter(double positionX,
                                double positionY,
                                sensorsModule *sensorsPtr,
-                               motorsControl *motorsPtr,
                                map *mapPtr):particleFilter(positionX,positionY){
     mySensors = sensorsPtr;
-    myMotorsControl = motorsPtr;
     myMap = mapPtr;
     running = 1;
     runThread = new  std::thread(run,this);
@@ -70,19 +68,22 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     double previousAngle;
     double distance;
     double differenceAngle;
-
+    double position;
+    double angle;
     previousPosition = myParticleFilter->getNewPosition();
     previousAngle = myParticleFilter->getNewAngle();
 
     while (myParticleFilter->running) {
-        if(particleFilterPtr->getNewSpeed()>0 || particleFilterPtr->getNewAngleSpeed()){
-            distance = myParticleFilter->getNewPosition() - previousPosition;
-            differenceAngle = myParticleFilter->getNewAngle() - previousAngle;
+        position=myParticleFilter->getNewPosition();
+        angle=myParticleFilter->getNewAngle();
+        if (position!=previousPosition || angle!=previousAngle){
+            distance = position - previousPosition;
+            differenceAngle = angle - previousAngle;
 
             myParticleFilter->updateParticles(differenceAngle,distance);
 
-            previousPosition = myParticleFilter->getNewPosition();
-            previousAngle=myParticleFilter->getNewAngle();
+            previousPosition = position;
+            previousAngle=angle;
             updatedPositionCounter++;
             if(myParticleFilter->myMap)
                 myParticleFilter->updateProbabilities();
@@ -90,6 +91,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
             if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
                 updatedPositionCounter=0;
                 myParticleFilter->resample();
+
 
             }
         }
@@ -309,21 +311,15 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
 }
 
 double particleFilter::getNewAngle(){
-    return myMotorsControl->getNewAngle();
+    return mySensors->getAngle();
 }
 
 
 double particleFilter::getNewPosition(){
-    return myMotorsControl->getNewPosition();
+    return mySensors->getPosition();
 }
 
-double particleFilter::getNewSpeed(){
-    return myMotorsControl->realSpeed;
-}
 
-double particleFilter::getNewAngleSpeed(){
-    return myMotorsControl->realAngularSpeed;
-}
 
 
 float particleFilter::normalPdf(float value, float median, float standardDeviation)

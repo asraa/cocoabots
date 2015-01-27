@@ -54,7 +54,8 @@ public:
 
     long long int timeMicrosecondsSinceEpoch;
 
-
+    double getAngle();
+    double getPosition();
     int running;
     std::thread *runThread;
 

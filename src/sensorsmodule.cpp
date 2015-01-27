@@ -226,3 +226,16 @@ void sensorsModule::updateTime(sensorsModule *sensors){
     sensors->timeMicrosecondsSinceEpoch = std::chrono::duration_cast<std::chrono::microseconds>
                 (std::chrono::system_clock::now().time_since_epoch()).count(); //magic from Stack Overflow
 }
+
+double sensorsModule::getAngle(){
+    if(USE_GIROSCOPE_FOR_ANGLE){
+        return gyroscopeAngle;
+    }
+    else{
+        return encoderAngle;
+    }
+}
+
+double sensorsModule::getPosition(){
+    return (rightEncoderMovement+leftEncoderMovement)/2;
+}

@@ -761,7 +761,7 @@ int main(int argc, char** argv){
             RUNNING =1;
             sensorsModule mySensors;
             motorsControl myMotorControl(&mySensors);
-            particleFilter myParticleFilter(50,50,&mySensors,&myMotorControl);
+            particleFilter myParticleFilter(50,50,&mySensors);
             while(RUNNING){
                 myParticleFilter.createSimpleWebpageView("particleFilter.html");
                 usleep(200000.0);
@@ -793,11 +793,10 @@ int main(int argc, char** argv){
             printf("ParticleFilterTest with map\n");
             RUNNING =1;
             sensorsModule mySensors;
-            motorsControl myMotorControl(&mySensors);
             map myMap(MAP_DEBUG_MOCK2_FILE_NAME);
             double x = myMap.getStartLocationX();
             double y = myMap.getStartLocationY();
-            particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
+            particleFilter myParticleFilter(x,y,&mySensors, &myMap);
             myMap.printMapFile("myMapDebug.txt");
             while(RUNNING){
                 myParticleFilter.createSimpleWebpageView("particleFilter.html", "mapMock2.png");
@@ -809,11 +808,10 @@ int main(int argc, char** argv){
             printf("ParticleFilterTest with map\n");
             RUNNING =1;
             sensorsModule mySensors;
-            motorsControl myMotorControl(&mySensors);
             map myMap(MAP_DEBUG_PRACTICE_FILE_NAME);
             double x = myMap.getStartLocationX();
             double y = myMap.getStartLocationY();
-            particleFilter myParticleFilter(x,y,&mySensors,&myMotorControl, &myMap);
+            particleFilter myParticleFilter(x,y,&mySensors, &myMap);
             myMap.printMapFile("myMapDebug.txt");
             while(RUNNING){
                 myParticleFilter.createSimpleWebpageView("particleFilter.html", "practiceMap.png");

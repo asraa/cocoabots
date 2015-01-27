@@ -38,7 +38,6 @@ public:
     particleFilter(double positionX,
                    double positionY,
                    sensorsModule * sensorsPtr,
-                   motorsControl * motorsPtr,
                    map * mapPtr = NULL);
 
     ~particleFilter();
@@ -62,13 +61,11 @@ public:
     std::thread *runThread;
     double getNewAngle();
     double getNewPosition();
-    double getNewSpeed();
-    double getNewAngleSpeed();
+
 
     static void run(particleFilter * particleFilterPtr);
 private:
     sensorsModule * mySensors;
-    motorsControl * myMotorsControl;
     map * myMap;
 };
 #endif // PARTICLEFILTER_H
