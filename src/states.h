@@ -43,6 +43,7 @@ public:
     int getColorNearestCube();
     double abs(double number);
     int isCubeRed();
+    int goingOppositeToPower();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated
@@ -51,6 +52,8 @@ public:
 
     void sharpCurveToTheRight();
     void sharpCurveToTheLeft();
+    void sharpCurveToTheRightBack();
+    void sharpCurveToTheLeftBack();
     void mediumCurveToTheRight();
     void mediumCurveToTheLeft();
     void curveToTheRight();

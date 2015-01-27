@@ -139,6 +139,8 @@ void states::wallFollowRight(){
 void states::wallFollowLeft(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    static int wiggleDirection=0;
+    static int wiggling=1;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -148,6 +150,29 @@ void states::wallFollowLeft(){
     if(!wallFollowing){
         myState = lookingForWall;
         startTimeState=getTimeMicroseconds();
+        wiggling=0;
+    }
+
+    if(wiggling){
+        if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
+            startTimeState=getTimeMicroseconds();
+            wiggling=0;
+        }
+        else{
+            if (wiggleDirection){
+                sharpCurveToTheLeftBack();;
+            }
+            else{
+                sharpCurveToTheRightBack();
+            }
+        }
+    }
+    else if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+        if(goingOppositeToPower()){
+            startTimeState=getTimeMicroseconds();
+            wiggling =true;
+            wiggleDirection=!wiggleDirection;
+        }
     }
 
     switch (myState) {
@@ -439,6 +464,13 @@ void states::sharpCurveToTheLeft(){
     setCarrotPosition(SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
 }
 
+void states::sharpCurveToTheRightBack(){
+    setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,SHARP_CURVE_CARROT_ANGLE);
+}
+
+void states::sharpCurveToTheLeftBack(){
+    setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
+}
 //Simple procedures (No states, no timeouts)
 
 
@@ -482,7 +514,16 @@ volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
 
+int states::goingOppositeToPower(){
+    int answ = 0;
+    answ+=(myMotorControl->normalizedLeftWheelSpeed>=0 && myMotorControl->leftMotorPower<0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed<=0 && myMotorControl->leftMotorPower>0);
 
+    answ+=(myMotorControl->normalizedRightWheelSpeed>=0 && myMotorControl->rightMotorPower<0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed<=0 && myMotorControl->rightMotorPower>0);
+
+    return answ;
+}
 
 void states::setCarrotPosition(double distance, double angle){
     myMotorControl->setNewDesiredRelativePositionInRadialCordinates(distance, angle);
