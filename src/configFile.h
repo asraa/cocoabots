@@ -231,6 +231,7 @@
 #define PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE 50 //must be smaller than PARTICLE_FILTER_NUMBER_OF_PARTICLES
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 30 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
+#define PARTICLE_FILTER_MAX_STILL_UPDATES 5
 #define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASSONIC 7
 #define PARTICLE_FILTER_STANDARD_DEVIATION_IR 3
 #define PARTICLE_FILTER_MAX_IR_RANGE 40

@@ -27,13 +27,12 @@ struct particleFilterParticle{
     double x;
     double y;
     double angle;
-    double standardDeviationX;
-    double standardDeviationY;
-    double standardDeviationAngle;
-    double sumLikelyHoods;
+    double varianceX;
+    double varianceY;
+    double varianceAngle;
     particleFilterParticle():x(0),y(0),angle(0),
-    standardDeviationAngle(0),standardDeviationX(0),
-    standardDeviationY(0), sumLikelyHoods(0){}
+    varianceAngle(0),varianceX(0),
+    varianceY(0){}
 };
 
 
@@ -52,6 +51,7 @@ public:
     double getRobotY();
     double getRobotAngle();
     struct particleFilterParticle updateRobotPosition();
+    struct particleFilterParticle updateRobotVariance();
     std::vector <struct particleFilterParticle> myParticles;
     std::vector <double> myProbabilities;
     void resample();

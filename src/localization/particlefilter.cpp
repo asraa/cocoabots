@@ -70,21 +70,26 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     double differenceAngle;
     double position;
     double angle;
+    int stillUpdates=PARTICLE_FILTER_MAX_STILL_UPDATES;
+    int moved=0;
     previousPosition = myParticleFilter->getNewPosition();
     previousAngle = myParticleFilter->getNewAngle();
 
     while (myParticleFilter->running) {
         position=myParticleFilter->getNewPosition();
         angle=myParticleFilter->getNewAngle();
+        moved=0;
         if (position!=previousPosition || angle!=previousAngle){
+            moved=1;
             distance = position - previousPosition;
             differenceAngle = angle - previousAngle;
-
+            stillUpdates=PARTICLE_FILTER_MAX_STILL_UPDATES;
             myParticleFilter->updateParticles(differenceAngle,distance);
-
             previousPosition = position;
             previousAngle=angle;
             updatedPositionCounter++;
+        }
+        if(moved||stillUpdates--){
             if(myParticleFilter->myMap)
                 myParticleFilter->updateProbabilities();
 
@@ -238,6 +243,10 @@ double particleFilter::getRobotY(){
 
 double particleFilter::getRobotAngle(){
     return robot.angle;
+}
+
+struct particleFilterParticle updateRobotVariance(){
+
 }
 
 void particleFilter::resample(){
