@@ -49,6 +49,12 @@ bool map::isPassable(struct mapPosition Pos) {
 }
 
 bool map::isWall(struct mapPosition pos){
+    int sizex= mapVector.size();
+    if (pos.x >=sizex)
+        return true;
+    int sizey = mapVector[pos.x].size();
+    if (pos.y>=sizey)
+        return true;
     int type = mapVector[pos.x][pos.y];
     switch(type) {
         case WALL : return true;
