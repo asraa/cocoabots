@@ -8,7 +8,7 @@
 #include "../configFile.h"
 
 //initialize a vector with the default standard non normalized probabilities (all zeros)
-const std::vector<double> particleFilter::initialProbabilities(PARTICLE_FILTER_NUMBER_OF_PARTICLES, 1.0);
+const std::vector<double> particleFilter::initialProbabilities(PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES, 1.0);
 
 
 particleFilter::particleFilter(double positionX, double positionY):
@@ -29,7 +29,7 @@ particleFilter::particleFilter(double positionX, double positionY):
     double angle;
     myParticles.clear(); //redundant, since vector was never initialized, but safer.
 
-    for(int i=0;i<PARTICLE_FILTER_NUMBER_OF_PARTICLES;i++){
+    for(int i=0;i<PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES;i++){
         x = normalDistributionX(randomNumberGenerator);
         y = normalDistributionY(randomNumberGenerator);
         angle = uniformDistributionAngle(randomNumberGenerator);
@@ -40,6 +40,7 @@ particleFilter::particleFilter(double positionX, double positionY):
 
         myParticles.push_back(particle);
     }
+        numberOfParticles=PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES;
 
 }
 
@@ -64,6 +65,7 @@ particleFilter::~particleFilter(){
 void particleFilter::run(particleFilter *particleFilterPtr){
     particleFilter * myParticleFilter = particleFilterPtr;
     int updatedPositionCounter;
+    int resampledCounter=1;
     double previousPosition;
     double previousAngle;
     double distance;
@@ -97,15 +99,66 @@ void particleFilter::run(particleFilter *particleFilterPtr){
             if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
                 updatedPositionCounter=0;
                 myParticleFilter->resample();
+                resampledCounter++;
 
 
             }
+        }
+        if(resampledCounter%PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO==0){
+            resampledCounter%=PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO;
+            resampledCounter++;
+            myParticleFilter->respawn();
         }
         myParticleFilter->updateRobotPosition();
         usleep(PARTICLE_FILTER_UPDATE_RATE_MS*1000);
     }
 }
 
+void particleFilter::respawn(){
+    if(numberOfParticles<PARTICLE_FILTER_NUMBER_OF_PARTICLES_RESPAWN){
+        struct particleFilterParticle particle;
+        double x;
+        double y;
+        double angle;
+        std::default_random_engine randomNumberGenerator;
+        std::normal_distribution<double> normalDistributionX(robot.x,PARTICLE_FILTER_STD_DEVIATION_X_RESPAWN);
+        std::normal_distribution<double> normalDistributionY(robot.y, PARTICLE_FILTER_STD_DEVIATION_Y_RESPAWN);
+        std::normal_distribution<double> normalDistributionAngle(robot.angle, PARTICLE_FILTER_STD_DEVIATION_ANGLEE_RESPAWN);
+
+        for(int i=0;i<PARTICLE_FILTER_NUMBER_OF_PARTICLES_RESPAWN;i++){
+            x = normalDistributionX(randomNumberGenerator);
+            y = normalDistributionY(randomNumberGenerator);
+            angle = normalDistributionAngle(randomNumberGenerator);
+
+            particle.x=x;
+            particle.y=y;
+            particle.angle=angle;
+
+            myParticles.push_back(particle);
+        }
+    }
+}
+
+void particleFilter::killParticles(){
+    double maxLikelyhood;
+    std::vector <struct particleFilterParticle> newParticles;
+    std::vector <double> newProbabilities;
+    for(int i; i<numberOfParticles;i++){
+        if(myProbabilities[i]>maxLikelyhood){
+            maxLikelyhood=myProbabilities[i];
+        }
+    }
+    for(int i; i<numberOfParticles;i++){
+        if(myProbabilities[i]>PARTICLE_FILTER_KILL_PROBABILITY_THRESHOLD*maxLikelyhood){
+            newProbabilities.push_back(myProbabilities[i]);
+            newParticles.push_back(myParticles[i]);
+        }
+    }
+    numberOfParticles=newProbabilities.size();
+    myParticles=newParticles;
+    myProbabilities=newProbabilities;
+
+}
 
 void particleFilter::updateProbabilities(){
     std::vector <struct particleFilterParticle> tempParticles = myParticles;// protects against race conditions, etc
@@ -284,6 +337,7 @@ void particleFilter::resample(){
     //from 0 to (n-1), where n is the distance between the iterators.
     //As seen in http://www.cplusplus.com/reference/random/discrete_distribution/discrete_distribution/
 
+    killParticles();
     std::discrete_distribution<int> probabilityDistribution(myProbabilities.begin(),
                                                        myProbabilities.end());
 
@@ -291,7 +345,7 @@ void particleFilter::resample(){
     std::vector <struct particleFilterParticle> newDistributionOfParticles;
     int index;
     struct particleFilterParticle particle;
-    for(int i=0;i<PARTICLE_FILTER_NUMBER_OF_PARTICLES;i++){
+    for(int i=0;i<numberOfParticles;i++){
         index= probabilityDistribution(randomNumberGenerator);
         particle = myParticles[index];
         newDistributionOfParticles.push_back(particle);
@@ -326,7 +380,7 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
     double noiseAngle;
     struct particleFilterParticle * particle; //Pointer to the particle
 
-    for(int i=0;i<PARTICLE_FILTER_NUMBER_OF_PARTICLES;i++){
+    for(int i=0;i<numberOfParticles;i++){
         particle = &(myParticles[i]);
 
         noiseDistance = noiseDistanceDistribution(randomNumberGenerator);
