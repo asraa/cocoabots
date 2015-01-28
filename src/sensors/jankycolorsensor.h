@@ -13,6 +13,7 @@ class jankyColorSensor: public sensorsSuperClass
     mraa::Aio * colorSensorAio;
     jankyColorSensor(int colorSensorPin);
     int runningTotal();
+    double rawData();
     double getData();
 
 private:

@@ -21,6 +21,10 @@ int jankyColorSensor::runningTotal(){
     return count;
 }
 
+double jankyColorSensor::rawData(){
+    return colorSensorAio->read();
+}
+
 double jankyColorSensor::getData() {
     return (runningTotal() < 10); // 1 if red cube in past 10 readings
 }

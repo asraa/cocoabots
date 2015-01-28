@@ -735,24 +735,22 @@ int main(int argc, char** argv){
 
         else if(strcmp(argv[1],"colorsensor")==0){
             printf("Running color sensor test\n");
-            sensorsModule mysensors;
+            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
             double min = 900;
             double max = 0;
             RUNNING =1;
             while(RUNNING){
-                if (mysensors.colorSensorData < min && mysensors.colorSensorData > 10) {
+                double data = myColorSensor.rawData();
+                if (data < min && data > 10) {
 
-                    min = mysensors.colorSensorData;
+                    min = data;
                     printf("%lf min\n", min);
                 }
-                if (mysensors.colorSensorData > max) {
+                if (data > max) {
 
-                    max = mysensors.colorSensorData;
+                    max = data;
                     printf("%lf max\n", max);
                 }
-
-
-
                 usleep(200000.0);
             }
 
