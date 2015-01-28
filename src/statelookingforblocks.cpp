@@ -1,6 +1,6 @@
 #include "statelookingforblocks.h"
 #include "stateapproachblock.h"
-
+#include "statecollectingcube.h"
 stateLookingForBlocks::stateLookingForBlocks(states *previousState):states(previousState)
 {
     name = "State looking for cubes";
@@ -33,9 +33,12 @@ void stateLookingForBlocks::processData(){
         }
         break;
     }
-
-    if(foundCube()){
+    if(detectedCube()){
+        nextState = new stateCollectingCube(this);
+    }
+    else if(foundCube()){
         nextState=new stateApproachBlock(this);
     }
+
     finishProcessData();
 }

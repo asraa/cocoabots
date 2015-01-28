@@ -308,6 +308,7 @@ void states::wallFollowLeft(){
 
 void states::collectBlock(int color){
     static long long int startTimeState;
+    static int myColor;
     enum collectBlockState{resettingStart, moving, grabing,lifting, sorting,releasing, swipping, resettingFinish};
     static collectBlockState myState=resettingStart;
     collectedBlocks=1;
@@ -335,6 +336,12 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_MAX_TIME_MOVING){
             myState=grabing;
             myServosControl->hookBlock();
+            if(color == -1){
+            myColor=isCubeRed();
+            }
+            else{
+                myColor=color;
+            }
             startTimeState = getTimeMicroseconds();
         }
         break;
@@ -342,7 +349,7 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
-            if (color == ImageProcessor::CUBE_COLOR_GREEN)
+            if (color == 0)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
@@ -354,7 +361,7 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
-            if (color == ImageProcessor::CUBE_COLOR_GREEN)
+            if (color == 0)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
@@ -611,7 +618,7 @@ volatile double states::getDistanceRightWall(){
     return mySensors->rightShortIRData;
 }
 
-volatile double states::getDistanceFrontWall(){printf
+volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
 
