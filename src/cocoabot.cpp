@@ -224,6 +224,7 @@ void cocoabot::run(int argc, char **argv){
             else {
                 printf("no");
             }
+
             myState->finishProcessingProceduresManual();
             usleep(500000);
             usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
