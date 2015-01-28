@@ -864,7 +864,7 @@ int main(int argc, char** argv){
             sensorsModule mySensors;
             servosControl myServos;
             actuator myActuator;
-            myActuator.hookServoAngle=myServos.hookAngle;
+            myActuator.hookServoAngle=&myServos.hookAngle;
             RUNNING =1;
             while(RUNNING){
                 if(mySensors.frontUltraShortIRData < 0.95){
