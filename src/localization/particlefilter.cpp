@@ -165,9 +165,14 @@ void particleFilter::killParticles(){
             printf("%d  index ERROR!", i);
         }
     }
-    numberOfParticles=newParticles.size();
-    myParticles=newParticles;
-    myProbabilities=newProbabilities;
+    if (newParticles.size() >0){
+        numberOfParticles=newParticles.size();
+        myParticles=newParticles;
+        myProbabilities=newProbabilities;
+    }
+    else{
+        myProbabilities=initialProbabilities;
+    }
 
 }
 
