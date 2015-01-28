@@ -207,4 +207,26 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"colorDetec")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+
+
+        while (running){
+            if (myState->isCubeRed()) {
+                printf("red");
+            }
+            else {
+                printf("no");
+            }
+            usleep(500000);
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
+
 }
