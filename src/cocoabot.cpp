@@ -231,5 +231,38 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"cubeColorCollect")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        int cubeColor=0;
+        int cubeDetected=0;
+        while (running){
+            myState->startProcessingProceduresManual();
+            if (cubeDetected){
+                myState->collectBlock(cubeColor);
+                if(myState->finishedCollectingBlock){
+                    cubeDetected=0;
+                }
+            }
+            else{
+                if(myState->detectedCube()){
+                    cubeDetected=1;
+                    if (myState->isCubeRed()) {
+                        cubeColor=1;
+                    }
+                    else {
+                        cubeColor=0;
+                    }
+                }
+            }
+            myState->finishProcessingProceduresManual();
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
 
 }

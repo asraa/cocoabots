@@ -570,6 +570,9 @@ void states::turnToTheLeftSlowly(){
 }
 //Simple procedures (No states, no timeouts)
 
+int states::detectedCube(){
+    return (mySensors->frontUltraShortIRData<ULTRASHORTIR_THRESHOLD);
+}
 
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();

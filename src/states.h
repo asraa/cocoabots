@@ -38,6 +38,7 @@ public:
     double getDistanceToCarrot();
     double getAngleToCarrot();
     int foundCube();
+    int detectedCube();
     double getDistanceNearestCube();
     double getAngleNearestCube();
     int getColorNearestCube();
