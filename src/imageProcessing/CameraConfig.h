@@ -21,24 +21,31 @@ static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
 static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
 
 // translation vector of camera w.r.t to robot hook
-static const double CAM_ROBOT_X = 4.5;
-static const double CAM_ROBOT_Y = 0.5;
+static const double CAM_ROBOT_X = 3.8;
+static const double CAM_ROBOT_Y = 2;
 
 // horizontal rotation of camera w.r.t. to front direction
 // counter-clockwise is positive
-static const double CAM_ANGLE_HOR = (-3.5/M_PI*180);
+static const double CAM_ANGLE_HOR = (-1/M_PI*180);
 // vertical rotation of camera w.r.t. horizontal plane
 // downwards is positive
-static const double CAM_ANGLE_VERT = (23.8 / 180 * M_PI); // in case we put it at an angle -- in radians
+static const double CAM_ANGLE_VERT = (36.3 / 180 * M_PI); // in case we put it at an angle -- in radians
 // height of camera
 // in inches
 static const double CAM_HEIGHT = 11; // inches
 
 // camera matrix elements
+/*
 static const double CAM_MAT_fx = 345.2863;
 static const double CAM_MAT_cx = 148.7808;
 static const double CAM_MAT_fy = 344.4604;
 static const double CAM_MAT_cy = 120.2642;
+*/
+// calibrated 01/27 night, for the other camera
+static const double CAM_MAT_fx = (FRAME_RESIZE_SCALE*555.23);
+static const double CAM_MAT_cx = (FRAME_RESIZE_SCALE*321.96);
+static const double CAM_MAT_fy = (FRAME_RESIZE_SCALE*555.42);
+static const double CAM_MAT_cy = (FRAME_RESIZE_SCALE*216.43);
 
 static Eigen::Matrix3d ROT_MAT = ((Eigen::Matrix3d() << 1,        0,                    0,
                                                         0, cos(CAM_ANGLE_VERT), -sin(CAM_ANGLE_VERT),
