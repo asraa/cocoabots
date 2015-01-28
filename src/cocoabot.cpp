@@ -219,10 +219,10 @@ void cocoabot::run(int argc, char **argv){
         while (running){
             myState->startProcessingProceduresManual();
             if (myState->isCubeRed()) {
-                printf("red");
+                printf("red\n");
             }
             else {
-                printf("no");
+                printf("no\n");
             }
 
             myState->finishProcessingProceduresManual();
