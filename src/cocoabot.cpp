@@ -264,5 +264,25 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"turn360slowly")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        int cubeColor=0;
+        int cubeDetected=0;
+        while (running){
+            myState->startProcessingProceduresManual();
+            if(!myState->finishedTurningNDegreesSlowly){
+                myState->turnNDegreesSlowly(360);
+            }
+
+            myState->finishProcessingProceduresManual();
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
 
 }
