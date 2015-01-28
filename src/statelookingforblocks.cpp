@@ -10,10 +10,11 @@ stateLookingForBlocks::stateLookingForBlocks(states *previousState):states(previ
 
 void stateLookingForBlocks::processData(){
     startProcessData();
+    long long int difTime = getTimeMicroseconds()-startTimeState;
     switch(myPrivateState){
         case (wallFollowing):
             wallFollow();
-            if(startTimeState > LOOKING_FOR_BLOCKS_STOP_AND_LOOK_TIME_MS){
+            if(difTime > LOOKING_FOR_BLOCKS_STOP_AND_LOOK_TIME_MS){
                 myPrivateState=looking;
             }
             break;
@@ -26,7 +27,9 @@ void stateLookingForBlocks::processData(){
     case(comingBack):
         turnNDegreesSlowly(-135);
         if(finishedTurningNDegreesSlowly){
-            myPrivateState = comingBack;
+            myPrivateState = wallFollowing;
+            startTimeState =getTimeMicroseconds();
+
         }
         break;
     }
