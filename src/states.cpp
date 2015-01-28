@@ -305,6 +305,10 @@ void states::wallFollowLeft(double carrotDistance){
 
 }
 
+void states::wallFollowLeftFast(){
+    wallFollow(FAST_WALL_FOLLOW_CARROT_DISTANCE);
+}
+
 void states::collectBlock(int color){
     static long long int startTimeState;
     static int myColor;

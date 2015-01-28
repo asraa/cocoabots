@@ -221,6 +221,8 @@
 #define SHARP_CURVE_CARROT_ANGLE 21
 
 #define TURN_SLOWLY_ANGLE 20
+
+#define FAST_WALL_FOLLOW_CARROT_DISTANCE 15
 /////////////////////////////////
 //States definitions
 #define GO_TO_CUBE_WAIT_TIME_MS 3500
