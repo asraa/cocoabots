@@ -29,10 +29,10 @@ static const double CAM_ROBOT_Y = 2;
 static const double CAM_ANGLE_HOR = (-1/M_PI*180);
 // vertical rotation of camera w.r.t. horizontal plane
 // downwards is positive
-static const double CAM_ANGLE_VERT = (36.3 / 180 * M_PI); // in case we put it at an angle -- in radians
+static const double CAM_ANGLE_VERT = (31.3 / 180 * M_PI); // in case we put it at an angle -- in radians
 // height of camera
 // in inches
-static const double CAM_HEIGHT = 11; // inches
+static const double CAM_HEIGHT = 9; // inches
 
 // camera matrix elements
 /*

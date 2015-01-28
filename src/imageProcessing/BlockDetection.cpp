@@ -162,7 +162,7 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
     //std::cout<<"number of contours"<<contour_data.contours.size()<<std::endl;
     if(contour_data.contours.size() > 0) { // contours not null
         // findLowestContour(contour_data);
-        for(int j = 1; j < contour_data.contours.size(); j++) {
+        for(int j = 0; j < contour_data.contours.size(); j++) {
             if(isBlock(contour_data.contours.at(j))) {
                 Eigen::Vector2d block_pt_xy = crudeEstimate(contour_data.contours.at(j)); // hacked for now
                 Eigen::Vector2d block_pt_radial = CameraMath::cvtCamXY2RobotRadial(block_pt_xy[0], block_pt_xy[1]);
