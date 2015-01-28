@@ -5,7 +5,7 @@
 class stateCollectingCube: public states
 {
 public:
-    stateCollectingCube(states * previousState, int color);
+    stateCollectingCube(states * previousState, int color=-1);
     void processData();
     int myColor;
 };

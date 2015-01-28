@@ -70,7 +70,7 @@ public:
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data
     int wallFollowing; //Variable that says if we have wall folowed on the previous iteration of the state machine process data
 
-    void collectBlock(int color);
+    void collectBlock(int color=-1);
     int collectedBlocks;
     int collectingBlocks;
     int finishedCollectingBlock; //I assume that we always finish collecting it.
