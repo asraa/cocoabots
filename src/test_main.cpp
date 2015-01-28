@@ -859,6 +859,20 @@ int main(int argc, char** argv){
             }
         }
 
+        else if(strcmp(argv[1],"ultraShortIRCatch")==0){
+            printf("Running ultraShortIR sensor test\n");
+            sensorsModule mySensors;
+            servosControl myServos;
+            RUNNING =1;
+            while(RUNNING){
+                if(mySensors.frontUltraShortIRData < 0.95){
+                    myServos.hookBlock();
+                    usleep(500000.0);
+                    myServos.unHookBlock();
+                    usleep(500000.0);
+                }
+            }
+        }
 
         return 0;
     }
