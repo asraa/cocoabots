@@ -519,11 +519,12 @@ void states::turnNDegreesSlowly(int angle){
                 myState=turned;
                 turnedNDegreesSlowly=1;
             }
-        }else{
-            if(angle>0)
-                turnToTheRightSlowly();
-            else
-                turnToTheLeftSlowly();
+            else{
+                if(angle>0)
+                    turnToTheRightSlowly();
+                else
+                    turnToTheLeftSlowly();
+            }
         }
         break;
     case turned:

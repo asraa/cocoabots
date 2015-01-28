@@ -278,6 +278,9 @@ void cocoabot::run(int argc, char **argv){
             if(!myState->finishedTurningNDegreesSlowly){
                 myState->turnNDegreesSlowly(360);
             }
+            else{
+                printf("finished turning 360 slowly\n");
+            }
 
             myState->finishProcessingProceduresManual();
             usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
