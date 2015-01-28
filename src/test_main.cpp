@@ -863,6 +863,8 @@ int main(int argc, char** argv){
             printf("Running ultraShortIR sensor test\n");
             sensorsModule mySensors;
             servosControl myServos;
+            actuator myActuator;
+            myActuator.hookServoAngle=myServos.hookAngle;
             RUNNING =1;
             while(RUNNING){
                 if(mySensors.frontUltraShortIRData < 0.95){
