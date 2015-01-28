@@ -866,7 +866,7 @@ int main(int argc, char** argv){
             RUNNING =1;
             while(RUNNING){
                 if(mySensors.frontUltraShortIRData < 0.95){
-                    printf("%lf\n", data);
+                    printf("%lf\n", mySensors.frontUltraShortIRData );
                     myServos.hookBlock();
                     usleep(500000.0);
                     myServos.unHookBlock();
