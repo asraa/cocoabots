@@ -154,7 +154,7 @@ void states::wallFollowLeft(){
         stuckOnACorner=0;
     }
     if(stuckOnACorner){
-        printf("Stuck on a corner \n");
+        //printf("Stuck on a corner \n");
         if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS/2){
             setCarrotPosition(0,-50);
             return;
@@ -179,7 +179,7 @@ void states::wallFollowLeft(){
             }
         }
         if(wiggling){
-            printf("Wiggling \n");
+           // printf("Wiggling \n");
             if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
@@ -227,11 +227,11 @@ void states::wallFollowLeft(){
 //            printf("transitioning from looking for a wall to rotating\n");
         }
         else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-            printf("transitioning from looking for a wall to following a wall");
+            //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
-                printf("starting to wiggle\n");
+                //printf("starting to wiggle\n");
                 //previousStartTimeState = startTimeState;
                 startTimeState=getTimeMicroseconds();
                 wiggling =true;
@@ -248,7 +248,7 @@ void states::wallFollowLeft(){
                 sharpCurveToTheLeft();
                 return;
             }
-            printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
         break;
@@ -261,7 +261,7 @@ void states::wallFollowLeft(){
             startTimeState = getTimeMicroseconds();
 //            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
-        printf(" rotating\n");
+        //printf(" rotating\n");
         break;
     }
     case followingWall:
@@ -611,7 +611,7 @@ volatile double states::getDistanceRightWall(){
     return mySensors->rightShortIRData;
 }
 
-volatile double states::getDistanceFrontWall(){
+volatile double states::getDistanceFrontWall(){printf
     return mySensors->frontShortIRData;
 }
 
