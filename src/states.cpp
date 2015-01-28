@@ -492,7 +492,8 @@ void states::turnNDegreesSlowly(int angle){
     enum turningStates {turning,turned};
     static turningStates myState = turning;
     static long long int startTimeState;
-    static long long int startAngle;
+    static double startAngle;
+    turnedNDegreesSlowly=true;
 
 
     if(!turningNDegreesSlowly){
@@ -505,7 +506,6 @@ void states::turnNDegreesSlowly(int angle){
     double difAngle;
     difTime=(getTimeMicroseconds()-startTimeState)/1000;
     difAngle= getAngle()- startAngle;
-    printf("difference angle =%lf\n", difAngle);
     switch(myState){
     case turning:
         if(!finishedTurningNDegreesSlowly){
@@ -519,6 +519,8 @@ void states::turnNDegreesSlowly(int angle){
                 setCarrotPosition(0,angle-difAngle);
                 myState=turned;
                 turnedNDegreesSlowly=1;
+                finishedTurningNDegreesSlowly=1;
+
             }
             else{
                 if(angle>0)
