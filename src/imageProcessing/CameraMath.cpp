@@ -39,6 +39,7 @@ Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual) {
 }
 
 Eigen::Vector2d reconstructPoint2D(cv::Point& pt_im, double y_actual) {
+    //std::cout<<"rr" << pt_im.x <<" " <<pt_im.y<<std::endl;
     Eigen::Vector3d pt_im_hom;
     pt_im_hom << pt_im.x, pt_im.y, 1;
     Eigen::Vector3d temp = CAM_MAT_INV * pt_im_hom;
@@ -54,12 +55,17 @@ Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam) {
 
     double x_robot = x_cam_rot + CAM_ROBOT_X;
     double y_robot = y_cam_rot + CAM_ROBOT_Y;
-
     double dist = sqrt(x_robot*x_robot + y_robot*y_robot);
     // this is x_robot because rotation is w.r.t. to forward direction
     // clockwise is positive, counter-clockwise is negative
     double sin_phi = x_robot / dist;
     double phi = asin(sin_phi);
+
+    if(DEBUG==1) {
+        std::cout<<"cam angle"<<CAM_ANGLE_HOR<<std::endl;
+        std::cout<<"robot xy"<<x_robot<<" "<<y_robot<<std::endl;
+        std::cout<<"phi "<<phi/M_PI*180<<std::endl;
+    }
 
     Eigen::Vector2d result;
     result << dist, phi/M_PI * 180;
