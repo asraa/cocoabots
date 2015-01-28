@@ -315,6 +315,7 @@ void states::collectBlock(int color){
     if(!collectingBlocks){
         startTimeState = getTimeMicroseconds();
         myState=resettingStart;
+        finishedCollectingBlock=0;
     }
 
     long long int difTime;
