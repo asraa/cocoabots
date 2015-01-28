@@ -64,7 +64,7 @@ public:
     void stop();
 
     //wallFollow(); Follow a wall on the right
-    void wallFollowLeft(); //procedure to wall follow
+    void wallFollowLeft(double carrotDistance=WALL_FOLLOW_CARROT_DISTANCE_INCHES); //procedure to wall follow
     void wallFollowRight(); //procedure to wall follow
     void wallFollow(); //procedure to wall follow
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data

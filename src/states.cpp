@@ -135,7 +135,7 @@ void states::wallFollowRight(){
 
 }
 //Copy of the above. It is bad practice, but I'm feeling lazy at the moment
-void states::wallFollowLeft(){
+void states::wallFollowLeft(double carrotDistance){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
     static int stuckOnACorner=0;
@@ -291,7 +291,6 @@ void states::wallFollowLeft(){
 
         }
         else{
-            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
             double carrotAngle;
             double wallDistance = getDistanceLeftWall();
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
