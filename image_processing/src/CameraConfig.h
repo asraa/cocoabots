@@ -12,7 +12,7 @@
 /*********************************
 ** set to 0 if running on edison *
 **********************************/
-static const int DEBUG = 1;
+static const int DEBUG = 0;
 /********************************/
 
 
@@ -21,24 +21,31 @@ static const int FRAME_SIZE_X = (640*FRAME_RESIZE_SCALE);
 static const int FRAME_SIZE_Y = (480*FRAME_RESIZE_SCALE);
 
 // translation vector of camera w.r.t to robot hook
-static const double CAM_ROBOT_X = 4.5;
-static const double CAM_ROBOT_Y = 0;
+static const double CAM_ROBOT_X = 3.8;
+static const double CAM_ROBOT_Y = 2;
 
 // horizontal rotation of camera w.r.t. to front direction
 // counter-clockwise is positive
-static const double CAM_ANGLE_HOR = 0;
+static const double CAM_ANGLE_HOR = (-1/180*M_PI); //(-3.5/180*M_PI);
 // vertical rotation of camera w.r.t. horizontal plane
 // downwards is positive
-static const double CAM_ANGLE_VERT = (22.3 / 180 * M_PI); // in case we put it at an angle -- in radians
+static const double CAM_ANGLE_VERT = (31.3 / 180 * M_PI); // in case we put it at an angle -- in radians
 // height of camera
 // in inches
-static const double CAM_HEIGHT = 11; // inches
+static const double CAM_HEIGHT = 9.0; // inches
 
 // camera matrix elements
+/*
 static const double CAM_MAT_fx = 345.2863;
 static const double CAM_MAT_cx = 148.7808;
 static const double CAM_MAT_fy = 344.4604;
 static const double CAM_MAT_cy = 120.2642;
+*/
+
+static const double CAM_MAT_fx = (FRAME_RESIZE_SCALE*555.23);
+static const double CAM_MAT_cx = (FRAME_RESIZE_SCALE*321.96);
+static const double CAM_MAT_fy = (FRAME_RESIZE_SCALE*555.42);
+static const double CAM_MAT_cy = (FRAME_RESIZE_SCALE*216.43);
 
 static Eigen::Matrix3d ROT_MAT = ((Eigen::Matrix3d() << 1,        0,                    0,
                                                         0, cos(CAM_ANGLE_VERT), -sin(CAM_ANGLE_VERT),
@@ -72,14 +79,16 @@ static const double WALL_HEIGHT_TO_LINE = 4;
 // block dimensions
 static const double BLOCK_HEIGHT = 2; // inches
 
+// deprecated
 // for block estimations
 static const double COS_THRESH = 0.1;
-
 static const int POLY_VERTEX_NUM_THRESH = 8;
-
 static const double POLY_NEIGHBORHOOD = 9;
 
-static const double FEATURE_AREA_THRESH = 200;
+//static const double FEATURE_AREA_THRESH = 100; // changed this
+static const double FEATURE_AREA_THRESH_WALL = 500.0;
+static const double FEATURE_AREA_THRESH_BLOCK = 100.0;
+static const double FEATURE_AREA_THRESH_PURP_LINE = 500.0;
 
 static const double ASPECT_RATIO_LOW = 0.8;
 static const double ASPECT_RATIO_UP = 4;
@@ -101,8 +110,6 @@ static const double HOUGH_P_RES_RHO_PIXEL = 1;
 static const double HOUGH_P_RES_THETA_RAD = (M_PI/180.0);// 1 radian
 static const int HOUGH_P_MIN_VOTES = 100;
 static const int HOUGH_P_MAX_LINE_GAP = 5;
-
-
 
 
 /*

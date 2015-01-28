@@ -132,7 +132,7 @@ void detectWall(cv::Mat& frame, GridMap& local_map) {
 
     //cv::Mat color_edges = ImageUtils::cannyEdge(im_color);
     ImageUtils::ContourData color_contour_data = ImageUtils::getContours(im_wall_line);
-    ImageUtils::cleanContour(color_contour_data, 500); // clean features that are too small
+    ImageUtils::cleanContour(color_contour_data, FEATURE_AREA_THRESH_WALL); // clean features that are too small
                                                        // remove magical number soon
 
     //ImageUtils::replaceByPolyContours(color_contour_data);

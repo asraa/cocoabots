@@ -30,7 +30,7 @@ bool aspectRatioReasonable(std::vector<cv::Point>& contour) {
 // number of vertices of polygon
 bool numberOfVerticesReasonable(std::vector<cv::Point>& contour) {
     std::vector<cv::Point> contours_poly;
-    cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
+    //cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true); // commented out 01/27 since it returns non-center values
     //std::cout << "poly size" <<contours_poly.size() << std::endl;
     return contours_poly.size() < POLY_VERTEX_NUM_THRESH;
 }

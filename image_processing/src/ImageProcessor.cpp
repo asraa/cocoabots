@@ -109,7 +109,7 @@ void ImageProcessor::doStuff() {
     clock_t start = clock(); // for debug
 
     vid_cap.retrieve(frame); // get a new frame from camera
-    //cv::resize(frame,frame,cv::Size(0,0), 0.5, 0.5, cv::INTER_LINEAR);
+    cv::resize(frame,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
 
     detectWall(frame);
     detectBlocks(frame);
@@ -120,7 +120,6 @@ void ImageProcessor::doStuff() {
     cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 }
-
 void ImageProcessor::clearCameraCache() {
     // for debug
     clock_t start = clock();
@@ -137,7 +136,8 @@ void ImageProcessor::clearCameraCache() {
 
 // for debug
 void ImageProcessor::debugStuff() {
-    frame_raw = cv::imread("images/blocks_12.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+
+    //frame_raw = cv::imread("images/test_final/blocks_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
     vid_cap.grab(); // get a new frame from camera
     vid_cap.retrieve(frame_raw); // get a new frame from camera
     cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
@@ -147,16 +147,6 @@ void ImageProcessor::debugStuff() {
     TerritoryDetection::detectPurpleLine(frame, local_map);
     clock_t end = clock();
     double dd = ((double) (end - start)) / CLOCKS_PER_SEC;
-    std::cout<<"time time time "<<dd<<std::endl;
-    cv::namedWindow("wewe",1);
-    cv::imshow("wewe",frame);
-
-    cv::Mat local_map_im = local_map.cvtImage();
-    local_map_refresh();
-
-    cv::namedWindow("www",CV_WINDOW_NORMAL);
-    cv::imshow("www",local_map_im);
-    cv::waitKey(100);
 
 }
 
