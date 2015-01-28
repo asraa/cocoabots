@@ -84,7 +84,6 @@ void states::wallFollowRight(){
             myState=followingWall;
         } else{
             if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
-                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
                 sharpCurveToTheRight();
@@ -139,6 +138,9 @@ void states::wallFollowRight(){
 void states::wallFollowLeft(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    static int stuckOnACorner=0;
+    static int wiggleDirection=0;
+    static int wiggling=0;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -148,6 +150,60 @@ void states::wallFollowLeft(){
     if(!wallFollowing){
         myState = lookingForWall;
         startTimeState=getTimeMicroseconds();
+        wiggling=0;
+        stuckOnACorner=0;
+    }
+    if(stuckOnACorner){
+        printf("Stuck on a corner \n");
+        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS/2){
+            setCarrotPosition(0,-50);
+            return;
+
+        }else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
+                sharpCurveToTheRightBack();
+
+        }
+        else{
+            startTimeState = getTimeMicroseconds();
+            stuckOnACorner=0;
+        }
+    }
+
+    else {
+//        printf("Not stuck on a corner \n");
+
+        if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
+            if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+                stuckOnACorner=1;
+                startTimeState = getTimeMicroseconds();
+            }
+        }
+        if(wiggling){
+            printf("Wiggling \n");
+            if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
+                startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                wiggling=0;
+//                printf("Not wiggling anymore \n");
+
+            }
+            else{
+                switch(wiggleDirection){
+                case(0):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(1):
+                    sharpCurveToTheLeftBack();
+                    break;
+                case(2):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(3):
+                    sharpCurveToTheLeftBack();
+                    break;
+                }
+            }
+            return;
+        }
     }
 
     switch (myState) {
@@ -162,25 +218,37 @@ void states::wallFollowLeft(){
 
             }
             else{
+
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 setCarrotPosition(0,45);
                 startTimeState = getTimeMicroseconds();
-
             }
-            //printf("transitioning from looking for a wall to rotating\n");
+//            printf("transitioning from looking for a wall to rotating\n");
         }
         else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-            //printf("transitioning from looking for a wall to following a wall");
+            printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+            if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
+                printf("starting to wiggle\n");
+                //previousStartTimeState = startTimeState;
+                startTimeState=getTimeMicroseconds();
+                wiggling =true;
+                wiggleDirection++;
+                wiggleDirection%=4;
+                stuckOnACorner=0;
+                return;
+
+            }
+            else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
                 setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
             }
             else{
                 sharpCurveToTheLeft();
+                return;
             }
-            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+            printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
         }
         break;
@@ -191,8 +259,9 @@ void states::wallFollowLeft(){
         if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
-            //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+//            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }
+        printf(" rotating\n");
         break;
     }
     case followingWall:
@@ -201,7 +270,7 @@ void states::wallFollowLeft(){
             initialTurningAngle=getAngle();
             setCarrotPosition(0,45);
             startTimeState = getTimeMicroseconds();
-            //printf("transitioning from following for a wall to rotating\n");
+//            printf("transitioning from following for a wall to rotating\n");
 
         }
         else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
@@ -217,7 +286,7 @@ void states::wallFollowLeft(){
                 myState=lookingForWall;
                 startTimeState = getTimeMicroseconds();
             }
-            //printf("transitioning from following to  looking \n");
+//            printf("transitioning from following to  looking \n");
 
 
         }
@@ -228,6 +297,7 @@ void states::wallFollowLeft(){
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
             carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
             setCarrotPosition(carrotDistance,carrotAngle);
+//            printf("Following wall\n");
 
         }
 
@@ -276,7 +346,7 @@ void states::collectBlock(int color){
             else{
                 myServosControl->sortRed();
             }
-            setCarrotPosition(-18,0);
+            setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
             startTimeState = getTimeMicroseconds();
         }
         break;
@@ -410,6 +480,50 @@ void states::followPoint(double distance, double angle){
     }
 }
 
+void states::turnNDegreesSlowly(int angle){
+    enum turningStates {turning,turned};
+    static turningStates myState = turning;
+    static long long int startTimeState;
+    static long long int startAngle;
+
+
+    if(!turningNDegreesSlowly){
+        finishedTurningNDegreesSlowly=0;
+        startTimeState = getTimeMicroseconds();
+        myState=turning;
+        startAngle=getAngle();
+    }
+    long long int difTime;
+    double difAngle;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    difAngle= getAngle()- startAngle;
+    switch(myState){
+    case turning:
+        if(!finishedTurningNDegreesSlowly){
+            if (((difAngle>=angle)&&(angle>=0))||((difAngle<=angle)&&(angle<=0))){
+                finishedTurningNDegreesSlowly=1;
+                turnedNDegreesSlowly=0;
+                myState=turned;
+                setCarrotPosition(0,0);
+            }
+            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS)
+                setCarrotPosition(0,angle-difAngle);
+            myState=turned;
+
+        }else{
+            if(angle>0)
+                turnToTheRightSlowly();
+            else
+                turnToTheLeftSlowly();
+        }
+        break;
+    case turned:
+        break;
+    }
+}
+
+
+
 void states::stop(){
     setCarrotPosition(0,0);
 }
@@ -439,6 +553,21 @@ void states::sharpCurveToTheLeft(){
     setCarrotPosition(SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
 }
 
+void states::sharpCurveToTheRightBack(){
+    setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,SHARP_CURVE_CARROT_ANGLE);
+}
+
+void states::sharpCurveToTheLeftBack(){
+    setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
+}
+
+void states::turnToTheRightSlowly(){
+    setCarrotPosition(0,TURN_SLOWLY_ANGLE);
+}
+
+void states::turnToTheLeftSlowly(){
+    setCarrotPosition(0,-TURN_SLOWLY_ANGLE);
+}
 //Simple procedures (No states, no timeouts)
 
 
@@ -482,7 +611,16 @@ volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
 
+int states::goingOppositeToPower(){
+    int answ = 0;
+    answ+=(myMotorControl->normalizedLeftWheelSpeed>=0 && myMotorControl->leftMotorPower<0);
+    answ+=(myMotorControl->normalizedLeftWheelSpeed<=0 && myMotorControl->leftMotorPower>0);
 
+    answ+=(myMotorControl->normalizedRightWheelSpeed>=0 && myMotorControl->rightMotorPower<0);
+    answ+=(myMotorControl->normalizedRightWheelSpeed<=0 && myMotorControl->rightMotorPower>0);
+
+    return answ;
+}
 
 void states::setCarrotPosition(double distance, double angle){
     myMotorControl->setNewDesiredRelativePositionInRadialCordinates(distance, angle);
@@ -522,7 +660,7 @@ int states::getColorNearestCube(){
 }
 
 int states::isCubeRed(){
-    return (mySensors->colorSensorData > RED_THRESHOLD);
+    return mySensors->colorSensorData;
 }
 
 void states::startProcessingProceduresManual(){
@@ -572,6 +710,11 @@ void states::finishProcessData(){
         followingPoint=1;
     else
         followingPoint=0;
+
+    if (turnedNDegreesSlowly)
+        turningNDegreesSlowly=1;
+    else
+        turningNDegreesSlowly=0;
 }
 
 

@@ -131,6 +131,8 @@ void cocoabot::run(int argc, char **argv){
         myState = nextState;
         delete previousState;
         previousState=NULL;
+        myServosControl.hookBlock();
+        myServosControl.hookBlock();
         while (running){
             myState->startProcessingProceduresManual();
             myState->wallFollow();
@@ -204,5 +206,30 @@ void cocoabot::run(int argc, char **argv){
             usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
     }
+
+    if(strcmp(argv[1],"colorDetec")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+
+
+        while (running){
+            myState->startProcessingProceduresManual();
+            if (myState->isCubeRed()) {
+                printf("red\n");
+            }
+            else {
+                printf("no\n");
+            }
+
+            myState->finishProcessingProceduresManual();
+            usleep(500000);
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
 
 }

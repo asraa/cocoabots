@@ -62,11 +62,14 @@ public:
     void createSimpleWebpageView(std::string nameOfFile, std::string nameOfMapFile);
     void createSimpleWebpageView(std::string nameOfFile);
     float normalPdf(float value, float median, float standardDeviation);
+    void respawn();
+    void killParticles();
 
     int running;
     std::thread *runThread;
     double getNewAngle();
     double getNewPosition();
+    int numberOfParticles;
 
 
     static void run(particleFilter * particleFilterPtr);

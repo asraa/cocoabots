@@ -298,6 +298,10 @@ double map::getDistance(struct mapPosition Pos1, struct mapPosition Pos2) {
 	return answer;
 }
 
+double map::getDistanceInd(struct mapPosition Pos1, struct mapPosition Pos2) {
+	return sqrt(pow(Pos2.x-Pos1.x,2)+pow(Pos2.y-Pos1.y,2));
+}
+
 struct mapPosition map::getEndPoint(struct mapPosition Pos1, int orientation){
     double deltaX = cos(orientation*3.1415/180.0);
     double deltaY = sin(orientation*3.1415/180.0);
@@ -357,8 +361,11 @@ double map::getSonarReadingRight(double x, double y, int angle){
     double newY;
     angle+=90;
     angle=-angle;
-    newX= x + cos(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
-    newY= y + sin(angle*PI/180)*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X;
+    double cosAngle=cos(angle*PI/180);
+    double sinAngle =sin(angle*PI/180);
+    newX= x + cosAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X - sinAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_Y;
+    newY= y + sinAngle*MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X + cosAngle* MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_Y;
+
 #if MAP_DEBUG
     mapVector[inchToInd(newX)][inchToInd(newY)]=8;
 #endif
@@ -651,10 +658,6 @@ struct mapPosition map::stepFromToRRT(struct mapPosition Pos1, struct mapPositio
 		return Pos2;
 	}
 	else {
-		// double theta = getThetaRRT(Pos1, Pos2);
-		// int x = round(Pos1.x + stepSize*cos(theta));
-		// int y = round(Pos1.y + stepSize*sin(theta));
-		// mapPosition newPos = {x,y};
 		double x1, y1;
 		x1 = indToInch(Pos1.x);
 		y1 = indToInch(Pos1.y);
@@ -674,41 +677,6 @@ void map::getMostsRRT() {
 	UPMOST = fmax(walls.maxBarrierY, platforms.maxBarrierY);
 	DOWNMOST = fmin(walls.minBarrierY, platforms.minBarrierY);
 }
-
-// mapPositionVector map::smoothTriangle(mapPosition currentPos, mapPosition middlePos, mapPosition finalPos){
-// 	//smooth a triangle
-// 	mapPositionVector tempVec;
-// 	if (isConnectableRRT(currentPos,finalPos)) {
-// 		if (getDistance(currentPos,middlePos) + getDistance(middlePos,finalPos) > getDistance(currentPos,finalPos)) {
-// 			tempVec.push_back(currentPos);
-// 			tempVec.push_back(finalPos);
-// 		}
-// 	}
-// 	else {
-// 		tempVec.push_back(currentPos);
-// 		tempVec.push_back(middlePos);
-// 		tempVec.push_back(finalPos);
-// 	}
-
-// 	return tempVec;
-// 	//check if current and final are connected
-// 	//if yes, then if dist(current, middle) + (middle, final) > (current, final)
-// 	//then return vector of current and final
-
-// }
-
-// mapPositionVector map::smooth(mapPositionVector jaggedPath) {
-// 	//smooth an entire path
-// 	//initialize a mapPositionVector
-// 	mapPositionVector tempVec, tempTempVec;
-// 	for (int i = 0; i < jaggedPath.size()-2; i++){
-// 		tempTempVec = smoothTriangle(jaggedPath[i], jaggedPath[i+1], jaggedPath[i+2]);
-// 		for (int j = 0; j < tempTempVec.size(); j++) {
-// 			tempVec.push_back(tempTempVec[j]);
-// 		}
-// 	}
-// 	return tempVec;
-// }
 
 mapPositionVector map::smooth(mapPositionVector posVec) {
 	mapPositionVector tempVec;
@@ -745,43 +713,44 @@ int map::getFarthestConnectablePoint(mapPositionVector posVec) {
 	return ind;
 }
 
-// int main_map_simple() {
-// 	map myMap("practice_map.txt");
-//     mapPosition startPos = myMap.startLoc.getPositions()[0];
-//     mapPosition goalPos = myMap.stacks.getPositions()[0];
-//     mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
-//     myMap.printMapPositionVector(path);
-// }
-// int main_map() {
-// 	int times = 500;
+int main_map_simple() {
+	map myMap("practice_map.txt");
+    mapPosition startPos = myMap.startLoc.getPositions()[0];
+    mapPosition goalPos = myMap.stacks.getPositions()[0];
+    mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
+    myMap.printMapPositionVector(path);
+}
 
-// 	map myMap("practice_map.txt");
-//     mapPosition startPos = myMap.startLoc.getPositions()[0];
-//     mapPosition goalPos = myMap.stacks.getPositions()[0];
-//     std::cout << "average time: ";
-// 	std::cout << measure<>::execution( [&]() {
-// 	for (int i = 0; i < times; i++) {
-// 		mapPositionVector path = myMap.findPathRRT(startPos,goalPos,5000);
-// 	}})/times << "ms" << std::endl;
+int main_map() {
+	int times = 500;
 
-// 	std::cout << "jagged path" << std::endl;
-// 	mapPositionVector path = myMap.findPathRRT(startPos,goalPos,5000);
-// 	for (int i = 0; i < path.size(); i++) {
-// 		//myMap.mapVector[path[i].x][path[i].y] = 7;
-//     	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
-//     }
+	map myMap("practice_map.txt");
+    mapPosition startPos = myMap.startLoc.getPositions()[0];
+    mapPosition goalPos = myMap.stacks.getPositions()[0];
+    std::cout << "average time: ";
+	std::cout << measure<>::execution( [&]() {
+	for (int i = 0; i < times; i++) {
+		mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
+	}})/times << "ms" << std::endl;
 
-//     mapPositionVector smoothPath = path;
-//     std::cout << "smooth path" << std::endl;
-//     smoothPath = myMap.smooth(smoothPath);
+	std::cout << "jagged path" << std::endl;
+	mapPositionVector path = myMap.findPathRRT(startPos,goalPos);
+	for (int i = 0; i < path.size(); i++) {
+		myMap.mapVector[path[i].x][path[i].y] = 7;
+    	std::cout << i << ": (" << path[i].x << "," << path[i].y << ")" << std::endl;
+    }
 
-//     for (int i = 0; i < smoothPath.size(); i++) {
-//     	myMap.mapVector[smoothPath[i].x][smoothPath[i].y] = 7;
-//     	std::cout << i << ": (" << smoothPath[i].x << "," << smoothPath[i].y << ")" << std::endl;
-//     }
+    mapPositionVector smoothPath = path;
+    std::cout << "smooth path" << std::endl;
+    smoothPath = myMap.smooth(smoothPath);
 
-//     myMap.printMapFile("mapnoded.txt");
-//     std::cout << "the start was: (" << startPos.x << "," << startPos.y << ")" << std::endl;
-//     std::cout << "the goal was: (" << goalPos.x << "," << goalPos.y << ")" << std::endl;
-//     std::cout << "congrats you did it!" << std::endl;
-// }
+    for (int i = 0; i < smoothPath.size(); i++) {
+    	myMap.mapVector[smoothPath[i].x][smoothPath[i].y] = 7;
+    	std::cout << i << ": (" << smoothPath[i].x << "," << smoothPath[i].y << ")" << std::endl;
+    }
+
+    myMap.printMapFile("mapnoded.txt");
+    std::cout << "the start was: (" << startPos.x << "," << startPos.y << ")" << std::endl;
+    std::cout << "the goal was: (" << goalPos.x << "," << goalPos.y << ")" << std::endl;
+    std::cout << "congrats you did it!" << std::endl;
+}

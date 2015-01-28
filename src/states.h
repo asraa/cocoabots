@@ -43,6 +43,7 @@ public:
     int getColorNearestCube();
     double abs(double number);
     int isCubeRed();
+    int goingOppositeToPower();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated
@@ -51,10 +52,14 @@ public:
 
     void sharpCurveToTheRight();
     void sharpCurveToTheLeft();
+    void sharpCurveToTheRightBack();
+    void sharpCurveToTheLeftBack();
     void mediumCurveToTheRight();
     void mediumCurveToTheLeft();
     void curveToTheRight();
     void curveToTheLeft();
+    void turnToTheRightSlowly();
+    void turnToTheLeftSlowly();
     void stop();
 
     //wallFollow(); Follow a wall on the right
@@ -80,6 +85,11 @@ public:
     int followingPoint;
     int failedFollowingPoint;
     int finishedFollowingPoint;
+
+    void turnNDegreesSlowly(int angle);
+    int turnedNDegreesSlowly;
+    int turningNDegreesSlowly;
+    int finishedTurningNDegreesSlowly;
 
     void startProcessingProceduresManual();
     void finishProcessingProceduresManual();

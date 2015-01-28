@@ -20,6 +20,7 @@ struct mapPosition {
 	{
 		return (x==p.x) && (y==p.y);
 	}
+
 	mapPosition():x(0),y(0){}
 	mapPosition(int X, int Y):x(X),y(Y){}
 
@@ -43,7 +44,8 @@ struct mapNode {
 	struct mapPosition pos;
 	int parent;
 };
-
+typedef std::map<struct mapPosition, struct mapPosition, mapPositionComparator> mapPosPosDictionary;
+typedef std::map<struct mapPosition, double, mapPositionComparator> mapPosDoubleDictionary;
 typedef std::vector< std::vector<int> > mapGridMap;
 typedef std::vector<struct mapPosition> mapPositionVector;
 typedef mapPositionVector::iterator mapPositionVectorIterator;

@@ -497,9 +497,9 @@ int main(int argc, char** argv){
             sensorsModule mysensors;
             actuator myactuator(&mysensors);
             actPointer= &myactuator;
-            double hook = 100;
-            double arm = 7;
-            double sort = 45;
+            double hook = HOOK_START;
+            double arm = ARM_START;
+            double sort = SORT_START;
             myactuator.armServoAngle=&arm;
             myactuator.hookServoAngle=&hook;
             myactuator.sortServoAngle=&sort;
@@ -735,10 +735,22 @@ int main(int argc, char** argv){
 
         else if(strcmp(argv[1],"colorsensor")==0){
             printf("Running color sensor test\n");
-            sensorsModule mysensors;
+            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
+            double min = 900;
+            double max = 0;
             RUNNING =1;
             while(RUNNING){
-                printf("%lf in\n", mysensors.colorSensorData);
+                double data = myColorSensor.rawData();
+                if (data < min && data > 10) {
+
+                    min = data;
+                    printf("%lf min\n", min);
+                }
+                if (data > max) {
+
+                    max = data;
+                    printf("%lf max\n", max);
+                }
                 usleep(200000.0);
             }
 
@@ -819,6 +831,35 @@ int main(int argc, char** argv){
             }
 
         }
+        else if(strcmp(argv[1],"particleFilterPracticeMap2")==0){
+            printf("ParticleFilterTest with map\n");
+            RUNNING =1;
+            sensorsModule mySensors;
+            map myMap("myPracticeMapStartLocation2.txt");
+            double x = myMap.getStartLocationX();
+            double y = myMap.getStartLocationY();
+            particleFilter myParticleFilter(x,y,&mySensors, &myMap);
+            myMap.printMapFile("myMapDebug.txt");
+            while(RUNNING){
+                myParticleFilter.createSimpleWebpageView("particleFilter.html", "practiceMap.png");
+                usleep(200000.0);
+            }
+
+        }
+
+        else if(strcmp(argv[1],"ultraShortIR")==0){
+            printf("Running ultraShortIR sensor test\n");
+            sensorsModule mySensors;
+
+            RUNNING =1;
+            while(RUNNING){
+                double data = mySensors.frontUltraShortIRData;
+                printf("%lf\n", data);
+                usleep(200000.0);
+            }
+        }
+
+
         return 0;
     }
 }
