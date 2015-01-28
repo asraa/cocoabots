@@ -847,6 +847,19 @@ int main(int argc, char** argv){
 
         }
 
+        else if(strcmp(argv[1],"colorsensor")==0){
+            printf("Running ultraShortIR sensor test\n");
+            sensorsModule mySensors;
+
+            RUNNING =1;
+            while(RUNNING){
+                double data = mySensors.frontUltraShortIRData;
+                printf("%lf\n", data);
+                usleep(200000.0);
+            }
+        }
+
+
         return 0;
     }
 }

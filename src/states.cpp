@@ -346,7 +346,7 @@ void states::collectBlock(int color){
             else{
                 myServosControl->sortRed();
             }
-            setCarrotPosition(-18,0);
+            setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
             startTimeState = getTimeMicroseconds();
         }
         break;
@@ -480,6 +480,50 @@ void states::followPoint(double distance, double angle){
     }
 }
 
+void states::turnNDegreesSlowly(int angle){
+    enum turningStates {turning,turned};
+    static turningStates myState = turning;
+    static long long int startTimeState;
+    static long long int startAngle;
+
+
+    if(!turningNDegreesSlowly){
+        finishedTurningNDegreesSlowly=0;
+        startTimeState = getTimeMicroseconds();
+        myState=turning;
+        startAngle=getAngle();
+    }
+    long long int difTime;
+    double difAngle;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    difAngle= getAngle()- startAngle;
+    switch(myState){
+    case turning:
+        if(!finishedTurningNDegreesSlowly){
+            if (((difAngle>=angle)&&(angle>=0))||((difAngle<=angle)&&(angle<=0))){
+                finishedTurningNDegreesSlowly=1;
+                turnedNDegreesSlowly=0;
+                myState=turned;
+                setCarrotPosition(0,0);
+            }
+            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS)
+                setCarrotPosition(0,angle-difAngle);
+            myState=turned;
+
+        }else{
+            if(angle>0)
+                turnToTheRightSlowly();
+            else
+                turnToTheLeftSlowly();
+        }
+        break;
+    case turned:
+        break;
+    }
+}
+
+
+
 void states::stop(){
     setCarrotPosition(0,0);
 }
@@ -515,6 +559,14 @@ void states::sharpCurveToTheRightBack(){
 
 void states::sharpCurveToTheLeftBack(){
     setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
+}
+
+void states::turnToTheRightSlowly(){
+    setCarrotPosition(0,TURN_SLOWLY_ANGLE);
+}
+
+void states::turnToTheLeftSlowly(){
+    setCarrotPosition(0,-TURN_SLOWLY_ANGLE);
 }
 //Simple procedures (No states, no timeouts)
 
@@ -658,6 +710,11 @@ void states::finishProcessData(){
         followingPoint=1;
     else
         followingPoint=0;
+
+    if (turnedNDegreesSlowly)
+        turningNDegreesSlowly=1;
+    else
+        turningNDegreesSlowly=0;
 }
 
 

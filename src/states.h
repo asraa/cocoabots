@@ -58,6 +58,8 @@ public:
     void mediumCurveToTheLeft();
     void curveToTheRight();
     void curveToTheLeft();
+    void turnToTheRightSlowly();
+    void turnToTheLeftSlowly();
     void stop();
 
     //wallFollow(); Follow a wall on the right
@@ -83,6 +85,11 @@ public:
     int followingPoint;
     int failedFollowingPoint;
     int finishedFollowingPoint;
+
+    void turnNDegreesSlowly(int angle);
+    int turnedNDegreesSlowly;
+    int turningNDegreesSlowly;
+    int finishedTurningNDegreesSlowly;
 
     void startProcessingProceduresManual();
     void finishProcessingProceduresManual();
