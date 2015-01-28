@@ -9,7 +9,7 @@ namespace BlockDetection {
 
 // bound contour area to remove small bits
 bool contour2small(std::vector<cv::Point>& contour) {
-    return (fabs(cv::contourArea(contour,0)) < FEATURE_AREA_THRESH); // 0 for non-oriented
+    return (fabs(cv::contourArea(contour,0)) < FEATURE_AREA_THRESH_BLOCK); // 0 for non-oriented
 }
 
 // bound perimeter size to remove weird shapes
@@ -84,8 +84,9 @@ int isVertical(cv::Point pt1, cv::Point pt2) {
 // does not consider occlusion
 Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
 
-    std::vector<cv::Point> contours_poly;
-    cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
+    std::vector<cv::Point> contours_poly = contour;
+    //cv::approxPolyDP(cv::Mat(contour),contours_poly, POLY_NEIGHBORHOOD, true);
+    // commented out 01.27 because finding bottom point is more center
 
     // find bottom most point
     int bottom_ind = findLowestPoint(contours_poly);
@@ -101,7 +102,7 @@ Eigen::Vector2d crudeEstimate(std::vector<cv::Point> & contour) {
     int num_of_blocks = numOfBlocksEst(contours_poly);
 
     // return (x,z) coordinate of block
-    return CameraMath::reconstructPoint2D(top_pt, num_of_blocks * BLOCK_HEIGHT);
+    return CameraMath::reconstructPoint2D(top_pt, num_of_blocks * BLOCK_HEIGHT); // in xz
 
 }
 
@@ -132,6 +133,7 @@ int findHighestPoint(std::vector<cv::Point>& contour){
 }
 
 
+// deprecated
 int findLowestContour(ImageUtils::ContourData& contour_data ) {
     for(int j = 0; j < contour_data.contours.size(); j++) {
         //std::cout << j << " " << findLowestPoint(contour_data.contours.at(j)) << std::endl;
@@ -150,24 +152,23 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
 
     // show images
     if(DEBUG == 1){
-        cv::namedWindow("ae",1);
-        cv::imshow("ae",im_color);
+        cv::namedWindow("ae",1); cv::imshow("ae",im_color);
 
         cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);
         cv::drawContours(drawing, contour_data.contours, -1, cv::Scalar(255,255,255), 1, 8);
-        cv::namedWindow("qq",1);
-        cv::imshow("qq",drawing);
+        cv::namedWindow("qq",1); cv::imshow("qq",drawing);
+
         cv::waitKey(100);
     }
 
     //std::cout<<"number of contours"<<contour_data.contours.size()<<std::endl;
     if(contour_data.contours.size() > 0) { // contours not null
         // findLowestContour(contour_data);
-        for(int j = 1; j < contour_data.contours.size(); j++) {
+        for(int j = 0; j < contour_data.contours.size(); j++) {
             if(isBlock(contour_data.contours.at(j))) {
                 Eigen::Vector2d block_pt_xy = crudeEstimate(contour_data.contours.at(j)); // hacked for now
                 Eigen::Vector2d block_pt_radial = CameraMath::cvtCamXY2RobotRadial(block_pt_xy[0], block_pt_xy[1]);
-                std::cout << "x,z coords"<<block_pt_xy << std::endl;
+                if (DEBUG==1) std::cout << "x,z coords"<<block_pt_xy << std::endl;
                 list_of_pts.push_back(block_pt_radial);
             }
         }
@@ -239,18 +240,13 @@ void updateBlockFoundInfo(Eigen::Vector2d& block_coord_rad, int cube_color, Bloc
     nearest_block_info.nearest_cube_angle = block_coord_rad[1];
     nearest_block_info.nearest_cube_color = cube_color;
 
-    if(DEBUG == 1) {
-        std::cout<<"cube found: ";
-        std::cout<<"cude dist "<<nearest_block_info.nearest_cube_dist<< " ";
-        std::cout<<"cube angle "<<nearest_block_info.nearest_cube_angle<<" ";
-        std::cout<<"cube color "<<nearest_block_info.nearest_cube_color<<std::endl;
-    }
-
     //Eigen::Vector2d block_coord_rob_radial = CameraMath::cvtCamXY2RobotRadial(x_cam, y_cam);
     //nearest_block_info.nearest_cube_dist = block_coord_rob_radial[0];
     //nearest_block_info.nearest_cube_angle = block_coord_rob_radial[1];
 
-    //std::cout << "dist" << nearest_block_info.nearest_cube_dist <<"angle"<<nearest_block_info.nearest_cube_angle<<std::endl;
+    if (DEBUG==1) {
+        std::cout << "inside block detection: dist" << nearest_block_info.nearest_cube_dist <<"angle"<<nearest_block_info.nearest_cube_angle<<std::endl;
+    }
 
 }
 

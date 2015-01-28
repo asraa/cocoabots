@@ -17,7 +17,7 @@
 
 #define RIGHT_WHEEL 1
 #define RIGHT_WHEEL_PWM 1
-#define RIGHT_WHEEL_DIR 9
+#define RIGHT_WHEEL_DIR 13
 
 #define LEFT_WHEEL 1
 #define LEFT_WHEEL_PWM 0

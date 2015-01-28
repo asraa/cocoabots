@@ -36,7 +36,7 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
     cv::Mat purp_canny = ImageUtils::cannyEdge(im_purp);
 
     ImageUtils::ContourData purp_contour_data = ImageUtils::getContours(im_purp);
-    ImageUtils::cleanContour(purp_contour_data, 500);
+    ImageUtils::cleanContour(purp_contour_data, FEATURE_AREA_THRESH_PURP_LINE);
     cv::Mat purp_contour = ImageUtils::drawContoursFilled(purp_contour_data, im_purp);
 
     goThroughPixels(purp_contour, local_map);
