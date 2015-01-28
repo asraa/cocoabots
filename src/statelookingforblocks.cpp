@@ -10,7 +10,7 @@ stateLookingForBlocks::stateLookingForBlocks(states *previousState):states(previ
 
 void stateLookingForBlocks::processData(){
     startProcessData();
-    long long int difTime = getTimeMicroseconds()-startTimeState;
+    long long int difTime = (getTimeMicroseconds()-startTimeState)/1000;
     switch(myPrivateState){
         case (wallFollowing):
             wallFollow();
