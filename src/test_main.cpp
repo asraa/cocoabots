@@ -847,7 +847,7 @@ int main(int argc, char** argv){
 
         }
 
-        else if(strcmp(argv[1],"colorsensor")==0){
+        else if(strcmp(argv[1],"ultraShortIR")==0){
             printf("Running ultraShortIR sensor test\n");
             sensorsModule mySensors;
 
