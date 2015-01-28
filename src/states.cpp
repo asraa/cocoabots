@@ -505,6 +505,7 @@ void states::turnNDegreesSlowly(int angle){
     double difAngle;
     difTime=(getTimeMicroseconds()-startTimeState)/1000;
     difAngle= getAngle()- startAngle;
+    printf("difference angle =%lf\n", difAngle);
     switch(myState){
     case turning:
         if(!finishedTurningNDegreesSlowly){
