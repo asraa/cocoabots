@@ -514,10 +514,11 @@ void states::turnNDegreesSlowly(int angle){
                 myState=turned;
                 setCarrotPosition(0,0);
             }
-            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS)
+            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS){
                 setCarrotPosition(0,angle-difAngle);
-            myState=turned;
-
+                myState=turned;
+                turnedNDegreesSlowly=1;
+            }
         }else{
             if(angle>0)
                 turnToTheRightSlowly();
