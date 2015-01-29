@@ -53,7 +53,7 @@ void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
 // ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
-
+    if(nearestBlockInfo.found_cube && nearestBlockInfoPrevious.found_cube>0.5){
     nearestBlockInfo.found_cube =
             nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
             + nearestBlockInfo.found_cube * (1-BLOCK_FOUND_PREVIOUS_WEIGHT);
@@ -66,6 +66,7 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
     nearestBlockInfo.nearest_cube_color -
             nearestBlockInfoPrevious.nearest_cube_color * BLOCK_COLOR_PREVIOUS_WEIGHT
             + nearestBlockInfo.nearest_cube_color * (1-BLOCK_COLOR_PREVIOUS_WEIGHT);
+    }
 
     nearestBlockInfoPrevious = nearestBlockInfo;
 

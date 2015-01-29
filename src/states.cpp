@@ -421,7 +421,11 @@ void states::wallFollowLeft(double carrotDistance){
 }
 
 void states::wallFollowLeftFast(){
-    wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
+    //enum statesWallFollowFast;
+    //static int itIsATrap;
+    //if(!isItATrap()){
+        wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
+    //}
 }
 
 
@@ -856,6 +860,14 @@ volatile int states::isItATrap(){
     return (getDistanceLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
             getDistanceRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
             getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
+}
+
+double states::getDistanceToPurpleLine(){
+    return 0;
+}
+
+double states::getInitialAngleToPurpleLine(){
+    return 0;
 }
 
 

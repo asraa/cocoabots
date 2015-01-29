@@ -14,6 +14,7 @@ public:
     int gameTimeRemaining();
     int beginTime;
     int gameTime;
+    void reset();
 
 };
 

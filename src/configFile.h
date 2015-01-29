@@ -143,7 +143,7 @@
 #define TEAM_BUTTON 1
 #define TEAM_PIN 12
 
-#define ON_BUTTON 0
+#define ON_BUTTON 1
 #define ON_PIN 11
 
 //Define values for the alpha parameter of the filter of the sensors
@@ -244,13 +244,17 @@
 #define TURN_SLOWLY_ANGLE 30
 #define TURN_QUICKLY_ANGLE 60
 
-#define FAST_WALL_FOLLOW_CARROT_DISTANCE 15
+#define FAST_WALL_FOLLOW_CARROT_DISTANCE 13
 /////////////////////////////////
 //States definitions
 #define GO_TO_CUBE_WAIT_TIME_MS 3000
 #define GO_TO_CUBE_OVERSHOOT_DISTANCE 3
 
 #define LOOKING_FOR_BLOCKS_STOP_AND_LOOK_TIME_MS 11000
+
+#define GO_TO_CUBE_WAIT_TURN_TIME_MS 2000
+#define GO_TO_CUBE_WAIT_GO_TIME_MS 3000
+
 /////////////////////////////
 //Servos control
 
