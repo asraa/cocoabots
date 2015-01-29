@@ -410,6 +410,7 @@ void states::collectBlock(int color){
     static int counter=0;
     static long long int startTimeState;
     static int myColor;
+    static int detectedBlock=0;
     enum collectBlockState{resettingStart, moving, grabing,lifting, sorting,releasing, swipping, resettingFinish, backingOff};
     static collectBlockState myState=resettingStart;
     collectedBlocks=1;
@@ -419,7 +420,7 @@ void states::collectBlock(int color){
         myState=resettingStart;
         finishedCollectingBlock=0;
         myColor=color;
-        counter++;
+        detectedBlock=0;
     }
 
     long long int difTime;
@@ -434,18 +435,31 @@ void states::collectBlock(int color){
         else{
             myServosControl->reset();
         }
+        if(detectedCube()){
+            detectedBlock=1;
+        }
         break;
     case(moving):
         if(difTime>BLOCK_COLLECT_MAX_TIME_MOVING){
-            myState=grabing;
-            myServosControl->hookBlock();
-            if(color == -1){
-                myColor=isCubeRed();
+            if(detectedBlock){
+                myState=grabing;
+                myServosControl->hookBlock();
+                if(color == -1){
+                    myColor=isCubeRed();
+                }
+                else{
+                    myColor=color;
+                }
+                startTimeState = getTimeMicroseconds();
             }
-            else{
-                myColor=color;
-            }
+        }
+        else{
+            myState =resettingFinish;
             startTimeState = getTimeMicroseconds();
+            counter++;
+        }
+        if(detectedCube()){
+            detectedBlock=1;
         }
         break;
     case(grabing): 
