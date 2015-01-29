@@ -81,8 +81,8 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     while (myParticleFilter->running) {
         position=myParticleFilter->getNewPosition();
         angle=myParticleFilter->getNewAngle();
-        moved=1;
-        if (true||position!=previousPosition || angle!=previousAngle){
+        moved=0;
+        if (position!=previousPosition || angle!=previousAngle){
             moved=1;
             distance = position - previousPosition;
             differenceAngle = angle - previousAngle;
