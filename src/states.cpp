@@ -639,6 +639,52 @@ void states::followPoint(double distance, double angle){
     }
 }
 
+void states::turnNDegreesQuickly(int angle){
+    enum turningStates {turning,turned};
+    static turningStates myState = turning;
+    static long long int startTimeState;
+    static double startAngle;
+    turnedNDegreesQuickly=true;
+
+
+    if(!turningNDegreesQuickly){
+        finishedTurningNDegreesQuickly=0;
+        startTimeState = getTimeMicroseconds();
+        myState=turning;
+        startAngle=getAngle();
+    }
+    long long int difTime;
+    double difAngle;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    difAngle= getAngle()- startAngle;
+    switch(myState){
+    case turning:
+        if(!finishedTurningNDegreesQuickly){
+            if (((difAngle>=angle)&&(angle>=0))||((difAngle<=angle)&&(angle<=0))){
+                finishedTurningNDegreesQuickly=1;
+                turnedNDegreesQuickly=0;
+                myState=turned;
+                setCarrotPosition(0,0);
+            }
+            else if(difTime>TURN_N_DEGREES_QUICKLY_TIMEOUT_MS){
+                myState=turned;
+                turnedNDegreesQuickly=0;
+                finishedTurningNDegreesQuickly=1;
+
+            }
+            else{
+                if(angle>0)
+                    turnToTheRightQuickly();
+                else
+                    turnToTheLeftQuickly();
+            }
+        }
+        break;
+    case turned:
+        break;
+    }
+}
+
 void states::turnNDegreesSlowly(int angle){
     enum turningStates {turning,turned};
     static turningStates myState = turning;
@@ -724,6 +770,14 @@ void states::sharpCurveToTheLeftBack(){
     setCarrotPosition(-SHARP_CURVE_CARROT_DISTANCE,-SHARP_CURVE_CARROT_ANGLE);
 }
 
+void states::turnToTheRightQuickly(){
+    setCarrotPosition(0,TURN_QUICKLY_ANGLE);
+}
+
+void states::turnToTheLeftQuickly(){
+    setCarrotPosition(0,-TURN_QUICKLY_ANGLE);
+}
+
 void states::turnToTheRightSlowly(){
     setCarrotPosition(0,TURN_SLOWLY_ANGLE);
 }
@@ -776,6 +830,15 @@ volatile double states::getDistanceRightWall(){
 volatile double states::getDistanceFrontWall(){
     return mySensors->frontShortIRData;
 }
+
+volatile int states::isItATrap(){
+    return (getDistanceFromLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
+            getDistanceFromRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
+            getDistanceFromFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
+}
+
+
+
 
 int states::goingOppositeToPower(){
     int answ = 0;

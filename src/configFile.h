@@ -119,6 +119,10 @@
 #define BACK_SHORTIR 0
 #define BACK_SHORTIR_PIN 0
 
+#define FRONT_SHORTIR_TRAPPED_THRESHOLD 18
+#define RIGHT_SHORTIR_TRAPPED_THRESHOLD 14
+#define LEFT_SHORTIR_TRAPPED_THRESHOLD 14
+
 //Gyroscope
 //  FOR CHIP_PIN =10 and SPI =0 we have:
 // CS =10
@@ -215,6 +219,7 @@
 #define FOLLOW_POINT_UPDATE_RATE_MS 2200
 
 #define TURN_N_DEGREES_SLOWLY_TIMEOUT_MS 4000
+#define TURN_N_DEGREES_QUICKLY_TIMEOUT_MS 4000
 
 
 #define CURVE_CARROT_DISTANCE 10
@@ -226,7 +231,7 @@
 #define SHARP_CURVE_CARROT_DISTANCE 8
 #define SHARP_CURVE_CARROT_ANGLE 21
 
-#define TURN_SLOWLY_ANGLE 30
+#define TURN_QUICKLY_ANGLE 30
 
 #define FAST_WALL_FOLLOW_CARROT_DISTANCE 15
 /////////////////////////////////
@@ -273,7 +278,7 @@
 
 #define PARTICLE_FILTER_FRONT 0//0=none. 1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
-#define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_LEFT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
 //HACK TO MAKE THE MAP EASIER TO WORK WITH

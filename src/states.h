@@ -33,6 +33,7 @@ public:
     volatile double getDistanceLeftWall();
     volatile double getDistanceRightWall();
     volatile double getDistanceFrontWall();
+    volatile int isItATrap();
     double getAngleDifference(double angle1, double angle2);
     void setCarrotPosition(double distance, double angle);
     double getDistanceToCarrot();
@@ -90,6 +91,11 @@ public:
     int followingPoint;
     int failedFollowingPoint;
     int finishedFollowingPoint;
+
+    void turnNDegreesQuickly(int angle);
+    int turnedNDegreesQuickly;
+    int turningNDegreesQuickly;
+    int finishedTurningNDegreesQuickly;
 
     void turnNDegreesSlowly(int angle);
     int turnedNDegreesSlowly;
