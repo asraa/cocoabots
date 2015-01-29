@@ -116,22 +116,22 @@ void particleFilter::run(particleFilter *particleFilterPtr){
 }
 
 void particleFilter::tryToFindYourself(double maxX, double maxY){
-    myParticles.clear(); //redundant, since vector was never initialized, but safer.
-    for(int i=0;i<PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES*10;i++){
-        std::uniform_real_distribution<double> uniformDistributionAngle(0,360);
-        std::normal_distribution<double> normalDistributionX(positionX,PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X);
-        std::normal_distribution<double> normalDistributionY(positionY, PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y);
+//    myParticles.clear(); //redundant, since vector was never initialized, but safer.
+//    for(int i=0;i<PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES*10;i++){
+//        std::uniform_real_distribution<double> uniformDistributionAngle(0,360);
+//        std::normal_distribution<double> normalDistributionX(positionX,PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X);
+//        std::normal_distribution<double> normalDistributionY(positionY, PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y);
 
-        x = normalDistributionX(randomNumberGenerator);
-        y = normalDistributionY(randomNumberGenerator);
-        angle = uniformDistributionAngle(randomNumberGenerator);
+//        x = normalDistributionX(randomNumberGenerator);
+//        y = normalDistributionY(randomNumberGenerator);
+//        angle = uniformDistributionAngle(randomNumberGenerator);
 
-        particle.x=x;
-        particle.y=y;
-        particle.angle=angle;
+//        particle.x=x;
+//        particle.y=y;
+//        particle.angle=angle;
 
-        myParticles.push_back(particle);
-    }
+//        myParticles.push_back(particle);
+//    }
 
 }
 
