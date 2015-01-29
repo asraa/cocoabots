@@ -46,6 +46,11 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
     TerritoryDetection::detectPurpleLine(frame, local_map);
 }
+
+void ImageProcessor::detectPurpleLineTest(cv::Mat& frame) {
+    TerritoryDetection::detectPurpleLineTest(frame, local_map);
+}
+
 // ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
@@ -108,12 +113,20 @@ void ImageProcessor::doStuff() {
 
     clock_t start = clock(); // for debug
 
-    vid_cap.retrieve(frame); // get a new frame from camera
-    cv::resize(frame,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
+    vid_cap.retrieve(frame_raw); // get a new frame from camera
+    cv::resize(frame_raw,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
 
     detectWall(frame);
     detectBlocks(frame);
     detectPurpleLine(frame);
+
+    cv::namedWindow("frame", cv::WINDOW_NORMAL);
+    cv::imshow("frame", frame);
+
+    cv::namedWindow("local_map", cv::WINDOW_NORMAL);
+    cv::imshow("local_map", local_map.cvtImage());
+
+    cv::waitKey(100);
 
     // for debug
     clock_t end = clock();
@@ -137,9 +150,9 @@ void ImageProcessor::clearCameraCache() {
 // for debug
 void ImageProcessor::debugStuff() {
 
-    frame_raw = cv::imread("images/test_final/blocks_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
-    //vid_cap.grab(); // get a new frame from camera
-    //vid_cap.retrieve(frame_raw); // get a new frame from camera
+    //frame_raw = cv::imread("images/test_final/blocks_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+    vid_cap.grab(); // get a new frame from camera
+    vid_cap.retrieve(frame_raw); // get a new frame from camera
     cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
     clock_t start = clock();
     WallDetection::detectWall(frame, local_map);
@@ -152,7 +165,7 @@ void ImageProcessor::debugStuff() {
 
 void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
-    while(!DEBUG && ImageProcessorPointer->running) {
+    while(ImageProcessorPointer->running) {
         ImageProcessorPointer->doStuff();
         usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }

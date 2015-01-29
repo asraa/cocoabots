@@ -120,8 +120,8 @@ void ImageProcessor::doStuff() {
     detectBlocks(frame);
     detectPurpleLine(frame);
 
-    // cv::namedWindow("frame", 1);
-    // cv::imshow("frame", frame);
+    //cv::namedWindow("frame", 1);
+    //cv::imshow("frame", frame);
 
     // cv::namedWindow("local_map", 1);
     // cv::imshow("local_map", local_map.cvtImage());
@@ -174,7 +174,7 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
 
 }
 
-int main_im() {
+int main() {
     ImageProcessor myImageProcessor;
     myImageProcessor.run(&myImageProcessor);
 }
