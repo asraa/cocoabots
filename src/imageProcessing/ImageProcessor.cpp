@@ -19,6 +19,8 @@ ImageProcessor::ImageProcessor():
         return;
     }
 
+    detectingPurpleLine = 0;
+
     running=1;
     runThread = new std::thread(run,this);
 
@@ -47,9 +49,6 @@ void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
     TerritoryDetection::detectPurpleLine(frame, local_map);
 }
 
-void ImageProcessor::detectPurpleLineTest(cv::Mat& frame) {
-    TerritoryDetection::detectPurpleLineTest(frame, local_map);
-}
 
 // ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
@@ -70,6 +69,17 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 
     nearestBlockInfoPrevious = nearestBlockInfo;
 
+}
+
+void ImageProcessor::getDetectingPurpleLine(){
+    return detectingPurpleLine;
+}
+
+void ImageProcessor::setDetectingPurpleLine(int q){
+    if(q!=0)
+        detectingPurpleLine = 1;
+    else
+        detectingPurpleLine = 0;
 }
 
 // refresh local map to zeros
@@ -118,7 +128,10 @@ void ImageProcessor::doStuff() {
 
     detectWall(frame);
     detectBlocks(frame);
-    detectPurpleLine(frame);
+
+    if(detecting_purple_line == 1) {
+        detectPurpleLine(frame);
+    }
 
     //cv::namedWindow("frame", 1);
     //cv::imshow("frame", frame);
