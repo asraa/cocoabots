@@ -42,7 +42,7 @@ int main(int argc, char** argv){
     else{
         if(strcmp(argv[1],"ultrasonic")==0){
             printf("Running ultrasonic test\n");
-            ultrasonic testUltrasonic(2,3);
+            ultrasonic testUltrasonic(0,1);
             while(1)
             {
                 usleep(200000.0);
