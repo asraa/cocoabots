@@ -501,6 +501,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
 
         webpage << "var "<< nameOfImage<< " = new Image();\n"
           <<nameOfImage<<".src = 'smallArrow.gif'; \n " << std::endl;
+         webpage << "<p> particle probability="<< myProbabilities[i]<< std::endl;
     }
 
     {//robot
