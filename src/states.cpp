@@ -431,7 +431,7 @@ void states::collectBlock(int color){
             myState=grabing;
             myServosControl->hookBlock();
             if(color == -1){
-            myColor=isCubeRed();
+                myColor=isCubeRed();
             }
             else{
                 myColor=color;
@@ -443,7 +443,7 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
-            if (color == 0)
+            if (color == CUBE_GREEN)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
@@ -455,7 +455,7 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
-            if (color == 0)
+            if (color == CUBE_GREEN)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
