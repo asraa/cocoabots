@@ -55,7 +55,7 @@ std::string states::getName(){
  * On startProcessData write:
  * doneTheProcedure = 0;
  *
- * Done the procedure means that we haven't done the procedure on this iteration of the state machine
+ * Done the procedure means that we have done the procedure on this iteration of the state machine
  *
  * On the finishProcessData write:
  *
@@ -401,9 +401,10 @@ void states::wallFollowLeftFast(){
 }
 
 void states::collectBlock(int color){
+    static int counter=0;
     static long long int startTimeState;
     static int myColor;
-    enum collectBlockState{resettingStart, moving, grabing,lifting, sorting,releasing, swipping, resettingFinish};
+    enum collectBlockState{resettingStart, moving, grabing,lifting, sorting,releasing, swipping, resettingFinish, backingOff};
     static collectBlockState myState=resettingStart;
     collectedBlocks=1;
 
@@ -411,6 +412,7 @@ void states::collectBlock(int color){
         startTimeState = getTimeMicroseconds();
         myState=resettingStart;
         finishedCollectingBlock=0;
+        counter++;
     }
 
     long long int difTime;
@@ -489,13 +491,26 @@ void states::collectBlock(int color){
             myState=resettingFinish;
             myServosControl->reset();
             startTimeState = getTimeMicroseconds();
+            if (counter <BLOCK_COLLECT_COUNTER_LIMIT){
+                finishedCollectingBlock=1;
+                myState=resettingStart;
+                collectingBlocks=0;
+                collectedBlocks=0;
+            }
+            else{
+                myState=backingOff;
+                wallFollow();
+            }
+        }
+        break;
+    case(backingOff):
+        if(difTime>BLOCK_COLLECT_BACKINGOFF_TIME_MS){
             finishedCollectingBlock=1;
             myState=resettingStart;
             collectingBlocks=0;
             collectedBlocks=0;
+            counter=0;
         }
-        break;
-
     }
 
 
@@ -541,18 +556,29 @@ void states::goToPoint(double distance, double angle){
 }
 
 void states::followPoint(double distance, double angle){
-    enum followPointStates {updating,updated};
+    enum followPointStates {updating,updated, timeout};
     static followPointStates myState = updating;
     static long long int startTimeState;
+    static long long int startTimeProcedure;
 
     followedPoint=1;
     if(!followingPoint){
         finishedFollowingPoint=0;
         startTimeState = getTimeMicroseconds();
+        startTimeProcedure =getTimeMicroseconds();
         myState=updating;
     }
-    long long int difTime;
-    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    long long int difTimeStartState;
+    long long int difTimeStartProcedure;
+    difTimeStartProcedure=(getTimeMicroseconds()-startTimeProcedure)/1000;
+
+    if(difTimeStartProcedure>FOLLOW_POINT_TIMEOUT_MS){
+        if(myState!=timeout){
+            myState=timeout;
+            startTimeState=getTimeMicroseconds();
+        }
+    }
+    difTimeStartState=(getTimeMicroseconds()-startTimeState)/1000;
 
     switch(myState){
     case updating:
@@ -575,10 +601,20 @@ void states::followPoint(double distance, double angle){
         myState=updated;
         break;
     case updated:
-        if(difTime>FOLLOW_POINT_UPDATE_RATE_MS){
+        if(difTimeStartState>FOLLOW_POINT_UPDATE_RATE_MS){
             startTimeState = getTimeMicroseconds();
             myState=updating;
         }
+        break;
+    case timeout:
+        if(difTimeStartState<FOLLOW_POINT_TIMEOUT_WALLFOLLOW_MS){
+            wallFollow();
+        }
+        else{
+            followedPoint=0;
+            //reset
+        }
+        break;
     }
 }
 
