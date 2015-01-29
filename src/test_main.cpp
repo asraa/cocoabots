@@ -846,6 +846,21 @@ int main(int argc, char** argv){
             }
 
         }
+        else if(strcmp(argv[1],"particleFilterPracticeMap3")==0){
+            printf("ParticleFilterTest with map\n");
+            RUNNING =1;
+            sensorsModule mySensors;
+            map myMap("myPracticeMapStartLocation3.txt");
+            double x = myMap.getStartLocationX();
+            double y = myMap.getStartLocationY();
+            particleFilter myParticleFilter(x,y,&mySensors, &myMap);
+            myMap.printMapFile("myMapDebug.txt");
+            while(RUNNING){
+                myParticleFilter.createSimpleWebpageView("particleFilter.html", "practiceMap.png");
+                usleep(200000.0);
+            }
+
+        }
 
         else if(strcmp(argv[1],"ultraShortIR")==0){
             printf("Running ultraShortIR sensor test\n");
