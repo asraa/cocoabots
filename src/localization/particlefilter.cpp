@@ -222,7 +222,7 @@ void particleFilter::updateProbabilities(){
     realLeftReading=mySensors->leftUltrasonicData;
 #endif
 
-    printf("real right reading %lf. Real front reading %lf\n",  realRightReading, realFrontReading);
+    //printf("real right reading %lf. Real front reading %lf\n",  realRightReading, realFrontReading);
     for (int i=0; i<numberOfParticles; i++){
         particlePtr=&tempParticles[i];
     //TODO GET EXPECTED SENSORS READINGS FROM POSITION OF THE PARTICLE
@@ -235,7 +235,7 @@ void particleFilter::updateProbabilities(){
         double rightReading = myMap->getSonarReadingRight(x,y,angle);
         double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
 
-        printf("false right reading %lf. false front reading %lf\n",  rightReading, frontReading);
+        //printf("false right reading %lf. false front reading %lf\n",  rightReading, frontReading);
 
 
 
@@ -294,12 +294,12 @@ void particleFilter::updateProbabilities(){
 #endif
         //TODO multiply the probability of the particle by this probability
         myProbabilities[i]*=likelyhood;
-        printf("likelyhood %lf\n",  likelyhood);
+        //printf("likelyhood %lf\n",  likelyhood);
         totalLikelyHood+=likelyhood;
     }
     for (int i=0; i<numberOfParticles; i++){
         myProbabilities[i]/=totalLikelyHood;
-        printf("normalized likelyhood %lf\n",  myProbabilities[i]);
+        //printf("normalized likelyhood %lf\n",  myProbabilities[i]);
     }
 
 
