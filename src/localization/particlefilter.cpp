@@ -105,12 +105,12 @@ void particleFilter::run(particleFilter *particleFilterPtr){
 
             }
         }
+        myParticleFilter->updateRobotPosition();
         if(resampledCounter%PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO==0){
             resampledCounter%=PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO;
             resampledCounter++;
             myParticleFilter->respawn();
         }
-        myParticleFilter->updateRobotPosition();
         usleep(PARTICLE_FILTER_UPDATE_RATE_MS*1000);
     }
 }
