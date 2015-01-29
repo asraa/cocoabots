@@ -48,4 +48,40 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 
 }
 
+
+
+void detectPurpleLineTest(cv::Mat& frame, GridMap& local_map) {
+
+    cv::Mat purp_canny_color;
+
+    // get purple line
+    cv::Mat im_purp = ColorDetection::detectColor(frame, ColorDetection::COLOR_LINE_PURPLE);
+    // do a canny edge detection
+    cv::Mat purp_canny = ImageUtils::cannyEdge(im_purp);
+
+    ImageUtils::ContourData purp_contour_data = ImageUtils::getContours(im_purp);
+    ImageUtils::cleanContour(purp_contour_data, FEATURE_AREA_THRESH_PURP_LINE);
+    cv::Mat purp_contour = ImageUtils::drawContoursFilled(purp_contour_data, im_purp);
+
+    goThroughPixels(purp_contour, local_map);
+
+    // probablistic hough line detection
+
+    cv::cvtColor(purp_canny, purp_canny_color, CV_GRAY2BGR);
+    std::vector<cv::Vec4i> purp_lines;
+    HoughLinesP(purp_canny, purp_lines, 1, CV_PI/180, 200, 30, 10);
+    for (size_t i = 0; i < purp_lines.size(); i++ ) {
+        cv::line(frame, cv::Point(purp_lines[i][0], purp_lines[i][1]),
+                cv::Point(purp_lines[i][2], purp_lines[i][3]), cv::Scalar(0,0,255), 3, 8);
+    }
+
+}
+
+    // args= image, lines, rho, theta, threshold, minlinelength, maxlinegap
+
+    // do a hough line fit
+
+    // check line properties
+
+
 }

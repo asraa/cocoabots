@@ -46,6 +46,11 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
     TerritoryDetection::detectPurpleLine(frame, local_map);
 }
+
+void ImageProcessor::detectPurpleLineTest(cv::Mat& frame) {
+    TerritoryDetection::detectPurpleLineTest(frame, local_map);
+}
+
 // ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
@@ -115,6 +120,12 @@ void ImageProcessor::doStuff() {
     detectBlocks(frame);
     detectPurpleLine(frame);
 
+    // cv::namedWindow("frame", 1);
+    // cv::imshow("frame", frame);
+
+    // cv::namedWindow("local_map", 1);
+    // cv::imshow("local_map", local_map.cvtImage());
+
     // for debug
     clock_t end = clock();
     cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
@@ -161,4 +172,9 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
         usleep(UPDATE_RATE_IMAGE_PROCESSOR_MICROSECONDS);
     }
 
+}
+
+int main_im() {
+    ImageProcessor myImageProcessor;
+    myImageProcessor.run(&myImageProcessor);
 }
