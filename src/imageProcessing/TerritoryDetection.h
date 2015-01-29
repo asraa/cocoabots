@@ -9,7 +9,6 @@
 namespace TerritoryDetection {
 
 void detectPurpleLine(cv::Mat& frame, GridMap& local_map);
-void detectPurpleLineTest(cv::Mat& frame, GridMap& local_map);
 
 }
 

@@ -38,6 +38,7 @@ public:
     // update for other threads to get
     BlockDetection::BlockInfo nearestBlockInfo;
     BlockDetection::BlockInfo nearestBlockInfoPrevious;
+    int detecting_purple_line;
 
     /*
     int foundCube;
@@ -58,7 +59,6 @@ public:
     void detectWall(cv::Mat&);
     void detectBlocks(cv::Mat&);
     void detectPurpleLine(cv::Mat& frame);
-    void detectPurpleLineTest(cv::Mat& frame);
 
     void local_map_refresh();
 
@@ -72,6 +72,8 @@ public:
     double getNearestCubeDist();
     double getNearestCubeAngle();
     int getNearestCubeColor();
+    int getDetectingPurpleLine();
+    int setDetectingPurpleLine();
 
     // for debug
     double cpu_time;
