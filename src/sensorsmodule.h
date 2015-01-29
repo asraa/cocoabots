@@ -9,6 +9,7 @@
 #include "sensors/ultraShortIR.h"
 #include "sensors/ultrasonic.h"
 #include "sensors/jankycolorsensor.h"
+#include "sensors/button.h"
 #include "sensors/sensorssuperclass.h"
 #include "cmath"
 #include "configFile.h"
@@ -40,6 +41,9 @@ public:
 
     volatile double colorSensorData;
 
+    volatile double teamData;
+    volatile double onData;
+
 
     volatile double ultrasonicAlpha;
     volatile double ultraShortIRAlpha;
@@ -49,6 +53,8 @@ public:
     volatile double gyroscopeTotalAlpha;
     volatile double gyroscopeReadingAlpha;
     volatile double colorSensorAlpha;
+    volatile double teamDataAlpha;
+    volatile double onDataAlpha;
 
     volatile double gyroscopeAngle;
     volatile double gyroscopeReading;
@@ -147,6 +153,14 @@ shortIR leftShortIR;
 
 #if COLOR_DETECTOR
 jankyColorSensor colorSensor;
+#endif
+
+#if TEAM_BUTTON
+button teamButton;
+#endif
+
+#if ON_BUTTON
+button onButton
 #endif
 
 
