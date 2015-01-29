@@ -914,7 +914,7 @@ int states::isCubeRed(){
 }
 
 int states::areWeRed(){
-    return 1; //TODO, GET DATA FROM THE BUTTON
+    return mySensors->teamData;
 }
 
 void states::startProcessingProceduresManual(){
