@@ -400,7 +400,11 @@ void states::wallFollowLeft(double carrotDistance){
 }
 
 void states::wallFollowLeftFast(){
-    wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
+    //enum statesWallFollowFast;
+    //static int itIsATrap;
+    //if(!isItATrap()){
+        wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
+    //}
 }
 
 

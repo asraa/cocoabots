@@ -235,7 +235,7 @@
 #define TURN_SLOWLY_ANGLE 30
 #define TURN_QUICKLY_ANGLE 60
 
-#define FAST_WALL_FOLLOW_CARROT_DISTANCE 15
+#define FAST_WALL_FOLLOW_CARROT_DISTANCE 13
 /////////////////////////////////
 //States definitions
 #define GO_TO_CUBE_WAIT_TIME_MS 3000
