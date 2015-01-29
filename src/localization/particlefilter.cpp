@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdio>
 #include <fstream>
+#include <cstdio>
 #include <unistd.h>
 
 #include "../configFile.h"
@@ -221,6 +222,7 @@ void particleFilter::updateProbabilities(){
     realLeftReading=mySensors->leftUltrasonicData;
 #endif
 
+    printf("real right reading %lf. Real front reading %lf\n",  realRightReading, realFrontReading);
     for (int i=0; i<numberOfParticles; i++){
         particlePtr=&tempParticles[i];
     //TODO GET EXPECTED SENSORS READINGS FROM POSITION OF THE PARTICLE
@@ -232,6 +234,9 @@ void particleFilter::updateProbabilities(){
         double backReading = myMap->getSonarReadingBack(x,y,angle);
         double rightReading = myMap->getSonarReadingRight(x,y,angle);
         double leftReading  = myMap->getSonarReadingLeft(x,y,angle);
+
+        printf("false right reading %lf. false front reading %lf\n",  rightReading, frontReading);
+
 
 
 
@@ -252,25 +257,25 @@ void particleFilter::updateProbabilities(){
 #endif
 
 #if PARTICLE_FILTER_RIGHT == 1
-        if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (rightReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_RIGHT ==2
-        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (rightReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif
 #if PARTICLE_FILTER_LEFT == 1
-        if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (leftReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_LEFT ==2
-        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (leftReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
@@ -282,13 +287,14 @@ void particleFilter::updateProbabilities(){
 #endif
 
 #if PARTICLE_FILTER_BACK ==2
-        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (backReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realBackReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif
         //TODO multiply the probability of the particle by this probability
         myProbabilities[i]*=likelyhood;
+        printf("likelyhood %lf\n",  likelyhood);
         totalLikelyHood+=likelyhood;
     }
     for (int i=0; i<numberOfParticles; i++){
