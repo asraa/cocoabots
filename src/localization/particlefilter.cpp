@@ -65,7 +65,7 @@ particleFilter::~particleFilter(){
 
 void particleFilter::run(particleFilter *particleFilterPtr){
     particleFilter * myParticleFilter = particleFilterPtr;
-    int updatedPositionCounter;
+    int updatedPositionCounter=0;
     int resampledCounter=1;
     double previousPosition;
     double previousAngle;
