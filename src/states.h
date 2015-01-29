@@ -65,6 +65,8 @@ public:
     void curveToTheLeft();
     void turnToTheRightSlowly();
     void turnToTheLeftSlowly();
+    void turnToTheRightQuickly();
+    void turnToTheLeftQuickly();
     void stop();
 
     //wallFollow(); Follow a wall on the right

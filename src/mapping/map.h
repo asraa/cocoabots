@@ -91,6 +91,7 @@ class map
 		double getThetaRRT(struct mapPosition Pos1, struct mapPosition Pos2);
 		struct mapPosition stepFromToRRT(struct mapPosition Pos1, struct mapPosition Pos2, double stepSize);
 		void getMostsRRT();
+        struct mapPosition mostValuableStack(int currentGreen, int currentRed);
 		void printMapPositionVector(mapPositionVector posVec);
 		//mapPositionVector smoothTriangle(mapPosition currentPos, mapPosition middlePos, mapPosition finalPos);
 		mapPositionVector smooth(mapPositionVector posVec);
