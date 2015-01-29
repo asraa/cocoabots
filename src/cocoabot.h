@@ -7,8 +7,8 @@
 #include "actuators/servoscontrol.h"
 #include "actuators/actuator.h"
 #include "imageProcessing/ImageProcessor.h"
-#include "mapping/map.h"
-#include "localization/particlefilter.h"
+//#include "mapping/map.h"
+//#include "localization/particlefilter.h"
 #include "logger.h"
 #include "utils.h"
 

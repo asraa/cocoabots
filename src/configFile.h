@@ -143,7 +143,7 @@
 #define TEAM_BUTTON 1
 #define TEAM_PIN 12
 
-#define ON_BUTTON 0
+#define ON_BUTTON 1
 #define ON_PIN 11
 
 //Define values for the alpha parameter of the filter of the sensors

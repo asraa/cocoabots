@@ -862,6 +862,14 @@ volatile int states::isItATrap(){
             getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
 }
 
+double states::getDistanceToPurpleLine(){
+    return 0;
+}
+
+double states::getInitialAngleToPurpleLine(){
+    return 0;
+}
+
 
 
 

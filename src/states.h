@@ -69,6 +69,9 @@ public:
     void turnToTheLeftQuickly();
     void stop();
 
+    double getDistanceToPurpleLine();
+    double getInitialAngleToPurpleLine();
+
     //wallFollow(); Follow a wall on the right
     void wallFollowLeftFast();
     void wallFollowLeft(double carrotDistance=WALL_FOLLOW_CARROT_DISTANCE_INCHES); //procedure to wall follow

@@ -160,7 +160,7 @@ button teamButton;
 #endif
 
 #if ON_BUTTON
-button onButton
+button onButton;
 #endif
 
 

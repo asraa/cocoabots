@@ -13,8 +13,8 @@
 #include  <thread>
 #include <stdlib.h>     /* atoi */
 #include "imageProcessing/ImageProcessor.h"
-#include "localization/particlefilter.h"
-#include "mapping/map.h"
+//#include "localization/particlefilter.h"
+//#include "mapping/map.h"
 
 
 
@@ -755,7 +755,7 @@ int main(int argc, char** argv){
             }
 
 
-        }
+        }/*
         else if(strcmp(argv[1],"particleFilter1")==0){
             printf("ParticleFilterTest\n");
             RUNNING =1;
@@ -861,7 +861,7 @@ int main(int argc, char** argv){
             }
 
         }
-
+        */
         else if(strcmp(argv[1],"ultraShortIR")==0){
             printf("Running ultraShortIR sensor test\n");
             sensorsModule mySensors;
