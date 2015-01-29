@@ -425,6 +425,9 @@ void states::collectBlock(int color){
 
     long long int difTime;
     difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    if(detectedCube()){
+        detectedBlock=1;
+    }
     switch(myState){
     case (resettingStart):
         if(difTime>BLOCK_COLLECT_RESET_TIME_MS){
@@ -452,12 +455,13 @@ void states::collectBlock(int color){
                 }
                 startTimeState = getTimeMicroseconds();
             }
+            else{
+                myState =resettingFinish;
+                startTimeState = getTimeMicroseconds();
+                counter++;
+            }
         }
-        else{
-            myState =resettingFinish;
-            startTimeState = getTimeMicroseconds();
-            counter++;
-        }
+
         if(detectedCube()){
             detectedBlock=1;
         }
