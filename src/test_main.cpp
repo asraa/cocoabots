@@ -877,6 +877,20 @@ int main(int argc, char** argv){
             }
         }
 
+        else if(strcmp(argv[1],"colorsensorraw")==0){
+            printf("Running color sensor test\n");
+            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
+            RUNNING =1;
+            while(RUNNING){
+                double data = myColorSensor.rawData();
+
+                printf("%lf \n", data);
+                usleep(200000.0);
+            }
+
+
+        }
+
         return 0;
     }
 }
