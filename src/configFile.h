@@ -271,7 +271,7 @@
 
 
 #define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
-#define PARTICLE_FILTER_BACK 2//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
@@ -285,7 +285,7 @@
 //
 #define MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_X 4.5
 #define MAP_ROBOT_DISTANCE_CENTER_FRONT_SENSOR_Y 3
-#define MAP_ROBOT_DISTANCE_CENTER_BACK_SENSOR_X 10
+#define MAP_ROBOT_DISTANCE_CENTER_BACK_SENSOR_X 8
 #define MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_X 5.25
 #define MAP_ROBOT_DISTANCE_CENTER_RIGHT_SENSOR_Y 1.5
 #define MAP_ROBOT_DISTANCE_CENTER_LEFT_SENSOR_X 5.25
