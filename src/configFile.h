@@ -244,6 +244,10 @@
 #define GO_TO_CUBE_OVERSHOOT_DISTANCE 3
 
 #define LOOKING_FOR_BLOCKS_STOP_AND_LOOK_TIME_MS 11000
+
+#define GO_TO_CUBE_WAIT_TURN_TIME_MS 2000
+#define GO_TO_CUBE_WAIT_GO_TIME_MS 3000
+
 /////////////////////////////
 //Servos control
 

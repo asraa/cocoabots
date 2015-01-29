@@ -17,3 +17,7 @@ int utils::gameTimeRemaining(){
       int elapsedTime= difftime (time(0),beginTime);
       return gameTime - elapsedTime;
 }
+
+void utils::reset(){
+    beginTime= time(NULL);
+}
