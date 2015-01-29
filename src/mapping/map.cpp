@@ -42,6 +42,33 @@ bool map::isPassable(struct mapPosition Pos) {
 	return true;;
 }
 
+struct mapPosition map::mostValuableStack(int currentGreen, int currentRed) {
+	int value, green, red;
+	int maxGain = 0;
+	struct mapPosition stackPos, maxStackPos;
+	struct mapCubeStack cubeStack;
+
+	mapPositionVector stackPositions = stacks.getPositions();
+	for (int i = 0; i < stackPositions.size(); i++) {
+		value = 0;
+		stackPos = stackPositions[i];
+		cubeStack = stacks.getCubeStack(stackPos);
+		red = 3 - (cubeStack.bot + cubeStack.mid + cubeStack.top);
+		green = 3 - red;
+		value += pow(green+currentGreen,2) - pow(currentGreen,2);
+		value += pow(red+currentRed,2) - pow(currentRed,2);
+		if (value > maxGain) {
+			maxGain = value;
+			maxStackPos = stackPos;
+		}
+		if (value == maxGain && value != 0) {
+			
+		}
+
+
+	}
+}
+
 bool map::isWall(struct mapPosition pos){
     int sizex= mapVector.size();
     if (pos.x >=sizex ||pos.x<=0)

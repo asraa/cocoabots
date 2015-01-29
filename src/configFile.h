@@ -132,7 +132,8 @@
 //Color Detector
 #define COLOR_DETECTOR 1
 #define COLOR_DETECTOR_PIN 2
-#define RED_THRESHOLD 566
+#define RED_THRESHOLD 50
+//was 566 for top color sensor
 
 //Define values for the alpha parameter of the filter of the sensors
 //They should be increased if there is too much noise

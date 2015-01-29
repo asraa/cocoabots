@@ -58,6 +58,6 @@ void stack::removeStack(mapPosition Pos) {
 	}
 }
 
-struct mapCubeStack stack::getCubeStack(mapPosition Pos) {
+struct mapCubeStack stack::getCubeStack(struct mapPosition Pos) {
 	return stackDict[Pos];
 }

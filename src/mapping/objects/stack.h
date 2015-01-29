@@ -8,9 +8,9 @@ class stack: public objectsSuperClass
 	public:
 		stack(int ri, int rf);
 		void addStringVector(mapStringVector strVec);
-		void addStack(mapPosition Pos, mapCubeStack cubeStack);
-		void removeStack(mapPosition Pos);
-		struct mapCubeStack getCubeStack(mapPosition Pos);
+		void addStack(struct mapPosition Pos, mapCubeStack cubeStack);
+		void removeStack(struct mapPosition Pos);
+		struct mapCubeStack getCubeStack(struct mapPosition Pos);
 
 		mapStackDictionary stackDict;
 };
