@@ -104,11 +104,11 @@ cv::Mat drawHoughLinesNonP(ImageUtils::HoughDataNonP hough, cv::Mat im_src) {
         cv::Point pt1, pt2;
         double a = cos(theta), b = sin(theta);
         double x0 = a*rho, y0 = b*rho;
-        pt1.x = cvRound(x0 + 200*(-b));
-        pt1.y = cvRound(y0 + 200*(a));
-        pt2.x = cvRound(x0 - 200*(-b));
-        pt2.y = cvRound(y0 - 200*(a));
-        line(im_copy, pt1, pt2, cv::Scalar(0,0,255), 2, CV_AA);
+        pt1.x = cvRound(x0 + 1000*(-b));
+        pt1.y = cvRound(y0 + 1000*(a));
+        pt2.x = cvRound(x0 - 1000*(-b));
+        pt2.y = cvRound(y0 - 1000*(a));
+        line(im_copy, pt1, pt2, cv::Scalar(0,0,255), 3,8);
     }
     return im_copy;
 }
@@ -118,8 +118,8 @@ ImageUtils::HoughDataP houghLinesP(cv::Mat& im_src) {
     im_src.copyTo(im_copy);
     ImageUtils::HoughDataP hough;
     HoughLinesP(im_copy, hough.lines,
-                HOUGH_P_RES_RHO_PIXEL, HOUGH_P_RES_THETA_RAD,
-                HOUGH_P_MIN_VOTES, HOUGH_P_MAX_LINE_GAP);
+                HOUGH_P_RHO, HOUGH_P_THETA, HOUGH_P_THRESHOLD,
+                HOUGH_P_MIN_LINE_LENGTH, HOUGH_P_MAX_LINE_GAP);
     return hough;
 }
 
@@ -129,7 +129,7 @@ cv::Mat drawHoughLinesP(ImageUtils::HoughDataP hough, cv::Mat& im_src) {
     im_src.copyTo(im_copy);
     for(int i = 0; i < hough.lines.size(); i++ ){
         cv::Vec4i l = hough.lines[i];
-        line(im_copy, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(0,0,255), 1, CV_AA);
+        line(im_copy, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), cv::Scalar(0,0,255), 3, 8);
     }
     return im_copy;
 }

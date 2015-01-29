@@ -1,7 +1,20 @@
-
+#include <sstream>
+#include <iostream>
 #include "ImageProcessor.h"
 #include <unistd.h>
+#include <signal.h>
 
+ImageProcessor *ImageProcessorPointerForStopping;
+int i = 9;
+
+
+void stopImageProcessor(int signo)
+{
+    if (signo == SIGINT) {
+        std::cout << "SIGINT called" << std::endl;
+        ImageProcessorPointerForStopping->running=0;
+    }
+}
 
 // *** (DE)CONSTRUCTORS FOR IMAGE PROCESSING CLASS *** //
 ImageProcessor::ImageProcessor():
@@ -14,10 +27,14 @@ ImageProcessor::ImageProcessor():
         vid_cap.set(CV_CAP_PROP_FRAME_WIDTH, 640*FRAME_RESIZE_SCALE);
         vid_cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480*FRAME_RESIZE_SCALE);
         vid_cap.set(CV_CAP_PROP_FPS, 30);
+        vid_cap.set(CV_CAP_PROP_AUTO_EXPOSURE, 0 );
     }
     else if (!DEBUG) {
         return;
     }
+
+    ImageProcessorPointerForStopping = this;
+    signal(SIGINT, stopImageProcessor);
 
     running=1;
     runThread = new std::thread(run,this);
@@ -49,6 +66,10 @@ void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
 
 void ImageProcessor::detectPurpleLineTest(cv::Mat& frame) {
     TerritoryDetection::detectPurpleLineTest(frame, local_map);
+}
+
+void ImageProcessor::detectPurpleLineTest2(cv::Mat& frame) {
+    TerritoryDetection::detectPurpleLineTest2(frame, local_map);
 }
 
 // ******* UPDATE INFO ******** //
@@ -107,32 +128,84 @@ void ImageProcessor::writeToFile(std::string fn) {
 }
 
 // ****** MAIN FUNCTION IN LOOP ******* //
+//void ImageProcessor::doStuff() {
+//    i += 1;
+//    std::ostringstream oss;
+//    oss << "plines/plines_" << i << ".png";
+//    clearCameraCache();
+//    clock_t start = clock();
+
+//    vid_cap.retrieve(frame_raw);
+//    cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+
+//    cv::namedWindow("frame", cv::WINDOW_NORMAL);
+//    cv::imshow("frame", frame);
+
+//    std::vector<int> compression_params;
+//    compression_params.push_back(16);
+//    compression_params.push_back(9);
+//    imwrite(oss.str(),frame,compression_params);
+
+//    cv::waitKey(500);
+
+//    clock_t end = clock();
+//    cpu_time = ((double) (end-start))/CLOCKS_PER_SEC;
+//}
+
+//void ImageProcessor::doStuff() {
+
+//    clearCameraCache();
+
+//    clock_t start = clock(); // for debug
+
+//    vid_cap.retrieve(frame_raw); // get a new frame from camera
+//    cv::resize(frame_raw,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
+
+////    frame = cv::imread("images/blocks_13.jpg");
+////    cv::resize(frame,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+
+//    detectWall(frame);
+//    local_map_refresh();
+//    detectBlocks(frame);
+//    detectPurpleLineTest2(frame);
+
+//    cv::namedWindow("frame", cv::WINDOW_NORMAL);
+//    cv::imshow("frame", frame);
+
+////    cv::namedWindow("local_map", cv::WINDOW_NORMAL);
+////    cv::imshow("local_map", local_map.cvtImage());
+
+//    cv::waitKey(100);
+
+//    // for debug
+//    clock_t end = clock();
+//    cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+//}
+
 void ImageProcessor::doStuff() {
-
+    i += 1;
+    std::ostringstream oss;
+    oss << "plines/plines_" << i << ".png";
     clearCameraCache();
+    clock_t start = clock();
+    if (i <= 84) {
+        frame_raw = cv::imread(oss.str(),-1);
+        cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+        //detectWall(frame);
+        //local_map_refresh();
+        //detectBlocks(frame);
+        detectPurpleLineTest2(frame);
 
-    clock_t start = clock(); // for debug
+        cv::namedWindow("frame", cv::WINDOW_NORMAL);
+        cv::imshow("frame", frame);
+    }
 
-    vid_cap.retrieve(frame_raw); // get a new frame from camera
-    cv::resize(frame_raw,frame,cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
-
-    detectWall(frame);
-    detectBlocks(frame);
-    detectPurpleLine(frame);
-
-    cv::namedWindow("frame", cv::WINDOW_NORMAL);
-    cv::imshow("frame", frame);
-
-    cv::namedWindow("local_map", cv::WINDOW_NORMAL);
-    cv::imshow("local_map", local_map.cvtImage());
-
-    cv::waitKey(100);
-
-    // for debug
+    cv::waitKey(333);
     clock_t end = clock();
-    cpu_time = ((double) (end - start)) / CLOCKS_PER_SEC;
-
+    cpu_time = ((double) (end-start))/CLOCKS_PER_SEC;
 }
+
 void ImageProcessor::clearCameraCache() {
     // for debug
     clock_t start = clock();

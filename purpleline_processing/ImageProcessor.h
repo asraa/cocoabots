@@ -59,6 +59,7 @@ public:
     void detectBlocks(cv::Mat&);
     void detectPurpleLine(cv::Mat& frame);
     void detectPurpleLineTest(cv::Mat& frame);
+    void detectPurpleLineTest2(cv::Mat& frame);
 
     void local_map_refresh();
 

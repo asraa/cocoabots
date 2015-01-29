@@ -102,15 +102,15 @@ static const int CANNY_THRESH_LOW = 5;
 static const int CANNY_THRESH_UP = 15;
 static const int CANNY_KERNEL = 3;
 // for hough line detection (standard)
-static const double HOUGH_RES_RHO_PIXEL = 1;
-static const double HOUGH_RES_THETA_RAD = (M_PI/180.0);
-static const int HOUGH_MIN_VOTES = 0;
+static const double HOUGH_RES_RHO_PIXEL = 5;
+static const double HOUGH_RES_THETA_RAD = (2*M_PI/180.0);
+static const int HOUGH_MIN_VOTES = 10;
 // for hough line detection (probabilistic)
-static const double HOUGH_P_RES_RHO_PIXEL = 1;
-static const double HOUGH_P_RES_THETA_RAD = (M_PI/180.0);// 1 radian
-static const int HOUGH_P_MIN_VOTES = 100;
-static const int HOUGH_P_MAX_LINE_GAP = 5;
-
+static const double HOUGH_P_RHO = 1; // 1 pixels
+static const double HOUGH_P_THETA = (M_PI/180.0); // 1 degree
+static const int HOUGH_P_THRESHOLD = 300;
+static const double HOUGH_P_MIN_LINE_LENGTH = 60;
+static const double HOUGH_P_MAX_LINE_GAP = 10;
 
 /*
 // with rotation
