@@ -41,6 +41,97 @@ std::string states::getName(){
 
 
 //Complex procedures (Ones that have states and timeouts inside them)
+
+
+/*How to create a procedure with states and timeout.
+ *
+ * First:
+ * Created three variables:
+ * doneTheProcedure
+ * doingTheProcedure
+ * finishedDoingTheProcedure.
+ *
+ * Edit on the state class the function: startProcessData and finishProcessData:
+ * On startProcessData write:
+ * doneTheProcedure = 0;
+ *
+ * Done the procedure means that we haven't done the procedure on this iteration of the state machine
+ *
+ * On the finishProcessData write:
+ *
+ * if (doneTheProcedure){
+ *  doingTheProcedure =true;
+ * }
+ * else{
+ *  doingTheProcedure = false;
+ * }
+ *
+ *
+ * Doing the procedure keeps track if we did the procedure on the previous iteration of the state machine.
+ *
+ * On the first lines of the procedure write:
+ * doneTheProcedure=true;
+ *
+ * That is the way that we keep track of the procedure between iterations of the state machine.
+ *
+ *
+ * Now, in the beginning of the procedure declare:
+ *  --the enum state, that keeps track of the state of the procedure
+ *  --the static variables, i.e. the variables that are kept
+ *  between iteration. The most useful ones are listed here, but you might need others:
+ * ///////////////////
+ *
+ * enum procedureState{procedureState1, procedureState2, procedureState3};
+ * static procedureState myState;
+ * static long long int startTimeState; //Start time of the state of this procedure; it is useful
+ *                                      //for timeouts.
+ * static double initialTurningAngle; //Useful for procedure that turn
+ * static double initialPosition;  //Useful for procedures that move.
+ *  //////////////
+ *
+ * Calculate useful differences such as, how much time has elapsed:
+ *
+ * //////////////////
+ * long long int difTime;
+ *   difTime=(getTimeMicroseconds()-startTimeState)/1000;
+ *
+ * /////////////////////
+ *
+ * Now write the code to reset the procedure to its start state, in case that
+ * we are just restarting to do the procedure:
+ *
+ * /////////////////////////
+ *     if(!doingTheProcedure){
+ *       myState = procedureState1;
+ *       startTimeState=getTimeMicroseconds();
+ *   }
+ * ////////////////////////////
+ *
+ *
+ * And then, finally write the code. The state machine can realize actions during
+ * the transitions between states, which is very useful for procedures dependent on time
+ * Take a look at collectCube. All actions are realized on the transitions.
+ *
+ * Or it can realize actions during the state itself, which is useful for other types of conditions,
+ * such as when wall following.
+ *
+ * The best is to make use of both.
+ *
+ *
+ *
+ *
+ *
+ * You should write:
+ *
+ * switch(myState){
+ *
+ * case(1)
+ * (do stuff)
+ *
+ * break;
+ * }
+*/
+
 void states::wallFollow(){
     wallFollowLeft();
 }
@@ -135,7 +226,7 @@ void states::wallFollowRight(){
 
 }
 //Copy of the above. It is bad practice, but I'm feeling lazy at the moment
-void states::wallFollowLeft(){
+void states::wallFollowLeft(double carrotDistance){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
     static int stuckOnACorner=0;
@@ -291,7 +382,6 @@ void states::wallFollowLeft(){
 
         }
         else{
-            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
             double carrotAngle;
             double wallDistance = getDistanceLeftWall();
             double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
@@ -304,6 +394,10 @@ void states::wallFollowLeft(){
         break;
     }
 
+}
+
+void states::wallFollowLeftFast(){
+    wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
 }
 
 void states::collectBlock(int color){
@@ -337,7 +431,7 @@ void states::collectBlock(int color){
             myState=grabing;
             myServosControl->hookBlock();
             if(color == -1){
-            myColor=isCubeRed();
+                myColor=isCubeRed();
             }
             else{
                 myColor=color;
@@ -349,7 +443,7 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
-            if (color == 0)
+            if (color == CUBE_GREEN)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
@@ -361,7 +455,7 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
-            if (color == 0)
+            if (color == CUBE_GREEN)
                 myServosControl->sortGreen();
             else{
                 myServosControl->sortRed();
@@ -492,7 +586,8 @@ void states::turnNDegreesSlowly(int angle){
     enum turningStates {turning,turned};
     static turningStates myState = turning;
     static long long int startTimeState;
-    static long long int startAngle;
+    static double startAngle;
+    turnedNDegreesSlowly=true;
 
 
     if(!turningNDegreesSlowly){
@@ -514,15 +609,18 @@ void states::turnNDegreesSlowly(int angle){
                 myState=turned;
                 setCarrotPosition(0,0);
             }
-            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS)
-                setCarrotPosition(0,angle-difAngle);
-            myState=turned;
+            else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS){
+                myState=turned;
+                turnedNDegreesSlowly=1;
+                finishedTurningNDegreesSlowly=1;
 
-        }else{
-            if(angle>0)
-                turnToTheRightSlowly();
-            else
-                turnToTheLeftSlowly();
+            }
+            else{
+                if(angle>0)
+                    turnToTheRightSlowly();
+                else
+                    turnToTheLeftSlowly();
+            }
         }
         break;
     case turned:

@@ -139,7 +139,21 @@ void cocoabot::run(int argc, char **argv){
             myState->finishProcessingProceduresManual();
         }
     }
-
+    if(strcmp(argv[1],"fastWallFollow")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        myServosControl.hookBlock();
+        myServosControl.hookBlock();
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->wallFollowLeftFast();
+            myState->finishProcessingProceduresManual();
+        }
+    }
     if(strcmp(argv[1],"curveRight")==0){
         states * nextState = new stateTestProcedure(myState);
         logger::log();
@@ -259,6 +273,29 @@ void cocoabot::run(int argc, char **argv){
                     }
                 }
             }
+            myState->finishProcessingProceduresManual();
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
+    if(strcmp(argv[1],"turn360slowly")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        int cubeColor=0;
+        int cubeDetected=0;
+        while (running){
+            myState->startProcessingProceduresManual();
+            if(!myState->finishedTurningNDegreesSlowly){
+                myState->turnNDegreesSlowly(360);
+            }
+            else{
+                printf("finished turning 360 slowly\n");
+            }
+
             myState->finishProcessingProceduresManual();
             usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
