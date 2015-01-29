@@ -255,10 +255,10 @@
 #define PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO 20 // If we resample too often, we lose variance.
                             //If we don't resample often enough, the particles get too scattered. MUST BE INTEGER
 #define PARTICLE_FILTER_MAX_STILL_UPDATES 5
-#define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC 3
-#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 9
+#define PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC 13
+#define PARTICLE_FILTER_STANDARD_DEVIATION_IR 10
 #define PARTICLE_FILTER_MAX_IR_RANGE 30
-#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 15
+#define PARTICLE_FILTER_MAX_ULTRASONIC_RANGE 30
 #define PARTICLE_FILTER_UPDATE_RATE_MS 50
 
 #define PARTICLE_FILTER_STD_DEVIATION_X_RESPAWN 0.2
@@ -271,7 +271,7 @@
 
 
 #define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
-#define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_BACK 2//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
