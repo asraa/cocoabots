@@ -244,50 +244,50 @@ void particleFilter::updateProbabilities(){
         // Use: probability = normalPdf(value, median(value of the sensor), standardDeviationOfTheSensor))
         likelyhood=1;
 #if PARTICLE_FILTER_FRONT == 1
-        if (frontReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (realFrontReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_FRONT ==2
-        if (frontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (realFrontReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif
 
 #if PARTICLE_FILTER_RIGHT == 1
-        if (rightReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (realRightReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_RIGHT ==2
-        if (rightReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (realRightReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif
 #if PARTICLE_FILTER_LEFT == 1
-        if (leftReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (realLeftReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_LEFT ==2
-        if (leftReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (realLeftReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif
 #if PARTICLE_FILTER_BACK == 1
-        if (backReading<PARTICLE_FILTER_MAX_IR_RANGE){
+        if (realBackReading<PARTICLE_FILTER_MAX_IR_RANGE){
             likelyhood*=normalPdf(realBackReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
 #if PARTICLE_FILTER_BACK ==2
-        if (backReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
+        if (realBackReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
             likelyhood*=normalPdf(realBackReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }

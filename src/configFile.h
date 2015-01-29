@@ -272,7 +272,7 @@
 
 #define PARTICLE_FILTER_FRONT 1//0=none. 1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_BACK 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
-#define PARTICLE_FILTER_LEFT 0//0=none.  1 = shortIRsensor. 2=ultrasonic.
+#define PARTICLE_FILTER_LEFT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 #define PARTICLE_FILTER_RIGHT 1//0=none.  1 = shortIRsensor. 2=ultrasonic.
 
 //HACK TO MAKE THE MAP EASIER TO WORK WITH
