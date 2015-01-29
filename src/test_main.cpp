@@ -906,6 +906,29 @@ int main(int argc, char** argv){
 
         }
 
+
+        else if(strcmp(argv[1],"arewered")==0){
+            printf("Running are we red test\n");
+            sensorsModule mysensors;
+            RUNNING =1;
+            while(RUNNING){
+                double data = mysensors.teamData;
+                printf("%lf \n", data);
+                usleep(200000.0);
+            }
+        }
+
+        else if(strcmp(argv[1],"areweron")==0){
+            printf("Running are we on test\n");
+            sensorsModule mysensors;
+            RUNNING =1;
+            while(RUNNING){
+                double data = mysensors.onData;
+                printf("%lf \n", data);
+                usleep(200000.0);
+            }
+
+        }
         return 0;
     }
 }
