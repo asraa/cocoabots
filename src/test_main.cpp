@@ -602,9 +602,9 @@ int main(int argc, char** argv){
                 else
                     myServos.unHookBlock();
                 if(sort)
-                    myServos.sortGreen();
+                    myServos.sortRight();
                 else
-                    myServos.sortRed();
+                    myServos.sortLeft();
                 if(sweep)
                     myServos.sweep();
                 else
@@ -714,10 +714,10 @@ int main(int argc, char** argv){
                 else
                     myServos.unHookBlock();
                 if (option == 3){
-                    myServos.sortGreen();
+                    myServos.sortLeft();
                 }
                 else
-                    myServos.sortRed();
+                    myServos.sortRight();
                 if (option == 4){
                     myServos.sweep();
                 }

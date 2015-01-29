@@ -173,8 +173,9 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
     }
 
 }
-
+/*
 int main() {
     ImageProcessor myImageProcessor;
     myImageProcessor.run(&myImageProcessor);
 }
+*/
