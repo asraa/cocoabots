@@ -81,7 +81,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     while (myParticleFilter->running) {
         position=myParticleFilter->getNewPosition();
         angle=myParticleFilter->getNewAngle();
-        moved=0;
+        moved=1;
         if (position!=previousPosition || angle!=previousAngle){
             moved=1;
             distance = position - previousPosition;
@@ -99,7 +99,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
 
             if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
                 updatedPositionCounter=0;
-                myParticleFilter->resample();
+                //myParticleFilter->resample();
                 resampledCounter++;
 
 
