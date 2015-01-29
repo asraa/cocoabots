@@ -115,6 +115,26 @@ void particleFilter::run(particleFilter *particleFilterPtr){
     }
 }
 
+void particleFilter::tryToFindYourself(double maxX, double maxY){
+    myParticles.clear(); //redundant, since vector was never initialized, but safer.
+    for(int i=0;i<PARTICLE_FILTER_INITIAL_NUMBER_OF_PARTICLES*10;i++){
+        std::uniform_real_distribution<double> uniformDistributionAngle(0,360);
+        std::normal_distribution<double> normalDistributionX(positionX,PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_X);
+        std::normal_distribution<double> normalDistributionY(positionY, PARTICLE_FILTER_INITIAL_DISTRIBUTION_STANDARD_DEVIATION_Y);
+
+        x = normalDistributionX(randomNumberGenerator);
+        y = normalDistributionY(randomNumberGenerator);
+        angle = uniformDistributionAngle(randomNumberGenerator);
+
+        particle.x=x;
+        particle.y=y;
+        particle.angle=angle;
+
+        myParticles.push_back(particle);
+    }
+
+}
+
 void particleFilter::respawn(){
     if(numberOfParticles<PARTICLE_FILTER_NUMBER_OF_PARTICLES_RESPAWN){
         struct particleFilterParticle particle;
@@ -245,7 +265,13 @@ void particleFilter::updateProbabilities(){
         likelyhood=1;
 #if PARTICLE_FILTER_FRONT == 1
         if (realFrontReading<PARTICLE_FILTER_MAX_IR_RANGE){
-            likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+            if (frontReading - realFrontReading>10){
+                likelyhood=0;
+            }
+            else  if (realFrontReading-frontReading>15){
+                likelyhood=0;
+            }
+            //likelyhood*=normalPdf(realFrontReading,frontReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
@@ -258,7 +284,13 @@ void particleFilter::updateProbabilities(){
 
 #if PARTICLE_FILTER_RIGHT == 1
         if (realRightReading<PARTICLE_FILTER_MAX_IR_RANGE){
-            likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+                if (rightReading - realRightReading>10){
+                    likelyhood=0;
+                }
+                else  if (realRightReading-rightReading>15){
+                    likelyhood=0;
+                }
+            //   likelyhood*=normalPdf(realRightReading,rightReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
@@ -270,7 +302,13 @@ void particleFilter::updateProbabilities(){
 #endif
 #if PARTICLE_FILTER_LEFT == 1
         if (realLeftReading<PARTICLE_FILTER_MAX_IR_RANGE){
-            likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
+            if (leftReading - realLeftReading>10){
+                likelyhood=0;
+            }
+            else if (realLeftReading-leftReading>15){
+                likelyhood=0;
+            }
+            //likelyhood*=normalPdf(realLeftReading,leftReading,PARTICLE_FILTER_STANDARD_DEVIATION_IR);
         }
 #endif
 
@@ -288,7 +326,13 @@ void particleFilter::updateProbabilities(){
 
 #if PARTICLE_FILTER_BACK ==2
         if (realBackReading<PARTICLE_FILTER_MAX_ULTRASONIC_RANGE){
-            likelyhood*=normalPdf(realBackReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
+            if (backReading - realBackReading>10){
+                likelyhood=0;
+            }
+            else if (realBackReading-backReading>15){
+                likelyhood=0;
+            }
+            // likelyhood*=normalPdf(realBackReading,backReading,PARTICLE_FILTER_STANDARD_DEVIATION_ULTRASONIC);
 
         }
 #endif

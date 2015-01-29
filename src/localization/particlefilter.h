@@ -64,6 +64,7 @@ public:
     double normalPdf(double value, double median, double standardDeviation);
     void respawn();
     void killParticles();
+    void tryToFindYourself(double maxX, double maxY);
 
     int running;
     std::thread *runThread;
