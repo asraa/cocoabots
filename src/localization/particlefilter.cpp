@@ -474,6 +474,7 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
 
     webpage << "window.addEventListener(\"load\", init);\n\n" << std::endl;
 
+
     int numberOfParticles;
     if (tempParticles.size()>PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE){
         numberOfParticles = PARTICLE_FILTER_MAX_PARTICLES_WEBPAGE;
@@ -501,7 +502,6 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
 
         webpage << "var "<< nameOfImage<< " = new Image();\n"
           <<nameOfImage<<".src = 'smallArrow.gif'; \n " << std::endl;
-         webpage << "<p> particle probability="<< myProbabilities[i]<< std::endl;
     }
 
     {//robot
@@ -570,8 +570,11 @@ void particleFilter::createSimpleWebpageView(std::string nameOfFile, std::string
 }
 
     webpage << "}\n\n"<<
-               "</script>\n\n" <<
-               "</body>\n"<<
+               "</script>\n\n" <<std::endl;
+    for (int i=0; i<numberOfParticles;i++){
+    webpage << "<p> particle probability="<< myProbabilities[i]<< std::endl;
+    }
+    webpage <<  "</body>\n"<<
                "</html>"<< std::endl;
 
 
