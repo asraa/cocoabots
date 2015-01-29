@@ -458,6 +458,7 @@ void states::collectBlock(int color){
             else{
                 myState =resettingFinish;
                 startTimeState = getTimeMicroseconds();
+                setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
                 counter++;
             }
         }
