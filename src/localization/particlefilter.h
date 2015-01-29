@@ -61,7 +61,7 @@ public:
     static const std::vector<double> initialProbabilities;
     void createSimpleWebpageView(std::string nameOfFile, std::string nameOfMapFile);
     void createSimpleWebpageView(std::string nameOfFile);
-    float normalPdf(float value, float median, float standardDeviation);
+    double normalPdf(double value, double median, double standardDeviation);
     void respawn();
     void killParticles();
 

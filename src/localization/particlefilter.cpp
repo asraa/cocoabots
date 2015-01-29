@@ -107,7 +107,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
         if(resampledCounter%PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO==0){
             resampledCounter%=PARTICLE_FILTER_RESAMPLE_RESPAWN_RATIO;
             resampledCounter++;
-            myParticleFilter->respawn();
+//            myParticleFilter->respawn();
         }
         myParticleFilter->updateRobotPosition();
         usleep(PARTICLE_FILTER_UPDATE_RATE_MS*1000);
@@ -358,7 +358,7 @@ void particleFilter::resample(){
     //from 0 to (n-1), where n is the distance between the iterators.
     //As seen in http://www.cplusplus.com/reference/random/discrete_distribution/discrete_distribution/
 
-    killParticles();
+    //killParticles();
     std::discrete_distribution<int> probabilityDistribution(myProbabilities.begin(),
                                                        myProbabilities.end());
 
@@ -433,10 +433,10 @@ double particleFilter::getNewPosition(){
 
 
 
-float particleFilter::normalPdf(float value, float median, float standardDeviation)
+double particleFilter::normalPdf(double value, double median, double standardDeviation)
 {
-    static const float inv_sqrt_2pi = 0.3989422804014327;
-    float a = (value - median) / standardDeviation;
+    static const double inv_sqrt_2pi = 0.3989422804014327;
+    double a = (value - median) / standardDeviation;
 
     return inv_sqrt_2pi / standardDeviation * std::exp(-0.5f * a * a);
 }
