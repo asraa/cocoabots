@@ -438,9 +438,6 @@ void states::collectBlock(int color){
         else{
             myServosControl->reset();
         }
-        if(detectedCube()){
-            detectedBlock=1;
-        }
         break;
     case(moving):
         if(difTime>BLOCK_COLLECT_MAX_TIME_MOVING){
@@ -461,10 +458,6 @@ void states::collectBlock(int color){
                 setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
                 counter++;
             }
-        }
-
-        if(detectedCube()){
-            detectedBlock=1;
         }
         break;
     case(grabing): 

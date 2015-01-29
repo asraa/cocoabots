@@ -10,10 +10,10 @@ stateGoingToCube::stateGoingToCube(states *previousState):states(previousState)
 
 void stateGoingToCube::processData(){
     //Wait to get a still image
-    int cubeFound;
-    double distance;
-    double angle;
-    int color;
+    static int cubeFound;
+    static double distance;
+    static double angle;
+    static int color;
     if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= GO_TO_CUBE_WAIT_TIME_MS){
         cubeFound=foundCube();
         distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
@@ -26,7 +26,8 @@ void stateGoingToCube::processData(){
         goToPoint(distance,angle);
 
         if (finishedGoingToPoint){
-            nextState = new stateCollectingCube(this,color);
+            nextState = new stateCollectingCube(this);//(this,color); //->pass camera color
+                                                            //PASS NO COLOR PARAMETER TO GET DATA FROM THE COLOR SENSOR
         }
     }
     else{
