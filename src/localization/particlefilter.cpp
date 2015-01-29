@@ -266,7 +266,7 @@ void particleFilter::updateProbabilities(){
 #if PARTICLE_FILTER_FRONT == 1
         if (realFrontReading<PARTICLE_FILTER_MAX_IR_RANGE){
             if (frontReading - realFrontReading>10){
-                likelyhood=0;
+                likelyhood*=0;
             }
             else  if (realFrontReading-frontReading>15){
                 likelyhood=0;
