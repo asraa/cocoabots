@@ -108,9 +108,9 @@ static const int HOUGH_MIN_VOTES = 10;
 // for hough line detection (probabilistic)
 static const double HOUGH_P_RHO = 1; // 1 pixels
 static const double HOUGH_P_THETA = (M_PI/180.0); // 1 degree
-static const int HOUGH_P_THRESHOLD = 300;
-static const double HOUGH_P_MIN_LINE_LENGTH = 60;
-static const double HOUGH_P_MAX_LINE_GAP = 10;
+static const int HOUGH_P_THRESHOLD = 50;
+static const double HOUGH_P_MIN_LINE_LENGTH = 40;
+static const double HOUGH_P_MAX_LINE_GAP = 0;
 
 /*
 // with rotation
