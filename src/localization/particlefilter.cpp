@@ -427,8 +427,6 @@ void particleFilter::updateParticles(double differenceAngle, double distance){
         }
         else{
             particle->angle = newAngle;
-            particle->x -= newDistanceX;
-            particle->y -= newDistanceY;
         }
     }
 }
