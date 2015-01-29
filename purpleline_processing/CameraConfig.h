@@ -12,7 +12,7 @@
 /*********************************
 ** set to 0 if running on edison *
 **********************************/
-static const int DEBUG = 1;
+static const int DEBUG = 0;
 /********************************/
 
 
@@ -63,10 +63,10 @@ static const int COLOR_WHITE = 255;
 static const int COLOR_BLACK = 0; // for drawing map (??)
 
 // for averaging over previous frames
-static const double BLOCK_FOUND_PREVIOUS_WEIGHT = 0.8;
-static const double BLOCK_COLOR_PREVIOUS_WEIGHT = 0.8;
-static const double BLOCK_DIST_PREVIOUS_WEIGHT = 0.8;
-static const double BLOCK_ANGLE_PREVIOUS_WEIGHT = 0.8;
+static const double BLOCK_FOUND_PREVIOUS_WEIGHT = 0.2; // changed from 0.8 to 0.3
+static const double BLOCK_COLOR_PREVIOUS_WEIGHT = 0.2;
+static const double BLOCK_DIST_PREVIOUS_WEIGHT = 0.2;
+static const double BLOCK_ANGLE_PREVIOUS_WEIGHT = 0.2;
 
 
 // vertical pixels threshold for wall detection
