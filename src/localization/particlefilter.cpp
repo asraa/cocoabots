@@ -99,7 +99,7 @@ void particleFilter::run(particleFilter *particleFilterPtr){
 
             if(!(updatedPositionCounter%PARTICLE_FILTER_UPDATE_RESAMPLE_RATIO)){
                 updatedPositionCounter=0;
-                //myParticleFilter->resample();
+                myParticleFilter->resample();
                 resampledCounter++;
 
 
@@ -298,7 +298,8 @@ void particleFilter::updateProbabilities(){
         totalLikelyHood+=likelyhood;
     }
     for (int i=0; i<numberOfParticles; i++){
-        myProbabilities[i]/=totalLikelyHood;
+        if(totalLikelyHood>0)
+            myProbabilities[i]/=totalLikelyHood;
         //printf("normalized likelyhood %lf\n",  myProbabilities[i]);
     }
 
