@@ -832,9 +832,9 @@ volatile double states::getDistanceFrontWall(){
 }
 
 volatile int states::isItATrap(){
-    return (getDistanceFromLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
-            getDistanceFromRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
-            getDistanceFromFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
+    return (getDistanceLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
+            getDistanceRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
+            getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
 }
 
 
