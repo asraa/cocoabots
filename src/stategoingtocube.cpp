@@ -14,6 +14,8 @@ void stateGoingToCube::processData(){
     static double distance;
     static double angle;
     static int color;
+    startProcessData();
+
     if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= GO_TO_CUBE_WAIT_TIME_MS){
         cubeFound=foundCube();
         distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
@@ -21,7 +23,6 @@ void stateGoingToCube::processData(){
         color = myImageProcessor->getNearestCubeColor();
     }
     else if(cubeFound){
-        startProcessData();
 
         goToPoint(distance,angle);
 
