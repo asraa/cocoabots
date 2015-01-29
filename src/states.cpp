@@ -279,13 +279,13 @@ void states::wallFollowLeft(double carrotDistance){
             }
         }
         if(enteringATrap){
-            if (difTime>WALL_FOLLOW_TRAP_TIME_MS){
+            if (difTime>WALL_FOLLOW_TRAP_TIME_MS || finishedTurningNDegreesQuickly){
                 startTimeState=getTimeMicroseconds();
                 enteringATrap=0;
             }
             else{
-                turnedNDegreesQuickly(180);
-                mediumCurveToTheLeft();
+                turnNDegreesQuickly(180);
+                //mediumCurveToTheLeft();
             }
             return;
         }
