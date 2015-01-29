@@ -41,6 +41,257 @@ std::string states::getName(){
 
 
 //Complex procedures (Ones that have states and timeouts inside them)
+
+
+/*How to create a procedure with states and timeout.
+ *
+ * First:
+ * Created three variables:
+ * doneTheProcedure
+ * doingTheProcedure
+ * finishedDoingTheProcedure.
+ *
+ * Edit on the state class the function: startProcessData and finishProcessData:
+ * On startProcessData write:
+ * doneTheProcedure = 0;
+ *
+ * Done the procedure means that we haven't done the procedure on this iteration of the state machine
+ *
+ * On the finishProcessData write:
+ *
+ * if (doneTheProcedure){
+ *  doingTheProcedure =true;
+ * }
+ * else{
+ *  doingTheProcedure = false;
+ * }
+ *
+ *
+ * Doing the procedure keeps track if we did the procedure on the previous iteration of the state machine.
+ *
+ * On the first lines of the procedure write:
+ * doneTheProcedure=true;
+ *
+ * That is the way that we keep track of the procedure between iterations of the state machine.
+ *
+ *
+ * Now, in the beginning of the procedure declare:
+ *  --the enum state, that keeps track of the state of the procedure
+ *  --the static variables, i.e. the variables that are kept
+ *  between iteration. The most useful ones are listed here, but you might need others:
+ * ///////////////////
+ *
+ * enum procedureState{procedureState1, procedureState2, procedureState3};
+ * static procedureState myState;
+ * static long long int startTimeState; //Start time of the state of this procedure; it is useful
+ *                                      //for timeouts.
+ * static double initialTurningAngle; //Useful for procedure that turn
+ * static double initialPosition;  //Useful for procedures that move.
+ *  //////////////
+ *
+ * Calculate useful differences such as, how much time has elapsed:
+ *
+ * //////////////////
+ * long long int difTime;
+ *   difTime=(getTimeMicroseconds()-startTimeState)/1000;
+ *
+ * /////////////////////
+ *
+ * Now write the code to reset the procedure to its start state, in case that
+ * we are just restarting to do the procedure:
+ *
+ * /////////////////////////
+ *     if(!doingTheProcedure){
+ *       myState = procedureState1;
+ *       startTimeState=getTimeMicroseconds();
+ *   }
+ * ////////////////////////////
+ *
+ *
+ * And then, finally write the code. The state machine can realize actions during
+ * the transitions between states, which is very useful for procedures dependent on time
+ * Take a look at collectCube. All actions are realized on the transitions.
+ *
+ * Or it can realize actions during the state itself, which is useful for other types of conditions,
+ * such as when wall following.
+ *
+ * The best is to make use of both.
+ *
+ *
+
+
+
+ * void states::wallFollowLeft(double carrotDistance){
+    enum wallFollowState{lookingForWall, rotating, followingWall};
+    static long long int startTimeState;
+    static int stuckOnACorner=0;
+    static int wiggleDirection=0;
+    static int wiggling=0;
+    static double initialTurningAngle =0;
+    static wallFollowState myState;
+    long long int difTime;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+
+    wallFollowed=1;
+    if(!wallFollowing){
+        myState = lookingForWall;
+        startTimeState=getTimeMicroseconds();
+        wiggling=0;
+        stuckOnACorner=0;
+    }
+    if(stuckOnACorner){
+        //printf("Stuck on a corner \n");
+        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS/2){
+            setCarrotPosition(0,-50);
+            return;
+
+        }else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
+                sharpCurveToTheRightBack();
+
+        }
+        else{
+            startTimeState = getTimeMicroseconds();
+            stuckOnACorner=0;
+        }
+    }
+
+    else {
+//        printf("Not stuck on a corner \n");
+
+        if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
+            if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+                stuckOnACorner=1;
+                startTimeState = getTimeMicroseconds();
+            }
+        }
+        if(wiggling){
+           // printf("Wiggling \n");
+            if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
+                startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                wiggling=0;
+//                printf("Not wiggling anymore \n");
+
+            }
+            else{
+                switch(wiggleDirection){
+                case(0):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(1):
+                    sharpCurveToTheLeftBack();
+                    break;
+                case(2):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(3):
+                    sharpCurveToTheLeftBack();
+                    break;
+                }
+            }
+            return;
+        }
+    }
+
+    switch (myState) {
+    case lookingForWall:
+
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            if (getDistanceLeftWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,45);
+                startTimeState = getTimeMicroseconds();
+            }
+//            printf("transitioning from looking for a wall to rotating\n");
+        }
+        else if (getDistanceLeftWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            //printf("transitioning from looking for a wall to following a wall");
+            myState=followingWall;
+        } else{
+            if(difTime>WALL_FOLLOW_LOOKING_MAX_TIME){
+                //printf("starting to wiggle\n");
+                //previousStartTimeState = startTimeState;
+                startTimeState=getTimeMicroseconds();
+                wiggling =true;
+                wiggleDirection++;
+                wiggleDirection%=4;
+                stuckOnACorner=0;
+                return;
+
+            }
+            else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+                setCarrotPosition(WALL_FOLLOW_CARROT_DISTANCE_INCHES,0);
+            }
+            else{
+                sharpCurveToTheLeft();
+                return;
+            }
+            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+
+        }
+        break;
+
+    case rotating:{
+        double myAngle = getAngle();
+        double angleDif =abs(getAngleToCarrot());
+        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+            myState=followingWall;
+            startTimeState = getTimeMicroseconds();
+//            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+        }
+        //printf(" rotating\n");
+        break;
+    }
+    case followingWall:
+        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+            myState = rotating;
+            initialTurningAngle=getAngle();
+            setCarrotPosition(0,45);
+            startTimeState = getTimeMicroseconds();
+//            printf("transitioning from following for a wall to rotating\n");
+
+        }
+        else if (getDistanceLeftWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+            if (getDistanceFrontWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-45);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState=lookingForWall;
+                startTimeState = getTimeMicroseconds();
+            }
+//            printf("transitioning from following to  looking \n");
+
+
+        }
+        else{
+            double carrotAngle;
+            double wallDistance = getDistanceLeftWall();
+            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
+            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall);
+            setCarrotPosition(carrotDistance,carrotAngle);
+//            printf("Following wall\n");
+
+        }
+
+        break;
+    }
+
+}
+*/
+
 void states::wallFollow(){
     wallFollowLeft();
 }
