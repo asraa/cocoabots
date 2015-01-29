@@ -190,12 +190,12 @@ void ImageProcessor::doStuff() {
     clearCameraCache();
     clock_t start = clock();
     if (i <= 84) {
-        frame_raw = cv::imread(oss.str(),-1);
-        cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+        frame = cv::imread(oss.str(),-1);
+        //cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
         //detectWall(frame);
         //local_map_refresh();
         //detectBlocks(frame);
-        std::cout << "Image #" << i << ": ";
+        std::cout << "Image #" << i << std::endl;
         detectPurpleLineTest2(frame);
 
         cv::namedWindow("frame", cv::WINDOW_NORMAL);

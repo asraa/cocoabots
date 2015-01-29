@@ -63,33 +63,48 @@ void groupPurpleLines(std::vector<cv::Vec4i>& inpVec, std::vector<std::vector<cv
         std::vector<double> cpVec;
         cv::Vec4i tempVec;
         double cp, cpMin, cpAverage;
-        int minGroup = 0;
+        int minGroup;
+//        std::sort(inpVec.begin(),inpVec.end(),vecObjectWow);
         outVec.push_back({inpVec[0]});
         inpVec.erase(inpVec.begin());
         while (inpVec.size() > 0) {
             tempVec = inpVec[0];
             inpVec.erase(inpVec.begin());
             cpVec.clear();
-            cpMin = 0.0;
             for (int i = 0; i < outVec.size(); i++) {
+                cp = 0.0;
                 cpAverage = 0.0;
+                int badcount = 0;
                 for (int j = 0; j < outVec[j].size(); j++) {
                     cp = findCrossProduct(tempVec,outVec[i][j]);
+                    if (cp == 0.0) {
+                        badcount += 1;
+                    }
+                    else {
+                        cpAverage += cp;
+                    }
                 }
-                cpAverage = cp / outVec[i].size();
-                cpVec.push_back(cpAverage);
-            }
-            for (int i = 0; i < cpVec.size(); i++) {
-                if (cpVec[i] < cpMin) {
-                    cpMin = cpVec[i];
-                    minGroup = i;
+                if (badcount < outVec[i].size()) {
+                    cpAverage = cpAverage / (outVec[i].size()-badcount);
+                    cpVec.push_back(cpAverage);
                 }
             }
-            if (cpMin < threshold) {
-                outVec[minGroup].push_back(inpVec[minGroup]);
-            }
-            else {
-                outVec.push_back({inpVec[minGroup]});
+            if (!cpVec.empty()) {
+                cpMin = cpVec[0];
+                minGroup = 0;
+                for (int i = 1; i < cpVec.size(); i++) {
+                    if (cpVec[i] < cpMin) {
+                        cpMin = cpVec[i];
+                        minGroup = i;
+                    }
+                }
+                std::cout << cpMin << std::endl;
+                if (cpMin < threshold) {
+                    outVec[minGroup].push_back(inpVec[minGroup]);
+                }
+                else {
+                    outVec.push_back({inpVec[minGroup]});
+                }
             }
         }
     }
@@ -137,6 +152,8 @@ void detectPurpleLineTest2(cv::Mat& frame, GridMap& local_map) {
 
     std::cout << purp_contour_hough.lines.size() << " lines originally" << std::endl;
 
+    //purp_contour.copyTo(frame);
+
     for (size_t i = 0; i < purp_contour_hough.lines.size(); i++) {
         cv::line(frame, cv::Point(purp_contour_hough.lines[i][0], purp_contour_hough.lines[i][1]),
                 cv::Point(purp_contour_hough.lines[i][2],purp_contour_hough.lines[i][3]), cv::Scalar(0,0,255));
@@ -146,7 +163,7 @@ void detectPurpleLineTest2(cv::Mat& frame, GridMap& local_map) {
     std::vector<std::vector<cv::Vec4i>> purp_contour_grouped_lines;
     std::vector<cv::Vec4i> purp_contour_averaged_lines;
 
-    groupPurpleLines(purp_contour_hough.lines,purp_contour_grouped_lines,0.5);
+    groupPurpleLines(purp_contour_hough.lines,purp_contour_grouped_lines,0.7);
     findAverageOfLines(purp_contour_grouped_lines,purp_contour_averaged_lines);
 
     for (size_t i = 0; i < purp_contour_averaged_lines.size(); i++) {
@@ -267,19 +284,42 @@ void detectPurpleLineTest(cv::Mat& frame, GridMap& local_map) {
     //std::cout << "number of unique lines: " << purp_lines_unique.size() << std::endl;
 }
 
+//double findCrossProduct(cv::Vec4i v1, cv::Vec4i v2) {
+//    double dx1, dx2, dy1, dy2, norm1, norm2, mag;
+//    dx1 = fabs(v1[2]-v1[0]);
+//    dy1 = fabs(v1[3]-v1[1]);
+//    norm1 = sqrt(pow(dx1,2.0)+pow(dy1,2.0));
+//    dx1 /= norm1;
+//    dy1 /= norm1;
+//    dx2 = fabs(v2[2]-v2[0]);
+//    dy2 = fabs(v2[3]-v2[1]);
+//    norm2 = sqrt(pow(dx2,2.0)+pow(dy2,2.0));
+//    dx2 /= norm2;
+//    dy2 /= norm2;
+//    mag = fabs(dx1*dy2 - dy1*dx2);
+//    return mag;
+//}
+
 double findCrossProduct(cv::Vec4i v1, cv::Vec4i v2) {
     double dx1, dx2, dy1, dy2, norm1, norm2, mag;
     dx1 = fabs(v1[2]-v1[0]);
     dy1 = fabs(v1[3]-v1[1]);
-    norm1 = fmax(dx1,dy1);
-    dx1 /= norm1;
-    dy1 /= norm1;
+    norm1 = sqrt(pow(dx1,2.0)+pow(dy1,2.0));
+    //dx1 /= norm1;
+    //dy1 /= norm1;
     dx2 = fabs(v2[2]-v2[0]);
     dy2 = fabs(v2[3]-v2[1]);
-    norm2 = fmax(dx2,dy2);
-    dx2 /= norm2;
-    dy2 /= norm2;
-    mag = fabs(dy2*dx1 - dx2*dy1);
+    norm2 = sqrt(pow(dx2,2.0)+pow(dy2,2.0));
+    //dx2 /= norm2;
+    //dy2 /= norm2;
+    //calc angle between them
+    mag = fabs(dx1*dy2 - dy1*dx2);
+    mag /= norm1;
+    mag /= norm2;
+    if (mag >= 1 || isnan(mag) || mag <= 0.01) {
+        mag = 0.0;
+    }
+    std::cout << mag << std::endl;
     return mag;
 }
 
