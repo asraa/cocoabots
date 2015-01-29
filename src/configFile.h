@@ -232,12 +232,8 @@
 #define SHARP_CURVE_CARROT_DISTANCE 8
 #define SHARP_CURVE_CARROT_ANGLE 21
 
-<<<<<<< HEAD
-#define TURN_QUICKLY_ANGLE 30
-=======
 #define TURN_SLOWLY_ANGLE 30
 #define TURN_QUICKLY_ANGLE 60
->>>>>>> 666ec7201e817116477d6f8c32d09bae91a9030d
 
 #define FAST_WALL_FOLLOW_CARROT_DISTANCE 15
 /////////////////////////////////
