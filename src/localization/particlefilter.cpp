@@ -299,6 +299,7 @@ void particleFilter::updateProbabilities(){
     }
     for (int i=0; i<numberOfParticles; i++){
         myProbabilities[i]/=totalLikelyHood;
+        printf("normalized likelyhood %lf\n",  myProbabilities[i]);
     }
 
 
