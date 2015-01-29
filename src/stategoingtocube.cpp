@@ -11,7 +11,8 @@ stateGoingToCube::stateGoingToCube(states *previousState):states(previousState)
 void stateGoingToCube::processData(){
     //Wait to get a still image
     if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 > GO_TO_CUBE_WAIT_TIME_MS){
-        if(foundCube()){
+        static int cubeFound=foundCube();
+        if(cubeFound){
             static double distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
             static double angle = myImageProcessor->getNearestCubeAngle();
             static int color = myImageProcessor->getNearestCubeColor();
