@@ -232,6 +232,9 @@ void states::wallFollowRight(){
 void states::wallFollowLeft(double carrotDistance){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    // EXPERIMENTAL ADDITION    // if left,front,right shortIRs are low,
+    static int enteringATrap=0; // you need to turn around NOW!
+    // EXPERIMENTAL ADDITION    // you're entering a trap!
     static int stuckOnACorner=0;
     static int wiggleDirection=0;
     static int wiggling=0;
@@ -246,6 +249,9 @@ void states::wallFollowLeft(double carrotDistance){
         startTimeState=getTimeMicroseconds();
         wiggling=0;
         stuckOnACorner=0;
+        // EXPERIMENTAL ADDITION
+        enteringATrap=0;
+        // EXPERIMENTAL ADDITION
     }
     if(stuckOnACorner){
         //printf("Stuck on a corner \n");
@@ -253,7 +259,8 @@ void states::wallFollowLeft(double carrotDistance){
             setCarrotPosition(0,-50);
             return;
 
-        }else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
+        }
+        else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
                 sharpCurveToTheRightBack();
 
         }
@@ -262,9 +269,8 @@ void states::wallFollowLeft(double carrotDistance){
             stuckOnACorner=0;
         }
     }
-
     else {
-//        printf("Not stuck on a corner \n");
+//        printf("Not stuck on a corner\n");
 
         if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceLeftWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
             if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
@@ -272,13 +278,23 @@ void states::wallFollowLeft(double carrotDistance){
                 startTimeState = getTimeMicroseconds();
             }
         }
+        if(enteringATrap){
+            if (difTime>WALL_FOLLOW_TRAP_TIME_MS || finishedTurningNDegreesQuickly){
+                startTimeState=getTimeMicroseconds();
+                enteringATrap=0;
+            }
+            else{
+                turnNDegreesQuickly(180);
+                //mediumCurveToTheLeft();
+            }
+            return;
+        }
         if(wiggling){
            // printf("Wiggling \n");
             if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
 //                printf("Not wiggling anymore \n");
-
             }
             else{
                 switch(wiggleDirection){
@@ -359,7 +375,12 @@ void states::wallFollowLeft(double carrotDistance){
         break;
     }
     case followingWall:
-        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+        if (isItATrap()){
+            myState = lookingForWall;
+            enteringATrap=1;
+            startTimeState=getTimeMicroseconds();
+        }
+        else if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
             myState = rotating;
             initialTurningAngle=getAngle();
             setCarrotPosition(0,45);
