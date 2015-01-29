@@ -72,7 +72,7 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
 
 }
 
-void ImageProcessor::getDetectingPurpleLine(){
+int ImageProcessor::getDetectingPurpleLine(){
     return detectingPurpleLine;
 }
 
@@ -129,8 +129,7 @@ void ImageProcessor::doStuff() {
 
     detectWall(frame);
     detectBlocks(frame);
-
-    if(detecting_purple_line == 1) {
+    if(detectingPurpleLine == 1) {
         detectPurpleLine(frame);
     }
 
