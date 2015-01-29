@@ -31,11 +31,11 @@ void servosControl::raiseBlock(){
     armAngle = ARM_START + 146;
 }
 
-void servosControl::sortRed(){
+void servosControl::sortRight(){
     sortAngle = 135;
 }
 
-void servosControl::sortGreen(){
+void servosControl::sortLeft(){
     sortAngle = 45;
 }
 
@@ -62,11 +62,11 @@ servosControl::~servosControl(){
 void servosControl::computeNewServosAngles(){
     if (swipping){
         if (previousSwipe){
-            sortGreen();
+            sortLeft();
             previousSwipe=0;
         }
         else{
-            sortRed();
+            sortRight();
             previousSwipe=1;
         }
         usleep(SWIPE_TIME_MS*1000);

@@ -51,11 +51,14 @@ std::string states::getName(){
  * doingTheProcedure
  * finishedDoingTheProcedure.
  *
+ *Done the procedure means that we have done the procedure on this iteration of the state machine
+ * Doing the procedure keeps track if we did the procedure on the previous iteration of the state machine.
+ *
  * Edit on the state class the function: startProcessData and finishProcessData:
  * On startProcessData write:
  * doneTheProcedure = 0;
  *
- * Done the procedure means that we have done the procedure on this iteration of the state machine
+ * setting Done the procedure to 0 means that we haven't done the procedure on this iteration of the state machine yet
  *
  * On the finishProcessData write:
  *
@@ -400,6 +403,9 @@ void states::wallFollowLeftFast(){
     wallFollowLeft(FAST_WALL_FOLLOW_CARROT_DISTANCE);
 }
 
+
+///////If you pass no parameter, than color is -1, and COLOR will be detected by the color sensor.
+/// Should be used with no parameter in competition, in order to always use the color sensor
 void states::collectBlock(int color){
     static int counter=0;
     static long long int startTimeState;
@@ -412,6 +418,7 @@ void states::collectBlock(int color){
         startTimeState = getTimeMicroseconds();
         myState=resettingStart;
         finishedCollectingBlock=0;
+        myColor=color;
         counter++;
     }
 
@@ -445,10 +452,10 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
-            if (color == CUBE_GREEN)
-                myServosControl->sortGreen();
+            if (color == CUBE_GREEN && areWeRed() || color == CUBE_RED && !areWeRed())
+                myServosControl->sortLeft();
             else{
-                myServosControl->sortRed();
+                myServosControl->sortRight();
             }
             setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
             startTimeState = getTimeMicroseconds();
@@ -457,10 +464,10 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
-            if (color == CUBE_GREEN)
-                myServosControl->sortGreen();
+            if (color == CUBE_GREEN && areWeRed() || color == CUBE_RED && !areWeRed())
+                myServosControl->sortLeft();
             else{
-                myServosControl->sortRed();
+                myServosControl->sortRight();
             }
             startTimeState = getTimeMicroseconds();
         }
@@ -499,7 +506,6 @@ void states::collectBlock(int color){
             }
             else{
                 myState=backingOff;
-                wallFollow();
             }
         }
         break;
@@ -510,6 +516,9 @@ void states::collectBlock(int color){
             collectingBlocks=0;
             collectedBlocks=0;
             counter=0;
+        }
+        else{
+            wallFollow();
         }
     }
 
@@ -647,7 +656,7 @@ void states::turnNDegreesSlowly(int angle){
             }
             else if(difTime>TURN_N_DEGREES_SLOWLY_TIMEOUT_MS){
                 myState=turned;
-                turnedNDegreesSlowly=1;
+                turnedNDegreesSlowly=0;
                 finishedTurningNDegreesSlowly=1;
 
             }
@@ -806,6 +815,10 @@ int states::getColorNearestCube(){
 
 int states::isCubeRed(){
     return mySensors->colorSensorData;
+}
+
+int states::areWeRed(){
+    return 1; //TODO, GET DATA FROM THE BUTTON
 }
 
 void states::startProcessingProceduresManual(){

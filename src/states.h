@@ -44,6 +44,9 @@ public:
     int getColorNearestCube();
     double abs(double number);
     int isCubeRed();
+
+    int areWeRed(); //TODO WRITE THIS <<<<<<<<<<<<<<<<<<<<<< TODO
+
     int goingOppositeToPower();
 
     //Here are the procedures that can be used in all states.

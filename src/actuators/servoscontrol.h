@@ -26,8 +26,8 @@ public:
     void hookBlock();
     void unHookBlock();
     void raiseBlock();
-    void sortRed();
-    void sortGreen();
+    void sortRight();
+    void sortLeft();
     void reset();
     void sweep();
     void stopSweep();

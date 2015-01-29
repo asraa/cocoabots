@@ -20,20 +20,18 @@ void stateGoingToCube::processData(){
         angle = myImageProcessor->getNearestCubeAngle();
         color = myImageProcessor->getNearestCubeColor();
     }
-    else
-    if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 > GO_TO_CUBE_WAIT_TIME_MS){
-        if(cubeFound){
-            startProcessData();
+    else if(cubeFound){
+        startProcessData();
 
-            goToPoint(distance,angle);
+        goToPoint(distance,angle);
 
-            if (finishedGoingToPoint){
-                nextState = new stateCollectingCube(this,color);
-            }
+        if (finishedGoingToPoint){
+            nextState = new stateCollectingCube(this,color);
         }
-        else{
-            nextState=new stateLookingForBlocks(this);
-        }
-        finishProcessData();
     }
+    else{
+        nextState=new stateLookingForBlocks(this);
+    }
+    finishProcessData();
 }
+
