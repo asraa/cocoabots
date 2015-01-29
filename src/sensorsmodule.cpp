@@ -20,12 +20,16 @@ sensorsModule::sensorsModule():
     leftShortIRData(0),
     backShortIRData(0),
     colorSensorData(0),
+    teamData(0),
+    onData(0),
     gyroscopeAngle(0),
     gyroscopeReading(0),
     ultrasonicAlpha(ULTRASONIC_ALPHA),
     ultraShortIRAlpha(ULTRASHORT_IR_ALPHA),
     shortIRAlpha(SHORT_IR_ALPHA),
     colorSensorAlpha(0),
+    teamDataAlpha(0),
+    onDataAlpha(0),
     encoderAlpha(ENCODER_ALPHA),
     encoderAngleAlpha(ENCODER_ANGLE_ALPHA),
     gyroscopeTotalAlpha(GYROSCOPE_TOTAL_ALPHA),
@@ -107,6 +111,15 @@ sensorsModule::sensorsModule():
     #if COLOR_DETECTOR
     ,colorSensor(COLOR_DETECTOR_PIN)
     #endif
+
+    #if TEAM_BUTTON
+    ,teamButton(TEAM_PIN)
+    #endif
+
+  #if ON_BUTTON
+  ,onButton(ON_PIN)
+  #endif
+
 {
     running=1;
     runThread = new std::thread(run,this);
@@ -195,6 +208,14 @@ void sensorsModule::run(sensorsModule * sensors){
 
         #if COLOR_DETECTOR
         updateSensor(&sensors->colorSensor,&sensors->colorSensorData, sensors->colorSensorAlpha,started);
+        #endif
+
+        #if TEAM_BUTTON
+        updateSensor(&sensors->teamButton,&sensors->teamData, sensors->teamDataAlpha,started);
+        #endif
+
+        #if ON_BUTTON
+        updateSensor(&sensors->onButton,&sensors->onData, sensors->onDataAlpha,started);
         #endif
 
         updateTime(sensors);

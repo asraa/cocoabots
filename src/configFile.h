@@ -139,6 +139,13 @@
 #define RED_THRESHOLD 50
 //was 566 for top color sensor
 
+//Buttons
+#define TEAM_BUTTON 1
+#define TEAM_PIN 12
+
+#define ON_BUTTON 0
+#define ON_PIN 11
+
 //Define values for the alpha parameter of the filter of the sensors
 //They should be increased if there is too much noise
 /////////////////////////////////////
