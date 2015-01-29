@@ -195,6 +195,7 @@ void ImageProcessor::doStuff() {
         //detectWall(frame);
         //local_map_refresh();
         //detectBlocks(frame);
+        std::cout << "Image #" << i << ": ";
         detectPurpleLineTest2(frame);
 
         cv::namedWindow("frame", cv::WINDOW_NORMAL);

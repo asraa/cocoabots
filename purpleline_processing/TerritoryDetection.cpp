@@ -55,31 +55,68 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 // groups a vector of lines into a vector of vector of lines
 // used to separate them based on threshold of sin0
 
-//void groupPurpleLines(std::vector<cv::Vec4i>& inpVec, std::vector<std::vector<cv::Vec4i>>>& outVec, double threshold) {
-//    if (inpVec.size() == 1) {
-//        outVec = {inpVec};
-//    }
-//    else if (inpVec.size() > 1) {
-//        std::vector<double> cpVec, tempVec;
-//        double cpAverage, cp;
-//        outVec = {{inpVec}};
-//        inpVec.erase(inpVec.begin());
-//        while (inpVec.size() > 0) {
-//            tempVec = inpVec[0];
-//            inpVec.erase(inpVec.begin());
-//            cpVec.clear();
-//            for (int i = 0; i < outVec.size(); i++) {
-//                cpAverage = 0.0;
-//                for (int j = 0; j < outVec[j].size(); j++) {
-//                    cp = findCrossProduct(tempVec,outVec[i][j]);
-//                }
-//                cpAverage = cp / outVec[i].size();
-//                cpVec.push_back(cpAverage);
-//            }
-//            for
-//        }
-//    }
-//}
+void groupPurpleLines(std::vector<cv::Vec4i>& inpVec, std::vector<std::vector<cv::Vec4i>>& outVec, double threshold) {
+    if (inpVec.size() == 1) {
+        outVec = {inpVec};
+    }
+    else if (inpVec.size() > 1) {
+        std::vector<double> cpVec;
+        cv::Vec4i tempVec;
+        double cp, cpMin, cpAverage;
+        int minGroup = 0;
+        outVec.push_back({inpVec[0]});
+        inpVec.erase(inpVec.begin());
+        while (inpVec.size() > 0) {
+            tempVec = inpVec[0];
+            inpVec.erase(inpVec.begin());
+            cpVec.clear();
+            cpMin = 0.0;
+            for (int i = 0; i < outVec.size(); i++) {
+                cpAverage = 0.0;
+                for (int j = 0; j < outVec[j].size(); j++) {
+                    cp = findCrossProduct(tempVec,outVec[i][j]);
+                }
+                cpAverage = cp / outVec[i].size();
+                cpVec.push_back(cpAverage);
+            }
+            for (int i = 0; i < cpVec.size(); i++) {
+                if (cpVec[i] < cpMin) {
+                    cpMin = cpVec[i];
+                    minGroup = i;
+                }
+            }
+            if (cpMin < threshold) {
+                outVec[minGroup].push_back(inpVec[minGroup]);
+            }
+            else {
+                outVec.push_back({inpVec[minGroup]});
+            }
+        }
+    }
+}
+
+void findAverageOfLines(std::vector<std::vector<cv::Vec4i>>& inpVec, std::vector<cv::Vec4i>& outVec) {
+    std::vector<cv::Vec4i> tempVec;
+    double x1avg, x2avg, y1avg, y2avg;
+    for (int i = 0; i < inpVec.size(); i++) {
+        tempVec = inpVec[i];
+        x1avg = 0.0;
+        x2avg = 0.0;
+        y1avg = 0.0;
+        y2avg = 0.0;
+        for (int j = 0; j < tempVec.size(); j++) {
+            x1avg += tempVec[j][0];
+            y1avg += tempVec[j][1];
+            x2avg += tempVec[j][2];
+            y2avg += tempVec[j][3];
+        }
+        int x1 = (int) round(x1avg/tempVec.size());
+        int y1 = (int) round(y1avg/tempVec.size());
+        int x2 = (int) round(x2avg/tempVec.size());
+        int y2 = (int) round(y2avg/tempVec.size());
+        outVec.push_back({x1,y1,x2,y2});
+    }
+}
 
 void detectPurpleLineTest2(cv::Mat& frame, GridMap& local_map) {
 
@@ -98,10 +135,32 @@ void detectPurpleLineTest2(cv::Mat& frame, GridMap& local_map) {
     ImageUtils::HoughDataP purp_contour_hough = ImageUtils::houghLinesP(purp_contour);
     cv::Mat hough_drawing = ImageUtils::drawHoughLinesP(purp_contour_hough, frame);
 
-    std::cout << purp_contour_hough.lines.size() << " lines found" << std::endl;
+    std::cout << purp_contour_hough.lines.size() << " lines originally" << std::endl;
 
-    hough_drawing.copyTo(frame);
+    for (size_t i = 0; i < purp_contour_hough.lines.size(); i++) {
+        cv::line(frame, cv::Point(purp_contour_hough.lines[i][0], purp_contour_hough.lines[i][1]),
+                cv::Point(purp_contour_hough.lines[i][2],purp_contour_hough.lines[i][3]), cv::Scalar(0,0,255));
+    }
+//    hough_drawing.copyTo(frame);
 
+    std::vector<std::vector<cv::Vec4i>> purp_contour_grouped_lines;
+    std::vector<cv::Vec4i> purp_contour_averaged_lines;
+
+    groupPurpleLines(purp_contour_hough.lines,purp_contour_grouped_lines,0.5);
+    findAverageOfLines(purp_contour_grouped_lines,purp_contour_averaged_lines);
+
+    for (size_t i = 0; i < purp_contour_averaged_lines.size(); i++) {
+        cv::line(frame, cv::Point(purp_contour_averaged_lines[i][0], purp_contour_averaged_lines[i][1]),
+                cv::Point(purp_contour_averaged_lines[i][2], purp_contour_averaged_lines[i][3]), cv::Scalar(0,255,0), 3, 8);
+    }
+    std::cout << purp_contour_averaged_lines.size() << " lines after reduction" << std::endl;
+
+    for (size_t i = 0; i < purp_contour_averaged_lines.size(); i++) {
+        cv::circle(frame,cv::Point((purp_contour_averaged_lines[i][0]+purp_contour_averaged_lines[i][2])/2,
+                (purp_contour_averaged_lines[i][1]+purp_contour_averaged_lines[i][3])/2),5,cv::Scalar(255,0,0),3,8);
+    }
+
+    cv::waitKey(1000);
 
 /*
 
