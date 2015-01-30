@@ -283,7 +283,7 @@
 //Logger
 #define UPDATE_RATE_LOGGER 1000
 #define LOG_FILE_NAME "log.txt"
-#define LOGGING 1
+#define LOGGING 0
 
 ///////////////
 //Particle Filter
