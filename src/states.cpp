@@ -405,11 +405,13 @@ void states::wallFollowLeft(double carrotDistance,
 
     case rotating:{
         double myAngle = getAngle();
-        double angleDif =abs(getAngleToCarrot());
+        double angleDif =abs(myAngle-initialTurningAngle);
         if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
 //            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+        }else{
+            turnNDegreesQuickly(angleDif);
         }
         //printf(" rotating\n");
         break;
