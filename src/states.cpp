@@ -839,6 +839,18 @@ void states::collectBlock(int color){
             myServosControl->unHookBlock();
             startTimeState = getTimeMicroseconds();
         }
+        if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed()){
+            myServosControl->sortLeft();
+            myColorCount += 1;
+        }
+
+        else{
+            myServosControl->sortRight();
+            theirColorCount += 1;
+        }
+        else{
+
+        }
         break;
     case(releasing):
         if(difTime>BLOCK_COLLECT_RELEASE_TIME_MS){
