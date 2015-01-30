@@ -857,9 +857,11 @@ volatile double states::getDistanceFrontWall(){
 }
 
 volatile int states::isItATrap(){
-    return (getDistanceLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
-            getDistanceRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
-            getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
+    return ((getDistanceLeftWall()+getDistanceRightWall())<TRAPPED_SIDE_THRESHOLD)
+            && getDistanceFrontWall()<TRAPPED_FRONT_THRESHOLD;
+            //(getDistanceLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
+            //getDistanceRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
+            //getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
 }
 
 double states::getDistanceToPurpleLine(){
