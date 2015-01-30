@@ -977,7 +977,10 @@ void states::followPoint(double distance, double angle){
         }
         break;
     case timeout:
-        if(difTimeStartState<FOLLOW_POINT_TIMEOUT_WALLFOLLOW_MS){
+        if  (difTimeStartState<FOLLOW_POINT_TIMEOUT_SHARPCURVE_RIGHT_BACK_MS){
+            sharpCurveToTheRightBack();
+        }
+        else if(difTimeStartState<FOLLOW_POINT_TIMEOUT_WALLFOLLOW_MS){
             wallFollow();
         }
         else{

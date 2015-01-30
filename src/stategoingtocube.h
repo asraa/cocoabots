@@ -8,6 +8,7 @@ public:
     void processData();
     ~stateGoingToCube();
     long long int mywaitTimeMS;
+    int wallInFrontOfMe;
 };
 
 #endif // STATEGOINGTOCUBE_H
