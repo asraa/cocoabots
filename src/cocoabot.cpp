@@ -53,35 +53,18 @@ void cocoabot::run(){
     }
     myUtils.reset();
     while (running){
-        if(myUtils.gameTimeRemaining()<TIME_TO_FIND_PURPLE_LINE && (!decisionPurpleLine)){
-            decisionPurpleLine = 1;
-            if (myState->theirColorCount < 2){
-                changedToPurpleLine=0;
+        if(myUtils.gameTimeRemaining()>0){
+            myState->processData();
+            states * nextState = myState->getNextState();
+            if (nextState!=myState){
+                logger::log();
+                previousState = myState;
+                myState=nextState;
+                delete previousState;
+                previousState=NULL;
             }
-            else {
-                //states * nextState = new statelookingforpurpleline;
-
-//                if (nextState!=myState){
-//                    logger::log();
-//                    previousState = myState;
-//                    myState=nextState;
-//                    delete previousState;
-//                    previousState=NULL;
-//                }
-                changedToPurpleLine=1;
-            }
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
-
-        myState->processData();
-        states * nextState = myState->getNextState();
-        if (nextState!=myState){
-            logger::log();
-            previousState = myState;
-            myState=nextState;
-            delete previousState;
-            previousState=NULL;
-        }
-        usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
     }
 }
 
