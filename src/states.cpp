@@ -422,7 +422,7 @@ void states::wallFollowLeft(double carrotDistance,
             startTimeState=getTimeMicroseconds();
         }
         else if(getDistanceLeftWall()>maximumWallDistance){
-            else if (getDistanceFrontWall()<maximumWallDistance && getDistanceFrontWall()>wallDistance){
+            if (getDistanceFrontWall()<maximumWallDistance && getDistanceFrontWall()>wallDistance){
                 sharpCurveToTheLeft();
                 //myState = rotating;
                 //initialTurningAngle=getAngle();
@@ -446,7 +446,7 @@ void states::wallFollowLeft(double carrotDistance,
             //            printf("transitioning from following for a wall to rotating\n");
 
             }
-            else{
+            else if (getDistanceFrontWall()>maximumWallDistance) {
                 myState=lookingForWall;
                 startTimeState = getTimeMicroseconds();
             }
