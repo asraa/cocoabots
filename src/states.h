@@ -84,7 +84,15 @@ public:
                         double fastWiggleTime = WALL_FOLLOW_FAST_WIGGLE_TIME_MS,
                         double maxTimeFollowingWall = WALL_FOLLOW_FOLLOWING_MAX_TIME);
     //procedure to wall follow
-    void wallFollowRight(); //procedure to wall follow
+    void wallFollowRight(double carrotDistance=WALL_FOLLOW_CARROT_DISTANCE_INCHES,
+                         double proportionalGain=1,
+                         double wallDistance=WALL_FOLLOW_WALL_DISTANCE_INCHES,
+                         double maximumWallDistance =WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES,
+                         double turningAngle = -45,
+                         double maxLookingForWallTime = WALL_FOLLOW_LOOKING_MAX_TIME,
+                         double wiggleTime = WALL_FOLLOW_WIGGLE_TIME_MS,
+                         double fastWiggleTime = WALL_FOLLOW_FAST_WIGGLE_TIME_MS,
+                         double maxTimeFollowingWall = WALL_FOLLOW_FOLLOWING_MAX_TIME); //procedure to wall follow
     void wallFollow(); //procedure to wall follow
     int wallFollowed;  //Variable that says if we have wall followed on the current iteration of the state machine process data
     int wallFollowing; //Variable that says if we have wall folowed on the previous iteration of the state machine process data

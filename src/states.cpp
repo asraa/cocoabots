@@ -139,10 +139,116 @@ void states::wallFollow(){
     wallFollowLeft();
 }
 
-void states::wallFollowRight(){
+//void states::wallFollowRight(){
+//    enum wallFollowState{lookingForWall, rotating, followingWall};
+//    static long long int startTimeState;
+//    static double initialTurningAngle =0;
+//    static wallFollowState myState;
+//    long long int difTime;
+//    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+
+//    wallFollowed=1;
+//    if(!wallFollowing){
+//        myState = lookingForWall;
+//        startTimeState=getTimeMicroseconds();
+//    }
+
+//    switch (myState) {
+//    case lookingForWall:
+
+//        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+//            if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+//                myState = rotating;
+//                initialTurningAngle=getAngle();
+//                setCarrotPosition(0,-45);
+//                startTimeState = getTimeMicroseconds();
+
+//            }
+//            else{
+//                myState = rotating;
+//                initialTurningAngle=getAngle();
+//                setCarrotPosition(0,45);
+//                startTimeState = getTimeMicroseconds();
+
+//            }
+//            //printf("transitioning from looking for a wall to rotating\n");
+//        }
+//        else if (getDistanceRightWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+//            //printf("transitioning from looking for a wall to following a wall");
+//            myState=followingWall;
+//        } else{
+//            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+//            }
+//            else{
+//                sharpCurveToTheRight();
+//            }
+//            //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
+
+//        }
+//        break;
+
+//    case rotating:{
+//        double myAngle = getAngle();
+//        double angleDif =abs(getAngleToCarrot());
+//        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+//            myState=followingWall;
+//            startTimeState = getTimeMicroseconds();
+//            //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+//        }
+//        break;
+//    }
+//    case followingWall:
+//        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+//            myState = rotating;
+//            initialTurningAngle=getAngle();
+//            setCarrotPosition(0,-45);
+//            startTimeState = getTimeMicroseconds();
+//            //printf("transitioning from following for a wall to rotating\n");
+
+//        }
+//        else if (getDistanceRightWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+//            myState=lookingForWall;
+//            startTimeState = getTimeMicroseconds();
+
+//            //printf("transitioning from following to  looking \n");
+
+
+//        }
+//        else{
+//            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
+//            double carrotAngle;
+//            double wallDistance = getDistanceRightWall();
+//            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
+//            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, distanceToMoveToWall);
+//            setCarrotPosition(carrotDistance,carrotAngle);
+
+//        }
+
+//        break;
+//    }
+
+//}
+
+void states::wallFollowRight(double carrotDistance,
+                            double proportionalGain,
+                            double wallDistance,
+                            double maximumWallDistance,
+                            double turningAngle,
+                            double maxLookingForWallTime,
+                            double wiggleTime,
+                            double fastWiggleTime,
+                            double maxTimeFollowingWall){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    // EXPERIMENTAL ADDITION    // if left,front,right shortIRs are low,
+    static int enteringATrap=0; // you need to turn around NOW!
+    // EXPERIMENTAL ADDITION    // you're entering a trap!
+    static int stuckOnACorner=0;
+    static int wiggleDirection=0;
+    static int wiggling=0;
+    static int fastWiggling=0;
     static double initialTurningAngle =0;
+    static int desiredAngle=0;
     static wallFollowState myState;
     long long int difTime;
     difTime=(getTimeMicroseconds()-startTimeState)/1000;
@@ -151,36 +257,149 @@ void states::wallFollowRight(){
     if(!wallFollowing){
         myState = lookingForWall;
         startTimeState=getTimeMicroseconds();
+        wiggling=0;
+        fastWiggling=0;
+        stuckOnACorner=0;
+
+        // EXPERIMENTAL ADDITION
+        enteringATrap=0;
+        // EXPERIMENTAL ADDITION
+    }
+    if(stuckOnACorner){
+        //printf("Stuck on a corner \n");
+        if (difTime<wiggleTime/2){
+            setCarrotPosition(0,-50);
+            return;
+
+        }
+        else if (difTime<wiggleTime*3.0/2){
+                sharpCurveToTheRightBack();
+
+        }
+        else{
+            startTimeState = getTimeMicroseconds();
+            stuckOnACorner=0;
+        }
+    }
+    else {
+//        printf("Not stuck on a corner\n");
+
+        if(getDistanceFrontWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL && getDistanceRightWall()<WALL_FOLLOW_MINIMUM_DISTANCE_WALL){
+            if (difTime>WALL_FOLLOW_MINIMUM_TIME_BEFORE_WIGGLE_MS){
+                stuckOnACorner=1;
+                startTimeState = getTimeMicroseconds();
+            }
+        }
+//        if(enteringATrap){
+//            if (difTime>WALL_FOLLOW_TRAP_TIME_MS || finishedTurningNDegreesQuickly){
+//                startTimeState=getTimeMicroseconds();
+//                enteringATrap=0;
+//            }
+//            else{
+//                turnNDegreesQuickly(180);
+//                //mediumCurveToTheLeft();
+//            }
+//            return;
+//        }
+        if(wiggling){
+           // printf("Wiggling \n");
+            if (difTime>wiggleTime){
+                startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                wiggling=0;
+                fastWiggling=0;
+
+//                printf("Not wiggling anymore \n");
+            }
+            else{
+                switch(wiggleDirection){
+                case(0):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(1):
+                    sharpCurveToTheLeftBack();
+                    break;
+                case(2):
+                    sharpCurveToTheRightBack();
+                    break;
+                case(3):
+                    sharpCurveToTheLeftBack();
+                    break;
+                }
+            }
+            return;
+        }
+        else if(fastWiggling){
+            // printf("Wiggling \n");
+             if (difTime>fastWiggleTime){
+                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                 fastWiggling=0;
+ //                printf("Not wiggling anymore \n");
+             }
+             else{
+                 switch(wiggleDirection){
+                 case(0):
+                     sharpCurveToTheRightBack();
+                     break;
+                 case(1):
+                     sharpCurveToTheLeftBack();
+                     break;
+                 case(2):
+                     sharpCurveToTheRightBack();
+                     break;
+                 case(3):
+                     sharpCurveToTheLeftBack();
+                     break;
+                 }
+             }
+             return;
+         }
     }
 
     switch (myState) {
     case lookingForWall:
 
-        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
-            if (getDistanceRightWall()<WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
+        if (getDistanceFrontWall()<wallDistance){
+            if (getDistanceRightWall()<maximumWallDistance){
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,-45);
+                desiredAngle = turningAngle;
+
+                //setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
 
             }
             else{
+
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,45);
-                startTimeState = getTimeMicroseconds();
+                desiredAngle = turningAngle;
 
+                //setCarrotPosition(0,turningAngle);
+                startTimeState = getTimeMicroseconds();
             }
-            //printf("transitioning from looking for a wall to rotating\n");
+//            printf("transitioning from looking for a wall to rotating\n");
         }
-        else if (getDistanceRightWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+        else if (getDistanceRightWall()<wallDistance){
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+            if(difTime>maxLookingForWallTime){
+                //printf("starting to wiggle\n");
+                //previousStartTimeState = startTimeState;
+                startTimeState=getTimeMicroseconds();
+                wiggling =true;
+                wiggleDirection++;
+                wiggleDirection%=4;
+                stuckOnACorner=0;
+                return;
+
+            }
+            else if(difTime>WALL_FOLLOW_TIME_OUT_LOOKING_MS){
+                setCarrotPosition(carrotDistance,0);
             }
             else{
-                sharpCurveToTheRight();
+                sharpCurveToTheLeft();
+                return;
             }
             //printf("Im looking and my distance is %lf\n", getDistanceFrontWall());
 
@@ -189,38 +408,66 @@ void states::wallFollowRight(){
 
     case rotating:{
         double myAngle = getAngle();
-        double angleDif =abs(getAngleToCarrot());
-        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+        double angleDif =abs(myAngle-initialTurningAngle);
+        if (finishedTurningNDegreesQuickly|| abs(angleDif-desiredAngle)<10|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
-            //printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+            stop();
+//            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
+        }else{
+            if(desiredAngle>0){
+                turnToTheRightQuickly();
+            }
+            else{
+                turnToTheLeftQuickly();
+            }
         }
+        //printf(" rotating\n");
         break;
     }
     case followingWall:
-        if (getDistanceFrontWall()<WALL_FOLLOW_WALL_DISTANCE_INCHES){
+     //   if (isItATrap()){
+       //     myState = lookingForWall;
+        //    enteringATrap=1;
+         //   startTimeState=getTimeMicroseconds();
+        //}
+        if (getDistanceFrontWall()<wallDistance && getDistanceRightWall()<maximumWallDistance){
             myState = rotating;
             initialTurningAngle=getAngle();
-            setCarrotPosition(0,-45);
+            desiredAngle = turningAngle;
+            //setCarrotPosition(0,turningAngle);
             startTimeState = getTimeMicroseconds();
-            //printf("transitioning from following for a wall to rotating\n");
+//            printf("transitioning from following for a wall to rotating\n");
 
         }
-        else if (getDistanceRightWall()>WALL_FOLLOW_MAXIMUM_WALL_DISTANCE_INCHES){
-            myState=lookingForWall;
-            startTimeState = getTimeMicroseconds();
+        else if (getDistanceRightWall()>maximumWallDistance){
+            if (getDistanceFrontWall()<maximumWallDistance){
 
-            //printf("transitioning from following to  looking \n");
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                desiredAngle = -turningAngle;
+                //setCarrotPosition(0,-turningAngle);
+                startTimeState = getTimeMicroseconds();
+
+            }
+            else{
+                myState=lookingForWall;
+                startTimeState = getTimeMicroseconds();
+            }
+//            printf("transitioning from following to  looking \n");
 
 
+        }
+        else if (difTime>maxTimeFollowingWall){
+            fastWiggling=1;
         }
         else{
-            double carrotDistance = WALL_FOLLOW_CARROT_DISTANCE_INCHES;
             double carrotAngle;
-            double wallDistance = getDistanceRightWall();
-            double distanceToMoveToWall = wallDistance-WALL_FOLLOW_WALL_DISTANCE_INCHES;
-            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, distanceToMoveToWall);
+            double realWallDistance = getDistanceRightWall();
+            double distanceToMoveToWall = realWallDistance-wallDistance;
+            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall)*proportionalGain;
             setCarrotPosition(carrotDistance,carrotAngle);
+//            printf("Following wall\n");
 
         }
 
@@ -920,7 +1167,7 @@ volatile double states::getDistanceFrontWall(){
 volatile int states::isItATrap(){
     return ((getDistanceLeftWall()+getDistanceRightWall())<TRAPPED_SIDE_THRESHOLD)
             && getDistanceFrontWall()<TRAPPED_FRONT_THRESHOLD;
-            //(getDistanceLeftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
+            //getDistanceleftWall() < LEFT_SHORTIR_TRAPPED_THRESHOLD &&
             //getDistanceRightWall() < RIGHT_SHORTIR_TRAPPED_THRESHOLD &&
             //getDistanceFrontWall() < FRONT_SHORTIR_TRAPPED_THRESHOLD);
 }
