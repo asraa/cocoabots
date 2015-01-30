@@ -142,7 +142,6 @@ void states::wallFollow(){
 void states::wallFollowRight(){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
-    static long long int wallFollowLookingForWall;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -248,7 +247,6 @@ void states::wallFollowLeft(double carrotDistance,
     static int wiggleDirection=0;
     static int wiggling=0;
     static int fastWiggling=0;
-    static long long int wallFollowLookingForWall=0;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -261,7 +259,7 @@ void states::wallFollowLeft(double carrotDistance,
         wiggling=0;
         fastWiggling=0;
         stuckOnACorner=0;
-        wallFollowLookingForWall=0;
+
         // EXPERIMENTAL ADDITION
         enteringATrap=0;
         // EXPERIMENTAL ADDITION
@@ -366,7 +364,6 @@ void states::wallFollowLeft(double carrotDistance,
                 setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
 
-
             }
             else{
 
@@ -439,17 +436,8 @@ void states::wallFollowLeft(double carrotDistance,
 
             }
             else{
-                if(!wallFollowLookingForWall){
-                    wallFollowLookingForWall= getTimeMicroseconds();
-                }
-                if ((wallFollowLookingForWall - getTimeMicroseconds())/1000 < WALL_FOLLOW_FOLLOWING_MAX_TIME_LOOKING_FOR_WALL){
-                    sharpCurveToTheLeft();
-                }
-                else{
-                    myState=lookingForWall;
-                    startTimeState = getTimeMicroseconds();
-                    wallFollowLookingForWall=0;
-                }
+                myState=lookingForWall;
+                startTimeState = getTimeMicroseconds();
             }
 //            printf("transitioning from following to  looking \n");
 
@@ -459,7 +447,6 @@ void states::wallFollowLeft(double carrotDistance,
             fastWiggling=1;
         }
         else{
-            wallFollowLookingForWall=0;
             double carrotAngle;
             double realWallDistance = getDistanceLeftWall();
             double distanceToMoveToWall = realWallDistance-wallDistance;
