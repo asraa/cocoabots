@@ -1,5 +1,6 @@
 #include "statecollectingcube.h"
 #include "statelookingforblocks.h"
+#include "stateapproachblock.h"
 
 stateCollectingCube::stateCollectingCube(states *previousState, int color):states(previousState)
 {
@@ -13,7 +14,7 @@ void stateCollectingCube::processData(){
     collectBlock(myColor); //THIS IS WRONG. THIS IS FOR THE MOCK COMPETITION
 
     if (finishedCollectingBlock){
-        nextState = new stateLookingForBlocks(this);
+        nextState = new stateApproachBlock(this);
     }
     finishProcessData();
 }

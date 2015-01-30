@@ -234,7 +234,10 @@ void states::wallFollowLeft(double carrotDistance,
                             double wallDistance,
                             double maximumWallDistance,
                             double turningAngle,
-                            double maxLookingForWallTime){
+                            double maxLookingForWallTime,
+                            double wiggleTime,
+                            double fastWiggleTime,
+                            double maxTimeFollowingWall){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
     // EXPERIMENTAL ADDITION    // if left,front,right shortIRs are low,
@@ -243,6 +246,7 @@ void states::wallFollowLeft(double carrotDistance,
     static int stuckOnACorner=0;
     static int wiggleDirection=0;
     static int wiggling=0;
+    static int fastWiggling=0;
     static double initialTurningAngle =0;
     static wallFollowState myState;
     long long int difTime;
@@ -253,6 +257,7 @@ void states::wallFollowLeft(double carrotDistance,
         myState = lookingForWall;
         startTimeState=getTimeMicroseconds();
         wiggling=0;
+        fastWiggling=0;
         stuckOnACorner=0;
 
         // EXPERIMENTAL ADDITION
@@ -261,12 +266,12 @@ void states::wallFollowLeft(double carrotDistance,
     }
     if(stuckOnACorner){
         //printf("Stuck on a corner \n");
-        if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS/2){
+        if (difTime<wiggleTime/2){
             setCarrotPosition(0,-50);
             return;
 
         }
-        else if (difTime<WALL_FOLLOW_WIGGLE_TIME_MS*3.0/2){
+        else if (difTime<wiggleTime*3.0/2){
                 sharpCurveToTheRightBack();
 
         }
@@ -297,9 +302,11 @@ void states::wallFollowLeft(double carrotDistance,
         }
         if(wiggling){
            // printf("Wiggling \n");
-            if (difTime>WALL_FOLLOW_WIGGLE_TIME_MS){
+            if (difTime>wiggleTime){
                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
+                fastWiggling=0;
+
 //                printf("Not wiggling anymore \n");
             }
             else{
@@ -320,6 +327,31 @@ void states::wallFollowLeft(double carrotDistance,
             }
             return;
         }
+        else if(fastWiggling){
+            // printf("Wiggling \n");
+             if (difTime>fastWiggleTime){
+                 startTimeState=getTimeMicroseconds();//previousStartTimeState;
+                 fastWiggling=0;
+ //                printf("Not wiggling anymore \n");
+             }
+             else{
+                 switch(wiggleDirection){
+                 case(0):
+                     sharpCurveToTheRightBack();
+                     break;
+                 case(1):
+                     sharpCurveToTheLeftBack();
+                     break;
+                 case(2):
+                     sharpCurveToTheRightBack();
+                     break;
+                 case(3):
+                     sharpCurveToTheLeftBack();
+                     break;
+                 }
+             }
+             return;
+         }
     }
 
     switch (myState) {
@@ -410,6 +442,9 @@ void states::wallFollowLeft(double carrotDistance,
 //            printf("transitioning from following to  looking \n");
 
 
+        }
+        else if (difTime>maxTimeFollowingWall){
+            fastWiggling=1;
         }
         else{
             double carrotAngle;
