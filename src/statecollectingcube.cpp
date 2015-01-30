@@ -32,6 +32,6 @@ void stateCollectingCube::processData(){
     finishProcessData();
 }
 
-void stateCollectingCube::~stateCollectingCube(){
+stateCollectingCube::~stateCollectingCube(){
 
 }
