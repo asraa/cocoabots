@@ -8,10 +8,6 @@ stateGoingToCube::stateGoingToCube(states *previousState,
 {
     name= "State Going to Cube";
     mywaitTimeMS = waitTimeMS;
-    wallInFrontOfMe=0;
-    //if(getDistanceFrontWall()<GO_TO_CUBE_MINIMUM_DISTANCE_FRONT_WALL){
-    //    wallInFrontOfMe=1;
-    //}
 }
 
 void stateGoingToCube::processData(){
@@ -22,37 +18,26 @@ void stateGoingToCube::processData(){
     static int color;
     startProcessData();
 
+    if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= mywaitTimeMS){
+        stop();
+        cubeFound=foundCube();
+        distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
+        angle = myImageProcessor->getNearestCubeAngle();
+        color = myImageProcessor->getNearestCubeColor();
+    }
+    else if(cubeFound){
 
-    if(wallInFrontOfMe){
-        if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= GO_TO_CUBE_WALL_FOLLOW_TIME){
-            wallFollow();
-        }
-        else{
-            nextState = new stateLookingForBlocks(this);
+        goToPoint(distance,angle);
+
+        if (finishedGoingToPoint){
+            nextState = new stateCollectingCube(this);//(this,color); //->pass camera color
+                                                            //PASS NO COLOR PARAMETER TO GET DATA FROM THE COLOR SENSOR
         }
     }
     else{
-        if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= mywaitTimeMS){
-            cubeFound=foundCube();
-            distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
-            angle = myImageProcessor->getNearestCubeAngle();
-            color = myImageProcessor->getNearestCubeColor();
-
-        }
-        else if(cubeFound){
-
-            goToPoint(distance,angle);
-
-            if (finishedGoingToPoint){
-                nextState = new stateCollectingCube(this);//(this,color); //->pass camera color
-                //PASS NO COLOR PARAMETER TO GET DATA FROM THE COLOR SENSOR
-            }
-        }
-        else{
-            nextState=new stateLookingForBlocks(this);
-        }
-        finishProcessData();
+        nextState=new stateLookingForBlocks(this);
     }
+    finishProcessData();
 }
 
 
