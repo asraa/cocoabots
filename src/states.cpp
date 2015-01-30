@@ -250,6 +250,7 @@ void states::wallFollowLeft(double carrotDistance,
     static int wiggling=0;
     static int fastWiggling=0;
     static double initialTurningAngle =0;
+    static int desiredAngle=0;
     static wallFollowState myState;
     long long int difTime;
     difTime=(getTimeMicroseconds()-startTimeState)/1000;
@@ -363,7 +364,10 @@ void states::wallFollowLeft(double carrotDistance,
             if (getDistanceLeftWall()<maximumWallDistance){
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,turningAngle);
+                desiredAngle = turningAngle;
+                turnNDegreesQuickly(desiredAngle);
+
+                //setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
 
             }
@@ -371,7 +375,10 @@ void states::wallFollowLeft(double carrotDistance,
 
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,turningAngle);
+                desiredAngle = turningAngle;
+                turnNDegreesQuickly(desiredAngle);
+
+                //setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
             }
 //            printf("transitioning from looking for a wall to rotating\n");
@@ -406,12 +413,12 @@ void states::wallFollowLeft(double carrotDistance,
     case rotating:{
         double myAngle = getAngle();
         double angleDif =abs(myAngle-initialTurningAngle);
-        if (angleDif <10 || difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+        if (finishedTurningNDegreesQuickly|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
 //            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }else{
-            turnNDegreesQuickly(angleDif);
+            turnNDegreesQuickly(desiredAngle);
         }
         //printf(" rotating\n");
         break;
@@ -425,7 +432,9 @@ void states::wallFollowLeft(double carrotDistance,
         else if (getDistanceFrontWall()<wallDistance && getDistanceLeftWall()<maximumWallDistance){
             myState = rotating;
             initialTurningAngle=getAngle();
-            setCarrotPosition(0,turningAngle);
+            desiredAngle = turningAngle;
+            turnNDegreesQuickly(desiredAngle);
+            //setCarrotPosition(0,turningAngle);
             startTimeState = getTimeMicroseconds();
 //            printf("transitioning from following for a wall to rotating\n");
 
@@ -435,7 +444,9 @@ void states::wallFollowLeft(double carrotDistance,
 
                 myState = rotating;
                 initialTurningAngle=getAngle();
-                setCarrotPosition(0,-turningAngle);
+                desiredAngle = -turningAngle;
+                turnNDegreesQuickly(desiredAngle);
+                //setCarrotPosition(0,-turningAngle);
                 startTimeState = getTimeMicroseconds();
 
             }
