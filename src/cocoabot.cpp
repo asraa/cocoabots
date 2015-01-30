@@ -28,7 +28,7 @@ cocoabot::cocoabot(): //Initializes all the modules
     myUtils(),
     myImageProcessor(),
     myState(NULL),
-    myLogger(&mySensors, &myMotorControl, &myServosControl, &myState, &myImageProcessor, NULL)
+    myLogger(&mySensors, &myMotorControl, &myServosControl, &myState, &myImageProcessor)
 
 {
     //Starts the state machine
