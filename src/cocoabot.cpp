@@ -311,5 +311,33 @@ void cocoabot::run(int argc, char **argv){
         }
     }
 
+    if(strcmp(argv[1],"cubeColor")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        int cubeColor=0;
+        int cubeDetected=0;
+        while (running){
+
+            if(myState->detectedCube()){
+                cubeDetected=1;
+                if (myState->isCubeRed()) {
+                    printf("cube is red\n");
+                    cubeColor=1;
+                }
+                else {
+                    printf("cube is green\n");
+
+                    cubeColor=0;
+                }
+            }
+
+            usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
+        }
+    }
+
 
 }
