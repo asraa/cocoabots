@@ -640,7 +640,7 @@ void states::wallFollowLeft(double carrotDistance,
             //printf("transitioning from looking for a wall to following a wall");
             myState=followingWall;
         } else{
-            if(difTime>maxLookingForWallTime){
+            if(difTimeWiggle>maxLookingForWallTime){
                 //printf("starting to wiggle\n");
                 //previousStartTimeState = startTimeState;
                 timeLastWiggle=getTimeMicroseconds();
