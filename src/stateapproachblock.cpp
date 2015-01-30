@@ -22,3 +22,7 @@ void stateApproachBlock::processData(){
 
     finishProcessData();
 }
+
+stateApproachBlock::~stateApproachBlock(){
+
+}

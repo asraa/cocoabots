@@ -11,7 +11,7 @@ public:
     int cubeFound;
     enum lookingForBlocksState{wallFollowing,looking, comingBack};
     lookingForBlocksState myPrivateState;
-
+    ~stateLookingForBlocks();
 
 };
 

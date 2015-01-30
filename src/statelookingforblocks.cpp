@@ -42,3 +42,6 @@ void stateLookingForBlocks::processData(){
 
     finishProcessData();
 }
+stateLookingForBlocks::~stateLookingForBlocks(){
+
+}
