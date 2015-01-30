@@ -413,48 +413,53 @@ void states::wallFollowLeft(double carrotDistance,
         break;
     }
     case followingWall:
+        if (difTime>maxTimeFollowingWall){
+                    fastWiggling=1;
+                }
         if (isItATrap()){
             myState = lookingForWall;
             enteringATrap=1;
             startTimeState=getTimeMicroseconds();
         }
+        else if(getDistanceLeftWall()>maximumWallDistance){
+            else if (getDistanceFrontWall()<maximumWallDistance && getDistanceFrontWall()>wallDistance){
+                sharpCurveToTheLeft();
+                //myState = rotating;
+                //initialTurningAngle=getAngle();
+                //setCarrotPosition(0,-turningAngle);
+                //startTimeState = getTimeMicroseconds();
 
-        else if (getDistanceFrontWall()<maximumWallDistance && getDistanceLeftWall()>maximumWallDistance){
-            sharpCurveToTheLeft();
-            //myState = rotating;
-            //initialTurningAngle=getAngle();
-            //setCarrotPosition(0,-turningAngle);
-            //startTimeState = getTimeMicroseconds();
-
+            }
+            else if (getDistanceFrontWall()<wallDistance){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,-turningAngle);
+                startTimeState = getTimeMicroseconds();
+            }
         }
-
-        else if (getDistanceFrontWall()<wallDistance){
-            myState = rotating;
-            initialTurningAngle=getAngle();
-            setCarrotPosition(0,turningAngle);
-            startTimeState = getTimeMicroseconds();
+        else{
+            if (getDistanceFrontWall()<wallDistance){
+                myState = rotating;
+                initialTurningAngle=getAngle();
+                setCarrotPosition(0,turningAngle);
+                startTimeState = getTimeMicroseconds();
             //            printf("transitioning from following for a wall to rotating\n");
 
-        }
-        else{
-            myState=lookingForWall;
-            startTimeState = getTimeMicroseconds();
-        }
-        //            printf("transitioning from following to  looking \n");
+            }
+            else{
+                myState=lookingForWall;
+                startTimeState = getTimeMicroseconds();
+            }
+            //            printf("transitioning from following to  looking \n");
+            else{
+                double carrotAngle;
+                double realWallDistance = getDistanceLeftWall();
+                double distanceToMoveToWall = realWallDistance-wallDistance;
+                carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall)*proportionalGain;
+                setCarrotPosition(carrotDistance,carrotAngle);
+    //            printf("Following wall\n");
 
-
-        }
-        else if (difTime>maxTimeFollowingWall){
-            fastWiggling=1;
-        }
-        else{
-            double carrotAngle;
-            double realWallDistance = getDistanceLeftWall();
-            double distanceToMoveToWall = realWallDistance-wallDistance;
-            carrotAngle = cartesianCoordinatesToAngle(carrotDistance, -distanceToMoveToWall)*proportionalGain;
-            setCarrotPosition(carrotDistance,carrotAngle);
-//            printf("Following wall\n");
-
+            }
         }
 
         break;
