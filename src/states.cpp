@@ -428,12 +428,12 @@ void states::wallFollowLeft(double carrotDistance,
         break;
     }
     case followingWall:
-        if (isItATrap()){
-            myState = lookingForWall;
-            enteringATrap=1;
-            startTimeState=getTimeMicroseconds();
-        }
-        else if (getDistanceFrontWall()<wallDistance && getDistanceLeftWall()<maximumWallDistance){
+     //   if (isItATrap()){
+       //     myState = lookingForWall;
+        //    enteringATrap=1;
+         //   startTimeState=getTimeMicroseconds();
+        //}
+        if (getDistanceFrontWall()<wallDistance && getDistanceLeftWall()<maximumWallDistance){
             myState = rotating;
             initialTurningAngle=getAngle();
             desiredAngle = turningAngle;
