@@ -137,8 +137,7 @@
 
 //Color Detector
 #define COLOR_DETECTOR 1
-#define COLOR_DETECTOR_PIN 2
-#define RED_THRESHOLD 50
+#define COLOR_DETECTOR_PIN 9
 //was 566 for top color sensor
 
 //Buttons
