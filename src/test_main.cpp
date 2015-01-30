@@ -934,8 +934,7 @@ int main(int argc, char** argv){
             sensorsModule mysensors;
             motorsControl mymotorsControl(&mysensors);
             servosControl myServoControl;
-            actuator myactuator(mymotorsControl, myServoControl);
-            actPointer= &myactuator;
+            ImageProcessor myImageProcessor;
             RUNNING =1;
             while(RUNNING){
                 double variable1;
@@ -1038,11 +1037,13 @@ int main(int argc, char** argv){
 
                 printf("Tested all the sensors\n\n");
                 printf("Testing the motors\n");
+                actuator myactuator(mymotorsControl, myServoControl);
+                actPointer= &myactuator;
                 printf("The robot will move 10 inches to the front when you press enter\n");
                 getchar();
                 mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(10,0);
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
                     printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
@@ -1053,7 +1054,7 @@ int main(int argc, char** argv){
                 getchar();
                 mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(-10,0);
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
                     printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
@@ -1064,7 +1065,7 @@ int main(int argc, char** argv){
                 getchar();
                 mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(0,45);
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
                     printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
@@ -1075,7 +1076,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.hookBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
 
@@ -1085,7 +1086,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.unHookBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
 
@@ -1095,7 +1096,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.raiseBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT ARM TO PINS: %d (PWM)).\n", ARM_SERVO_PWM);
 
@@ -1105,7 +1106,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.sortLeft();
                 printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
+                scanf("%d\n", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT SORT TO PINS: %d (PWM)).\n", SORT_SERVO_PWM);
 
@@ -1116,8 +1117,27 @@ int main(int argc, char** argv){
                 myServoControl.reset();
                 myServoControl.reset();
 
+                printf("Now we will test the camera.\n");
+                printf("Put a cube in front of the camera, wait and press enter.\n");
+                getchar();
+                int foundCube = myImageProcessor.getFoundCube();
+                double cubePosition = myImageProcessor.getNearestCubeDist();
+                double cubeAngle = myImageProcessor.getNearestCubeAngle();
+                int cubeColor = myImageProcessor.getNearestCubeColor();
+                if (foundCube)
+                    printf("I found a cube at %lf in, %lf, degrees.\n It's color is %d\n' \n", cubePosition,cubeAngle, cubeColor);
+                else{
+                    printf("I DIDN'T find a cube at %lf in, %lf, degrees.\n It's color is %d\n' \n", cubePosition,cubeAngle, cubeColor);
 
-                printf("YOU HAVE SUCESSFULLY TESTED THE ROBOT,\n WITH THE EXCEPTION OF THE CAMERA.\n");
+                }
+                printf("Did it work? 1 0\n");
+                scanf("%d\n", &answer);
+                if (answer==0){
+                    printf("ERROR. RESET EDISON FOR THE CAMERA TO WORK");
+
+                }
+
+                printf("YOU HAVE SUCESSFULLY TESTED THE ROBOT,\n\n");
 
                 printf("Reset the robot now, before the competition to free memory and make sure that the camera works");
                 RUNNING=0;
