@@ -65,6 +65,9 @@ void cocoabot::run(){
             }
             usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
         }
+        else{
+            myState->stop();
+        }
     }
 }
 
