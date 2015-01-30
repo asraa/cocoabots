@@ -46,8 +46,9 @@ cocoabot::cocoabot(): //Initializes all the modules
 void cocoabot::run(){
     int changedToPurpleLine=0;
     while (!mySensors.onData){
-        myUtils.reset();
+        usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
     }
+    myUtils.reset();
     while (running){
         if(myUtils.gameTimeRemaining()<TIME_TO_FIND_PURPLE_LINE){
             if(!changedToPurpleLine){
