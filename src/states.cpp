@@ -492,6 +492,7 @@ void states::wallFollowLeft(double carrotDistance,
                             double maxTimeFollowingWall){
     enum wallFollowState{lookingForWall, rotating, followingWall};
     static long long int startTimeState;
+    static long long int timeLastWiggle;
     // EXPERIMENTAL ADDITION    // if left,front,right shortIRs are low,
     static int enteringATrap=0; // you need to turn around NOW!
     // EXPERIMENTAL ADDITION    // you're entering a trap!
@@ -503,11 +504,13 @@ void states::wallFollowLeft(double carrotDistance,
     static int desiredAngle=0;
     static wallFollowState myState;
     long long int difTime;
-    difTime=(getTimeMicroseconds()-startTimeState)/1000;
+    long long int difTimeWiggle;
+
 
     wallFollowed=1;
     if(!wallFollowing){
         myState = lookingForWall;
+        timeLastWiggle =getTimeMicroseconds();
         startTimeState=getTimeMicroseconds();
         wiggling=0;
         fastWiggling=0;
@@ -517,6 +520,8 @@ void states::wallFollowLeft(double carrotDistance,
         enteringATrap=0;
         // EXPERIMENTAL ADDITION
     }
+    difTimeWiggle = (getTimeMicroseconds()-timeLastWiggle)/1000;
+    difTime=(getTimeMicroseconds()-startTimeState)/1000;
     if(stuckOnACorner){
         //printf("Stuck on a corner \n");
         if (difTime<wiggleTime/2){
@@ -555,8 +560,8 @@ void states::wallFollowLeft(double carrotDistance,
 //        }
         if(wiggling){
            // printf("Wiggling \n");
-            if (difTime>wiggleTime){
-                startTimeState=getTimeMicroseconds();//previousStartTimeState;
+            if (difTimeWiggle>wiggleTime){
+                timeLastWiggle=getTimeMicroseconds();//previousStartTimeState;
                 wiggling=0;
                 fastWiggling=0;
 
@@ -638,7 +643,7 @@ void states::wallFollowLeft(double carrotDistance,
             if(difTime>maxLookingForWallTime){
                 //printf("starting to wiggle\n");
                 //previousStartTimeState = startTimeState;
-                startTimeState=getTimeMicroseconds();
+                timeLastWiggle=getTimeMicroseconds();
                 wiggling =true;
                 wiggleDirection++;
                 wiggleDirection%=4;

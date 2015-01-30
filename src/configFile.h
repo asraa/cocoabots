@@ -257,7 +257,7 @@
 #define FAST_WALL_FOLLOW_LOOKING_MAX_TIME 2000
 /////////////////////////////////
 //States definitions
-#define GO_TO_CUBE_WAIT_TIME_MS 3000
+#define GO_TO_CUBE_WAIT_TIME_MS 2000
 #define GO_TO_CUBE_OVERSHOOT_DISTANCE 3
 
 #define LOOKING_FOR_BLOCKS_STOP_AND_LOOK_TIME_MS 11000
