@@ -951,6 +951,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.frontShortIRData;
                 printf("Distance read = %lf.\n", variable1);
                 printf("Put something far from the front short IR and press enter.\n");
+                getchar();
                 variable2 = mysensors.frontShortIRData;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -963,6 +964,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.rightShortIRData;
                 printf("Distance read = %lf.\n", variable1);
                 printf("Put something far from the right short IR and press enter.\n");
+                getchar();
                 variable2 = mysensors.rightShortIRData;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -975,6 +977,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.leftShortIRData;
                 printf("Distance read = %lf.\n", variable1);
                 printf("Put something far from the left short IR and press enter.\n");
+                getchar();
                 variable2 = mysensors.leftShortIRData;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -987,6 +990,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.leftEncoderMovement;
                 printf("Distance read = %lf.\n", variable1);
                 printf("Turn the left wheel forward and press enter.\n");
+                getchar();
                 variable2 = mysensors.leftEncoderMovement;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -999,6 +1003,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.rightEncoderMovement;
                 printf("Distance read = %lf.\n", variable1);
                 printf("Turn the right wheel forward and press enter.\n");
+                getchar();
                 variable2 = mysensors.rightEncoderMovement;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -1011,6 +1016,7 @@ int main(int argc, char** argv){
                 variable1 = mysensors.frontUltraShortIRData;
                 printf("Distance read = %lf.\n", variable1);
                 printf("put NOTHING in front of it and press enter.\n");
+                getchar();
                 variable2 = mysensors.frontUltraShortIRData;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
@@ -1023,7 +1029,8 @@ int main(int argc, char** argv){
                 variable1 = mysensors.colorSensorData;
                 printf("read = %lf.\n", variable1);
                 printf("put RED BLOCK in front of it and press enter.\n");
-                variable1 = mysensors.colorSensorData;
+                getchar();
+                variable2 = mysensors.colorSensorData;
                 printf("Distance read = %lf.\n", variable2);
                 if(variable2 < variable1){
                     printf("ERROR. CONNECT COLOR DETECTOR TO PIN: %d .\n", COLOR_DETECTOR_PIN);
@@ -1106,13 +1113,9 @@ int main(int argc, char** argv){
 
                 printf("The robot will now reset the servos when you press enter\n");
                 getchar();
-                myServoControl.sortLeft();
-                printf("Did it work? 1 0\n");
-                scanf("%d", &answer);
-                if (answer==0){
-                    printf("ERROR. CONNECT SORT TO PINS: %d (PWM)).\n", SORT_SERVO_PWM);
+                myServoControl.reset();
+                myServoControl.reset();
 
-                }
 
                 printf("YOU HAVE SUCESSFULLY TESTED THE ROBOT,\n WITH THE EXCEPTION OF THE CAMERA.\n");
 
