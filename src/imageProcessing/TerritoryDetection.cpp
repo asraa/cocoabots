@@ -26,7 +26,6 @@ void goThroughPixels(cv::Mat& im_purp_contour, GridMap& local_map) {
     }
 }
 
-
 // should i first do find contour to find area of feature?
 void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 
@@ -45,9 +44,7 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 
     // check line properties
 
-
 }
-
 
     // args= image, lines, rho, theta, threshold, minlinelength, maxlinegap
 

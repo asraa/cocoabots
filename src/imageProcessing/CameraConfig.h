@@ -17,7 +17,7 @@ static const int DEBUG = 0;
 
 static const int COLOR_BLUE_LINE_USE_PROF = 0;
 static const int COLOR_PURPLE_LINE_USE_PROF = 0;
-static const int COLOR_RED_BLOCK_USE_PROF = 0;
+static const int COLOR_RED_BLOCK_USE_PROF = 1;
 static const int COLOR_GREEN_BLOCK_USE_PROF = 0;
 static const int COLOR_YELLOW_LINE_USE_PROF = 0;
 
