@@ -292,17 +292,17 @@ void states::wallFollowLeft(double carrotDistance,
                 startTimeState = getTimeMicroseconds();
             }
         }
-        if(enteringATrap){
-            if (difTime>WALL_FOLLOW_TRAP_TIME_MS || finishedTurningNDegreesQuickly){
-                startTimeState=getTimeMicroseconds();
-                enteringATrap=0;
-            }
-            else{
-                turnNDegreesQuickly(180);
-                //mediumCurveToTheLeft();
-            }
-            return;
-        }
+//        if(enteringATrap){
+//            if (difTime>WALL_FOLLOW_TRAP_TIME_MS || finishedTurningNDegreesQuickly){
+//                startTimeState=getTimeMicroseconds();
+//                enteringATrap=0;
+//            }
+//            else{
+//                turnNDegreesQuickly(180);
+//                //mediumCurveToTheLeft();
+//            }
+//            return;
+//        }
         if(wiggling){
            // printf("Wiggling \n");
             if (difTime>wiggleTime){
@@ -416,6 +416,7 @@ void states::wallFollowLeft(double carrotDistance,
         if (finishedTurningNDegreesQuickly|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
+            stop();
 //            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }else{
             turnNDegreesQuickly(desiredAngle);
