@@ -35,6 +35,9 @@ states::states(states *previouStatePointer):states(
 
 }
 
+int states::myColorCount=0;
+int states::theirColorCount=0;
+
 std::string states::getName(){
     return name;
 }
@@ -813,10 +816,14 @@ void states::collectBlock(int color){
             else{
                 myColor=color;
             }
-            if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed())
+            if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed()){
                 myServosControl->sortLeft();
+                myColorCount += 1;
+            }
+
             else{
                 myServosControl->sortRight();
+                theirColorCount += 1;
             }
             startTimeState = getTimeMicroseconds();
         }

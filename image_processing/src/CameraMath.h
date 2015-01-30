@@ -18,6 +18,7 @@ Eigen::Vector2d reconstructPoint2D(Eigen::Vector2d& pt_im, double y_actual);
 Eigen::Vector2d reconstructPoint2D(cv::Point& pt_im, double y_actual);
 
 Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam);
+Eigen::Vector2d cvtCamXY2RobotXY(double x_cam, double y_cam);
 
 }
 

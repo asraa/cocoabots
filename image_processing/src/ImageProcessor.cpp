@@ -19,6 +19,8 @@ ImageProcessor::ImageProcessor():
         return;
     }
 
+    detectingPurpleLine = 0;
+
     running=1;
     runThread = new std::thread(run,this);
 
@@ -46,10 +48,12 @@ void ImageProcessor::detectBlocks(cv::Mat& frame) {
 void ImageProcessor::detectPurpleLine(cv::Mat& frame) {
     TerritoryDetection::detectPurpleLine(frame, local_map);
 }
+
+
 // ******* UPDATE INFO ******** //
 // average over data to reduce noise/randomness
 void ImageProcessor::updateNearestBlockInfoAverage() {
-
+    if(nearestBlockInfo.found_cube && nearestBlockInfoPrevious.found_cube>0.5){
     nearestBlockInfo.found_cube =
             nearestBlockInfoPrevious.found_cube * BLOCK_FOUND_PREVIOUS_WEIGHT
             + nearestBlockInfo.found_cube * (1-BLOCK_FOUND_PREVIOUS_WEIGHT);
@@ -62,9 +66,21 @@ void ImageProcessor::updateNearestBlockInfoAverage() {
     nearestBlockInfo.nearest_cube_color -
             nearestBlockInfoPrevious.nearest_cube_color * BLOCK_COLOR_PREVIOUS_WEIGHT
             + nearestBlockInfo.nearest_cube_color * (1-BLOCK_COLOR_PREVIOUS_WEIGHT);
+    }
 
     nearestBlockInfoPrevious = nearestBlockInfo;
 
+}
+
+int ImageProcessor::getDetectingPurpleLine(){
+    return detectingPurpleLine;
+}
+
+void ImageProcessor::setDetectingPurpleLine(int q){
+    if(q!=0)
+        detectingPurpleLine = 1;
+    else
+        detectingPurpleLine = 0;
 }
 
 // refresh local map to zeros
@@ -113,7 +129,15 @@ void ImageProcessor::doStuff() {
 
     detectWall(frame);
     detectBlocks(frame);
-    detectPurpleLine(frame);
+    if(detectingPurpleLine == 1) {
+        detectPurpleLine(frame);
+    }
+
+    //cv::namedWindow("frame", 1);
+    //cv::imshow("frame", frame);
+
+    // cv::namedWindow("local_map", 1);
+    // cv::imshow("local_map", local_map.cvtImage());
 
     // for debug
     clock_t end = clock();
@@ -125,7 +149,7 @@ void ImageProcessor::clearCameraCache() {
     clock_t start = clock();
 
     // hack to clean cache from the camera to avoid weird bug in the beginning
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 1; i++) {
         vid_cap.grab(); // get a new frame from camera
     }
 
@@ -137,9 +161,9 @@ void ImageProcessor::clearCameraCache() {
 // for debug
 void ImageProcessor::debugStuff() {
 
-    frame_raw = cv::imread("images/test_final/blocks_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
-    //vid_cap.grab(); // get a new frame from camera
-    //vid_cap.retrieve(frame_raw); // get a new frame from camera
+    //frame_raw = cv::imread("images/test_final/blocks_2.jpg", CV_LOAD_IMAGE_COLOR ); // bgr
+    vid_cap.grab(); // get a new frame from camera
+    vid_cap.retrieve(frame_raw); // get a new frame from camera
     cv::resize(frame_raw, frame, cv::Size(0,0), 1, 1, cv::INTER_LINEAR);
     clock_t start = clock();
     WallDetection::detectWall(frame, local_map);
@@ -162,3 +186,9 @@ void ImageProcessor::run(ImageProcessor *ImageProcessorPointer) {
     }
 
 }
+/*
+int main_img() {
+    ImageProcessor myImageProcessor;
+    myImageProcessor.run(&myImageProcessor);
+}
+*/
