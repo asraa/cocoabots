@@ -409,7 +409,7 @@ void states::wallFollowRight(double carrotDistance,
     case rotating:{
         double myAngle = getAngle();
         double angleDif =abs(myAngle-initialTurningAngle);
-        if (finishedTurningNDegreesQuickly|| abs(angleDif-desiredAngle)<10|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+        if (absAngleDif>abs(desiredAngle)||abs(angleDif-desiredAngle)<10|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
             stop();
@@ -657,8 +657,9 @@ void states::wallFollowLeft(double carrotDistance,
 
     case rotating:{
         double myAngle = getAngle();
-        double angleDif =abs(myAngle-initialTurningAngle);
-        if (finishedTurningNDegreesQuickly|| abs(angleDif-desiredAngle)<10|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
+        double angleDif =myAngle-initialTurningAngle;
+        double absAngleDif =abs(angleDif);
+        if (absAngleDif>abs(desiredAngle)|| abs(absAngleDif-desiredAngle)<10|| difTime>WALL_FOLLOW_TIME_OUT_ROTATING_MS){
             myState=followingWall;
             startTimeState = getTimeMicroseconds();
             stop();
