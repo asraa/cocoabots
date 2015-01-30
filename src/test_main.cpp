@@ -733,29 +733,28 @@ int main(int argc, char** argv){
             }
         }
 
-        else if(strcmp(argv[1],"colorsensor")==0){
-            printf("Running color sensor test\n");
-            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
-            double min = 900;
-            double max = 0;
-            RUNNING =1;
-            while(RUNNING){
-                double data = myColorSensor.rawData();
-                if (data < min && data > 10) {
+//        else if(strcmp(argv[1],"colorsensor")==0){
+//            printf("Running color sensor test\n");
+//            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
+//            double min = 900;
+//            double max = 0;
+//            RUNNING =1;
+//            while(RUNNING){
+//                double data = myColorSensor.rawData();
+//                if (data < min && data > 10) {
 
-                    min = data;
-                    printf("%lf min\n", min);
-                }
-                if (data > max) {
+//                    min = data;
+//                    printf("%lf min\n", min);
+//                }
+//                if (data > max) {
 
-                    max = data;
-                    printf("%lf max\n", max);
-                }
-                usleep(200000.0);
-            }
-
-
-        }/*
+//                    max = data;
+//                    printf("%lf max\n", max);
+//                }
+//                usleep(200000.0);
+//            }
+//    }
+        /*
         else if(strcmp(argv[1],"particleFilter1")==0){
             printf("ParticleFilterTest\n");
             RUNNING =1;
@@ -892,19 +891,19 @@ int main(int argc, char** argv){
             }
         }
 
-        else if(strcmp(argv[1],"colorsensorraw")==0){
-            printf("Running color sensor test\n");
-            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
-            RUNNING =1;
-            while(RUNNING){
-                double data = myColorSensor.rawData();
+//        else if(strcmp(argv[1],"colorsensorraw")==0){
+//            printf("Running color sensor test\n");
+//            jankyColorSensor myColorSensor(COLOR_DETECTOR_PIN);
+//            RUNNING =1;
+//            while(RUNNING){
+//                double data = myColorSensor.rawData();
 
-                printf("%lf \n", data);
-                usleep(200000.0);
-            }
+//                printf("%lf \n", data);
+//                usleep(200000.0);
+//            }
 
 
-        }
+//        }
 
 
         else if(strcmp(argv[1],"arewered")==0){
@@ -926,6 +925,199 @@ int main(int argc, char** argv){
                 double data = mysensors.onData;
                 printf("%lf \n", data);
                 usleep(200000.0);
+            }
+
+        }
+
+        else if(strcmp(argv[1],"testrobot")==0){
+            signal(SIGINT, stopMotors);
+            sensorsModule mysensors;
+            motorsControl mymotorsControl(&mysensors);
+            servosControl myServoControl;
+            actuator myactuator(mymotorsControl, myServoControl);
+            actPointer= &myactuator;
+            RUNNING =1;
+            while(RUNNING){
+                double variable1;
+                double variable2;
+                int answer;
+                printf("Testing the robot. Testing all the sensors of the robot.\n\n");
+
+                printf("Testing the sensors.\n");
+
+                printf("Testing the front short IR.\n");
+                printf("Put something near the front short IR and press enter.\n");
+                getchar();
+                variable1 = mysensors.frontShortIRData;
+                printf("Distance read = %lf.\n", variable1);
+                printf("Put something far from the front short IR and press enter.\n");
+                variable2 = mysensors.frontShortIRData;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT FRONT SHORT IR TO ANALOG PIN %d.\n", FRONT_SHORTIR_PIN);
+                }
+
+                printf("Testing the right short IR.\n");
+                printf("Put something near the right short IR and press enter.\n");
+                getchar();
+                variable1 = mysensors.rightShortIRData;
+                printf("Distance read = %lf.\n", variable1);
+                printf("Put something far from the right short IR and press enter.\n");
+                variable2 = mysensors.rightShortIRData;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT RIGHT SHORT IR TO ANALOG PIN %d.\n", RIGHT_SHORTIR_PIN);
+                }
+
+                printf("Testing the left short IR.\n");
+                printf("Put something near the left short IR and press enter.\n");
+                getchar();
+                variable1 = mysensors.leftShortIRData;
+                printf("Distance read = %lf.\n", variable1);
+                printf("Put something far from the left short IR and press enter.\n");
+                variable2 = mysensors.leftShortIRData;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT LEFT SHORT IR TO ANALOG PIN %d.\n", LEFT_SHORTIR_PIN);
+                }
+
+                printf("Testing the left encoder.\n");
+                printf("Turn the left wheel backwards and press enter.\n");
+                getchar();
+                variable1 = mysensors.leftEncoderMovement;
+                printf("Distance read = %lf.\n", variable1);
+                printf("Turn the left wheel forward and press enter.\n");
+                variable2 = mysensors.leftEncoderMovement;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT LEFT ENCODER TO PINS: %d (blue) %d (white).\n", LEFT_ENCODER_ENC_A, LEFT_ENCODER_ENC_B);
+                }
+
+                printf("Testing the right encoder.\n");
+                printf("Turn the right wheel backwards and press enter.\n");
+                getchar();
+                variable1 = mysensors.rightEncoderMovement;
+                printf("Distance read = %lf.\n", variable1);
+                printf("Turn the right wheel forward and press enter.\n");
+                variable2 = mysensors.rightEncoderMovement;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT LEFT ENCODER TO PINS: %d (blue) %d (white).\n", RIGHT_ENCODER_ENC_A, RIGHT_ENCODER_ENC_B);
+                }
+
+                printf("Testing the front ULTRASHORT IR.\n");
+                printf("put something in front of it and press enter.\n");
+                getchar();
+                variable1 = mysensors.frontUltraShortIRData;
+                printf("Distance read = %lf.\n", variable1);
+                printf("put NOTHING in front of it and press enter.\n");
+                variable2 = mysensors.frontUltraShortIRData;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT FRONT ULTRASHORT IR TO PIN: %d .\n", FRONT_ULTRASHORTIR_PIN);
+                }
+
+                printf("Testing COLOR DETECTOR.\n");
+                printf("put a GREEN cube in front of it, wait 2 seconds and press enter.\n");
+                getchar();
+                variable1 = mysensors.colorSensorData;
+                printf("read = %lf.\n", variable1);
+                printf("put RED BLOCK in front of it and press enter.\n");
+                variable1 = mysensors.colorSensorData;
+                printf("Distance read = %lf.\n", variable2);
+                if(variable2 < variable1){
+                    printf("ERROR. CONNECT COLOR DETECTOR TO PIN: %d .\n", COLOR_DETECTOR_PIN);
+                }
+
+                printf("Tested all the sensors\n\n");
+                printf("Testing the motors\n");
+                printf("The robot will move 10 inches to the front when you press enter\n");
+                getchar();
+                mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(10,0);
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
+                    printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
+
+                }
+
+                printf("The robot will move 10 inches to the back when you press enter\n");
+                getchar();
+                mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(-10,0);
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
+                    printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
+
+                }
+
+                printf("The robot will turn 45 degrees when you press enter\n");
+                getchar();
+                mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(0,45);
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
+                    printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
+
+                }
+
+                printf("The robot will hook when you press enter\n");
+                getchar();
+                myServoControl.hookBlock();
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
+
+                }
+
+                printf("The robot will UNhook when you press enter\n");
+                getchar();
+                myServoControl.unHookBlock();
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
+
+                }
+
+                printf("The robot will lift its arm when you press enter\n");
+                getchar();
+                myServoControl.raiseBlock();
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT ARM TO PINS: %d (PWM)).\n", ARM_SERVO_PWM);
+
+                }
+
+                printf("The robot will put the sort wood to the right when you press enter\n");
+                getchar();
+                myServoControl.sortLeft();
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT SORT TO PINS: %d (PWM)).\n", SORT_SERVO_PWM);
+
+                }
+
+                printf("The robot will now reset the servos when you press enter\n");
+                getchar();
+                myServoControl.sortLeft();
+                printf("Did it work? 1 0\n");
+                scanf("%d", &answer);
+                if (answer==0){
+                    printf("ERROR. CONNECT SORT TO PINS: %d (PWM)).\n", SORT_SERVO_PWM);
+
+                }
+
+                printf("YOU HAVE SUCESSFULLY TESTED THE ROBOT,\n WITH THE EXCEPTION OF THE CAMERA.\n");
+
+                printf("Reset the robot now, before the competition to free memory and make sure that the camera works");
+                RUNNING=0;
             }
 
         }

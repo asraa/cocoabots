@@ -23,6 +23,7 @@ public:
     std::string name;
     std::string getName();
 
+
     //Here are the helper functions for the states
     int getTimeRemainingGameSeconds();
     long long int getRunningTimeMicroSeconds();
@@ -47,9 +48,12 @@ public:
     double abs(double number);
     int isCubeRed();
 
-    int areWeRed(); //TODO WRITE THIS <<<<<<<<<<<<<<<<<<<<<< TODO
+    int areWeRed();
 
     int goingOppositeToPower();
+    int foundPurpleLine();
+    double getDistanceToPurpleLine();
+    double getInitialAngleToPurpleLine();
 
     //Here are the procedures that can be used in all states.
     //Many of them are implmented as state machines, so they should have two variables associated
@@ -70,8 +74,6 @@ public:
     void turnToTheLeftQuickly();
     void stop();
 
-    double getDistanceToPurpleLine();
-    double getInitialAngleToPurpleLine();
 
     //wallFollow(); Follow a wall on the right
     void wallFollowLeftFast();

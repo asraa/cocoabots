@@ -1,7 +1,9 @@
 #include "stategoingtopurpleline.h"
 
-stateGoingToPurpleLine::stateGoingToPurpleLine(states *previousState):states(previousState)
+stateGoingToPurpleLine::stateGoingToPurpleLine(states *previousState, int areWeInside):states(previousState)
 {
+    name = "State going to purple line";
+
 }
 void stateGoingToPurpleLine::processData(){
     static double distance;

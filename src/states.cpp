@@ -1128,6 +1128,10 @@ int states::detectedCube(){
     return (mySensors->frontUltraShortIRData<ULTRASHORTIR_THRESHOLD);
 }
 
+int states::foundPurpleLine(){
+    return myImageProcessor->detectedPurpleLine();
+}
+
 int states::getTimeRemainingGameSeconds(){
     return myUtils->gameTimeRemaining();
 }
@@ -1177,7 +1181,7 @@ volatile int states::isItATrap(){
 }
 
 double states::getDistanceToPurpleLine(){
-    return 0;
+    return myImageProcessor->getDistToPurpleLine();
 }
 
 double states::getInitialAngleToPurpleLine(){

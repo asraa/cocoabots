@@ -5,7 +5,7 @@
 class stateGoingToPurpleLine: public states
 {
 public:
-    stateGoingToPurpleLine(states * previousState);
+    stateGoingToPurpleLine(states * previousState, int areWeInside);
     void processData();
     ~stateGoingToPurpleLine();
 };

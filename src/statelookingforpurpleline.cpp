@@ -10,9 +10,10 @@ stateLookingForPurpleLine::stateLookingForPurpleLine(states *previousState):stat
 void stateLookingForPurpleLine::processData(){
     startProcessData();
 
-    if (0){ // If purple line found:
-
-        nextState=new stateGoingToPurpleLine(this);
+    if (foundPurpleLine()){ // If purple line found:
+        stop();
+        int areWeInside=1; //TODO: LOOK AROUND
+        nextState=new stateGoingToPurpleLine(this, areWeInside);
     }
     else{
         wallFollowLeftFast();

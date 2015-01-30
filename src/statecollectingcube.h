@@ -10,6 +10,7 @@ public:
     ~stateCollectingCube();
     int myColor;
     int cubeFound;
+    int finished;
     long long int myWaitTime;
     double cubeDistance;
 };

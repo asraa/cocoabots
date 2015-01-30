@@ -9,32 +9,38 @@ stateCollectingCube::stateCollectingCube(states *previousState, int color):state
     myColor=color;
     cubeFound=0;
     myWaitTime=0;
-
+    finished=0;
 }
 
 void stateCollectingCube::processData(){
     startProcessData();
-
-    collectBlock(myColor);
+    if(!finished){
+        collectBlock(myColor);
+    }
     if (finishedCollectingBlock){
-        if(successfullyCollectedBlock){
-            myWaitTime=getTimeMicroseconds()+COLLECTING_CUBE_WAIT_TIME_LATER_MS*1000;
-            stop();
-        }
-        else{
-            myWaitTime=0;
-        }
-        cubeFound=foundCube();
-        cubeDistance = getDistanceNearestCube();
-        if(cubeFound){
-            if (cubeDistance< FOLLOW_POINT_DISTANCE_INCHES){
-                nextState = new stateGoingToCube(this,GO_TO_CUBE_WAIT_AFTER_COLLECTING_MS);
-            }else{
-                nextState = new stateApproachBlock(this);
+        if(!finished){
+            if(successfullyCollectedBlock){
+                myWaitTime=getTimeMicroseconds()+COLLECTING_CUBE_WAIT_TIME_LATER_MS*1000;
+                stop();
             }
+            else{
+                myWaitTime=getTimeMicroseconds()-1;
+            }
+            finished=1;
         }
-        else{
-            nextState = new stateLookingForBlocks(this);
+        if(myWaitTime < getTimeMicroseconds()){
+            cubeFound=foundCube();
+            cubeDistance = getDistanceNearestCube();
+            if(cubeFound){
+                if (cubeDistance< FOLLOW_POINT_DISTANCE_INCHES){
+                    nextState = new stateGoingToCube(this,GO_TO_CUBE_WAIT_AFTER_COLLECTING_MS);
+                }else{
+                    nextState = new stateApproachBlock(this);
+                }
+            }
+            else{
+                nextState = new stateLookingForBlocks(this);
+            }
         }
     }
 }
