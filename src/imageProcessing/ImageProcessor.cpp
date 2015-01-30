@@ -149,7 +149,7 @@ void ImageProcessor::clearCameraCache() {
     clock_t start = clock();
 
     // hack to clean cache from the camera to avoid weird bug in the beginning
-    for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 1; i++) {
         vid_cap.grab(); // get a new frame from camera
     }
 
