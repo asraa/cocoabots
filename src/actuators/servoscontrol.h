@@ -26,6 +26,7 @@ public:
     void hookBlock();
     void unHookBlock();
     void raiseBlock();
+    void unRaiseBlock();
     void sortRight();
     void sortLeft();
     void reset();
