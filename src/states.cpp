@@ -918,7 +918,7 @@ void states::goToPoint(double distance, double angle){
         break;
     case going:
         if(getDistanceToCarrot()<=GO_TO_POINT_PRECISION_INCHES ||
-                startTimeState>GO_TO_POINT_POSITION_TIMEOUT_MS){
+                difTime>GO_TO_POINT_POSITION_TIMEOUT_MS){
             finishedGoingToPoint=1;
             wentToPoint=0;
         }
