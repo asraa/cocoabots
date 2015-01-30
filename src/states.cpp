@@ -567,7 +567,7 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
-            if (color == CUBE_GREEN && areWeRed() || color == CUBE_RED && !areWeRed())
+            if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed())
                 myServosControl->sortLeft();
             else{
                 myServosControl->sortRight();
