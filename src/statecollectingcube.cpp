@@ -43,6 +43,8 @@ void stateCollectingCube::processData(){
             }
         }
     }
+    finishProcessData();
+
 }
 
 stateCollectingCube::~stateCollectingCube(){

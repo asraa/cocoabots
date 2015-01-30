@@ -270,7 +270,7 @@
 
 //GAME PLAN!
 //////////////////////////
-#define TIME_TO_FIND_PURPLE_LINE 60
+#define TIME_TO_FIND_PURPLE_LINE 0
 /////////////////////////////
 //Servos control
 
