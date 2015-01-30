@@ -1,0 +1,26 @@
+
+zz = 12:2:30;
+
+qq = [];
+
+figure; 
+for i = 1:15
+    eval(['pp=imread(''images/blocks_',num2str(i),'.jpg'',''jpg'');']);
+    %pp = pp(1:2:end,1:2:end,:);
+    imshow(pp)
+    shading flat; axis equal
+    pbox = ginput;
+    ll = pbox(1,:);
+    qq = [qq, ll'];
+end
+
+pp = [];
+for i = 1:size(qq,2)
+    pp = [pp, qq(1,i), qq(2,i)];
+end
+pp = pp'; % into a string of vals
+
+
+save('data_xy_x0','z','qq');
+
+

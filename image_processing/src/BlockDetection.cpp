@@ -151,7 +151,7 @@ std::vector<Eigen::Vector2d,Eigen::aligned_allocator<Eigen::Vector2d>> findBlock
     //ImageUtils::binaryImagePreProcess(im_red, cv::MORPH_CLOSE);
 
     // show images
-    if(DEBUG == 1){
+    if(DEBUG == 0){
         cv::namedWindow("ae",1); cv::imshow("ae",im_color);
 
         cv::Mat drawing = cv::Mat::zeros(frame.size(), CV_8UC3);

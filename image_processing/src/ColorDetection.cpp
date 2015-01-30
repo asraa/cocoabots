@@ -20,7 +20,7 @@ cv::Mat detectColor(cv::Mat& frame, int color){
             result = detectColorProf(frame, color);
     }
     else if(color == COLOR_LINE_YELLOW) {
-        inRange(frame_hsv, cv::Scalar(20, 100, 100), cv::Scalar(30, 255, 255), result);
+            inRange(frame_hsv, cv::Scalar(20, 100, 100), cv::Scalar(30, 255, 255), result);
     }
     else if (color == COLOR_BLOCK_GREEN) {
         if(!COLOR_GREEN_BLOCK_USE_PROF)
@@ -73,6 +73,8 @@ cv::Mat detectColorProf(cv::Mat& frame, int color) {
                 mask1 = isBlueLine(r_val, g_val, b_val, intensity);
             if(color == COLOR_LINE_PURPLE)
                 mask1 = isPurpleLine(r_val, g_val, b_val, intensity);
+            if(color == COLOR_LINE_YELLOW)
+                mask1 = isYellowLine(r_val, g_val, b_val, intensity);
 
             if(mask1==1) {
                 uchar twofiftyfive = 255;
@@ -129,7 +131,9 @@ bool isFloor(int r, int g, int b, double intensity) {
              && b < 1.25*intensity && b > 0.75*intensity);
 }
 
-
+bool isYellowLine(int r, int g, int b, double intensity) {
+    return (r > 1.5*b && g > 1.5*b && r > 0.9*intensity && g > 0.9*intensity);
+}
 
 // takes in colors array to account or different combinations of colors
 // e.g. blue & white --> wall / red & green --> stacks of blocks

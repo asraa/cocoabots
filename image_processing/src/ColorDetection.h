@@ -29,7 +29,7 @@ bool isGreenBlock(int r, int g, int b, double intensity);
 bool isBlueLine(int r, int g, int b, double intensity);
 bool isPurpleLine(int r, int g, int b, double intensity);
 bool isFloor(int r, int g, int b, double intensity);
-
+bool isYellowLine(int r, int g, int b, double intensity);
 
 }
 

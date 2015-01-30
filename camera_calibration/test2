@@ -1,0 +1,23 @@
+
+qq = [];
+
+for ll = 0
+    
+    theta = ll/180*pi;
+    
+    cam_mat = [685 0 295; 0 683 236; 0 0 1];
+    
+    rot = [1, 0, 0; 0, cos(theta), -sin(theta); 0, sin(theta), cos(theta)];
+    
+    X = [1,0,20]';
+    
+    im_coord = cam_mat * rot * X
+    
+    qq = [qq, im_coord(2)/im_coord(3)];
+    
+end
+
+
+%%
+figure;
+plot(-20:2:20, qq);

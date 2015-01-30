@@ -133,8 +133,9 @@ void ImageProcessor::doStuff() {
         detectPurpleLine(frame);
     }
 
-    //cv::namedWindow("frame", 1);
-    //cv::imshow("frame", frame);
+    cv::namedWindow("frame", 1);
+    cv::imshow("frame", frame);
+    cv::waitKey(100);
 
     // cv::namedWindow("local_map", 1);
     // cv::imshow("local_map", local_map.cvtImage());

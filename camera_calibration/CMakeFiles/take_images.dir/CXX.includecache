@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jtzhang/Documents/maslab/camera_calibration/take_images.cpp
+opencv2/opencv.hpp
+/home/jtzhang/Documents/maslab/camera_calibration/opencv2/opencv.hpp
+string
+-
+sstream
+-
+
