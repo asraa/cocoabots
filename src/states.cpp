@@ -365,7 +365,6 @@ void states::wallFollowLeft(double carrotDistance,
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 desiredAngle = turningAngle;
-                turnNDegreesQuickly(desiredAngle);
 
                 //setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
@@ -376,7 +375,6 @@ void states::wallFollowLeft(double carrotDistance,
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 desiredAngle = turningAngle;
-                turnNDegreesQuickly(desiredAngle);
 
                 //setCarrotPosition(0,turningAngle);
                 startTimeState = getTimeMicroseconds();
@@ -419,7 +417,12 @@ void states::wallFollowLeft(double carrotDistance,
             stop();
 //            printf("transitioning from rotating to following; myangle =%lf, initial angle = %lf, difference=%lf\n", myAngle, initialTurningAngle, angleDif);
         }else{
-            turnNDegreesQuickly(desiredAngle);
+            if(desiredAngle>0){
+                turnToTheRightQuickly();
+            }
+            else{
+                turnToTheLeftQuickly();
+            }
         }
         //printf(" rotating\n");
         break;
@@ -434,7 +437,6 @@ void states::wallFollowLeft(double carrotDistance,
             myState = rotating;
             initialTurningAngle=getAngle();
             desiredAngle = turningAngle;
-            turnNDegreesQuickly(desiredAngle);
             //setCarrotPosition(0,turningAngle);
             startTimeState = getTimeMicroseconds();
 //            printf("transitioning from following for a wall to rotating\n");
@@ -446,7 +448,6 @@ void states::wallFollowLeft(double carrotDistance,
                 myState = rotating;
                 initialTurningAngle=getAngle();
                 desiredAngle = -turningAngle;
-                turnNDegreesQuickly(desiredAngle);
                 //setCarrotPosition(0,-turningAngle);
                 startTimeState = getTimeMicroseconds();
 
@@ -987,7 +988,7 @@ int states::getColorNearestCube(){
 }
 
 int states::isCubeRed(){
-    return mySensors->colorSensorData;
+    return mySensors->colorSensorData>0.5;
 }
 
 int states::areWeRed(){

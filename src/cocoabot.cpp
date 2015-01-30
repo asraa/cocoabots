@@ -267,7 +267,7 @@ void cocoabot::run(int argc, char **argv){
         while (running){
             myState->startProcessingProceduresManual();
             if (cubeDetected){
-                myState->collectBlock(cubeColor);
+                myState->collectBlock();
                 if(myState->finishedCollectingBlock){
                     cubeDetected=0;
                 }
