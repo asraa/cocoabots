@@ -3,9 +3,11 @@
 #include "statelookingforblocks.h"
 
 
-stateGoingToCube::stateGoingToCube(states *previousState):states(previousState)
+stateGoingToCube::stateGoingToCube(states *previousState,
+                                   long long int waitTimeMS):states(previousState)
 {
     name= "State Going to Cube";
+    mywaitTimeMS = waitTimeMS;
 }
 
 void stateGoingToCube::processData(){
@@ -16,7 +18,8 @@ void stateGoingToCube::processData(){
     static int color;
     startProcessData();
 
-    if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= GO_TO_CUBE_WAIT_TIME_MS){
+    if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= mywaitTimeMS){
+        stop();
         cubeFound=foundCube();
         distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
         angle = myImageProcessor->getNearestCubeAngle();

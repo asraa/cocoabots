@@ -10,16 +10,16 @@ stateApproachBlock::stateApproachBlock(states * previousState):states(previousSt
 void stateApproachBlock::processData(){
     startProcessData();
 
+
+    if(finishedFollowingPoint){
+        nextState= new stateGoingToCube(this);
+    }
     if(foundCube()){
         followPoint(getDistanceNearestCube(),getAngleNearestCube());
     }
     else{
         nextState= new stateLookingForBlocks(this);
     }
-    if(finishedFollowingPoint){
-        nextState= new stateGoingToCube(this);
-    }
-
     finishProcessData();
 }
 

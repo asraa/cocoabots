@@ -18,7 +18,7 @@ void stateCollectingCube::processData(){
     if (finishedCollectingBlock){
         if(cubeFound){
             if (cubeDistance< FOLLOW_POINT_DISTANCE_INCHES){
-                nextState = new stateGoingToCube(this);
+                nextState = new stateGoingToCube(this,GO_TO_CUBE_WAIT_AFTER_COLLECTING_MS);
             }else{
                 nextState = new stateApproachBlock(this);
             }
