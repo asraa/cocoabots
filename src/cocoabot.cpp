@@ -4,9 +4,11 @@
 #include <cstdio>
 #include "statecollectingcube.h"
 #include "statetestprocedure.h"
+//#include "statelookingforpurpleline.h"
 
 actuator * actPointerMain;
 cocoabot *cocoabotPointer;
+
 //Global function that assures that we stop the motors when stopping the robot.
 void stopMotorsMain(int signo)
 {
@@ -45,17 +47,31 @@ cocoabot::cocoabot(): //Initializes all the modules
 //Runs the state machine
 void cocoabot::run(){
     int changedToPurpleLine=0;
+    int decisionPurpleLine = 0;
     while (!mySensors.onData){
         usleep(UPDATE_RATE_STATE_MACHINE_MICROSECONDS);
     }
     myUtils.reset();
     while (running){
-        if(myUtils.gameTimeRemaining()<TIME_TO_FIND_PURPLE_LINE){
-            if(!changedToPurpleLine){
+        if(myUtils.gameTimeRemaining()<TIME_TO_FIND_PURPLE_LINE && (!decisionPurpleLine)){
+            decisionPurpleLine = 1;
+            if (myState->theirColorCount < 2){
+                changedToPurpleLine=0;
+            }
+            else {
+                //states * nextState = new statelookingforpurpleline;
+
+//                if (nextState!=myState){
+//                    logger::log();
+//                    previousState = myState;
+//                    myState=nextState;
+//                    delete previousState;
+//                    previousState=NULL;
+//                }
                 changedToPurpleLine=1;
             }
-
         }
+
         myState->processData();
         states * nextState = myState->getNextState();
         if (nextState!=myState){
