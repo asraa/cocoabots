@@ -48,4 +48,54 @@ void detectPurpleLine(cv::Mat& frame, GridMap& local_map) {
 
 }
 
+// x0,y0 is origin; x1,y1 and x2,y2 are line segment endpoints
+double distToLineSeg(double x0, double y0, double x1, double y1, double x2, double y2) {
+    double dist;
+
+
+    return dist;
+}
+
+std::vector findDistances(std::vector endpoints, double x0, double y0) {
+
+    std::vector result;
+
+    for(int i = 0; i < endpoints.size(); i = i+4) {
+        double x1 = endpoints.at(i);
+        double y1 = endpoints.at(i+1);
+        double x2 = endpoints.at(i+2);
+        double y2 = endpoints.at(i+3);
+        double dist = distToLineSeg(x0,y0,x1,y1,x2,y2);
+        result.push_back(dist);
+    }
+
+}
+
+void determinePurpleLineInfo() {
+
+     std::vector endpoints;
+
+     std::vector line_seg_dist = findDistances(endpoints);
+
+     // first sort the distances
+     int min_dist_ind = findMinDistInd(line_seg_dist);
+
+     // find point on line
+
+
+     // find dist and angle
+
+
+
+
+
+}
+
+    // args= image, lines, rho, theta, threshold, minlinelength, maxlinegap
+
+    // do a hough line fit
+
+    // check line properties
+
+
 }

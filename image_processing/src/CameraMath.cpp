@@ -72,5 +72,16 @@ Eigen::Vector2d cvtCamXY2RobotRadial(double x_cam, double y_cam) {
     return result;
 }
 
+Eigen::Vector2d cvtCamXY2RobotXY(double x_cam, double y_cam) {
+    double x_cam_rot = x_cam * cos(CAM_ANGLE_HOR) - y_cam * sin(CAM_ANGLE_HOR);
+    double y_cam_rot = x_cam * sin(CAM_ANGLE_HOR) + y_cam * cos(CAM_ANGLE_HOR);
+
+    double x_robot = x_cam_rot + CAM_ROBOT_X;
+    double y_robot = y_cam_rot + CAM_ROBOT_Y;
+
+    Eigen::Vector2d result;
+    result << x_robot, y_robot;
+    return result;
+}
 
 }

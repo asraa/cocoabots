@@ -1,0 +1,8 @@
+
+
+[intensity_vals, r_vals, g_vals, b_vals] = get_color_profile_hsv(maskedRGBImage3(1:5:end,1:5:end,:), BW3(1:5:end,1:5:end,:));
+
+figure; hold on;
+scatter(intensity_vals,r_vals,'r');
+scatter(intensity_vals,g_vals,'g');
+scatter(intensity_vals,b_vals,'b');

@@ -21,6 +21,15 @@ static const int COLOR_LINE_PURPLE = 7;
 cv::Mat detectColor(cv::Mat&,int);
 cv::Mat detectColor(cv::Mat&,int[],int);
 
+cv::Mat detectColorProf(cv::Mat& frame, int color);
+
+double getIntensity(int r, int g, int b);
+bool isRedBlock(int r, int g, int b, double intensity);
+bool isGreenBlock(int r, int g, int b, double intensity);
+bool isBlueLine(int r, int g, int b, double intensity);
+bool isPurpleLine(int r, int g, int b, double intensity);
+bool isFloor(int r, int g, int b, double intensity);
+
 
 }
 

@@ -38,6 +38,8 @@ public:
     // update for other threads to get
     BlockDetection::BlockInfo nearestBlockInfo;
     BlockDetection::BlockInfo nearestBlockInfoPrevious;
+    int detectingPurpleLine;
+    TerritoryDetection::PurpleLineInfo purpleLineInfo;
 
     /*
     int foundCube;
@@ -71,6 +73,13 @@ public:
     double getNearestCubeDist();
     double getNearestCubeAngle();
     int getNearestCubeColor();
+
+    int getDetectingPurpleLine();
+    void setDetectingPurpleLine(int q);
+    int detectedPurpleLine();
+    double getRotationAngleToPurpleLine();
+    double getDistToPurpleLine();
+    double getRotationAngleForAlignment();
 
     // for debug
     double cpu_time;
