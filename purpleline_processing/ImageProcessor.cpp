@@ -128,6 +128,44 @@ void ImageProcessor::writeToFile(std::string fn) {
 }
 
 // ****** MAIN FUNCTION IN LOOP ******* //
+
+void ImageProcessor::doStuff() {
+    i += 1;
+    clearCameraCache();
+    vid_cap.retrieve(frame_raw);
+    cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+    clock_t start = clock();
+    if (i <= 84) {
+        i += 1;
+        std::ostringstream oss;
+        oss << "plines/plines_" << i << ".png";
+        cv::Mat src = cv::imread(oss.str(),-1);
+        cv::Mat dst, cdst;
+        cv::Canny(src,dst,50,200,3);
+        cv::cvtColor(dst,cdst, CV_GRAY2BGR);
+        std::vector<cv::Vec2f> lines;
+        cv::HoughLines(dst,lines,1,CV_PI/180,150,0,0);
+        for(size_t k = 0; k < lines.size(); i++) {
+            float rho = lines[k][0], theta = lines[k][1];
+            cv::Point pt1, pt2;
+            double a = cos(theta), b = sin(theta);
+            double x0 = a*rho, y0 = b*rho;
+            pt1.x = round(x0 + 1000*(-b));
+            pt1.y = round(y0 + 1000*(a));
+            pt2.x = round(x0 - 1000*(-b));
+            pt2.y = round(y0 - 1000*(a));
+            cv::line(cdst,pt1,pt2,cv::Scalar(0,0,255),3,CV_AA);
+        }
+        cv::namedWindow("source",cv::WINDOW_NORMAL);
+        cv::namedWindow("detected lines", cv::WINDOW_NORMAL);
+        cv::imshow("source", src);
+        cv::imshow("detected lines", cdst);
+        }
+    cv::waitKey(500);
+    clock_t end = clock();
+    cpu_time = ((double)(end-start))/CLOCKS_PER_SEC;
+}
+
 //void ImageProcessor::doStuff() {
 //    i += 1;
 //    std::ostringstream oss;
@@ -183,29 +221,29 @@ void ImageProcessor::writeToFile(std::string fn) {
 
 //}
 
-void ImageProcessor::doStuff() {
-    i += 1;
-    std::ostringstream oss;
-    oss << "plines/plines_" << i << ".png";
-    clearCameraCache();
-    clock_t start = clock();
-    if (i <= 84) {
-        frame = cv::imread(oss.str(),-1);
-        //cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
-        //detectWall(frame);
-        //local_map_refresh();
-        //detectBlocks(frame);
-        std::cout << "Image #" << i << std::endl;
-        detectPurpleLineTest2(frame);
+//void ImageProcessor::doStuff() {
+//    i += 1;
+//    std::ostringstream oss;
+//    oss << "plines/plines_" << i << ".png";
+//    clearCameraCache();
+//    clock_t start = clock();
+//    if (i <= 84) {
+//        frame = cv::imread(oss.str(),-1);
+//        //cv::resize(frame_raw,frame,cv::Size(0,0),1,1,cv::INTER_LINEAR);
+//        //detectWall(frame);
+//        //local_map_refresh();
+//        //detectBlocks(frame);
+//        std::cout << "Image #" << i << std::endl;
+//        detectPurpleLineTest2(frame);
 
-        cv::namedWindow("frame", cv::WINDOW_NORMAL);
-        cv::imshow("frame", frame);
-    }
+//        cv::namedWindow("frame", cv::WINDOW_NORMAL);
+//        cv::imshow("frame", frame);
+//    }
 
-    cv::waitKey(333);
-    clock_t end = clock();
-    cpu_time = ((double) (end-start))/CLOCKS_PER_SEC;
-}
+//    cv::waitKey(333);
+//    clock_t end = clock();
+//    cpu_time = ((double) (end-start))/CLOCKS_PER_SEC;
+//}
 
 void ImageProcessor::clearCameraCache() {
     // for debug
