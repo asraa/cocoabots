@@ -428,11 +428,11 @@ void states::wallFollowLeft(double carrotDistance,
         }
         else if (getDistanceLeftWall()>maximumWallDistance){
             if (getDistanceFrontWall()<maximumWallDistance){
-
-                myState = rotating;
-                initialTurningAngle=getAngle();
-                setCarrotPosition(0,-turningAngle);
-                startTimeState = getTimeMicroseconds();
+                sharpCurveToTheLeft();
+                //myState = rotating;
+                //initialTurningAngle=getAngle();
+                //setCarrotPosition(0,-turningAngle);
+                //startTimeState = getTimeMicroseconds();
 
             }
             else{
