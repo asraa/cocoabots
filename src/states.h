@@ -16,7 +16,8 @@ public:
            ImageProcessor * imageProcessorPointer,
            utils * utilsPointer);
     states(states * previouStatePointer);
-    virtual ~states();
+    virtual ~states(); //Virtual means that the function is overided by functions of same name
+                        //in the subclass
     states * getNextState(); //Can return this, or a new state
     virtual void processData() = 0; //This is the brain of the robot
     std::string name;

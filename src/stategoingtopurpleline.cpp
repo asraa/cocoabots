@@ -15,3 +15,7 @@ void stateGoingToPurpleLine::processData(){
 
     finishProcessData();
 }
+
+stateGoingToPurpleLine::~stateGoingToPurpleLine(){
+
+}

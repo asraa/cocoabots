@@ -37,3 +37,7 @@ void stateGoingToCube::processData(){
     finishProcessData();
 }
 
+
+stateGoingToCube::~stateGoingToCube(){
+
+}

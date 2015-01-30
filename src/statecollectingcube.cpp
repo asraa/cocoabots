@@ -31,3 +31,7 @@ void stateCollectingCube::processData(){
     cubeDistance = getDistanceNearestCube();
     finishProcessData();
 }
+
+stateCollectingCube::~stateCollectingCube(){
+
+}

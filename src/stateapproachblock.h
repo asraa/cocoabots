@@ -6,6 +6,7 @@ class stateApproachBlock:public states
 public:
     stateApproachBlock(states * previousState);
     void processData();
+    ~stateApproachBlock();
 };
 
 #endif // STATEAPPROACHBLOCK_H

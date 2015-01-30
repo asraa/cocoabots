@@ -7,6 +7,7 @@ class stateCollectingCube: public states
 public:
     stateCollectingCube(states * previousState, int color=-1);
     void processData();
+    ~stateCollectingCube();
     int myColor;
     int cubeFound;
     double cubeDistance;

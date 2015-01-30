@@ -7,7 +7,7 @@ class stateGoingToPurpleLine: public states
 public:
     stateGoingToPurpleLine(states * previousState);
     void processData();
-
+    ~stateGoingToPurpleLine();
 };
 
 #endif // STATEGOINGTOPURPLELINE_H
