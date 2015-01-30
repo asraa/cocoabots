@@ -760,6 +760,7 @@ void states::collectBlock(int color){
         myColor=color;
         receivedColor=(myColor!=-1);
         detectedBlock=0;
+        successfullyCollectedBlock=0;
     }
 
     long long int difTime;
@@ -784,8 +785,10 @@ void states::collectBlock(int color){
                 myState=grabing;
                 myServosControl->hookBlock();
                 startTimeState = getTimeMicroseconds();
+                successfullyCollectedBlock=1;
             }
             else{
+                successfullyCollectedBlock=0;
                 myState =resettingFinish;
                 startTimeState = getTimeMicroseconds();
                 setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);

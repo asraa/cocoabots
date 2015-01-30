@@ -101,6 +101,7 @@ public:
     void collectBlock(int color=-1);
     int collectedBlocks;
     int collectingBlocks;
+    int successfullyCollectedBlock;
     int finishedCollectingBlock; //I assume that we always finish collecting it.
 
     void goToPoint(double distance, double angle);
