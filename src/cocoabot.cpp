@@ -149,6 +149,21 @@ void cocoabot::run(int argc, char **argv){
             myState->finishProcessingProceduresManual();
         }
     }
+    if(strcmp(argv[1],"wallFollowRight")==0){
+        states * nextState = new stateTestProcedure(myState);
+        logger::log();
+        previousState=myState;
+        myState = nextState;
+        delete previousState;
+        previousState=NULL;
+        myServosControl.hookBlock();
+        myServosControl.hookBlock();
+        while (running){
+            myState->startProcessingProceduresManual();
+            myState->wallFollowRight();
+            myState->finishProcessingProceduresManual();
+        }
+    }
     if(strcmp(argv[1],"fastWallFollow")==0){
         states * nextState = new stateTestProcedure(myState);
         logger::log();
