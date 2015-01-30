@@ -855,7 +855,7 @@ void states::collectBlock(int color){
         }
         break;
     case(resettingFinish):
-        if(difTime>BLOCK_COLLECT_RESET_TIME_MS){
+        if(difTime>BLOCK_COLLECT_RESET_TIME_FINISH_MS){
             myState=resettingFinish;
             myServosControl->reset();
             startTimeState = getTimeMicroseconds();
