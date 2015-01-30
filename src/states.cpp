@@ -843,6 +843,7 @@ void states::collectBlock(int color){
     case(releasing):
         if(difTime>BLOCK_COLLECT_RELEASE_TIME_MS){
             myState=swipping;
+            myServosControl->unRaiseBlock();
             myServosControl->sweep();
             startTimeState = getTimeMicroseconds();
         }
@@ -851,7 +852,6 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_SWIPE_TIME_MS){ //sweeping
             myState=resettingFinish;
             myServosControl->reset();
-            myServosControl->unRaiseBlock();
             startTimeState = getTimeMicroseconds();
         }
         break;
