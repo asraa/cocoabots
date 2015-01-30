@@ -549,17 +549,6 @@ void states::collectBlock(int color){
         if(difTime>BLOCK_COLLECT_GRAB_TIME_MS){
             myState=lifting;
             myServosControl->raiseBlock();
-            if(!receivedColor){
-                myColor=isCubeRed();
-            }
-            else{
-                myColor=color;
-            }
-            if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed())
-                myServosControl->sortLeft();
-            else{
-                myServosControl->sortRight();
-            }
             setCarrotPosition(-BLOCK_COLLECT_DISTANCE_MOVE_BACK,0);
             startTimeState = getTimeMicroseconds();
         }
@@ -567,6 +556,12 @@ void states::collectBlock(int color){
     case(lifting):
         if(difTime>BLOCK_COLLECT_LIFT_TIME_MS){
             myState=sorting;
+            if(!receivedColor){
+                myColor=isCubeRed();
+            }
+            else{
+                myColor=color;
+            }
             if (myColor == CUBE_GREEN && areWeRed() || myColor == CUBE_RED && !areWeRed())
                 myServosControl->sortLeft();
             else{
