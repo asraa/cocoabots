@@ -1043,7 +1043,7 @@ int main(int argc, char** argv){
                 getchar();
                 mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(10,0);
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
                     printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
@@ -1065,7 +1065,7 @@ int main(int argc, char** argv){
                 getchar();
                 mymotorsControl.setNewDesiredRelativePositionInRadialCordinates(0,45);
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT RIGHT MOTOR TO PINS: %d (DIR) %d (PWM).\n", RIGHT_WHEEL_DIR, RIGHT_WHEEL_PWM);
                     printf("ERROR. CONNECT LEFT MOTOR TO PINS: %d (DIR) %d (PWM).\n", LEFT_WHEEL_DIR, LEFT_WHEEL_PWM);
@@ -1076,7 +1076,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.hookBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
 
@@ -1086,7 +1086,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.unHookBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT HOOK TO PINS: %d (PWM)).\n", HOOK_SERVO_PWM);
 
@@ -1096,7 +1096,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.raiseBlock();
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT ARM TO PINS: %d (PWM)).\n", ARM_SERVO_PWM);
 
@@ -1106,7 +1106,7 @@ int main(int argc, char** argv){
                 getchar();
                 myServoControl.sortLeft();
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. CONNECT SORT TO PINS: %d (PWM)).\n", SORT_SERVO_PWM);
 
@@ -1131,7 +1131,7 @@ int main(int argc, char** argv){
 
                 }
                 printf("Did it work? 1 0\n");
-                scanf("%d\n", &answer);
+                scanf("%d ", &answer);
                 if (answer==0){
                     printf("ERROR. RESET EDISON FOR THE CAMERA TO WORK");
 
