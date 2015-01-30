@@ -103,6 +103,8 @@ public:
     int collectingBlocks;
     int successfullyCollectedBlock;
     int finishedCollectingBlock; //I assume that we always finish collecting it.
+    static int myColorCount;
+    static int theirColorCount;
 
     void goToPoint(double distance, double angle);
     int wentToPoint;
