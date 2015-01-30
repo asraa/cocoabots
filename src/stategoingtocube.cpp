@@ -9,9 +9,9 @@ stateGoingToCube::stateGoingToCube(states *previousState,
     name= "State Going to Cube";
     mywaitTimeMS = waitTimeMS;
     wallInFrontOfMe=0;
-    if(getDistanceFrontWall()<GO_TO_CUBE_MINIMUM_DISTANCE_FRONT_WALL){
-        wallInFrontOfMe=1;
-    }
+    //if(getDistanceFrontWall()<GO_TO_CUBE_MINIMUM_DISTANCE_FRONT_WALL){
+    //    wallInFrontOfMe=1;
+    //}
 }
 
 void stateGoingToCube::processData(){
@@ -33,7 +33,6 @@ void stateGoingToCube::processData(){
     }
     else{
         if((getTimeMicroseconds()-startTimeStateMicroseconds)/1000 <= mywaitTimeMS){
-            stop();
             cubeFound=foundCube();
             distance = myImageProcessor->getNearestCubeDist()+GO_TO_CUBE_OVERSHOOT_DISTANCE;
             angle = myImageProcessor->getNearestCubeAngle();
