@@ -5,13 +5,11 @@
 states::states(motorsControl * motorControlPointer,
                servosControl * servoControlPointer,
                sensorsModule * sensorsPointer,
-               ImageProcessor *imageProcessorPointer,
                utils *utilsPointer):
     myMotorControl(motorControlPointer),
     myServosControl(servoControlPointer),
     mySensors(sensorsPointer),
     myUtils(utilsPointer),
-    myImageProcessor(imageProcessorPointer),
     nextState(this)
 {
     startTimeStateMicroseconds = getTimeMicroseconds();
@@ -30,7 +28,6 @@ states::states(states *previouStatePointer):states(
                                                 previouStatePointer->myMotorControl,
                                                 previouStatePointer->myServosControl,
                                                 previouStatePointer->mySensors,
-                                                previouStatePointer->myImageProcessor,
                                                 previouStatePointer->myUtils){
 
 }
@@ -1240,19 +1237,19 @@ long long int states::getTimeMicroseconds(){
 }
 
 int states::foundCube(){
-    return myImageProcessor->getFoundCube();
+    return 0;//myImageProcessor->getFoundCube();
 }
 
 double states::getDistanceNearestCube(){
-    return myImageProcessor->getNearestCubeDist();
+    return 0;//myImageProcessor->getNearestCubeDist();
 }
 
 double states::getAngleNearestCube(){
-    return myImageProcessor->getNearestCubeAngle();
+    return 0;//myImageProcessor->getNearestCubeAngle();
 }
 
 int states::getColorNearestCube(){
-    return myImageProcessor->getNearestCubeColor();
+    return 0;//myImageProcessor->getNearestCubeColor();
 }
 
 int states::isCubeRed(){

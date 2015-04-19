@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html> 
+<body> 
+ <meta http-equiv="refresh" content="1" >
+ <script>
+
+
+window.addEventListener("load", init);
+
+
+var canvas = document.createElement('canvas');
+ canvas.width = 800; 
+canvas.height = 600; 
+var context = canvas.getContext('2d');
+document.body.appendChild(canvas);
+
+var map = new Image();
+map.src = 'map.png'; 
+ 
+var image0 = new Image();
+image0.src = 'smallArrow.gif'; 
+ 
+var image1 = new Image();
+image1.src = 'smallArrow.gif'; 
+ 
+var image2 = new Image();
+image2.src = 'smallArrow.gif'; 
+ 
+var image3 = new Image();
+image3.src = 'smallArrow.gif'; 
+ 
+var image4 = new Image();
+image4.src = 'smallArrow.gif'; 
+ 
+var image5 = new Image();
+image5.src = 'smallArrow.gif'; 
+ 
+var image6 = new Image();
+image6.src = 'smallArrow.gif'; 
+ 
+var image7 = new Image();
+image7.src = 'smallArrow.gif'; 
+ 
+var image8 = new Image();
+image8.src = 'smallArrow.gif'; 
+ 
+var image9 = new Image();
+image9.src = 'smallArrow.gif'; 
+ 
+var image10 = new Image();
+image10.src = 'smallArrow.gif'; 
+ 
+var image11 = new Image();
+image11.src = 'smallArrow.gif'; 
+ 
+var image12 = new Image();
+image12.src = 'smallArrow.gif'; 
+ 
+var image13 = new Image();
+image13.src = 'smallArrow.gif'; 
+ 
+var image14 = new Image();
+image14.src = 'smallArrow.gif'; 
+ 
+var image15 = new Image();
+image15.src = 'smallArrow.gif'; 
+ 
+var image16 = new Image();
+image16.src = 'smallArrow.gif'; 
+ 
+var image17 = new Image();
+image17.src = 'smallArrow.gif'; 
+ 
+var image18 = new Image();
+image18.src = 'smallArrow.gif'; 
+ 
+var image19 = new Image();
+image19.src = 'smallArrow.gif'; 
+ 
+var image20 = new Image();
+image20.src = 'smallArrow.gif'; 
+ 
+var image21 = new Image();
+image21.src = 'smallArrow.gif'; 
+ 
+var image22 = new Image();
+image22.src = 'smallArrow.gif'; 
+ 
+var image23 = new Image();
+image23.src = 'smallArrow.gif'; 
+ 
+var image24 = new Image();
+image24.src = 'smallArrow.gif'; 
+ 
+var image25 = new Image();
+image25.src = 'smallArrow.gif'; 
+ 
+var image26 = new Image();
+image26.src = 'smallArrow.gif'; 
+ 
+var image27 = new Image();
+image27.src = 'smallArrow.gif'; 
+ 
+var image28 = new Image();
+image28.src = 'smallArrow.gif'; 
+ 
+var image29 = new Image();
+image29.src = 'smallArrow.gif'; 
+ 
+var image30 = new Image();
+image30.src = 'smallArrow.gif'; 
+ 
+var image31 = new Image();
+image31.src = 'smallArrow.gif'; 
+ 
+var image32 = new Image();
+image32.src = 'smallArrow.gif'; 
+ 
+var image33 = new Image();
+image33.src = 'smallArrow.gif'; 
+ 
+var image34 = new Image();
+image34.src = 'smallArrow.gif'; 
+ 
+var image35 = new Image();
+image35.src = 'smallArrow.gif'; 
+ 
+var image36 = new Image();
+image36.src = 'smallArrow.gif'; 
+ 
+var image37 = new Image();
+image37.src = 'smallArrow.gif'; 
+ 
+var image38 = new Image();
+image38.src = 'smallArrow.gif'; 
+ 
+var image39 = new Image();
+image39.src = 'smallArrow.gif'; 
+ 
+var image40 = new Image();
+image40.src = 'smallArrow.gif'; 
+ 
+var image41 = new Image();
+image41.src = 'smallArrow.gif'; 
+ 
+var image42 = new Image();
+image42.src = 'smallArrow.gif'; 
+ 
+var image43 = new Image();
+image43.src = 'smallArrow.gif'; 
+ 
+var image44 = new Image();
+image44.src = 'smallArrow.gif'; 
+ 
+var image45 = new Image();
+image45.src = 'smallArrow.gif'; 
+ 
+var image46 = new Image();
+image46.src = 'smallArrow.gif'; 
+ 
+var image47 = new Image();
+image47.src = 'smallArrow.gif'; 
+ 
+var image48 = new Image();
+image48.src = 'smallArrow.gif'; 
+ 
+var image49 = new Image();
+image49.src = 'smallArrow.gif'; 
+ 
+var image50 = new Image();
+image50.src = 'smallArrow.gif'; 
+ 
+var image51 = new Image();
+image51.src = 'smallArrow.gif'; 
+ 
+var image52 = new Image();
+image52.src = 'smallArrow.gif'; 
+ 
+var image53 = new Image();
+image53.src = 'smallArrow.gif'; 
+ 
+var image54 = new Image();
+image54.src = 'smallArrow.gif'; 
+ 
+var image55 = new Image();
+image55.src = 'smallArrow.gif'; 
+ 
+var image56 = new Image();
+image56.src = 'smallArrow.gif'; 
+ 
+var image57 = new Image();
+image57.src = 'smallArrow.gif'; 
+ 
+var image58 = new Image();
+image58.src = 'smallArrow.gif'; 
+ 
+var image59 = new Image();
+image59.src = 'smallArrow.gif'; 
+ 
+var image60 = new Image();
+image60.src = 'smallArrow.gif'; 
+ 
+var image61 = new Image();
+image61.src = 'smallArrow.gif'; 
+ 
+var image62 = new Image();
+image62.src = 'smallArrow.gif'; 
+ 
+var image63 = new Image();
+image63.src = 'smallArrow.gif'; 
+ 
+var image64 = new Image();
+image64.src = 'smallArrow.gif'; 
+ 
+var image65 = new Image();
+image65.src = 'smallArrow.gif'; 
+ 
+var image66 = new Image();
+image66.src = 'smallArrow.gif'; 
+ 
+var image67 = new Image();
+image67.src = 'smallArrow.gif'; 
+ 
+var image68 = new Image();
+image68.src = 'smallArrow.gif'; 
+ 
+var image69 = new Image();
+image69.src = 'smallArrow.gif'; 
+ 
+var image70 = new Image();
+image70.src = 'smallArrow.gif'; 
+ 
+var image71 = new Image();
+image71.src = 'smallArrow.gif'; 
+ 
+var image72 = new Image();
+image72.src = 'smallArrow.gif'; 
+ 
+var image73 = new Image();
+image73.src = 'smallArrow.gif'; 
+ 
+var image74 = new Image();
+image74.src = 'smallArrow.gif'; 
+ 
+var image75 = new Image();
+image75.src = 'smallArrow.gif'; 
+ 
+var image76 = new Image();
+image76.src = 'smallArrow.gif'; 
+ 
+var image77 = new Image();
+image77.src = 'smallArrow.gif'; 
+ 
+var image78 = new Image();
+image78.src = 'smallArrow.gif'; 
+ 
+var image79 = new Image();
+image79.src = 'smallArrow.gif'; 
+ 
+var image80 = new Image();
+image80.src = 'smallArrow.gif'; 
+ 
+var image81 = new Image();
+image81.src = 'smallArrow.gif'; 
+ 
+var image82 = new Image();
+image82.src = 'smallArrow.gif'; 
+ 
+var image83 = new Image();
+image83.src = 'smallArrow.gif'; 
+ 
+var image84 = new Image();
+image84.src = 'smallArrow.gif'; 
+ 
+var image85 = new Image();
+image85.src = 'smallArrow.gif'; 
+ 
+var image86 = new Image();
+image86.src = 'smallArrow.gif'; 
+ 
+var image87 = new Image();
+image87.src = 'smallArrow.gif'; 
+ 
+var image88 = new Image();
+image88.src = 'smallArrow.gif'; 
+ 
+var image89 = new Image();
+image89.src = 'smallArrow.gif'; 
+ 
+var image90 = new Image();
+image90.src = 'smallArrow.gif'; 
+ 
+var image91 = new Image();
+image91.src = 'smallArrow.gif'; 
+ 
+var image92 = new Image();
+image92.src = 'smallArrow.gif'; 
+ 
+var image93 = new Image();
+image93.src = 'smallArrow.gif'; 
+ 
+var image94 = new Image();
+image94.src = 'smallArrow.gif'; 
+ 
+var image95 = new Image();
+image95.src = 'smallArrow.gif'; 
+ 
+var image96 = new Image();
+image96.src = 'smallArrow.gif'; 
+ 
+var image97 = new Image();
+image97.src = 'smallArrow.gif'; 
+ 
+var image98 = new Image();
+image98.src = 'smallArrow.gif'; 
+ 
+var image99 = new Image();
+image99.src = 'smallArrow.gif'; 
+ 
+var robot = new Image();
+robot.src = 'smallRedArrow.gif'; 
+ 
+function init() {
+ 
+context.drawImage(map, 0, 0);
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,151);
+context.rotate(5.87284);
+
+context.drawImage(image0, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(93,162);
+context.rotate(3.26359);
+
+context.drawImage(image1, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,153);
+context.rotate(3.31079);
+
+context.drawImage(image2, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(96,154);
+context.rotate(4.10869);
+
+context.drawImage(image3, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(106,156);
+context.rotate(4.75266);
+
+context.drawImage(image4, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,158);
+context.rotate(2.29549);
+
+context.drawImage(image5, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(94,160);
+context.rotate(5.64014);
+
+context.drawImage(image6, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(83,159);
+context.rotate(0.380537);
+
+context.drawImage(image7, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(87,161);
+context.rotate(0.463379);
+
+context.drawImage(image8, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,156);
+context.rotate(2.41363);
+
+context.drawImage(image9, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,153);
+context.rotate(3.95553);
+
+context.drawImage(image10, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,160);
+context.rotate(4.55789);
+
+context.drawImage(image11, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,148);
+context.rotate(5.28736);
+
+context.drawImage(image12, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,155);
+context.rotate(2.61);
+
+context.drawImage(image13, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(92,158);
+context.rotate(3.13204);
+
+context.drawImage(image14, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,155);
+context.rotate(4.70166);
+
+context.drawImage(image15, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,159);
+context.rotate(4.45992);
+
+context.drawImage(image16, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,165);
+context.rotate(1.5074);
+
+context.drawImage(image17, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(106,161);
+context.rotate(0.926976);
+
+context.drawImage(image18, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(92,146);
+context.rotate(5.3129);
+
+context.drawImage(image19, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(108,152);
+context.rotate(1.25511);
+
+context.drawImage(image20, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(88,156);
+context.rotate(3.95381);
+
+context.drawImage(image21, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(106,164);
+context.rotate(5.66538);
+
+context.drawImage(image22, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,156);
+context.rotate(0.892344);
+
+context.drawImage(image23, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,158);
+context.rotate(0.848916);
+
+context.drawImage(image24, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,162);
+context.rotate(2.86078);
+
+context.drawImage(image25, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,155);
+context.rotate(5.40894);
+
+context.drawImage(image26, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,156);
+context.rotate(3.17901);
+
+context.drawImage(image27, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,149);
+context.rotate(4.41209);
+
+context.drawImage(image28, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(107,153);
+context.rotate(5.99676);
+
+context.drawImage(image29, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,150);
+context.rotate(4.58514);
+
+context.drawImage(image30, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(88,157);
+context.rotate(4.49651);
+
+context.drawImage(image31, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,143);
+context.rotate(5.75938);
+
+context.drawImage(image32, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,156);
+context.rotate(5.59215);
+
+context.drawImage(image33, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,147);
+context.rotate(1.32901);
+
+context.drawImage(image34, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(82,157);
+context.rotate(0.965125);
+
+context.drawImage(image35, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(96,150);
+context.rotate(5.20692);
+
+context.drawImage(image36, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(109,153);
+context.rotate(0.513572);
+
+context.drawImage(image37, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(92,152);
+context.rotate(1.69152);
+
+context.drawImage(image38, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,156);
+context.rotate(1.78464);
+
+context.drawImage(image39, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,158);
+context.rotate(1.11137);
+
+context.drawImage(image40, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,148);
+context.rotate(0.991053);
+
+context.drawImage(image41, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,148);
+context.rotate(4.73086);
+
+context.drawImage(image42, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,152);
+context.rotate(3.97995);
+
+context.drawImage(image43, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(90,155);
+context.rotate(3.69444);
+
+context.drawImage(image44, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,162);
+context.rotate(4.41701);
+
+context.drawImage(image45, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,167);
+context.rotate(3.32096);
+
+context.drawImage(image46, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,152);
+context.rotate(3.69526);
+
+context.drawImage(image47, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(88,168);
+context.rotate(0.491742);
+
+context.drawImage(image48, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(93,162);
+context.rotate(1.59544);
+
+context.drawImage(image49, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(107,143);
+context.rotate(3.80534);
+
+context.drawImage(image50, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,158);
+context.rotate(0.944952);
+
+context.drawImage(image51, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(101,156);
+context.rotate(0.138756);
+
+context.drawImage(image52, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(87,148);
+context.rotate(4.44189);
+
+context.drawImage(image53, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(109,149);
+context.rotate(0.0267282);
+
+context.drawImage(image54, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,151);
+context.rotate(0.502132);
+
+context.drawImage(image55, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(101,155);
+context.rotate(3.41819);
+
+context.drawImage(image56, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(102,157);
+context.rotate(1.35607);
+
+context.drawImage(image57, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(108,160);
+context.rotate(1.94885);
+
+context.drawImage(image58, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(105,164);
+context.rotate(0.652177);
+
+context.drawImage(image59, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,142);
+context.rotate(0.944434);
+
+context.drawImage(image60, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,170);
+context.rotate(5.23817);
+
+context.drawImage(image61, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(89,156);
+context.rotate(4.64301);
+
+context.drawImage(image62, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,158);
+context.rotate(3.36946);
+
+context.drawImage(image63, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,161);
+context.rotate(5.99433);
+
+context.drawImage(image64, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,154);
+context.rotate(5.26594);
+
+context.drawImage(image65, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,154);
+context.rotate(2.83906);
+
+context.drawImage(image66, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(90,153);
+context.rotate(4.18148);
+
+context.drawImage(image67, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(101,157);
+context.rotate(4.31915);
+
+context.drawImage(image68, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(91,163);
+context.rotate(5.25404);
+
+context.drawImage(image69, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,151);
+context.rotate(4.28303);
+
+context.drawImage(image70, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,151);
+context.rotate(0.228504);
+
+context.drawImage(image71, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,163);
+context.rotate(1.04255);
+
+context.drawImage(image72, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(92,159);
+context.rotate(1.00379);
+
+context.drawImage(image73, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(102,156);
+context.rotate(4.53565);
+
+context.drawImage(image74, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,155);
+context.rotate(0.337372);
+
+context.drawImage(image75, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,160);
+context.rotate(5.90446);
+
+context.drawImage(image76, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,152);
+context.rotate(1.60194);
+
+context.drawImage(image77, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,151);
+context.rotate(4.76419);
+
+context.drawImage(image78, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,166);
+context.rotate(4.39691);
+
+context.drawImage(image79, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,165);
+context.rotate(2.64885);
+
+context.drawImage(image80, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,157);
+context.rotate(1.82065);
+
+context.drawImage(image81, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,153);
+context.rotate(2.40534);
+
+context.drawImage(image82, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(91,151);
+context.rotate(2.88877);
+
+context.drawImage(image83, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(93,165);
+context.rotate(3.20227);
+
+context.drawImage(image84, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,149);
+context.rotate(5.2423);
+
+context.drawImage(image85, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(106,165);
+context.rotate(0.559157);
+
+context.drawImage(image86, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(91,155);
+context.rotate(4.43882);
+
+context.drawImage(image87, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,157);
+context.rotate(6.14016);
+
+context.drawImage(image88, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(91,165);
+context.rotate(0.215156);
+
+context.drawImage(image89, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(100,153);
+context.rotate(2.53577);
+
+context.drawImage(image90, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,168);
+context.rotate(6.07527);
+
+context.drawImage(image91, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(103,154);
+context.rotate(5.93918);
+
+context.drawImage(image92, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(101,148);
+context.rotate(0.976493);
+
+context.drawImage(image93, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(95,148);
+context.rotate(1.20627);
+
+context.drawImage(image94, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(98,149);
+context.rotate(2.17317);
+
+context.drawImage(image95, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,158);
+context.rotate(4.78994);
+
+context.drawImage(image96, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(97,155);
+context.rotate(0.485843);
+
+context.drawImage(image97, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(99,153);
+context.rotate(3.26309);
+
+context.drawImage(image98, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(8, 8);
+
+context.translate(104,149);
+context.rotate(1.01423);
+
+context.drawImage(image99, -8, -8);
+
+context.restore();
+
+context.save();
+
+context.translate(11, 9);
+
+context.translate(0,255);
+context.rotate(0);
+
+context.drawImage(robot, -11, -9);
+
+context.restore();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -3,7 +3,6 @@
 #include "actuators/motorscontrol.h"
 #include "actuators/servoscontrol.h"
 #include "sensorsmodule.h"
-#include "imageProcessing/ImageProcessor.h"
 #include "configFile.h"
 #include <string>
 #include "utils.h"
@@ -13,8 +12,7 @@ public:
     states(motorsControl * motorControlPointer,
            servosControl * servoControlPointer,
            sensorsModule * sensorsPointer,
-           ImageProcessor * imageProcessorPointer,
-           utils * utilsPointer);
+          utils * utilsPointer);
     states(states * previouStatePointer);
     virtual ~states(); //Virtual means that the function is overided by functions of same name
                         //in the subclass
@@ -146,7 +144,6 @@ protected:
     sensorsModule * mySensors;
     motorsControl * myMotorControl;
     servosControl * myServosControl;
-    ImageProcessor * myImageProcessor;
     utils * myUtils;
 
 };
