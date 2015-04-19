@@ -96,8 +96,8 @@ class CamHandler(BaseHTTPRequestHandler):
 	
 
 			self.wfile.write('<html><head></head><body>')
-                        self.wfile.write('<a href="http://127.0.0.1:8080/cam.mjpg">')
-			self.wfile.write('<img src="http://127.0.0.1:8080/cam.mjpg" />')
+                        self.wfile.write('<a href="/cam.mjpg">')
+			self.wfile.write('<img src="/cam.mjpg" />')
                         self.wfile.write('</a>')
                         self.wfile.write('Please click on the image and return, if it is not showing up.')
                         self.wfile.write('<form action="move.html" method="POST"target="my_iframe">\
@@ -121,13 +121,13 @@ def main():
         print(key)
 	global capture
 	capture = cv2.VideoCapture(0)
-        mycreepybot=creepybot.creepybot()
+#        mycreepybot=creepybot.creepybot()
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320); 
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 240);
 	capture.set(cv2.cv.CV_CAP_PROP_SATURATION,0.2);
 	global img
 	try:
-		server = ThreadedHTTPServer(('',8080),CamHandler)
+		server = ThreadedHTTPServer(('',80),CamHandler)
 		print "server started"
 		server.serve_forever()
 	except KeyboardInterrupt:
