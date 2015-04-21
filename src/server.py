@@ -34,15 +34,23 @@ class CamHandler(BaseHTTPRequestHandler):
                     vars=self.getVars();
                     mykeys=["distance","angle","raiseArm","sweep","grab","servoAngle1","servoAngle2","wallFollow"]
                     for k in mykeys:
-                        vars.setdefault(k, 0)    
-                    mycreepybot.sendInstructions(vars['distance'],
-                                                 vars['angle'],
-                                                 vars['raiseArm'],
-                                                 vars['sweep'],
-                                                 vars['grab'],
-                                                 vars['servoAngle1'],
-                                                 vars['servoAngle2'],
-                                                 vars['wallFollow'])
+                        vars.setdefault(k, [0])    
+                    distance=vars['distance']
+                    angle=vars['angle']
+                    raiseArm=vars['raiseArm']
+                    sweep=vars['sweep']
+                    grab=vars['grab']
+                    servoAngle1=vars['servoAngle1']
+                    servoAngle2=vars['servoAngle2']
+                    wallFollow=vars['wallFollow']
+                    mycreepybot.sendInstructions(float(distance[0]),
+                                                 float(angle[0]),
+                                                 int(raiseArm[0]),
+                                                 int(sweep[0]),
+                                                 int(grab[0]),
+                                                 int(servoAngle1[0]),
+                                                 int(servoAngle2[0]),
+                                                 int(wallFollow[0]))
                 return
         def do_AUTHHEAD(self):
                 self.send_response(401)
