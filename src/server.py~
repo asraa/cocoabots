@@ -8,15 +8,17 @@ from SocketServer import ThreadingMixIn
 import sys
 import threading
 import base64
+import creepybot
 
 capture=None
 
 key = ""
-
+mycreepybot = 0
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread."""
 
 class CamHandler(BaseHTTPRequestHandler):
+	global mycreepybot
         def getVars(self):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
@@ -29,10 +31,18 @@ class CamHandler(BaseHTTPRequestHandler):
                 return postvars
         def do_POST(self):
                 if self.headers.getheader('Authorization') == 'Basic '+key:
-                        self.do_GET_good()
-                        self.send_response(200)
-                        print(self.getVars())
-                
+                    vars=self.getVars();
+                    mykeys=["distance","angle","raiseArm","sweep","grab","servoAngle1","servoAngle2","wallFollow"]
+                    for k in mykeys:
+                        vars.setdefault(key, 0)    
+                    mycreepybot.sendInstructions(vars['distance'],
+                                                 vars['angle'],
+                                                 vars['raiseArm'],
+                                                 vars['sweep'],
+                                                 vars['grab'],
+                                                 vars['servoAngle1'],
+                                                 vars['servoAngle2'],
+                                                 vars['wallFollow'])
                 return
         def do_AUTHHEAD(self):
                 self.send_response(401)
@@ -87,15 +97,15 @@ class CamHandler(BaseHTTPRequestHandler):
 	
 
 			self.wfile.write('<html><head></head><body>')
-                        self.wfile.write('<a href="http://127.0.0.1:8080/cam.mjpg">')
-			self.wfile.write('<img src="http://127.0.0.1:8080/cam.mjpg" />')
+                        self.wfile.write('<a href="/cam.mjpg">')
+			self.wfile.write('<img src="/cam.mjpg" />')
                         self.wfile.write('</a>')
                         self.wfile.write('Please click on the image and return, if it is not showing up.')
                         self.wfile.write('<form action="move.html" method="POST"target="my_iframe">\
-                        First name:<br>\
+                        Angle:<br>\
                         <input type="number" name="angle">\
                         <br>\
-                        Last name:<br>\
+                        Distance:<br>\
                         <input type="number" name="distance">\
                         <input type="submit" value="Submit">\
                         </form>')
@@ -111,13 +121,15 @@ def main():
         key = base64.b64encode(sys.argv[1])
         print(key)
 	global capture
+	global mycreepybot
 	capture = cv2.VideoCapture(0)
+        mycreepybot=creepybot.creepybot()
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320); 
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 240);
 	capture.set(cv2.cv.CV_CAP_PROP_SATURATION,0.2);
 	global img
 	try:
-		server = ThreadedHTTPServer(('',8080),CamHandler)
+		server = ThreadedHTTPServer(('',80),CamHandler)
 		print "server started"
 		server.serve_forever()
 	except KeyboardInterrupt:

@@ -1,14 +1,25 @@
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
+#python things
+PYTHON_VERSION = 2.7
+PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
+# location of the Boost Python include files and library
+BOOST_INC = /usr/include
+BOOST_LIB = /usr/lib
+CEXTRAFLAGS= -shared -Wl,--export-dynamic -L$(BOOST_LIB) -lboost_python -L/usr  
+
 # Declaration of variables
 CC = g++
-CFLAGS = -I. -std=c++11 
+CFLAGS = -I. -std=c++11 -fPIC
 LIBS = -lmraa -I /usr/local/include/eigen3 -I/usr/local/include/opencv -I/usr/local/include/opencv2 -std=c++11 -lopencv_core -lopencv_imgproc -lopencv_highgui -lopencv_video -lopencv_features2d 
 CDEBUGFLAGS = -g
 
+OBJPYTHONLIBRARIES = -I$(PYTHON_INCLUDE) -I$(BOOST_INC)
+
+
 # File names
-EXEC = run
-SOURCES = $(filter-out ./test_main.cpp, $(filter-out $(call rwildcard, ./,*test.cpp), $(call rwildcard, ./,*.cpp)))
+EXEC = creepybot.so
+SOURCES =  $(filter-out ./main.cpp, $(filter-out ./test_main.cpp, $(filter-out $(call rwildcard, ./,*test.cpp), $(call rwildcard, ./,*.cpp))))
 OBJECTS = $(SOURCES:.cpp=.o)
 
 EXEC_TEST = test_run
@@ -33,11 +44,11 @@ IMAGES_OBJECTS = $(IMAGES_SOURCES:.cpp=.o)
 
 # Main target
 $(EXEC): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(EXEC) $(CFLAGS) $(LIBS)
+	$(CC) $(OBJECTS) -o $(EXEC) $(CFLAGS) $(CEXTRAFLAGS) $(LIBS)
 
 # To obtain object files
 %.o: %.cpp
-	$(CC) -c -o $@ $< $(CFLAGS) 
+	$(CC) -c -o $@ $< $(CFLAGS) $(OBJPYTHONLIBRARIES)
 
 # To remove generated files
 clean:

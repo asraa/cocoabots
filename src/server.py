@@ -13,11 +13,12 @@ import creepybot
 capture=None
 
 key = ""
-
+mycreepybot = 0
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread."""
 
 class CamHandler(BaseHTTPRequestHandler):
+	global mycreepybot
         def getVars(self):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
@@ -33,15 +34,15 @@ class CamHandler(BaseHTTPRequestHandler):
                     vars=self.getVars();
                     mykeys=["distance","angle","raiseArm","sweep","grab","servoAngle1","servoAngle2","wallFollow"]
                     for k in mykeys:
-                        vars.setdefault(key, 0)    
-                    mycreepybot.sendInstructions(vars[distance],
-                                                 vars[angle],
-                                                 vars[raiseArm],
-                                                 vars[sweep],
-                                                 vars[grab],
-                                                 vars[servoAngle1],
-                                                 vars[servoAngle2],
-                                                 vars[wallFollow])
+                        vars.setdefault(k, 0)    
+                    mycreepybot.sendInstructions(vars['distance'],
+                                                 vars['angle'],
+                                                 vars['raiseArm'],
+                                                 vars['sweep'],
+                                                 vars['grab'],
+                                                 vars['servoAngle1'],
+                                                 vars['servoAngle2'],
+                                                 vars['wallFollow'])
                 return
         def do_AUTHHEAD(self):
                 self.send_response(401)
@@ -120,8 +121,9 @@ def main():
         key = base64.b64encode(sys.argv[1])
         print(key)
 	global capture
+	global mycreepybot
 	capture = cv2.VideoCapture(0)
-#        mycreepybot=creepybot.creepybot()
+        mycreepybot=creepybot.creepybot()
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320); 
 	capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 240);
 	capture.set(cv2.cv.CV_CAP_PROP_SATURATION,0.2);
