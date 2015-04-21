@@ -104,7 +104,7 @@ sensorsModule::sensorsModule():
     ,leftShortIR(LEFT_SHORTIR_PIN)
     #endif
 
-    #if GYROSCOPE
+    #if 0// GYROSCOPE
     ,mygyroscope(GYROSCOPE_CHIP_PIN, GYROSCOPE_SPI_PIN)
     #endif
 //
@@ -201,7 +201,7 @@ void sensorsModule::run(sensorsModule * sensors){
         updateSensor(&sensors->leftShortIR,&sensors->leftShortIRData, sensors->shortIRAlpha,started);
         #endif
 
-        #if GYROSCOPE
+        #if 0//GYROSCOPE
         updateData(&sensors->gyroscopeAngle, sensors->mygyroscope.getTotal(), sensors->gyroscopeTotalAlpha,started);
         updateData(&sensors->gyroscopeReading, sensors->mygyroscope.getReading(), sensors->gyroscopeReadingAlpha,started);
         #endif

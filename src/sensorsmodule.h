@@ -4,7 +4,7 @@
 #include "sensors/camera.h"
 #include "sensors/encoder.h"
 #include "sensors/encoderquadrature.h"
-#include "sensors/gyroscope.h"
+//#include "sensors/gyroscope.h"
 #include "sensors/shortIR.h"
 #include "sensors/ultraShortIR.h"
 #include "sensors/ultrasonic.h"
@@ -74,7 +74,7 @@ public:
     static double kalmanFilter(double previousData, double newData, float alpha);
 
 #if GYROSCOPE
-gyroscope mygyroscope;
+//gyroscope mygyroscope;
 #endif
 
 
