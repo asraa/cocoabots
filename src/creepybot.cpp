@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <cstdio>
 #include "statetestprocedure.h"
+#include <signal.h>
 //#include "statelookingforpurpleline.h"
 
 actuator * actPointerMain;
